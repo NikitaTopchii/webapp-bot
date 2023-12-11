@@ -1,0 +1,73 @@
+.admin-list{
+  display: flex;
+  flex-direction: column;
+  &__element-of-list{
+    background: var(--tg-theme-secondary-bg-color);
+    display: flex;
+    align-items: center;
+    height: 30%;
+    box-sizing: border-box;
+    padding-left: 3%;
+    padding-right: 3%;
+    margin: 10px;
+    border-radius: 15px;
+    flex-direction: column;
+  }
+  &__main-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  &__admin-permissions{
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    background: var(--tg-theme-bg-color);
+  }
+  &__admin-permission-element{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 3px;
+  }
+  &__active-permission{
+
+  }
+  &__inactive-permission{
+
+  }
+  &__button{
+    background: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    border-radius: 15px;
+    border: none;
+    margin: 10px;
+    height: 40px;
+  }
+  &__admin-edit-button{
+    background: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    height: 20px;
+    width: 50px;
+  }
+  &__admin-delete-button{
+    background: #d91b1b;
+    color: var(--tg-theme-button-text-color);
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    height: 20px;
+    width: 50px;
+  }
+}
