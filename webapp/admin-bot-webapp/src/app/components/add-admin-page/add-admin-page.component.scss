@@ -1,0 +1,32 @@
+@import "../../styles/colors";
+
+.add-admin{
+  display: flex;
+  flex-direction: column;
+  &__input-name{
+    border-radius: 15px;
+    margin-top: 10px;
+    height: 40px;
+    transition: 0.2s;
+    border: 1px solid $button_color;
+    &:focus{
+      outline: none;
+      border: 3px solid $button_color;
+    }
+  }
+  &__action-button{
+    background: $button_color;
+    color: $button_text_color;
+    border-radius: 15px;
+    border: none;
+    height: 40px;
+    margin-top: 10px;
+  }
+
+  .form{
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    flex-direction: column;
+  }
+}
