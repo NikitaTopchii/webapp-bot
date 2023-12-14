@@ -1,9 +1,17 @@
 <div class="add-admin">
   <form [formGroup]="form" (ngSubmit)="signUp(form)" class="form">
     <label>Enter tag-name</label>
-    <input class="add-admin__input-name" formControlName="tagname" autocomplete="off" />
+    <input class="add-admin__input-name" formControlName="email" autocomplete="off" />
     <button [disabled]="form.invalid" class="add-admin__action-button">
       add admin
     </button>
+  </form>
+  <form [formGroup]="permissionsForm" (ngSubmit)="alertFormValues(permissionsForm)" class="form">
+    <mat-slide-toggle formControlName="selectAdminFromList" class="slide-toggle">Select Admin from the list</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithCompetition" class="slide-toggle">Create competition and getting result</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithStatistic" class="slide-toggle">Permission for watching and download statistics</mat-slide-toggle>
+    <mat-slide-toggle formControlName="permissionToTokenAndPrices" class="slide-toggle">Full access to use tokens and prices</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithChatSecurity" class="slide-toggle">Chat security</mat-slide-toggle>
+    <mat-slide-toggle formControlName="editPermission" class="slide-toggle">Edit permissions</mat-slide-toggle>
   </form>
 </div>
