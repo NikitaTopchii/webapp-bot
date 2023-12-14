@@ -39,10 +39,22 @@
     margin-bottom: 3px;
   }
   &__active-permission{
-
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    border-radius: 5px;
+    background: #029b1d;
   }
   &__inactive-permission{
-
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    border-radius: 5px;
+    background: #e70909;
   }
   &__button{
     background: var(--tg-theme-button-color);

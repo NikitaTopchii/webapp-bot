@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {User} from "../core/user";
+import {UserInterface} from "../core/user.interface";
 import {Admin} from "../core/admin";
 import {NgForOf, NgIf} from "@angular/common";
+import {PermissionsInterface} from "../core/permissions.interface";
 
 @Component({
   selector: 'app-admin-list',
@@ -15,8 +16,10 @@ import {NgForOf, NgIf} from "@angular/common";
 })
 export class AdminListComponent {
 
-  private adminsList: User[] = [
-    new Admin('213', 'Nikita', 'admin'),
+  private admin = new Admin('213', 'Nikita', 'admin');
+
+  private adminsList: Admin[] = [
+    this.admin,
     new Admin('213', 'Sasha', 'admin'),
     new Admin('213', 'Bodya', 'admin'),
     new Admin('213', 'Andrey', 'admin'),
@@ -24,9 +27,19 @@ export class AdminListComponent {
     new Admin('213', 'Denis', 'admin')
   ];
 
+  private permissions: PermissionsInterface = {
+    selectAdminFromList: true,
+    actionWithCompetition: false,
+    actionWithStatistic: true,
+    permissionToTokenAndPrices: false,
+    actionWithChatSecurity: false,
+    editPermission: false
+  };
+
   private currentAdmin: string = '';
 
   constructor() {
+    this.admin.setPermissions(this.permissions);
   }
 
   public showPermissions(adminName: string){
