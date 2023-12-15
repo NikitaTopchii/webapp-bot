@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {Subject} from "rxjs";
+import {PermissionsService} from "../core/services/permissions/permissions.service";
 
 @Component({
   selector: 'app-permissions',
@@ -25,8 +27,11 @@ export class PermissionsComponent {
   public editPermission = false;
 
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder, private permissionsService: PermissionsService) {
     this.permissionsForm = this.getPermissionsForm();
+    this.permissionsForm.valueChanges.subscribe(() => {
+      this.permissionsService.checkPermissionValuesState(this.permissionsForm);
+    })
   }
 
   private getPermissionsForm(){
@@ -39,7 +44,6 @@ export class PermissionsComponent {
       editPermission: [this.editPermission]
     })
   }
-
   setPermissions(form: FormGroup){
     console.log(form.value);
   }
