@@ -1,5 +1,26 @@
 @import "../../styles/colors";
 
+:host{
+  .save-permissions{
+
+    &__action-button{
+      background: $button_color;
+      color: $button_text_color;
+      border-radius: 15px;
+      border: none;
+      height: 40px;
+      margin-top: 10px;
+    }
+  }
+
+  .form{
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    flex-direction: column;
+  }
+}
+
 :host::ng-deep {
   .mat-mdc-slide-toggle .mdc-label {
     color: $text_color;

@@ -1,8 +1,9 @@
-import { Routes } from '@angular/router';
 import {AdminListComponent} from "./components/admin-list/admin-list.component";
 import {AddAdminPageComponent} from "./components/add-admin-page/add-admin-page.component";
+import {NgModule} from "@angular/core";
+import {RouterModule, Routes} from "@angular/router";
 
-export const routes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: AdminListComponent
@@ -12,3 +13,9 @@ export const routes: Routes = [
     component: AddAdminPageComponent
   }
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}

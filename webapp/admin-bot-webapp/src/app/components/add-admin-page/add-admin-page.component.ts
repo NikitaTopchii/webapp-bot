@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {_MatSlideToggleRequiredValidatorModule, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatButtonModule} from "@angular/material/button";
 import {PermissionsComponent} from "../permissions/permissions.component";
+import {AddNewAdminService} from "../core/services/add-new-admin/add-new-admin.service";
 
 @Component({
   selector: 'app-add-admin-page',
@@ -22,12 +23,16 @@ export class AddAdminPageComponent {
 
   public form: FormGroup;
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder, private addNewAdminService: AddNewAdminService) {
     this.form = this.getSignInForm();
   }
 
-  public signUp(form: FormGroup): void {
-    console.log(form.value);
+  public addNewAdmin(form: FormGroup): void {
+    const formData = new FormData();
+
+    formData.append('admin-info', this.form.value);
+
+
   }
   private getSignInForm(): FormGroup {
     return this.fb.group({
