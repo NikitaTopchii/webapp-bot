@@ -1,8 +1,10 @@
+@import "../../styles/colors";
+
 .admin-list{
   display: flex;
   flex-direction: column;
   &__element-of-list{
-    background: var(--tg-theme-secondary-bg-color);
+    background: $secondary_bg_color;
     display: flex;
     align-items: center;
     height: 30%;
@@ -29,7 +31,7 @@
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    background: var(--tg-theme-bg-color);
+    background: $bg_color;
   }
   &__admin-permission-element{
     display: flex;
@@ -57,16 +59,16 @@
     background: #e70909;
   }
   &__button{
-    background: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
+    background: $button_color;
+    color: $button_text_color;
     border-radius: 15px;
     border: none;
     margin: 10px;
     height: 40px;
   }
   &__admin-edit-button{
-    background: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
+    background: $button_color;
+    color: $button_text_color;
     border-radius: 5px;
     border: none;
     margin: 10px;
@@ -75,7 +77,7 @@
   }
   &__admin-delete-button{
     background: #d91b1b;
-    color: var(--tg-theme-button-text-color);
+    color: $button_text_color;
     border-radius: 5px;
     border: none;
     margin: 10px;

@@ -3,6 +3,7 @@ import {UserInterface} from "../core/user.interface";
 import {Admin} from "../core/admin";
 import {NgForOf, NgIf} from "@angular/common";
 import {PermissionsInterface} from "../core/permissions.interface";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin-list',
@@ -38,7 +39,7 @@ export class AdminListComponent {
 
   private currentAdmin: string = '';
 
-  constructor() {
+  constructor(private router: Router) {
     this.admin.setPermissions(this.permissions);
   }
 
@@ -56,5 +57,9 @@ export class AdminListComponent {
 
   public getAdminsList(){
     return this.adminsList;
+  }
+
+  navigateToAddNewAdmin() {
+    this.router.navigate(['/add-new-admin']);
   }
 }

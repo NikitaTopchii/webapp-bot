@@ -1,1 +1,10 @@
-<p>add-admin-page works!</p>
+<div class="add-admin">
+  <form [formGroup]="form" (ngSubmit)="addNewAdmin(form)" class="form">
+    <label>Enter tag-name</label>
+    <input class="add-admin__input-name" formControlName="tagname" autocomplete="off"/>
+    <button [disabled]="form.invalid" class="add-admin__action-button">
+      add admin
+    </button>
+  </form>
+  <app-permissions></app-permissions>
+</div>
