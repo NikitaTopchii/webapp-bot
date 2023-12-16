@@ -35,6 +35,7 @@ export class PermissionsComponent {
   }
 
   private getPermissionsForm(){
+    this.setCurrentPermissions();
     return this.fb.group({
       selectAdminFromList: [this.selectAdminFromList],
       actionWithCompetition: [this.actionWithCompetition],
@@ -44,6 +45,19 @@ export class PermissionsComponent {
       editPermission: [this.editPermission]
     })
   }
+
+  setCurrentPermissions(){
+    const currentAdminPermissions = this.permissionsService.getCurrentAdminPermissions();
+    if(currentAdminPermissions){
+      this.selectAdminFromList = currentAdminPermissions.selectAdminFromList;
+      this.actionWithCompetition = currentAdminPermissions.actionWithCompetition;
+      this.actionWithStatistic =  currentAdminPermissions.actionWithStatistic;
+      this.permissionToTokenAndPrices = currentAdminPermissions.permissionToTokenAndPrices;
+      this.actionWithChatSecurity = currentAdminPermissions.actionWithChatSecurity;
+      this.editPermission = currentAdminPermissions.editPermission;
+    }
+  }
+
   setPermissions(form: FormGroup){
     console.log(form.value);
   }

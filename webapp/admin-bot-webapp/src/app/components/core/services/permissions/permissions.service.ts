@@ -10,6 +10,7 @@ import {FormGroup} from "@angular/forms";
 export class PermissionsService {
 
   private permissionsSubject = new Subject<FormGroup>();
+  private currentAdminPermissions: any;
   constructor() {
   }
 
@@ -22,7 +23,19 @@ export class PermissionsService {
     this.permissionsSubject.next(form);
   }
 
-  getPermissions(){
+  setCurrentAdminPermissions(currentAdminPermissions: any){
+    console.log('set current admin permissions')
+    console.log(currentAdminPermissions)
+    this.currentAdminPermissions = currentAdminPermissions;
+  }
+
+  getCurrentAdminPermissions(){
+    console.log('--')
+    console.log(this.currentAdminPermissions)
+    return this.currentAdminPermissions;
+  }
+
+  getPermissionsSubject(){
     return this.permissionsSubject;
   }
 }

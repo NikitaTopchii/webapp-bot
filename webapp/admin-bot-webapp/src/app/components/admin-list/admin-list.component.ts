@@ -4,6 +4,7 @@ import {Admin} from "../core/admin";
 import {NgForOf, NgIf} from "@angular/common";
 import {PermissionsInterface} from "../core/permissions.interface";
 import {Router} from "@angular/router";
+import {EditAdminService} from "../core/services/edit-admin/edit-admin.service";
 
 @Component({
   selector: 'app-admin-list',
@@ -17,10 +18,8 @@ import {Router} from "@angular/router";
 })
 export class AdminListComponent {
 
-  private admin = new Admin('213', 'Nikita', 'admin');
-
   private adminsList: Admin[] = [
-    this.admin,
+    new Admin('213', 'Nikita', 'admin'),
     new Admin('213', 'Sasha', 'admin'),
     new Admin('213', 'Bodya', 'admin'),
     new Admin('213', 'Andrey', 'admin'),
@@ -28,19 +27,9 @@ export class AdminListComponent {
     new Admin('213', 'Denis', 'admin')
   ];
 
-  private permissions: PermissionsInterface = {
-    selectAdminFromList: true,
-    actionWithCompetition: false,
-    actionWithStatistic: true,
-    permissionToTokenAndPrices: false,
-    actionWithChatSecurity: false,
-    editPermission: false
-  };
-
   private currentAdmin: string = '';
 
-  constructor(private router: Router) {
-    this.admin.setPermissions(this.permissions);
+  constructor(private router: Router, private editAdminService: EditAdminService) {
   }
 
   public showPermissions(adminName: string){
@@ -61,5 +50,12 @@ export class AdminListComponent {
 
   navigateToAddNewAdmin() {
     this.router.navigate(['/add-new-admin']);
+  }
+
+  navigateToEditPermissions(currentAdmin: Admin){
+    console.log(currentAdmin)
+    console.log(currentAdmin.permissions)
+    this.editAdminService.getAdminSubject().next(currentAdmin);
+    this.router.navigate(['/edit-admin']);
   }
 }

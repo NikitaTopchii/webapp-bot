@@ -50,7 +50,7 @@ export class AddAdminPageComponent {
   }
 
   getPermissions(){
-    this.permissionsService.getPermissions().subscribe((result) => {
+    this.permissionsService.getPermissionsSubject().subscribe((result) => {
       this.permissions = result.value;
     })
   }
