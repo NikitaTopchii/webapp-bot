@@ -1,0 +1,27 @@
+@import "../../styles/colors";
+
+.edit-permissions{
+  display: flex;
+  flex-direction: column;
+  &__wrapper{
+    background: $secondary_bg_color;
+    padding: 10px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  &__title{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  &__action-button{
+    background: $button_color;
+    color: $button_text_color;
+    border-radius: 15px;
+    border: none;
+    height: 40px;
+    margin-top: 10px;
+  }
+}
