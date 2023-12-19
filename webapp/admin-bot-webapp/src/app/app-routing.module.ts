@@ -3,11 +3,15 @@ import {AddAdminPageComponent} from "./components/admins/add-admin-page/add-admi
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {EditPermissionsPageComponent} from "./components/admins/edit-permissions-page/edit-permissions-page.component";
+import {
+  ChannelsChatsListPageComponent
+} from "./components/competition/channels-chats-list-page/channels-chats-list-page.component";
+import {MainAdminPageComponent} from "./components/main/main-admin-page/main-admin-page.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminListComponent
+    component: MainAdminPageComponent
   },
   {
     path: 'add-new-admin',
@@ -16,6 +20,14 @@ const routes: Routes = [
   {
     path: 'edit-admin',
     component: EditPermissionsPageComponent
+  },
+  {
+    path: 'admins-list',
+    component: AdminListComponent
+  },
+  {
+    path: 'channels-list',
+    component: ChannelsChatsListPageComponent
   }
 ];
 

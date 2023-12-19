@@ -5,5 +5,5 @@ export interface TelegramEntityInterface{
 
   name: string
 
-  type: 'channel' | 'chat';
+  type: string;
 }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {TelegramEntityInterface} from "../../core/telegram-entity.interface";
+import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {Router} from "@angular/router";
+import {ChannelsInterface} from "../../core/telegram-entity/channels.interface";
 
 @Component({
   selector: 'app-channels-chats-list-page',
@@ -15,7 +16,7 @@ import {Router} from "@angular/router";
 })
 export class ChannelsChatsListPageComponent {
 
-   private telegramEntityList: TelegramEntityInterface[] = [
+   private channelsList: ChannelsInterface[] = [
      {
        id: '1',
        name: 'Dota2',
@@ -36,11 +37,11 @@ export class ChannelsChatsListPageComponent {
    constructor(private router: Router) {
    }
 
-   getTelegramEntityList(){
-     return this.telegramEntityList;
+   getChannelsList(){
+     return this.channelsList;
    }
 
-  navigateToAddNewTelegramEntity() {
-    this.router.navigate(['/add-telegram-entity'])
+  navigateToAddNewChannels() {
+    this.router.navigate(['/add-channels'])
   }
 }

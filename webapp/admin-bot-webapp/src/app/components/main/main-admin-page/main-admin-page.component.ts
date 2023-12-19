@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-admin-page',
@@ -9,4 +10,18 @@ import { Component } from '@angular/core';
 })
 export class MainAdminPageComponent {
 
+  constructor(private router: Router) {
+  }
+
+  navigateToAdminsList() {
+    this.router.navigate(['/admins-list'])
+  }
+
+  navigateToChannelsList() {
+    this.router.navigate(['/channels-list'])
+  }
+
+  navigateToChatsList() {
+    this.router.navigate(['/chats-list'])
+  }
 }
