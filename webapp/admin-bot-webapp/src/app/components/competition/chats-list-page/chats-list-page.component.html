@@ -1,0 +1,8 @@
+<div class="admin-list">
+  <div class="admin-list__element-of-list" *ngFor="let channel of getChannelsList()">
+    <div class="admin-list__main-info">
+      <span class="admin-list__name">{{channel.name}}</span>
+    </div>
+  </div>
+  <button class="admin-list__button" (click)="navigateToAddNewChannels()">Add chat</button>
+</div>

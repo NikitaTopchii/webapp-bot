@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {Subject} from "rxjs";
-import {PermissionsService} from "../core/services/permissions/permissions.service";
+import {PermissionsService} from "../../core/services/permissions/permissions.service";
 
 @Component({
   selector: 'app-permissions',
