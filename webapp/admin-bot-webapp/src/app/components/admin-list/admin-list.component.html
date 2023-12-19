@@ -3,36 +3,36 @@
     <div class="admin-list__main-info">
       <span class="admin-list__name" (click)="showPermissions(admin.name)">{{admin.name}}</span>
       <div>
-        <button class="admin-list__admin-edit-button" (click)="navigateToEditPermissions(admin)">edit</button>
-        <button class="admin-list__admin-delete-button">delete</button>
+        <button class="admin-list__admin-edit-button" (click)="navigateToEditPermissions(admin)" i18n>edit</button>
+        <button class="admin-list__admin-delete-button" i18n>delete</button>
       </div>
     </div>
     <div class="admin-list__admin-permissions" *ngIf="admin.name == getCurrentAdmin()">
       <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title">Select Admin from the list</span>
+        <span class="admin-list__permission-title" i18n>Select Admin from the list</span>
         <span class="admin-list__inactive-permission">{{admin.permissions.selectAdminFromList}}</span>
       </div>
       <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title">Create competition and getting result</span>
+        <span class="admin-list__permission-title" i18n>Create competition and getting result</span>
         <span class="admin-list__inactive-permission">{{admin.permissions.actionWithCompetition}}</span>
       </div>
       <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title">Permission for watching and download statistics</span>
+        <span class="admin-list__permission-title" i18n>Permission for watching and download statistics</span>
         <span class="admin-list__inactive-permission">{{admin.permissions.actionWithStatistic}}</span>
       </div>
       <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title">Full access to use tokens and prices</span>
+        <span class="admin-list__permission-title" i18n>Full access to use tokens and prices</span>
         <span class="admin-list__active-permission">{{admin.permissions.permissionToTokenAndPrices}}</span>
       </div>
       <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title">Chat security</span>
+        <span class="admin-list__permission-title" i18n>Chat security</span>
         <span class="admin-list__inactive-permission">{{admin.permissions.actionWithChatSecurity}}</span>
       </div>
       <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title">Edit permissions</span>
+        <span class="admin-list__permission-title" i18n>Edit permissions</span>
         <span class="admin-list__inactive-permission">{{admin.permissions.actionWithChatSecurity}}</span>
       </div>
     </div>
   </div>
-  <button class="admin-list__button" (click)="navigateToAddNewAdmin()">Add Admin</button>
+  <button class="admin-list__button" (click)="navigateToAddNewAdmin()" i18n>Add Admin</button>
 </div>
