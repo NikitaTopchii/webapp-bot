@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="1153934456394301996" datatype="html">
+        <source>Enter tag-name</source>
+        <target>टैग-नाम दर्ज करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-admin-page/add-admin-page.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2019738017774952071" datatype="html">
+        <source> add admin </source>
+        <target>व्यवस्थापक जोड़ें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-admin-page/add-admin-page.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9095134843628689709" datatype="html">
+        <source>edit</source>
+        <target>संपादन करना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2456043080471762298" datatype="html">
+        <source>delete</source>
+        <target>मिटाना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="170439559054918201" datatype="html">
+        <source>Select Admin from the list</source>
+        <target>
+सूची से व्यवस्थापक का चयन करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/permissions/permissions.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8152410040404575523" datatype="html">
+        <source>Create competition and getting result</source>
+        <target>प्रतिस्पर्धा पैदा करें और परिणाम प्राप्त करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/permissions/permissions.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6506876691583337493" datatype="html">
+        <source>Permission for watching and download statistics</source>
+        <target>आँकड़े देखने और डाउनलोड करने की अनुमति</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/permissions/permissions.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2257367526485899200" datatype="html">
+        <source>Full access to use tokens and prices</source>
+        <target>टोकन और कीमतों के उपयोग तक पूर्ण पहुंच</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/permissions/permissions.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6488112564511547481" datatype="html">
+        <source>Chat security</source>
+        <target>चैट सुरक्षा</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/permissions/permissions.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1946660694635960249" datatype="html">
+        <source>Edit permissions</source>
+        <target>अनुमतियाँ संपादित करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/permissions/permissions.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2758650621461738306" datatype="html">
+        <source>Add Admin</source>
+        <target>
+व्यवस्थापक जोड़ें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8640257554156088424" datatype="html">
+        <source>save</source>
+        <target>
+बचाना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/edit-permissions-page/edit-permissions-page.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
