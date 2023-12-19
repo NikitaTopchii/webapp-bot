@@ -1,10 +1,10 @@
 <div class="save-permissions">
   <form [formGroup]="permissionsForm" (ngSubmit)="setPermissions(permissionsForm)" class="form">
-    <mat-slide-toggle formControlName="selectAdminFromList" class="slide-toggle">Select Admin from the list</mat-slide-toggle>
-    <mat-slide-toggle formControlName="actionWithCompetition" class="slide-toggle">Create competition and getting result</mat-slide-toggle>
-    <mat-slide-toggle formControlName="actionWithStatistic" class="slide-toggle">Permission for watching and download statistics</mat-slide-toggle>
-    <mat-slide-toggle formControlName="permissionToTokenAndPrices" class="slide-toggle">Full access to use tokens and prices</mat-slide-toggle>
-    <mat-slide-toggle formControlName="actionWithChatSecurity" class="slide-toggle">Chat security</mat-slide-toggle>
-    <mat-slide-toggle formControlName="editPermission" class="slide-toggle">Edit permissions</mat-slide-toggle>
+    <mat-slide-toggle formControlName="selectAdminFromList" class="slide-toggle" i18n>Select Admin from the list</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithCompetition" class="slide-toggle" i18n>Create competition and getting result</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithStatistic" class="slide-toggle" i18n>Permission for watching and download statistics</mat-slide-toggle>
+    <mat-slide-toggle formControlName="permissionToTokenAndPrices" class="slide-toggle" i18n>Full access to use tokens and prices</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithChatSecurity" class="slide-toggle" i18n>Chat security</mat-slide-toggle>
+    <mat-slide-toggle formControlName="editPermission" class="slide-toggle" i18n>Edit permissions</mat-slide-toggle>
   </form>
 </div>
