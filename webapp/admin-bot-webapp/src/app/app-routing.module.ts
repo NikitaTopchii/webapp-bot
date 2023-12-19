@@ -1,8 +1,8 @@
-import {AdminListComponent} from "./components/admin-list/admin-list.component";
-import {AddAdminPageComponent} from "./components/add-admin-page/add-admin-page.component";
+import {AdminListComponent} from "./components/admins/admin-list/admin-list.component";
+import {AddAdminPageComponent} from "./components/admins/add-admin-page/add-admin-page.component";
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {EditPermissionsPageComponent} from "./components/edit-permissions-page/edit-permissions-page.component";
+import {EditPermissionsPageComponent} from "./components/admins/edit-permissions-page/edit-permissions-page.component";
 
 const routes: Routes = [
   {

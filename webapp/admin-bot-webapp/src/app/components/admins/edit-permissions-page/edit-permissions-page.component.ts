@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {PermissionsComponent} from "../permissions/permissions.component";
-import {Admin} from "../core/admin";
-import {PermissionsService} from "../core/services/permissions/permissions.service";
-import {EditAdminService} from "../core/services/edit-admin/edit-admin.service";
+import {Admin} from "../../core/admin";
+import {PermissionsService} from "../../core/services/permissions/permissions.service";
+import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
 import {Route, Router, RouterLink} from "@angular/router";
 
 @Component({

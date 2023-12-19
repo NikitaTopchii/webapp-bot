@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {UserInterface} from "../core/user.interface";
-import {Admin} from "../core/admin";
+import {UserInterface} from "../../core/user.interface";
+import {Admin} from "../../core/admin";
 import {NgForOf, NgIf} from "@angular/common";
-import {PermissionsInterface} from "../core/permissions.interface";
+import {PermissionsInterface} from "../../core/permissions.interface";
 import {Router} from "@angular/router";
-import {EditAdminService} from "../core/services/edit-admin/edit-admin.service";
+import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
 
 @Component({
   selector: 'app-admin-list',

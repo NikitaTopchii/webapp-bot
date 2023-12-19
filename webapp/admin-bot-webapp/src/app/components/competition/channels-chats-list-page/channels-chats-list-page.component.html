@@ -1,0 +1,8 @@
+<div class="admin-list">
+  <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getTelegramEntityList()">
+    <div class="admin-list__main-info">
+      <span class="admin-list__name">{{telegramEntity.name}}</span>
+    </div>
+  </div>
+  <button class="admin-list__button" (click)="navigateToAddNewTelegramEntity()">Add Admin</button>
+</div>

@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {_MatSlideToggleRequiredValidatorModule, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatButtonModule} from "@angular/material/button";
 import {PermissionsComponent} from "../permissions/permissions.component";
-import {AddNewAdminService} from "../core/services/add-new-admin/add-new-admin.service";
-import {PermissionsService} from "../core/services/permissions/permissions.service";
+import {AddNewAdminService} from "../../core/services/add-new-admin/add-new-admin.service";
+import {PermissionsService} from "../../core/services/permissions/permissions.service";
 
 @Component({
   selector: 'app-add-admin-page',
