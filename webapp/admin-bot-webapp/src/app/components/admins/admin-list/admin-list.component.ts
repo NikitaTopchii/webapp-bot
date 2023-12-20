@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserInterface} from "../../core/user.interface";
 import {Admin} from "../../core/admin";
 import {NgForOf, NgIf} from "@angular/common";
 import {PermissionsInterface} from "../../core/permissions.interface";
 import {Router} from "@angular/router";
 import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
+import {TelegramService} from "../../core/services/telegram/telegram.service";
 
 @Component({
   selector: 'app-admin-list',
@@ -16,7 +17,9 @@ import {EditAdminService} from "../../core/services/edit-admin/edit-admin.servic
   templateUrl: './admin-list.component.html',
   styleUrl: './admin-list.component.scss'
 })
-export class AdminListComponent {
+export class AdminListComponent implements OnInit, OnDestroy{
+
+
 
   private adminsList: Admin[] = [
     new Admin('213', 'Nikita', 'admin'),
@@ -29,7 +32,10 @@ export class AdminListComponent {
 
   private currentAdmin: string = '';
 
-  constructor(private router: Router, private editAdminService: EditAdminService) {
+  constructor(private router: Router,
+              private editAdminService: EditAdminService,
+              private telegram: TelegramService) {
+    this.goBack = this.goBack.bind(this);
   }
 
   public showPermissions(adminName: string){
@@ -57,5 +63,18 @@ export class AdminListComponent {
     console.log(currentAdmin.permissions)
     this.editAdminService.getAdminSubject().next(currentAdmin);
     this.router.navigate(['/edit-admin']);
+  }
+
+  goBack(){
+    this.router.navigate(['']);
+  }
+
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
+  }
+
+  ngOnInit(): void {
+    this.telegram.BackButton.show();
+    this.telegram.BackButton.onClick(this.goBack);
   }
 }

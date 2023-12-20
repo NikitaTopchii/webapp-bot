@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router} from "@angular/router";
+import {TelegramService} from "../../core/services/telegram/telegram.service";
 
 @Component({
   selector: 'app-main-admin-page',
@@ -10,7 +11,9 @@ import {Router} from "@angular/router";
 })
 export class MainAdminPageComponent {
 
+  telegram = inject(TelegramService);
   constructor(private router: Router) {
+    this.telegram.BackButton.hide();
   }
 
   navigateToAdminsList() {
