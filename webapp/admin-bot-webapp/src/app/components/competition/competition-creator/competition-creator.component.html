@@ -1,0 +1,13 @@
+<div class="competition-creator">
+  <div class="competition-creator__wrapper">
+    <span class="competition-creator__title">Create competition</span>
+    <div class="competition-creator__main-form">
+      <form [formGroup]="form" (ngSubmit)="createNewCompetition(form)" class="form">
+        <label i18n>Enter competition name</label>
+        <input class="competition-creator__input-name" formControlName="competitionName" autocomplete="off"/>
+        <label>Enter competition describe</label>
+        <textarea></textarea>
+      </form>
+    </div>
+  </div>
+</div>

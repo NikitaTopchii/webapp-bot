@@ -1,0 +1,30 @@
+@import "../../../styles/colors";
+
+:host{
+  .competition-creator{
+    &__wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    &__input-name{
+      border-radius: 15px;
+      margin-top: 10px;
+      height: 40px;
+      transition: 0.2s;
+      border: 1px solid $button_color;
+      &:focus{
+        outline: none;
+        border: 3px solid $button_color;
+      }
+    }
+  }
+
+  .form{
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    flex-direction: column;
+  }
+}

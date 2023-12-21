@@ -7,6 +7,7 @@ import {
   ChannelsChatsListPageComponent
 } from "./components/competition/channels-chats-list-page/channels-chats-list-page.component";
 import {MainAdminPageComponent} from "./components/main/main-admin-page/main-admin-page.component";
+import {CompetitionCreatorComponent} from "./components/competition/competition-creator/competition-creator.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'channels-list',
     component: ChannelsChatsListPageComponent
+  },
+  {
+    path: 'competition-creator',
+    component: CompetitionCreatorComponent
   }
 ];
 

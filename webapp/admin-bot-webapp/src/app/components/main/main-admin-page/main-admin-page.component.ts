@@ -32,4 +32,8 @@ export class MainAdminPageComponent {
   navigateToChatsList() {
     this.router.navigate(['/chats-list'])
   }
+
+  navigateToCompetitionCreator() {
+    this.router.navigate(['/competition-creator'])
+  }
 }
