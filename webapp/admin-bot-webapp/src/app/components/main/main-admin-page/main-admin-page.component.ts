@@ -12,7 +12,9 @@ import {TelegramService} from "../../core/services/telegram/telegram.service";
 export class MainAdminPageComponent {
 
   telegram = inject(TelegramService);
+  data: any;
   constructor(private router: Router) {
+    this.data = this.telegram.UserData;
     this.telegram.BackButton.hide();
   }
 

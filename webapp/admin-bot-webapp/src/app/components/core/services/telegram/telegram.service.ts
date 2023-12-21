@@ -9,6 +9,14 @@ interface TgButton{
   offClick(f: Function): void;
 }
 
+interface TgInitData{
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  query_id: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +36,18 @@ export class TelegramService {
 
   get BackButton(): TgButton{
     return this.tg.BackButton;
+  }
+
+  get InitData(): any{
+    return this.tg.initData;
+  }
+
+  get ParsedInitData(){
+    return JSON.parse('{"' + this.InitData.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) })
+  }
+
+  get UserData(){
+    return JSON.parse(this.ParsedInitData.user);
   }
 
   ready(){
