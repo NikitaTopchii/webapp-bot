@@ -1,27 +1,25 @@
 const express = require('express'),
-    app = express(),
     cors = require('cors'),
     userRouter = require('./user/routes');
+class IndexJs {
+    constructor(app) {
+        const express = require('express');
 
 
-const host = '127.0.0.1';
-const port = 3000;
-app.use(
-    cors({
-        credentials: true,
-        ENV : "http://localhost:4200/"
-    }),
-);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-    cors({
-        credentials: true,
-        origin: "*"
-    }),
-)
+        const host = '0.0.0.0';
+        const port = 3000;
+        app.use(
+            cors({
+                credentials: true,
+                ENV : "http://localhost:4200/"
+            }),
+        );
+        app.use(express.json());
+        app.use(express.urlencoded({ extended: true }));
 
-app.use('/users', userRouter);
-app.listen(port, host, () =>
-    console.log(`Server listens http://${host}:${port}`)
-);
+        // Подключение маршрутизаторов
+        app.use('/users', userRouter);
+    }
+}
+
+module.exports = IndexJs
