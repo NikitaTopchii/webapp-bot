@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {Router} from "@angular/router";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {LanguageSelectorComponent} from "../../language-selector/language-selector.component";
+import {UserService} from "../../core/services/user/user.service";
 
 @Component({
   selector: 'app-main-admin-page',
@@ -15,9 +16,17 @@ import {LanguageSelectorComponent} from "../../language-selector/language-select
 export class MainAdminPageComponent {
 
   telegram = inject(TelegramService);
+  userService = inject(UserService);
+
   data: any;
   constructor(private router: Router) {
-    //this.data = this.telegram.UserData;
+    this.data = this.telegram.UserData.id;
+
+    const formData = new FormData();
+
+    formData.append('id', this.data);
+
+    this.userService.signIn(formData)
     this.telegram.BackButton.hide();
   }
 
