@@ -6,7 +6,7 @@ class UserDB {
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'landscape'
+            database: 'contests_users'
         });
 
         this.connection.connect((err) => {
