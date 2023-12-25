@@ -7,12 +7,12 @@
     &__element-of-list{
       background: $secondary_bg_color;
       display: flex;
-      align-items: center;
+      justify-content: space-between;
       box-sizing: border-box;
       padding: 10px 3%;
       margin: 10px;
       border-radius: 15px;
-      flex-direction: column;
+      flex-direction: row;
     }
     &__main-info{
       display: flex;
@@ -34,8 +34,7 @@
     }
     &__admin-permission-element{
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: row;
       width: 100%;
       margin-bottom: 3px;
     }
@@ -82,6 +81,10 @@
       margin: 10px;
       height: 20px;
       width: 50px;
+    }
+    &__select-button{
+      width: 25px;
+      height: 25px;
     }
   }
 }

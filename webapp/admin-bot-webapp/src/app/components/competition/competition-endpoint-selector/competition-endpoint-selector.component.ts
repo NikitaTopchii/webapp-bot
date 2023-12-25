@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ChannelsInterface} from "../../core/telegram-entity/channels.interface";
 import {Router} from "@angular/router";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
@@ -9,7 +9,8 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './competition-endpoint-selector.component.html',
   styleUrl: './competition-endpoint-selector.component.scss'
@@ -73,7 +74,7 @@ export class CompetitionEndpointSelectorComponent {
     }
   ];
 
-  selectedTelegramEntity: TelegramEntityInterface[] = [];
+  selectedTelegramEntity = new Set<TelegramEntityInterface>();
 
   selectElementsExist: boolean = false;
 
@@ -89,7 +90,14 @@ export class CompetitionEndpointSelectorComponent {
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
-    entity.selected = true;
-    this.selectedTelegramEntity.push(entity);
+    entity.selected = !entity.selected;
+    this.selectedTelegramEntity.add(entity);
+    this.checkSelectedElements();
+  }
+
+  checkSelectedElements(){
+    this.selectedTelegramEntity.forEach(element => {
+      this.selectElementsExist = element.selected;
+    });
   }
 }
