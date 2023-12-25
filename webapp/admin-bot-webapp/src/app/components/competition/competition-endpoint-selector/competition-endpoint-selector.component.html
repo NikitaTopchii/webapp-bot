@@ -1,0 +1,15 @@
+<div class="admin-list">
+  <span *ngIf="!selectElementsExist">select more then one channel/chat</span>
+  <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getChannelsList()" (click)="selectTelegramEntity(telegramEntity)">
+    <div class="admin-list__main-info">
+      <span class="admin-list__name">{{telegramEntity.name}}</span>
+    </div>
+    <div>
+      <span>type: {{telegramEntity.type}}</span>
+    </div>
+    <div>
+      <span>type: {{telegramEntity.selected}}</span>
+    </div>
+  </div>
+  <button [disabled]="selectElementsExist" class="admin-list__button" (click)="navigateToAddNewChannels()">continue</button>
+</div>

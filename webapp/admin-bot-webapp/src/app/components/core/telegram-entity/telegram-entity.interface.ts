@@ -6,4 +6,6 @@ export interface TelegramEntityInterface{
   name: string
 
   type: string;
+
+  selected: boolean;
 }
