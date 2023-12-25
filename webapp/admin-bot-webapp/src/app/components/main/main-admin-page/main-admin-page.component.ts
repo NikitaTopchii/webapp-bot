@@ -20,13 +20,13 @@ export class MainAdminPageComponent {
 
   data: any;
   constructor(private router: Router) {
-    this.data = this.telegram.UserData.id;
-
-    const formData = new FormData();
-
-    formData.append('id', this.data);
-
-    this.userService.signIn(formData)
+    // this.data = this.telegram.UserData.id;
+    //
+    // const formData = new FormData();
+    //
+    // formData.append('id', this.data);
+    //
+    // this.userService.signIn(formData)
     this.telegram.BackButton.hide();
   }
 
@@ -43,6 +43,6 @@ export class MainAdminPageComponent {
   }
 
   navigateToCompetitionCreator() {
-    this.router.navigate(['/competition-creator'])
+    this.router.navigate(['/channels-list'])
   }
 }

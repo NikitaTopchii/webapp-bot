@@ -11,13 +11,12 @@ class IndexJs {
         app.use(
             cors({
                 credentials: true,
-                ENV : "http://localhost:4200/"
+                ENV : "http://localhost:80/"
             }),
         );
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
 
-        // Подключение маршрутизаторов
         app.use('/users', userRouter);
     }
 }

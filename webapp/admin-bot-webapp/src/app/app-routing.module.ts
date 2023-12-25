@@ -3,11 +3,11 @@ import {AddAdminPageComponent} from "./components/admins/add-admin-page/add-admi
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {EditPermissionsPageComponent} from "./components/admins/edit-permissions-page/edit-permissions-page.component";
-import {
-  ChannelsChatsListPageComponent
-} from "./components/competition/channels-chats-list-page/channels-chats-list-page.component";
 import {MainAdminPageComponent} from "./components/main/main-admin-page/main-admin-page.component";
 import {CompetitionCreatorComponent} from "./components/competition/competition-creator/competition-creator.component";
+import {
+  CompetitionEndpointSelectorComponent
+} from "./components/competition/competition-endpoint-selector/competition-endpoint-selector.component";
 
 const routes: Routes = [
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'channels-list',
-    component: ChannelsChatsListPageComponent
+    component: CompetitionEndpointSelectorComponent
   },
   {
     path: 'competition-creator',
