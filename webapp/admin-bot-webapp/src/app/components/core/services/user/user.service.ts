@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {main_url} from "../../../shared/application-context"
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class UserService {
     });
 
     return this.http
-      .get<string>('https://4edd-46-98-213-149.ngrok-free.app/users/auth', { params: params })
+      .get<string>(main_url + '/users/auth', { params: params })
       .subscribe((response) => {
 
         console.log(response)

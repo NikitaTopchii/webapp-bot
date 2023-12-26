@@ -1,11 +1,13 @@
 const express = require('express'),
     cors = require('cors'),
     userRouter = require('./user/routes');
+
+const url = require('../shared/application-context')
 class IndexJs {
     constructor(app) {
         app.use(
             cors({
-                origin: 'https://4edd-46-98-213-149.ngrok-free.app'
+                origin: url.main_url
             }),
         );
         app.use(express.json());
