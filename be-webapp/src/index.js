@@ -3,15 +3,9 @@ const express = require('express'),
     userRouter = require('./user/routes');
 class IndexJs {
     constructor(app) {
-        const express = require('express');
-
-
-        const host = '0.0.0.0';
-        const port = 3000;
         app.use(
             cors({
-                credentials: true,
-                ENV : "http://localhost:80/"
+                origin: 'https://4edd-46-98-213-149.ngrok-free.app'
             }),
         );
         app.use(express.json());

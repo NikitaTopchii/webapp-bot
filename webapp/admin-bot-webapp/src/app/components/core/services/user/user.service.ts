@@ -18,8 +18,10 @@ export class UserService {
     });
 
     return this.http
-      .get<string>('http://localhost:3000/users/auth', { params: params })
+      .get<string>('https://4edd-46-98-213-149.ngrok-free.app/users/auth', { params: params })
       .subscribe((response) => {
+
+        console.log(response)
 
         const userId = JSON.parse(JSON.stringify(response)).result;
 
