@@ -59,8 +59,6 @@ export class AdminListComponent implements OnInit, OnDestroy{
   }
 
   navigateToEditPermissions(currentAdmin: Admin){
-    console.log(currentAdmin)
-    console.log(currentAdmin.permissions)
     this.editAdminService.getAdminSubject().next(currentAdmin);
     this.router.navigate(['/edit-admin']);
   }

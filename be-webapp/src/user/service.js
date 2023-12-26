@@ -8,7 +8,7 @@ class UsersService {
     }
 
     async getUser(userId) {
-        // console.log(userLogin , passwordHash)
+        console.log(userId)
 
         return new Promise((resolve, reject) => {
             this.userDB.getUser(userId, (err, data) => {

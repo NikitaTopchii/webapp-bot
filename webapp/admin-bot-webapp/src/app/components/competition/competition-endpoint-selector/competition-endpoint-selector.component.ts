@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ChannelsInterface} from "../../core/telegram-entity/channels.interface";
 import {Router} from "@angular/router";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
+import {TelegramService} from "../../core/services/telegram/telegram.service";
 
 @Component({
   selector: 'app-competition-endpoint-selector',
@@ -15,7 +16,7 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
   templateUrl: './competition-endpoint-selector.component.html',
   styleUrl: './competition-endpoint-selector.component.scss'
 })
-export class CompetitionEndpointSelectorComponent {
+export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
 
   private channelsList: TelegramEntityInterface[] = [
     {
@@ -78,7 +79,9 @@ export class CompetitionEndpointSelectorComponent {
 
   selectElementsExist: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private telegram: TelegramService,
+              private router: Router) {
+    this.goBack = this.goBack.bind(this);
   }
 
   getChannelsList(){
@@ -99,5 +102,18 @@ export class CompetitionEndpointSelectorComponent {
     this.selectedTelegramEntity.forEach(element => {
       this.selectElementsExist = element.selected;
     });
+  }
+
+  goBack(){
+    this.router.navigate(['']);
+  }
+
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
+  }
+
+  ngOnInit(): void {
+    this.telegram.BackButton.show();
+    this.telegram.BackButton.onClick(this.goBack);
   }
 }
