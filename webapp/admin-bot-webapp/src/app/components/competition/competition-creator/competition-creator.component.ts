@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
+import {CreateCompetitionService} from "../../core/services/create-competition/create-competition.service";
 
 @Component({
   selector: 'app-competition-creator',
@@ -17,17 +18,16 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
-              private router: Router) {
+              private router: Router,
+              private createCompetitionService: CreateCompetitionService) {
 
     this.form = this.getCreateCompetitionForm();
-  }
-  createNewCompetition(form: FormGroup) {
-
   }
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      competitionName: ["", [Validators.required]],
+      competitionName: ['', Validators.required],
+      competitionDescription: ['']
     });
   }
 
@@ -42,5 +42,20 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+  }
+
+  createCompetition(form: FormGroup) {
+    const formData = new FormData();
+
+    const competitionName = form.get('competitionName')?.value;
+    const competitionDescription = form.get('competitionDescription')?.value;
+
+    formData.append('competitionName', competitionName);
+    formData.append('competitionDescription', competitionDescription);
+    formData.append('channels', 'channels');
+    formData.append('conditions', 'subscribe');
+    formData.append('contests_id', '2410');
+
+    this.createCompetitionService.createCompetition(formData);
   }
 }

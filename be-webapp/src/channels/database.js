@@ -1,26 +1,26 @@
 const mysql = require('mysql');
 
-class UserDB {
+class ChannelsDB {
     constructor() {
         this.connection = mysql.createConnection({
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'contests_users'
+            database: 'contests_channels'
         });
 
         this.connection.connect((err) => {
             if (err) {
                 console.error(`Error connecting to MySQL: ${err}`);
             } else {
-                console.log('Connected to MySQL users');
+                console.log('Connected to MySQL contests_channels');
             }
         });
     }
 
-    getUser(userId, callback) {
-        const sql = 'SELECT * FROM users WHERE userid = ?';
-        this.connection.query(sql, [userId], (err, results) => {
+    getChannels(creators_id, callback) {
+        const sql = 'SELECT * FROM channels WHERE creators_id = ?';
+        this.connection.query(sql, [creators_id], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {
@@ -30,4 +30,4 @@ class UserDB {
     }
 }
 
-module.exports = UserDB;
+module.exports = ChannelsDB;

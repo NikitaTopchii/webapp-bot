@@ -8,18 +8,18 @@ import {main_url} from "../../../shared/application-context"
 })
 export class UserService {
 
+  params = new HttpParams();
+
   constructor(private http: HttpClient, private router: Router) {
   }
 
   signIn(formData: FormData) {
-    // Создание параметров из formData
-    let params = new HttpParams();
     formData.forEach((value, key) => {
-      params = params.append(key, value as string);
+      this.params = this.params.append(key, value as string);
     });
 
     return this.http
-      .get<string>(main_url + '/users/auth', { params: params })
+      .get<string>(main_url + '/users/auth', { params: this.params })
       .subscribe((response) => {
 
         console.log(response)

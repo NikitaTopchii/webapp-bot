@@ -20,9 +20,11 @@ export class MainAdminPageComponent {
 
   data: any;
   constructor(private router: Router) {
-    this.data = this.telegram.UserData.id;
+    // this.data = this.telegram.UserData.id;
 
     const formData = new FormData();
+
+    this.data = 464155131;
 
     formData.append('id', this.data);
 
