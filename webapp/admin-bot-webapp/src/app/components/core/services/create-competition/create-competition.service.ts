@@ -7,8 +7,6 @@ import {main_url} from "../../../shared/application-context";
   providedIn: 'root'
 })
 export class CreateCompetitionService {
-
-  params = new HttpParams();
   constructor(private http: HttpClient, private router: Router) {
   }
 

@@ -2,13 +2,14 @@ const express = require('express'),
     cors = require('cors'),
     userRouter = require('./user/routes'),
     competitionRouter = require('./competition/routes'),
-    channelsRouter = require('./channels/routes');
+    channelsRouter = require('./channels/routes'),
+    adminsRouter = require('./admins/routes');
 
 class IndexJs {
     constructor(app) {
         app.use(
             cors({
-                origin: "https://ce91-188-163-40-175.ngrok-free.app"
+                origin: "https://e475-188-163-40-175.ngrok-free.app"
             }),
         );
         app.use(express.json());
@@ -17,6 +18,7 @@ class IndexJs {
         app.use('/users', userRouter);
         app.use('/competitions', competitionRouter);
         app.use('/channels', channelsRouter);
+        app.use('/admins', adminsRouter);
     }
 }
 

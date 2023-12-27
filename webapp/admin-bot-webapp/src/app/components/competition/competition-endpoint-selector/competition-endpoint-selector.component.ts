@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {ChannelsService} from "../../core/services/channels/channels.service";
+import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
+import {response} from "express";
 
 @Component({
   selector: 'app-competition-endpoint-selector',
@@ -29,9 +31,9 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
 
   constructor(private telegram: TelegramService,
               private router: Router,
-              private channelsService: ChannelsService) {
+              private channelsService: ChannelsService,
+              private selectedChannelsService: SelectedChannelsService) {
     this.goBack = this.goBack.bind(this);
-    this.getMyChannels();
   }
 
   getChannelsList(){
@@ -39,6 +41,8 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   navigateToAddNewChannels() {
+    this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
+
     this.router.navigate(['/competition-creator'])
   }
 
@@ -60,11 +64,9 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   private getMyChannels(){
+    this.creatorsId = localStorage.getItem('creators_id');
+
     const formData = new FormData();
-
-    this.creatorsId = 2410;
-
-    console.log('hello')
 
     formData.append('creators_id', this.creatorsId);
 
@@ -91,6 +93,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.getMyChannels();
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
   }

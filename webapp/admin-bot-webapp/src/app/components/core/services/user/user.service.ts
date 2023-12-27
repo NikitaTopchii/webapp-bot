@@ -8,27 +8,17 @@ import {main_url} from "../../../shared/application-context"
 })
 export class UserService {
 
-  params = new HttpParams();
-
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  signIn(formData: FormData) {
+  getUser(formData: FormData) {
+    let params = new HttpParams();
+
     formData.forEach((value, key) => {
-      this.params = this.params.append(key, value as string);
+      params = params.append(key, value as string);
     });
 
     return this.http
-      .get<string>(main_url + '/users/auth', { params: this.params })
-      .subscribe((response) => {
-
-        console.log(response)
-
-        const userId = JSON.parse(JSON.stringify(response)).result;
-
-        if(userId){
-          this.router.navigate(['admins-list']);
-        }
-      });
+      .get<any>(main_url + '/users/auth', { params: params });
   }
 }

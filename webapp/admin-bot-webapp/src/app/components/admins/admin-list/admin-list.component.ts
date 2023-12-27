@@ -6,6 +6,7 @@ import {PermissionsInterface} from "../../core/permissions.interface";
 import {Router} from "@angular/router";
 import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {AdminsListService} from "../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-admin-list',
@@ -21,20 +22,14 @@ export class AdminListComponent implements OnInit, OnDestroy{
 
 
 
-  private adminsList: Admin[] = [
-    new Admin('213', 'Nikita', 'admin'),
-    new Admin('213', 'Sasha', 'admin'),
-    new Admin('213', 'Bodya', 'admin'),
-    new Admin('213', 'Andrey', 'admin'),
-    new Admin('213', 'Admin', 'admin'),
-    new Admin('213', 'Denis', 'admin')
-  ];
+  private adminsList = new Set<Admin>();
 
   private currentAdmin: string = '';
 
   constructor(private router: Router,
               private editAdminService: EditAdminService,
-              private telegram: TelegramService) {
+              private telegram: TelegramService,
+              private adminsListService: AdminsListService) {
     this.goBack = this.goBack.bind(this);
   }
 
@@ -67,12 +62,32 @@ export class AdminListComponent implements OnInit, OnDestroy{
     this.router.navigate(['']);
   }
 
-  ngOnDestroy(): void {
-    this.telegram.BackButton.offClick(this.goBack);
+  setAdmins(){
+    const creators_id = localStorage.getItem('creators_id');
+
+    if (creators_id){
+      const formData = new FormData();
+
+      formData.append('creators_id', creators_id);
+
+      this.adminsListService.getAdmins(formData).subscribe((response) => {
+        const admins = response.results;
+
+        admins.forEach((admin: any) => {
+          this.adminsList.add(new Admin(admin.userid, admin.name, 'admin'))
+        });
+      })
+    }
   }
 
   ngOnInit(): void {
+    this.setAdmins();
+
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+  }
+
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
   }
 }

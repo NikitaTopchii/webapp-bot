@@ -3,23 +3,30 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {CreateCompetitionService} from "../../core/services/create-competition/create-competition.service";
-
+import {NgForOf} from "@angular/common";
+import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
+import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 @Component({
   selector: 'app-competition-creator',
   standalone: true,
-    imports: [
-        ReactiveFormsModule
-    ],
+  imports: [
+    ReactiveFormsModule,
+    NgForOf
+  ],
   templateUrl: './competition-creator.component.html',
   styleUrl: './competition-creator.component.scss'
 })
 export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   form: FormGroup;
+  private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
               private router: Router,
-              private createCompetitionService: CreateCompetitionService) {
+              private createCompetitionService: CreateCompetitionService,
+              private selectedChannelsService: SelectedChannelsService) {
+
+    this.goBack = this.goBack.bind(this);
 
     this.form = this.getCreateCompetitionForm();
   }
@@ -31,8 +38,12 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     });
   }
 
+  getSelectedChannels(){
+    return this.selectedChannels;
+  }
+
   goBack(){
-    this.router.navigate(['channels-list']);
+    this.router.navigate(['/channels-list']);
   }
 
   ngOnDestroy(): void {
@@ -42,6 +53,10 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+
+    this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
+      this.selectedChannels = channels;
+    })
   }
 
   createCompetition(form: FormGroup) {
