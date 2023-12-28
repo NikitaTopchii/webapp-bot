@@ -3,6 +3,10 @@ const express = require('express'),
     AdminsController = require('./controller');
 
 router
+    .route('/all-subscription')
+    .get(AdminsController.getAdminsWithSubscription)
+
+router
     .route('/all')
     .get(AdminsController.getAdmins)
 

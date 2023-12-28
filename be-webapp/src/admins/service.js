@@ -11,7 +11,26 @@ class AdminsService {
         console.log(creators_id)
 
         return new Promise((resolve, reject) => {
-            this.admins.getAdmins(creators_id, (err, data) => {
+
+            const creatorsIdList = creators_id.split(',');
+
+            this.admins.getAdmins(creatorsIdList, (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+
+        });
+    }
+
+    async getAdminsWithSubscription(user_id) {
+        console.log(user_id)
+
+        return new Promise((resolve, reject) => {
+
+            this.admins.getAdminsWithSubscription(user_id, (err, data) => {
                 if (err) {
                     reject(err);
                 } else {

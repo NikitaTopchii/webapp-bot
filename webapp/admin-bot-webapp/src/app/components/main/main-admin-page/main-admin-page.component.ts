@@ -30,18 +30,20 @@ export class MainAdminPageComponent implements OnInit{
     //this.data = this.telegram.UserData.id;
     this.data = 464155131;
 
-    const formData = new FormData();
+    // const formData = new FormData();
+    //
+    // formData.append('id', this.data);
 
-    formData.append('id', this.data);
+    localStorage.setItem('user_id', this.data);
 
-    this.userService.getUser(formData).subscribe((response) => {
-      const user = response.results;
-
-      console.log(user[0])
-      console.log(user.userid)
-
-      this.setAdminRole(user[0].userid);
-    });
+    // this.userService.getUser(formData).subscribe((response) => {
+    //   const user = response.results;
+    //
+    //   console.log(user[0])
+    //   console.log(user.userid)
+    //
+    //   this.setAdminRole(user[0].userid);
+    // });
   }
 
   setAdminRole(userId: any){
@@ -52,7 +54,7 @@ export class MainAdminPageComponent implements OnInit{
     this.adminsService.getAdmin(formData).subscribe((response) => {
       const admin = response.results;
 
-      localStorage.setItem('creators_id', admin[0].creators_id);
+      localStorage.setItem('user_id', admin[0].userid);
     })
   }
 

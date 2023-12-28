@@ -6,7 +6,7 @@
         <label>Enter competition name</label>
         <input class="competition-creator__input-name" formControlName="competitionName" autocomplete="off"/>
         <label>Enter competition describe</label>
-        <textarea formControlName="competitionDescription"></textarea>
+        <textarea class="competition-creator__textarea-description" formControlName="competitionDescription"></textarea>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()">
             <span>{{channels.name}}</span>

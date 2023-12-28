@@ -21,6 +21,24 @@ class UsersService {
 
         });
     }
+
+    async getUsers(userIds) {
+        console.log(userIds)
+
+        return new Promise((resolve, reject) => {
+
+            const adminsList = userIds.split(',');
+
+            this.userDB.getUsers(adminsList, (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+
+        });
+    }
 }
 
 module.exports = new UsersService();

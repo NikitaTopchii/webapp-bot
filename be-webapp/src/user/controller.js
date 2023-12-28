@@ -12,6 +12,18 @@ exports.getUser = async (req, res) => {
     }
 };
 
+exports.getUsers = async (req, res) => {
+    try {
+        console.log(req.query.user_ids)
+        const user = await UsersService.getUsers(req.query.user_ids);
+        res.json(user);
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'Error while getting user' });
+    }
+};
+
 // exports.updateUser = async (req, res) => {
 //     try {
 //         const updatedUser = await UsersService.updateUser(req.body.user_id, req.body.userLogin, req.body.passHash);

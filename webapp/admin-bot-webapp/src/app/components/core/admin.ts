@@ -5,12 +5,17 @@ export class Admin implements UserInterface{
   id: string;
   name: string;
   role: string;
+  // permissions: PermissionsInterface = {
+  //   selectAdminFromList: true,
+  //   actionWithCompetition: true,
+  //   actionWithStatistic: false,
+  //   permissionToTokenAndPrices: false,
+  //   actionWithChatSecurity: false,
+  //   editPermission: false
+  // };
   permissions: PermissionsInterface = {
-    selectAdminFromList: true,
-    actionWithCompetition: true,
-    actionWithStatistic: false,
-    permissionToTokenAndPrices: false,
-    actionWithChatSecurity: false,
+    selectAdminFromList: false,
+    actionWithCompetition: false,
     editPermission: false
   };
 

@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import CryptoJS from 'crypto-js';
+@Injectable({
+  providedIn: 'root'
+})
+export class TokenGenerateService {
+  constructor() { }
+
+  generateSHA256Token(): string {
+    return CryptoJS.SHA256(this.generateRandomString(2)).toString();
+  }
+
+  generateRandomString(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charactersLength);
+      result += characters.charAt(randomIndex);
+    }
+    return result;
+  }
+}

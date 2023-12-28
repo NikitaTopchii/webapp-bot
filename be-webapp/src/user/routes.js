@@ -7,6 +7,9 @@ router
     .get(UserController.getUser)
     // .put(UserController.updateUser)
 
+router
+    .route('/simple-admins')
+    .get(UserController.getUsers)
 
 
 module.exports = router;

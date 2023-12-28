@@ -11,6 +11,17 @@ export class AdminsListService {
   constructor(private http: HttpClient) {
   }
 
+  getAdminsWithSubscription(formData: FormData) {
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/admins/all-subscription', { params: params });
+  }
+
   getAdmins(formData: FormData) {
     let params = new HttpParams();
 
@@ -20,6 +31,17 @@ export class AdminsListService {
 
     return this.http
       .get<any>(main_url + '/admins/all', { params: params });
+  }
+
+  getUserAdmins(formData: FormData) {
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/users/simple-admins', { params: params });
   }
 
   getAdmin(formData: FormData) {

@@ -28,6 +28,17 @@ class UserDB {
             }
         });
     }
+
+    getUsers(userIds, callback) {
+        const sql = 'SELECT * FROM users WHERE userid IN (?)';
+        this.connection.query(sql, [userIds], (err, results) => {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, {results});
+            }
+        });
+    }
 }
 
 module.exports = UserDB;

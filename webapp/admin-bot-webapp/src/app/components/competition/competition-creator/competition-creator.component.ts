@@ -6,6 +6,7 @@ import {CreateCompetitionService} from "../../core/services/create-competition/c
 import {NgForOf} from "@angular/common";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
+import {TokenGenerateService} from "../../core/services/token/token-generate.service";
 @Component({
   selector: 'app-competition-creator',
   standalone: true,
@@ -19,12 +20,14 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
 export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   form: FormGroup;
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
+  private competitionToken: string = '';
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
               private router: Router,
               private createCompetitionService: CreateCompetitionService,
-              private selectedChannelsService: SelectedChannelsService) {
+              private selectedChannelsService: SelectedChannelsService,
+              private tokenGenerateService: TokenGenerateService) {
 
     this.goBack = this.goBack.bind(this);
 
@@ -72,5 +75,13 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     formData.append('contests_id', '2410');
 
     this.createCompetitionService.createCompetition(formData);
+  }
+
+  generateCompetitionToken(){
+    this.competitionToken = this.tokenGenerateService.generateSHA256Token();
+  }
+
+  getCompetitionToken(){
+    return this.competitionToken;
   }
 }

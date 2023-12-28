@@ -5,11 +5,11 @@ export interface PermissionsInterface {
 
   actionWithCompetition: boolean;
 
-  actionWithStatistic: boolean;
-
-  permissionToTokenAndPrices: boolean;
-
-  actionWithChatSecurity: boolean;
+  // actionWithStatistic: boolean;
+  //
+  // permissionToTokenAndPrices: boolean;
+  //
+  // actionWithChatSecurity: boolean;
 
   editPermission: boolean;
 
