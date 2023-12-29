@@ -11,6 +11,10 @@ router
     .post(upload.any(), CompetitionController.createCompetition)
 
 router
+    .route('/publish')
+    .post(upload.any(), CompetitionController.publishCompetition)
+
+router
     .route('/competition')
     .get(CompetitionController.getCompetition)
 

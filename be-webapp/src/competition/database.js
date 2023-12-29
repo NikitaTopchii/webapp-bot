@@ -6,7 +6,7 @@ class CompetitionDB {
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'contests_db'
+            database: 'contests'
         });
 
         this.connection.connect((err) => {
@@ -24,7 +24,7 @@ class CompetitionDB {
                       conditions,
                       contest_id,
                       callback){
-        const request = 'INSERT INTO contests SET ?';
+        const request = 'INSERT INTO contests_draft SET ?';
         const newCompetition = {
             name,
             description,
@@ -41,6 +41,31 @@ class CompetitionDB {
             }
         });
     }
+
+    publishCompetition(contest_id,
+                      chatid,
+                      channels,
+                      conditions,
+                      finish_time,
+                      callback){
+        const request = 'INSERT INTO contests SET ?';
+        const newCompetition = {
+            contest_id,
+            chatid,
+            channels,
+            conditions,
+            finish_time
+        }
+
+        this.connection.query(request, newCompetition, (err, results) => {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, {results});
+            }
+        });
+    }
+
 
     getCompetition(contest_id,callback) {
         const sql = 'SELECT * FROM contests WHERE contest_id';

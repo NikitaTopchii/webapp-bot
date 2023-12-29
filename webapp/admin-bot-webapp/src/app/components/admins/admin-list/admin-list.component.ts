@@ -75,43 +75,57 @@ export class AdminListComponent implements OnInit, OnDestroy{
         const admins = response.results;
 
         admins.forEach((admin: any) => {
-          this.creatorsIdList.push(admin.creators_id);
+          this.userIdsList.push(admin.userid);
+
+          const permissions = JSON.parse(admin.rights);
+
+          const newAdmin = new Admin(admin.userid, 'admin', 'admin');
+
+          newAdmin.setPermissions(
+            {
+              selectAdminFromList: permissions.show_admins,
+              actionWithCompetition: permissions.create_competition,
+              editPermission: permissions.edit_permissions
+            }
+          )
+
+          this.adminsList.add(newAdmin);
         });
 
-        this.setUserIdsList();
+        this.setAdmins();
       })
     }
   }
 
-  setUserIdsList(){
-    const formData = new FormData();
-
-    formData.append('creators_ids', this.creatorsIdList.join(','));
-
-    this.adminsListService.getAdmins(formData).subscribe((response) => {
-      const admins = response.results;
-
-      admins.forEach((admin: any) => {
-        this.userIdsList.push(admin.userid);
-
-        const permissions = JSON.parse(admin.rights);
-
-        const newAdmin = new Admin(admin.userid, 'admin', 'admin');
-
-        newAdmin.setPermissions(
-          {
-            selectAdminFromList: permissions.show_admins,
-            actionWithCompetition: permissions.create_competition,
-            editPermission: permissions.edit_permissions
-          }
-        )
-
-        this.adminsList.add(newAdmin);
-      });
-
-      this.setAdmins();
-    })
-  }
+  // setUserIdsList(){
+  //   const formData = new FormData();
+  //
+  //   formData.append('creators_ids', this.creatorsIdList.join(','));
+  //
+  //   this.adminsListService.getAdmins(formData).subscribe((response) => {
+  //     const admins = response.results;
+  //
+  //     admins.forEach((admin: any) => {
+  //       this.userIdsList.push(admin.userid);
+  //
+  //       const permissions = JSON.parse(admin.rights);
+  //
+  //       const newAdmin = new Admin(admin.userid, 'admin', 'admin');
+  //
+  //       newAdmin.setPermissions(
+  //         {
+  //           selectAdminFromList: permissions.show_admins,
+  //           actionWithCompetition: permissions.create_competition,
+  //           editPermission: permissions.edit_permissions
+  //         }
+  //       )
+  //
+  //       this.adminsList.add(newAdmin);
+  //     });
+  //
+  //     this.setAdmins();
+  //   })
+  // }
 
   setAdmins(){
     const formData = new FormData();

@@ -7,6 +7,11 @@
         <input class="competition-creator__input-name" formControlName="competitionName" autocomplete="off"/>
         <label>Enter competition describe</label>
         <textarea class="competition-creator__textarea-description" formControlName="competitionDescription"></textarea>
+<!--        <mat-form-field>-->
+<!--          <input matInput [matDatepicker]="picker" formControlName="competitionDate" placeholder="Choose a date">-->
+<!--          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--          <mat-datepicker #picker></mat-datepicker>-->
+<!--        </mat-form-field>-->
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()">
             <span>{{channels.name}}</span>

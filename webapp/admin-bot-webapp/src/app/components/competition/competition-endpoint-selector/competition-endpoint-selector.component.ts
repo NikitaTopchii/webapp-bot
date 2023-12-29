@@ -79,7 +79,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
         const admins = response.results;
 
         admins.forEach((admin: any) => {
-          this.creatorsIdLists.push(admin.creators_id);
+          this.creatorsIdLists.push(admin.chatid);
         });
 
         this.getMyChannels();

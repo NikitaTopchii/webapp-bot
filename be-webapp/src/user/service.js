@@ -1,5 +1,4 @@
 const UserDB           = require('./database');
-const { connect } = require('./routes');
 
 
 class UsersService {

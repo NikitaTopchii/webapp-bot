@@ -8,7 +8,7 @@ class AdminsDB {
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'contests_admins'
+            database: 'contests'
         });
 
         this.connection.connect((err) => {
@@ -20,8 +20,8 @@ class AdminsDB {
         });
     }
 
-    getAdminsWithSubscription(user_id, callback){
-            const sql = 'SELECT * FROM admins_info WHERE userid = ?';
+    getHiresAdmins(user_id, callback){
+            const sql = 'SELECT * FROM creators_groups WHERE owner = ?';
         this.connection.query(sql, [user_id], (err, results) => {
             if (err) {
                 callback(err, null);
@@ -31,11 +31,11 @@ class AdminsDB {
         })
     }
 
-    getAdmins(creators_id, callback){
+    getAdmins(owner, callback){
         const rightsCondition = '{"create_competition": true,"show_admins": true,"edit_permissions": true}';
 
-        const sql = 'SELECT * FROM admins_info WHERE creators_id IN (?) AND rights != ?';
-        this.connection.query(sql, [creators_id, rightsCondition], (err, results) => {
+        const sql = 'SELECT * FROM creators_groups WHERE owner = ? AND rights != ?';
+        this.connection.query(sql, [owner, rightsCondition], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {
@@ -45,7 +45,7 @@ class AdminsDB {
     }
 
     getAdmin(userid, callback) {
-        const sql = 'SELECT * FROM admins_info WHERE userid = ?';
+        const sql = 'SELECT * FROM creators_groups WHERE userid = ?';
         this.connection.query(sql, [userid], (err, results) => {
             if (err) {
                 callback(err, null);

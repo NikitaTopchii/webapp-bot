@@ -12,6 +12,17 @@ exports.createCompetition = async (req, res) => {
     }
 }
 
+exports.publishCompetition = async (req, res) => {
+    try {
+        console.log(req.body.channels);
+        await CompetitionService.publishCompetition(req.body);
+        res.json('ok');
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({message: 'Error oops'})
+    }
+}
+
 exports.getCompetition = async (req, res) => {
     try {
         console.log(req.query.contest_id)

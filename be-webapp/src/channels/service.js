@@ -1,5 +1,4 @@
 const ChannelsDB           = require('./database');
-const { connect } = require('./routes');
 
 
 class ChannelsService {
@@ -7,12 +6,12 @@ class ChannelsService {
         this.userDB = new ChannelsDB();
     }
 
-    async getChannels(creators_id) {
-        console.log(creators_id)
+    async getChannelsWithChatIds(chatids){
+        console.log(chatids)
 
         return new Promise((resolve, reject) => {
 
-            const creatorsIdList = creators_id.split(',');
+            const creatorsIdList = chatids.split(',');
 
             this.userDB.getChannels(creatorsIdList, (err, data) => {
                 if (err) {

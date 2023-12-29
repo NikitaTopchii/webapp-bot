@@ -1,8 +1,9 @@
 const CompetitionDB = require('./database');
+const {Markup} = require("telegraf");
 
 
 const TELEGRAM_API_URL = 'https://api.telegram.org';
-const BOT_TOKEN = 'YOUR_BOT_TOKEN';
+const BOT_TOKEN = '6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM';
 class CompetitionService {
     constructor() {
         this.competitionDB = new CompetitionDB();
@@ -10,7 +11,7 @@ class CompetitionService {
 
     async createCompetition(data){
 
-        console.log(data.competitionName);
+        await this.sendTelegramMessage(data.channels, data.competitionDescription);
 
         return new Promise((resolve, reject) => {
             this.competitionDB.createCompetition(
@@ -28,6 +29,67 @@ class CompetitionService {
                 }
                 )
         })
+    }
+
+    async publishCompetition(data){
+        return new Promise((resolve, reject) => {
+            this.competitionDB.publishCompetition(
+                data.contest_id,
+                data.chatid,
+                data.channels,
+                data.conditions,
+                data.finishTime,
+                (err, dbData) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(dbData);
+                    }
+                }
+            );
+        });
+    }
+
+    async sendTelegramMessage(chatId, message) {
+        const webAppUrl = 'https://8668-46-98-213-149.ngrok-free.app/active-competition/' + chatId;
+
+        console.log(chatId)
+        console.log(message)
+
+        return new Promise((resolve, reject) => {
+            console.log(`${TELEGRAM_API_URL}/bot${BOT_TOKEN}/sendMessage`)
+
+            fetch(`https://api.telegram.org/bot6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: 'open',
+                                    web_app: { url: webAppUrl } // Посилання, яке відкриється при натисканні кнопки
+                                }
+                            ]
+                        ]
+                    }
+                })
+            })
+                .then(response => {
+                    console.log(response)
+                    return response.json()
+                })
+                .then(data => {
+                    if (data.ok) {
+                        resolve(data);
+                    } else {
+                        reject('Не вдалося відправити повідомлення у Telegram');
+                    }
+                })
+                .catch(error => reject(error));
+        });
     }
 
     async getCompetition(contest_id) {

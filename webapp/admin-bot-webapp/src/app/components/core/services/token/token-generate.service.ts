@@ -7,7 +7,7 @@ export class TokenGenerateService {
   constructor() { }
 
   generateSHA256Token(): string {
-    return CryptoJS.SHA256(this.generateRandomString(2)).toString();
+    return CryptoJS.SHA512(this.generateRandomString(2)).toString();
   }
 
   generateRandomString(length: number): string {

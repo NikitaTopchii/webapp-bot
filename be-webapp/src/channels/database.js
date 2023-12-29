@@ -19,7 +19,7 @@ class ChannelsDB {
     }
 
     getChannels(creators_id, callback) {
-        const sql = 'SELECT * FROM channels WHERE creators_id IN (?)';
+        const sql = 'SELECT * FROM channels WHERE chatid IN (?)';
         this.connection.query(sql, [creators_id], (err, results) => {
             if (err) {
                 callback(err, null);

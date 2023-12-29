@@ -7,19 +7,18 @@ import {NgForOf} from "@angular/common";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatInputModule} from "@angular/material/input";
 @Component({
   selector: 'app-competition-creator',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgForOf
-  ],
   templateUrl: './competition-creator.component.html',
   styleUrl: './competition-creator.component.scss'
 })
 export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   form: FormGroup;
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
+  private selectedChannelIds: string[] = [];
+
   private competitionToken: string = '';
 
   constructor(private readonly fb: FormBuilder,
@@ -27,9 +26,11 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
               private router: Router,
               private createCompetitionService: CompetitionService,
               private selectedChannelsService: SelectedChannelsService,
-              private tokenGenerateService: TokenGenerateService) {
+              private generateTokenService: TokenGenerateService) {
 
     this.goBack = this.goBack.bind(this);
+
+    console.log('THIS IS WORK')
 
     this.form = this.getCreateCompetitionForm();
   }
@@ -37,7 +38,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
       competitionName: ['', Validators.required],
-      competitionDescription: ['']
+      competitionDescription: [''],
     });
   }
 
@@ -54,15 +55,28 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    console.log('THIS IS WORK ALSO')
+
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
 
     this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
       this.selectedChannels = channels;
+
+      this.selectedChannels.forEach((channel) => {
+        this.selectedChannelIds.push(channel.id);
+      })
     })
   }
 
   createCompetition(form: FormGroup) {
+    const competitionId = this.generateTokenService.generateSHA256Token();
+
+    this.setCompetitionDrafts(form, competitionId);
+    this.publishCompetitionInChannels(form, competitionId);
+  }
+
+  setCompetitionDrafts(form: FormGroup, competitionId: string){
     const formData = new FormData();
 
     const competitionName = form.get('competitionName')?.value;
@@ -70,18 +84,24 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     formData.append('competitionName', competitionName);
     formData.append('competitionDescription', competitionDescription);
-    formData.append('channels', 'channels');
+    formData.append('channels', this.selectedChannelIds.join(','));
     formData.append('conditions', 'subscribe');
-    formData.append('contests_id', '2410');
+    formData.append('contests_id', competitionId);
 
     this.createCompetitionService.createCompetition(formData);
   }
 
-  generateCompetitionToken(){
-    this.competitionToken = this.tokenGenerateService.generateSHA256Token();
-  }
+  publishCompetitionInChannels(form: FormGroup, competitionId: string){
+    const formData = new FormData();
 
-  getCompetitionToken(){
-    return this.competitionToken;
+    const finishTime = '2023-12-30 06:45:42.000000';
+
+    formData.append('contest_id', competitionId);
+    formData.append('chatid', this.selectedChannelIds[0])
+    formData.append('channels', this.selectedChannelIds.join(','));
+    formData.append('finishTime', finishTime);
+    formData.append('conditions', 'subscribe');
+
+    this.createCompetitionService.publishCompetition(formData);
   }
 }
