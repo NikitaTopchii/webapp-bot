@@ -29,7 +29,7 @@ class AdminsService {
 
         return new Promise((resolve, reject) => {
 
-            this.admins.getHiresAdmins(user_id, (err, data) => {
+            this.admins.getAdmin(user_id, (err, data) => {
                 if (err) {
                     reject(err);
                 } else {

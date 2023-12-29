@@ -42,7 +42,7 @@ export class TelegramService {
     return this.tg.initData;
   }
 
-  setData(data: any){
+  sendData(data: object){
     this.tg.sendData(JSON.stringify(data));
   }
 

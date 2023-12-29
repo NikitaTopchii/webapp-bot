@@ -29,6 +29,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
               private generateTokenService: TokenGenerateService) {
 
     this.goBack = this.goBack.bind(this);
+    this.sendData = this.sendData.bind(this);
 
     console.log('THIS IS WORK')
 
@@ -44,6 +45,10 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   getSelectedChannels(){
     return this.selectedChannels;
+  }
+
+  sendData(){
+    this.telegram.sendData({ channels: 32124 });
   }
 
   goBack(){
@@ -72,7 +77,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   createCompetition(form: FormGroup) {
     const competitionId = this.generateTokenService.generateSHA256Token();
 
-    this.telegram.setData({ channels: 32124 });
+    this.sendData;
 
     this.setCompetitionDrafts(form, competitionId);
     this.publishCompetitionInChannels(form, competitionId);

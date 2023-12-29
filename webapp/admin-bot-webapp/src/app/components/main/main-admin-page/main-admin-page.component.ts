@@ -28,7 +28,7 @@ export class MainAdminPageComponent implements OnInit{
 
   getUser() {
     //this.data = this.telegram.UserData.id;
-    this.data = 464155131;
+    this.data = 6308933943;
 
     // const formData = new FormData();
     //

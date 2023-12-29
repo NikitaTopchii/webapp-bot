@@ -3,7 +3,7 @@ const {Telegraf, Markup} = require("telegraf");
 
 
 const TELEGRAM_API_URL = 'https://api.telegram.org';
-const BOT_TOKEN = '6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM';
+const BOT_TOKEN = '6740264492:AAFwwteh_3c9QXg3deVymVvM8DhQGZW8CK0';
 class CompetitionService {
     constructor() {
         this.competitionDB = new CompetitionDB();
@@ -11,7 +11,7 @@ class CompetitionService {
 
     async createCompetition(data){
 
-        //await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription);
+        await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription);
 
         return new Promise((resolve, reject) => {
             this.competitionDB.createCompetition(
@@ -50,30 +50,30 @@ class CompetitionService {
         });
     }
 
-    // async sendTelegramMessageWithKeyboard(chatId, message) {
-    //     const webAppUrl = 'https://8668-46-98-213-149.ngrok-free.app/active-competition/' + chatId;
-    //
-    //     const bot = new Telegraf(BOT_TOKEN);
-    //
-    //     const inlineKeyboard = Markup.inlineKeyboard([
-    //         Markup.button.webApp('open webapp', webAppUrl)
-    //     ])
-    //
-    //     try {
-    //         await bot.telegram.sendMessage(chatId, message, {
-    //             reply_markup: {
-    //                 inline_keyboard: [
-    //                     [
-    //                         { text: 'open app', web_app: { url: webAppUrl } },
-    //                     ],
-    //                 ],
-    //             },
-    //         });
-    //         console.log('Повідомлення відправлено успішно.');
-    //     } catch (error) {
-    //         console.error('Помилка під час відправлення повідомлення:', error);
-    //     }
-    // }
+    async sendTelegramMessageWithKeyboard(chatId, message) {
+        const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + chatId;
+    
+        const bot = new Telegraf(BOT_TOKEN);
+    
+        const inlineKeyboard = Markup.inlineKeyboard([
+            Markup.button.webApp('open webapp', webAppUrl)
+        ])
+    
+        try {
+            await bot.telegram.sendMessage(chatId, message, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: 'open app', url: webAppUrl },
+                        ],
+                    ],
+                },
+            });
+            console.log('Повідомлення відправлено успішно.');
+        } catch (error) {
+            console.error('Помилка під час відправлення повідомлення:', error);
+        }
+    }
 
     // async sendTelegramMessage(chatId, message) {
     //     const webAppUrl = 'https://8668-46-98-213-149.ngrok-free.app/active-competition/' + chatId;
