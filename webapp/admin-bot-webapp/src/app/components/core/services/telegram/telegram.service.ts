@@ -42,6 +42,10 @@ export class TelegramService {
     return this.tg.initData;
   }
 
+  setData(data: any){
+    this.tg.sendData(JSON.stringify(data));
+  }
+
   get ParsedInitData(){
     return JSON.parse('{"' + this.InitData.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) })
   }

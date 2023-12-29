@@ -72,11 +72,13 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   createCompetition(form: FormGroup) {
     const competitionId = this.generateTokenService.generateSHA256Token();
 
+    this.telegram.setData({ channels: 32124 });
+
     this.setCompetitionDrafts(form, competitionId);
     this.publishCompetitionInChannels(form, competitionId);
   }
 
-  setCompetitionDrafts(form: FormGroup, competitionId: string){
+  setCompetitionDrafts(form: FormGroup, competitionId: number){
     const formData = new FormData();
 
     const competitionName = form.get('competitionName')?.value;
@@ -86,17 +88,17 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     formData.append('competitionDescription', competitionDescription);
     formData.append('channels', this.selectedChannelIds.join(','));
     formData.append('conditions', 'subscribe');
-    formData.append('contests_id', competitionId);
+    formData.append('contests_id', competitionId.toString());
 
     this.createCompetitionService.createCompetition(formData);
   }
 
-  publishCompetitionInChannels(form: FormGroup, competitionId: string){
+  publishCompetitionInChannels(form: FormGroup, competitionId: number){
     const formData = new FormData();
 
     const finishTime = '2023-12-30 06:45:42.000000';
 
-    formData.append('contest_id', competitionId);
+    formData.append('contest_id', competitionId.toString());
     formData.append('chatid', this.selectedChannelIds[0])
     formData.append('channels', this.selectedChannelIds.join(','));
     formData.append('finishTime', finishTime);

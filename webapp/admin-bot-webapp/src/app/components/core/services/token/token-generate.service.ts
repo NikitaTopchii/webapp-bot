@@ -6,8 +6,9 @@ import CryptoJS from 'crypto-js';
 export class TokenGenerateService {
   constructor() { }
 
-  generateSHA256Token(): string {
-    return CryptoJS.SHA512(this.generateRandomString(2)).toString();
+  generateSHA256Token(): number {
+    // return CryptoJS.SHA512(this.generateRandomString(2)).toString();
+    return Math.floor(Math.random() * 1000);
   }
 
   generateRandomString(length: number): string {

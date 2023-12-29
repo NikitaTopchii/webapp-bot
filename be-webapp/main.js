@@ -1,4 +1,5 @@
 const { Telegraf , Markup } = require("telegraf");
+const {message} = require("telegraf/filters");
 
 const token = '6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM'
 
@@ -17,6 +18,12 @@ bot.command('start', (ctx) => {
             'Send message',
             webAppUrl
         )]))
+})
+
+bot.on(message('web_app_data'), async (ctx) => {
+    console.log(ctx.webAppData.data.json());
+    const data = ctx.webAppData.data.json()
+    ctx.reply(`HIS IS YOUR MESSAGE MOTHERFUCKER ${data?.channels}` ?? 'empty_message')
 })
 
 bot.launch();
