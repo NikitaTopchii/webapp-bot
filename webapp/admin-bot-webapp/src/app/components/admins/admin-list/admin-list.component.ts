@@ -19,9 +19,6 @@ import {AdminsListService} from "../../core/services/admins/admins-list.service"
   styleUrl: './admin-list.component.scss'
 })
 export class AdminListComponent implements OnInit, OnDestroy{
-
-
-
   private adminsList = new Set<Admin>();
 
   private creatorsIdList: number[] = [];

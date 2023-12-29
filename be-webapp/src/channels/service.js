@@ -11,7 +11,10 @@ class ChannelsService {
         console.log(creators_id)
 
         return new Promise((resolve, reject) => {
-            this.userDB.getChannels(creators_id, (err, data) => {
+
+            const creatorsIdList = creators_id.split(',');
+
+            this.userDB.getChannels(creatorsIdList, (err, data) => {
                 if (err) {
                     reject(err);
                 } else {

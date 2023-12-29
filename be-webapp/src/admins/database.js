@@ -8,7 +8,7 @@ class AdminsDB {
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'contests_admin'
+            database: 'contests_admins'
         });
 
         this.connection.connect((err) => {

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
-import {CreateCompetitionService} from "../../core/services/create-competition/create-competition.service";
+import {CompetitionService} from "../../core/services/competition/competition.service";
 import {NgForOf} from "@angular/common";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
@@ -25,7 +25,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
               private router: Router,
-              private createCompetitionService: CreateCompetitionService,
+              private createCompetitionService: CompetitionService,
               private selectedChannelsService: SelectedChannelsService,
               private tokenGenerateService: TokenGenerateService) {
 

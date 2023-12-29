@@ -7,6 +7,7 @@ import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {response} from "express";
+import {AdminsListService} from "../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-competition-endpoint-selector',
@@ -27,12 +28,15 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
 
   selectElementsExist: boolean = false;
 
+  private creatorsIdLists: number[] = [];
+
   private creatorsId: any;
 
   constructor(private telegram: TelegramService,
               private router: Router,
               private channelsService: ChannelsService,
-              private selectedChannelsService: SelectedChannelsService) {
+              private selectedChannelsService: SelectedChannelsService,
+              private adminsListService: AdminsListService) {
     this.goBack = this.goBack.bind(this);
   }
 
@@ -63,12 +67,30 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     }
   }
 
-  private getMyChannels(){
-    this.creatorsId = localStorage.getItem('creators_id');
+  getCreatorsId(){
+    const userid = localStorage.getItem('user_id');
 
+    if(userid){
+      const formData = new FormData();
+
+      formData.append('user_id', userid);
+
+      this.adminsListService.getAdminsWithSubscription(formData).subscribe((response) => {
+        const admins = response.results;
+
+        admins.forEach((admin: any) => {
+          this.creatorsIdLists.push(admin.creators_id);
+        });
+
+        this.getMyChannels();
+      });
+    }
+  }
+
+  private getMyChannels(){
     const formData = new FormData();
 
-    formData.append('creators_id', this.creatorsId);
+    formData.append('creators_id', this.creatorsIdLists.join(','));
 
     this.channelsService.getChannels(formData).subscribe((response) => {
 
@@ -93,7 +115,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.getMyChannels();
+    this.getCreatorsId();
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
   }

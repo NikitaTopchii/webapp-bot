@@ -9,8 +9,13 @@ const upload = multer(); // Configure multer as needed
 router
     .route('/create')
     .post(upload.any(), CompetitionController.createCompetition)
-// .put(UserController.updateUser)
 
+router
+    .route('/competition')
+    .get(CompetitionController.getCompetition)
 
+router
+    .route('/subscribe-verification')
+    .get(CompetitionController.checkSubscription)
 
 module.exports = router;

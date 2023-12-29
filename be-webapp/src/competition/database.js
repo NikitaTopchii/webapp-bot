@@ -6,7 +6,7 @@ class CompetitionDB {
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'contests'
+            database: 'contests_db'
         });
 
         this.connection.connect((err) => {
@@ -34,6 +34,17 @@ class CompetitionDB {
         }
 
         this.connection.query(request, newCompetition, (err, results) => {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, {results});
+            }
+        });
+    }
+
+    getCompetition(contest_id,callback) {
+        const sql = 'SELECT * FROM contests WHERE contest_id';
+        this.connection.query(sql, [contest_id], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {
