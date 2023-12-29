@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {LanguageSelectorComponent} from "../../language-selector/language-selector.component";
 import {UserService} from "../../core/services/user/user.service";
@@ -22,17 +22,20 @@ export class MainAdminPageComponent implements OnInit{
   adminsService = inject(AdminsListService);
 
   data: any;
-  constructor(private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.telegram.BackButton.hide();
+    this.route.queryParams.subscribe(params => {
+      this.data = params['userid'];
+  });
   }
 
   getUser() {
-    //this.data = this.telegram.UserData.id;
-    this.data = 6308933943;
+    // this.data = this.telegram.UserData.id;
+    // this.data = 464155131;
 
-    // const formData = new FormData();
+    const formData = new FormData();
     //
-    // formData.append('id', this.data);
+    formData.append('id', this.data);
 
     localStorage.setItem('user_id', this.data);
 
