@@ -24,26 +24,18 @@ export class MainAdminPageComponent implements OnInit{
   data: any;
   constructor(private route: ActivatedRoute, private router: Router) {
     this.telegram.BackButton.hide();
-    // const userId = localStorage.getItem('user_id');
-    //
-    // if(userId){
-    //   this.data = userId;
-    // } else {
-    //   this.route.queryParams.subscribe(params => {
-    //     this.data = params['userid'];
-    //   });
-    // }
+    const userId = localStorage.getItem('user_id');
+
+    if(userId){
+      this.data = userId;
+    } else {
+      this.route.queryParams.subscribe(params => {
+        this.data = params['userid'];
+      });
+    }
   }
 
   getUser() {
-    this.data = this.telegram.UserData.id;
-
-    const formData = new FormData();
-
-    console.log(this.data);
-
-    formData.append('id', this.data);
-
     localStorage.setItem('user_id', this.data);
 
     // this.userService.getUser(formData).subscribe((response) => {
@@ -69,7 +61,7 @@ export class MainAdminPageComponent implements OnInit{
   }
 
   navigateToAdminsList() {
-    this.router.navigate(['/admins-list'])
+    this.router.navigate(['/active-competition'])
   }
   navigateToCompetitionCreator() {
     this.router.navigate(['/channels-list'])

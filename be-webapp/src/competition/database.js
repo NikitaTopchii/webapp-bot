@@ -68,7 +68,7 @@ class CompetitionDB {
 
 
     getCompetition(contest_id,callback) {
-        const sql = 'SELECT * FROM contests WHERE contest_id';
+        const sql = 'SELECT * FROM contests WHERE contest_id = ?';
         this.connection.query(sql, [contest_id], (err, results) => {
             if (err) {
                 callback(err, null);
