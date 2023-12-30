@@ -11,7 +11,7 @@ class CompetitionService {
 
     async createCompetition(data){
 
-        await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription);
+        await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription, data.contests_id);
 
         return new Promise((resolve, reject) => {
             this.competitionDB.createCompetition(
@@ -50,21 +50,17 @@ class CompetitionService {
         });
     }
 
-    async sendTelegramMessageWithKeyboard(chatId, message) {
-        const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + chatId;
+    async sendTelegramMessageWithKeyboard(chatId, message, contest_id) {
+        const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + contest_id;
     
         const bot = new Telegraf(BOT_TOKEN);
-    
-        const inlineKeyboard = Markup.inlineKeyboard([
-            Markup.button.webApp('open webapp', webAppUrl)
-        ])
     
         try {
             await bot.telegram.sendMessage(chatId, message, {
                 reply_markup: {
                     inline_keyboard: [
                         [
-                            { text: 'open app', url: webAppUrl },
+                            { text: 'participate', url: webAppUrl },
                         ],
                     ],
                 },

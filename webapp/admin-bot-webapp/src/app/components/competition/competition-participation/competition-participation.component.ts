@@ -18,7 +18,7 @@ export class CompetitionParticipationComponent implements OnInit{
   failParticipationBySubscribe = false;
   failParticipationByTime = false;
 
-  private competitionId: string | null = '';
+  private competitionId: any;
 
   private channelIds: string[] = [];
   private channelsSubscribeStatus: boolean[] = [];
@@ -27,6 +27,11 @@ export class CompetitionParticipationComponent implements OnInit{
   constructor(private telegramService: TelegramService,
               private route: ActivatedRoute,
               private competitionService: CompetitionService) {
+    // this.route.queryParams.subscribe(params => {
+    //   this.competitionId = params['startapp'];
+    //   console.log(this.competitionId)
+    // });
+    this.competitionId = 994;
   }
 
   checkCompetitionCondition(){
@@ -59,6 +64,8 @@ export class CompetitionParticipationComponent implements OnInit{
   }
 
   checkCurrentDate(currentTime: Date, finishTime: Date){
+    console.log(currentTime, finishTime)
+    console.log(currentTime < finishTime)
     return currentTime < finishTime;
   }
 
@@ -69,6 +76,7 @@ export class CompetitionParticipationComponent implements OnInit{
     formData.append('channel_id', channelId);
 
     this.competitionService.checkSubscription(formData).subscribe((response) => {
+      console.log(response)
         if(response){
           this.channelsSubscribeStatus.push(true);
         }else{
@@ -78,8 +86,9 @@ export class CompetitionParticipationComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.userId = this.telegramService.UserData.id;
-    this.competitionId = this.route.snapshot.paramMap.get('competitionId');
+    //this.userId = this.telegramService.UserData.id;
+    this.userId = 464155131;
+    //this.competitionId = this.route.snapshot.paramMap.get('competitionId');
 
     this.checkCompetitionCondition();
   }

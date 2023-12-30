@@ -5,7 +5,7 @@ const token = '6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM'
 
 const bot = new Telegraf(token);
 
-const webAppUrl = 'https://8668-46-98-213-149.ngrok-free.app';
+const webAppUrl = 'https://8ff0-188-163-40-175.ngrok-free.app?userid=464155131';
 
 const inlineKeyboard = Markup.inlineKeyboard([
     Markup.button.webApp('open webapp', webAppUrl)
@@ -18,12 +18,6 @@ bot.command('start', (ctx) => {
             'Send message',
             webAppUrl
         )]))
-})
-
-bot.on(message('web_app_data'), async (ctx) => {
-    console.log(ctx.webAppData.data.json());
-    const data = ctx.webAppData.data.json()
-    ctx.reply(`HIS IS YOUR MESSAGE MOTHERFUCKER ${data?.channels}` ?? 'empty_message')
 })
 
 bot.launch();

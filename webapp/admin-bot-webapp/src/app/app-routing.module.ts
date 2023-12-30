@@ -38,7 +38,7 @@ const routes: Routes = [
     component: CompetitionCreatorComponent
   },
   {
-    path: 'active-competition/:competitionId',
+    path: 'active-competition',
     component: CompetitionParticipationComponent
   }
 ];

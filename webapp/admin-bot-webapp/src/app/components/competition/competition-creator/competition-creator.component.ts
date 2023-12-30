@@ -101,7 +101,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   publishCompetitionInChannels(form: FormGroup, competitionId: number){
     const formData = new FormData();
 
-    const finishTime = '2023-12-30 06:45:42.000000';
+    const finishTime = '2023-12-31 06:45:42.000000';
 
     formData.append('contest_id', competitionId.toString());
     formData.append('chatid', this.selectedChannelIds[0])
