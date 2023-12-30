@@ -28,7 +28,7 @@ export class CompetitionParticipationComponent implements OnInit{
               private route: ActivatedRoute,
               private competitionService: CompetitionService) {
     this.route.queryParams.subscribe(params => {
-      this.competitionId = params['startapp'];
+      this.competitionId = params['tgWebAppStartParam'];
       console.log("competitionId" + this.competitionId)
     });
   }

@@ -1,1 +1,1 @@
-export const main_url = 'https://e952-5-248-108-234.ngrok-free.app';
+export const main_url = 'https://2c0c-169-150-218-77.ngrok-free.app';
