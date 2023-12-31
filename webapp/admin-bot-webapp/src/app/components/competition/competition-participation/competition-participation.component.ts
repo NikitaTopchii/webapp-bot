@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {ActivatedRoute} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
-import {NgIf} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-competition-participation',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './competition-participation.component.html',
   styleUrl: './competition-participation.component.scss'
@@ -18,6 +19,7 @@ export class CompetitionParticipationComponent implements OnInit{
   failParticipationBySubscribe = false;
   failParticipationByTime = false;
   failAlreadyParticipation = false;
+  checkingUsersInfo = false;
 
   private competitionId: any;
 
@@ -63,6 +65,7 @@ export class CompetitionParticipationComponent implements OnInit{
 
                 this.competitionService.checkParticipation(formData).subscribe((response) => {
                   if(response.results[0]){
+                    this.checkingUsersInfo = false;
                     this.failAlreadyParticipation = true;
                   } else {
 
@@ -73,11 +76,13 @@ export class CompetitionParticipationComponent implements OnInit{
 
                     this.competitionService.addParticipation(formData);
 
+                    this.checkingUsersInfo = false;
                     this.successParticipation = true;
                   }
                 });
 
               } else {
+                this.checkingUsersInfo = false;
                 this.failParticipationBySubscribe = true;
               }
             })
@@ -86,6 +91,7 @@ export class CompetitionParticipationComponent implements OnInit{
               // handle error
             });
         } else {
+          this.checkingUsersInfo = false;
           this.failParticipationByTime = true;
         }
       });
@@ -126,6 +132,7 @@ export class CompetitionParticipationComponent implements OnInit{
     this.failParticipationByTime = false;
     this.userId = this.telegramService.InitData.id;
 
+    this.checkingUsersInfo = true;
     this.checkCompetitionCondition();
   }
 }
