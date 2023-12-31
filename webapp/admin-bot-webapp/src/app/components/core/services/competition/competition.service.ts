@@ -37,7 +37,7 @@ export class CompetitionService {
     });
 
     return this.http
-      .post<any>(main_url + '/participant/check', formData);
+      .get<any>(main_url + '/participant/check', {params: params});
   }
 
   getCompetition(formData: FormData) {

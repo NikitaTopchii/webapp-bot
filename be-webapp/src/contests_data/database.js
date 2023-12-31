@@ -6,7 +6,7 @@ class ParticipationDB {
             host: 'localhost',
             user: 'root',
             passHashword: '',
-            database: 'contests_data'
+            database: 'contests_users'
         });
 
         this.connection.connect((err) => {
@@ -37,6 +37,8 @@ class ParticipationDB {
     }
 
     getParticipant(userid,callback) {
+        console.log("ІВАІВАІВАІВАІВАІВАІ")
+        console.log(userid)
         const sql = 'SELECT * FROM users_data WHERE userid = ?';
         this.connection.query(sql, [userid], (err, results) => {
             if (err) {

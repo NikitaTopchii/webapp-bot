@@ -5,12 +5,13 @@ const express = require('express'),
     channelsRouter = require('./channels/routes'),
     adminsRouter = require('./admins/routes'),
     participationRouter = require('./contests_data/routes');
+    
 
 class IndexJs {
     constructor(app) {
         app.use(
             cors({
-                origin: "https://e952-5-248-108-234.ngrok-free.app"
+                origin: "https://50c4-46-98-212-161.ngrok-free.app"
             }),
         );
         app.use(express.json());

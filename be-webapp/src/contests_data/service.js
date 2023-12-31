@@ -27,7 +27,7 @@ class ParticipationService {
     }
 
     async getParticipant(userid){
-
+        console.log(userid)
         return new Promise((resolve, reject) => {
             this.participationDB.getParticipant(userid, (err, data) => {
                 if(err) {

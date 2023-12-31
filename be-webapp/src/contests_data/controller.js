@@ -13,7 +13,8 @@ exports.addParticipation = async (req, res) => {
 
 exports.getParticipant = async (req, res) => {
     try {
-        console.log(req.query.userid);
+        
+        console.log("[userid]"+req.query.userid);
         await ParticipationService.getParticipant(req.query.userid);
         res.json('ok');
     } catch (error) {
