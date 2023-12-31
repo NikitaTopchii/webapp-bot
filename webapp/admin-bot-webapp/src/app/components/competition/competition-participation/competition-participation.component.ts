@@ -59,6 +59,7 @@ export class CompetitionParticipationComponent implements OnInit{
                 const formData = new FormData();
 
                 formData.append('userid', this.userId);
+                formData.append('contests_id', this.competitionId);
 
                 this.competitionService.checkParticipation(formData).subscribe((response) => {
                   if(response.results[0]){
@@ -75,7 +76,7 @@ export class CompetitionParticipationComponent implements OnInit{
                     this.successParticipation = true;
                   }
                 });
-                
+
               } else {
                 this.failParticipationBySubscribe = true;
               }
@@ -123,8 +124,7 @@ export class CompetitionParticipationComponent implements OnInit{
     this.successParticipation = false;
     this.failParticipationBySubscribe = false;
     this.failParticipationByTime = false;
-    // this.userId = this.telegramService.InitData.id;
-    this.userId = 6416340545;
+    this.userId = this.telegramService.InitData.id;
 
     this.checkCompetitionCondition();
   }

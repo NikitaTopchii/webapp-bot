@@ -3,7 +3,6 @@ const express = require('express'),
     ParticipationController = require('./controller');
 
 const multer = require('multer');
-const CompetitionController = require("../competition/controller");
 
 const upload = multer(); // Configure multer as needed
 
@@ -13,7 +12,7 @@ router
 
 router
     .route('/check')
-    .get(CompetitionController.getCompetition)
+    .get(ParticipationController.getParticipant)
 
 
 module.exports = router;

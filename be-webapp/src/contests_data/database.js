@@ -36,11 +36,11 @@ class ParticipationDB {
         });
     }
 
-    getParticipant(userid,callback) {
+    getParticipant(userid, contests_id,callback) {
         console.log("ІВАІВАІВАІВАІВАІВАІ")
         console.log(userid)
-        const sql = 'SELECT * FROM users_data WHERE userid = ?';
-        this.connection.query(sql, [userid], (err, results) => {
+        const sql = 'SELECT * FROM users_data WHERE userid = ? AND contest_id = ?';
+        this.connection.query(sql, [userid, contests_id], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {

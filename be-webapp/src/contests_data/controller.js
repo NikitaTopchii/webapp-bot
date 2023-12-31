@@ -2,7 +2,7 @@ const ParticipationService = require('./service');
 
 exports.addParticipation = async (req, res) => {
     try {
-        console.log(req.body.channels);
+        console.log('this is is');
         await ParticipationService.addParticipant(req.body);
         res.json('ok');
     } catch (error) {
@@ -13,10 +13,10 @@ exports.addParticipation = async (req, res) => {
 
 exports.getParticipant = async (req, res) => {
     try {
-        
-        console.log("[userid]"+req.query.userid);
-        await ParticipationService.getParticipant(req.query.userid);
-        res.json('ok');
+        console.log('THIS IS CONSOLE LOG')
+        console.log(req.query.userid);
+        const user = await ParticipationService.getParticipant(req.query.userid, req.query.contests_id);
+        res.json(user);
     } catch (error) {
         console.log(error)
         res.status(500).send({message: 'Error oops'})
