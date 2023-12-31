@@ -11,6 +11,9 @@ import {
 import {
   CompetitionParticipationComponent
 } from "./components/competition/competition-participation/competition-participation.component";
+import {
+  SuccessCreatingCompetitionComponent
+} from "./components/competition/success-creating-competition/success-creating-competition.component";
 
 const routes: Routes = [
   {
@@ -40,6 +43,10 @@ const routes: Routes = [
   {
     path: 'active-competition',
     component: CompetitionParticipationComponent
+  },
+  {
+    path: 'success',
+    component: SuccessCreatingCompetitionComponent
   }
 ];
 

@@ -13,11 +13,7 @@ export class CompetitionService {
 
   createCompetition(formData: FormData) {
     return this.http
-      .post<string>(main_url + '/competitions/create', formData)
-      .subscribe((response) => {
-
-        console.log(response)
-      });
+      .post<string>(main_url + '/competitions/create', formData);
   }
 
   addParticipation(formData: FormData){

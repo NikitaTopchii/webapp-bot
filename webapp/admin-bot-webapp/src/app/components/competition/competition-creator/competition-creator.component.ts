@@ -9,6 +9,7 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
+import {response} from "express";
 @Component({
   selector: 'app-competition-creator',
   templateUrl: './competition-creator.component.html',
@@ -94,7 +95,11 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     formData.append('conditions', 'subscribe');
     formData.append('contests_id', competitionId.toString());
 
-    this.createCompetitionService.createCompetition(formData);
+    this.createCompetitionService.createCompetition(formData).subscribe((response) => {
+      if(response){
+        this.router.navigate(['/success']);
+      }
+    });
   }
 
   convertToISOFormat(dateString: string): string {
