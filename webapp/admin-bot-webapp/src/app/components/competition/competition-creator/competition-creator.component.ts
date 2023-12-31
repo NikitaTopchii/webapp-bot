@@ -41,7 +41,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     return this.fb.group({
       competitionName: ['', Validators.required],
       competitionDescription: [''],
-      competitionDate: ['', Validators.required]
+      competitionDate: ['', Validators.required],
+      competitionTime: ['', Validators.required],
+      competitionWinnersCount: ['', Validators.required]
     });
   }
 
@@ -102,24 +104,28 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     });
   }
 
-  convertToISOFormat(dateString: string): string {
-    const [day, month, year] = dateString.split('/').map(Number);
-    const date = new Date(year, month - 1, day);
-    return date.toISOString();
-  }
+    convertToISOFormat(dateString: string, expirationTimeString: string): string {
+      const date = new Date(dateString+','+expirationTimeString);
+      return date.toISOString();
+    }
 
   publishCompetitionInChannels(form: FormGroup, competitionId: number){
     const formData = new FormData();
 
     const finishTime = '2023-12-31 06:45:42.000000';
 
-    const competitionDate = this.convertToISOFormat(form.get('competitionDate')?.value);
+    const expTime = form.get('competitionTime')?.value;
+
+    const competitionDate = this.convertToISOFormat(form.get('competitionDate')?.value, expTime);
+
+    const winner_count = form.get('competitionWinnersCount')?.value;
 
     formData.append('contest_id', competitionId.toString());
     formData.append('chatid', this.selectedChannelIds.join(','))
     formData.append('channels', this.selectedChannelIds.join(','));
     formData.append('finishTime', competitionDate);
     formData.append('conditions', 'subscribe');
+    formData.append('winners_count', winner_count)
 
     this.createCompetitionService.publishCompetition(formData);
   }

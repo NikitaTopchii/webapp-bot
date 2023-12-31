@@ -39,6 +39,7 @@ class CompetitionService {
                 data.channels,
                 data.conditions,
                 data.finishTime,
+                data.winners_count,
                 (err, dbData) => {
                     if (err) {
                         reject(err);

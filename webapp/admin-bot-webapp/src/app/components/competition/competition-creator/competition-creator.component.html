@@ -12,8 +12,16 @@
           <textarea class="competition-creator__textarea-description" formControlName="competitionDescription"></textarea>
         </div>
         <div class="competition-creator__date-format">
-          <label>Enter contest final date in format: dd/mm/yyyy</label>
+          <label>Enter contest final date in format: mm/dd/yyyy</label>
           <input class="competition-creator__input-name" formControlName="competitionDate" autocomplete="off"/>
+        </div>
+        <div class="competition-creator__date-format">
+          <label>Enter contest final time in format: hh:mm</label>
+          <input class="competition-creator__input-name" formControlName="competitionTime" autocomplete="off"/>
+        </div>
+        <div class="competition-creator__date-format">
+          <label>Enter count of winners: </label>
+          <input class="competition-creator__input-name" formControlName="competitionWinnersCount" autocomplete="off"/>
         </div>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">

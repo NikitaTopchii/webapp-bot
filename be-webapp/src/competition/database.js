@@ -47,6 +47,7 @@ class CompetitionDB {
                       channels,
                       conditions,
                       finish_time,
+                      winners_amount,
                       callback){
         const request = 'INSERT INTO contests SET ?';
         const newCompetition = {
@@ -54,7 +55,8 @@ class CompetitionDB {
             chatid,
             channels,
             conditions,
-            finish_time
+            finish_time,
+            winners_amount
         }
 
         this.connection.query(request, newCompetition, (err, results) => {
