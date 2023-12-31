@@ -24,15 +24,27 @@ export class MainAdminPageComponent implements OnInit{
   data: any;
   constructor(private route: ActivatedRoute, private router: Router) {
     this.telegram.BackButton.hide();
-    const userId = localStorage.getItem('user_id');
+    const userIdByLocalStorage = localStorage.getItem('user_id');
 
-    if(userId){
-      this.data = userId;
+    let userIdByParams = '';
+
+    this.route.queryParams.subscribe(params => {
+      userIdByParams = params['userid'];
+    });
+
+    if(userIdByParams){
+      this.data = userIdByParams;
     } else {
-      this.route.queryParams.subscribe(params => {
-        this.data = params['userid'];
-      });
+      this.data = userIdByLocalStorage;
     }
+
+    // if(userId){
+    //   this.data = userId;
+    // } else {
+    //   this.route.queryParams.subscribe(params => {
+    //     this.data = params['userid'];
+    //   });
+    // }
   }
 
   getUser() {

@@ -1,5 +1,4 @@
 const CompetitionService = require('./service');
-const ChannelsService = require("../channels/service");
 
 exports.createCompetition = async (req, res) => {
     try {

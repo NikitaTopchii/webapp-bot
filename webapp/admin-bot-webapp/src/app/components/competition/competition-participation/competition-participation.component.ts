@@ -17,6 +17,7 @@ export class CompetitionParticipationComponent implements OnInit{
   successParticipation = false;
   failParticipationBySubscribe = false;
   failParticipationByTime = false;
+  failAlreadyParticipation = false;
 
   private competitionId: any;
 
@@ -40,6 +41,9 @@ export class CompetitionParticipationComponent implements OnInit{
       formData.append('contest_id', this.competitionId);
 
       this.competitionService.getCompetition(formData).subscribe((response) => {
+
+        console.log(response.results[0].finish_time)
+
         const finishTime = new Date(response.results[0].finish_time);
         const currentTime = new Date();
 
@@ -51,6 +55,26 @@ export class CompetitionParticipationComponent implements OnInit{
               if (statuses.every(status => status)) {
                 console.log('this is work');
                 console.log(statuses);
+
+                const formData = new FormData();
+
+                formData.append('userid', this.userId);
+
+                this.competitionService.checkParticipation(formData).subscribe((response) => {
+                  if(response.results[0].userid){
+                    this.failAlreadyParticipation = true;
+                  } else {
+
+                    const formData = new FormData();
+
+                    formData.append('userid', this.userId);
+                    formData.append('contests_id', this.competitionId);
+
+                    this.competitionService.addParticipation(formData);
+
+                    this.successParticipation = true;
+                  }
+                });
                 this.successParticipation = true;
               } else {
                 this.failParticipationBySubscribe = true;
@@ -100,6 +124,7 @@ export class CompetitionParticipationComponent implements OnInit{
     this.failParticipationBySubscribe = false;
     this.failParticipationByTime = false;
     this.userId = this.telegramService.InitData.id;
+    //this.userId = 464155131;
 
     this.checkCompetitionCondition();
   }

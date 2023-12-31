@@ -20,6 +20,26 @@ export class CompetitionService {
       });
   }
 
+  addParticipation(formData: FormData){
+    return this.http
+      .post<string>(main_url + '/participant/add', formData)
+      .subscribe((response) => {
+
+        console.log(response)
+      });
+  }
+
+  checkParticipation(formData: FormData) {
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .post<any>(main_url + '/participant/check', formData);
+  }
+
   getCompetition(formData: FormData) {
     let params = new HttpParams();
 

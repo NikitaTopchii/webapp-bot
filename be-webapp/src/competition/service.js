@@ -51,23 +51,51 @@ class CompetitionService {
     }
 
     async sendTelegramMessageWithKeyboard(chatId, message, contest_id) {
+        console.log('ChatID: ' + chatId);
+
         const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + contest_id;
     
         const bot = new Telegraf(BOT_TOKEN);
     
-        try {
-            await bot.telegram.sendMessage(chatId, message, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            { text: 'participate', url: webAppUrl },
+        if(chatId.includes(',')){
+            console.log('two elements')
+            const chatIds = chatId.split(',');
+
+            console.log(chatIds)
+
+            for (const chatId1 of chatIds) {
+                console.log(chatId1)
+                try {
+                    await bot.telegram.sendMessage(chatId1, message, {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [
+                                    { text: 'participate', url: webAppUrl },
+                                ],
+                            ],
+                        },
+                    });
+                    console.log('Повідомлення відправлено успішно.');
+                } catch (error) {
+                    console.error('Помилка під час відправлення повідомлення:', error);
+                }
+            }
+        } else {
+            console.log('one element')
+            try {
+                await bot.telegram.sendMessage(chatId, message, {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                { text: 'participate', url: webAppUrl },
+                            ],
                         ],
-                    ],
-                },
-            });
-            console.log('Повідомлення відправлено успішно.');
-        } catch (error) {
-            console.error('Помилка під час відправлення повідомлення:', error);
+                    },
+                });
+                console.log('Повідомлення відправлено успішно.');
+            } catch (error) {
+                console.error('Помилка під час відправлення повідомлення:', error);
+            }
         }
     }
 

@@ -12,6 +12,8 @@
       margin-top: 10px;
       height: 40px;
       transition: 0.2s;
+      box-sizing: border-box;
+      padding-left: 10px;
       border: 1px solid $button_color;
       &:focus{
         outline: none;
@@ -21,8 +23,45 @@
     &__textarea-description{
       width: 100%;
       height: 400px;
+      padding: 20px;
+      margin-top: 5px;
+      box-sizing: border-box;
       border-radius: 15px;
       resize: none;
+    }
+    &__button{
+      background: $button_color;
+      color: $button_text_color;
+      border-radius: 15px;
+      border: none;
+      margin: 10px;
+      height: 40px;
+    }
+
+    &__list-of-channels{
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    &__element-of-channels-list{
+      background: $secondary_bg_color;
+      display: flex;
+      align-items: center;
+      height: 30%;
+      box-sizing: border-box;
+      padding-left: 3%;
+      padding-right: 3%;
+      margin: 10px;
+      border-radius: 15px;
+      flex-direction: column;
+    }
+
+    &__date-format{
+      margin-top: 10px;
+    }
+
+    &__describe-block{
+      margin-top: 10px;
     }
   }
 
