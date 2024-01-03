@@ -27,9 +27,11 @@ export class MainAdminPageComponent implements OnInit{
     const userIdByLocalStorage = localStorage.getItem('user_id');
 
     let userIdByParams = '';
+    let botId = '';
 
     this.route.queryParams.subscribe(params => {
       userIdByParams = params['userid'];
+      botId = params['botid'];
     });
 
     if(userIdByParams){
@@ -38,6 +40,7 @@ export class MainAdminPageComponent implements OnInit{
       this.data = userIdByLocalStorage;
     }
 
+    localStorage.setItem('botid', botId);
     // if(userId){
     //   this.data = userId;
     // } else {

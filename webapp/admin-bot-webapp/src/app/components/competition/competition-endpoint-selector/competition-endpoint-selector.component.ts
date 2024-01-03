@@ -51,9 +51,15 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
-    entity.selected = !entity.selected;
-    this.selectedTelegramEntity.add(entity);
-    this.checkSelectedElements();
+    if(entity.selected){
+      entity.selected = !entity.selected;
+      this.selectedTelegramEntity.delete(entity);
+      this.checkSelectedElements();
+    }else{
+      entity.selected = !entity.selected;
+      this.selectedTelegramEntity.add(entity);
+      this.checkSelectedElements();
+    }
   }
 
   checkSelectedElements(){

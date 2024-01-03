@@ -3,9 +3,9 @@ const mysql = require("mysql");
 class CompetitionDB {
     constructor() {
         this.connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            passHashword: '',
+            host: 'contests.cv0o2wcwu3bw.eu-central-1.rds.amazonaws.com',
+            user: 'admin',
+            password: 'DyadkoVitya228',
             database: 'contests_db'
         });
 
@@ -48,6 +48,8 @@ class CompetitionDB {
                       conditions,
                       finish_time,
                       winners_amount,
+                      invite_links,
+                      bot_token,
                       callback){
         const request = 'INSERT INTO contests SET ?';
         const newCompetition = {
@@ -56,7 +58,9 @@ class CompetitionDB {
             channels,
             conditions,
             finish_time,
-            winners_amount
+            winners_amount,
+            invite_links,
+            bot_token
         }
 
         this.connection.query(request, newCompetition, (err, results) => {
@@ -78,6 +82,19 @@ class CompetitionDB {
                 callback(null, {results});
             }
         });
+    }
+
+    getBotToken(bot_id,callback) {
+        if(/^[0-9]+$/.test(bot_id)){
+            const sql = 'SELECT * FROM contests_bots WHERE token LIKE = ?';
+            this.connection.query(sql, [bot_id+':%'], (err, results) => {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, {results});
+                }
+            });
+        }
     }
 }
 

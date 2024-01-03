@@ -10,6 +10,7 @@ import {TokenGenerateService} from "../../core/services/token/token-generate.ser
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
 import {response} from "express";
+import {finalize, Observable} from "rxjs";
 @Component({
   selector: 'app-competition-creator',
   templateUrl: './competition-creator.component.html',
@@ -81,27 +82,42 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   createCompetition(form: FormGroup) {
     const competitionId = this.generateTokenService.generateSHA256Token();
 
-    this.setCompetitionDrafts(form, competitionId);
-    this.publishCompetitionInChannels(form, competitionId);
+    this.setCompetitionDrafts(form, competitionId).pipe(
+      finalize(() => this.publishCompetitionInChannels(form, competitionId))
+    ).subscribe((response) => {
+      if(response){
+        this.router.navigate(['/success']);
+      }
+    });
+    //this.publishCompetitionInChannels(form, competitionId);
   }
 
-  setCompetitionDrafts(form: FormGroup, competitionId: number){
+  setCompetitionDrafts(form: FormGroup, competitionId: number):Observable<any>{
     const formData = new FormData();
 
     const competitionName = form.get('competitionName')?.value;
     const competitionDescription = form.get('competitionDescription')?.value;
 
-    formData.append('competitionName', competitionName);
-    formData.append('competitionDescription', competitionDescription);
-    formData.append('channels', this.selectedChannelIds.join(','));
-    formData.append('conditions', 'subscribe');
-    formData.append('contests_id', competitionId.toString());
+    const expTime = form.get('competitionTime')?.value;
 
-    this.createCompetitionService.createCompetition(formData).subscribe((response) => {
-      if(response){
-        this.router.navigate(['/success']);
-      }
-    });
+    const competitionDate = this.convertToISOFormat(form.get('competitionDate')?.value, expTime);
+
+    const winner_count = form.get('competitionWinnersCount')?.value;
+
+    const botid = localStorage.getItem('botid');
+
+    if(botid){
+      formData.append('competitionName', competitionName);
+      formData.append('competitionDescription', competitionDescription);
+      formData.append('channels', this.selectedChannelIds.join(','));
+      formData.append('conditions', 'subscribe');
+      formData.append('contests_id', competitionId.toString());
+      formData.append('finishTime', competitionDate);
+      formData.append('winners_count', winner_count);
+      formData.append('botid', botid);
+    }
+
+    return this.createCompetitionService.createCompetition(formData);
   }
 
     convertToISOFormat(dateString: string, expirationTimeString: string): string {

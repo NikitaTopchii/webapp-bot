@@ -5,9 +5,9 @@ class AdminsDB {
 
     constructor() {
         this.connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            passHashword: '',
+            host: 'contests.cv0o2wcwu3bw.eu-central-1.rds.amazonaws.com',
+            user: 'admin',
+            password : 'DyadkoVitya228',
             database: 'contests_db'
         });
 

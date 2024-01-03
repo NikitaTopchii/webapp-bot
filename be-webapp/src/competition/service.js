@@ -5,13 +5,21 @@ const {Telegraf, Markup} = require("telegraf");
 const TELEGRAM_API_URL = 'https://api.telegram.org';
 const BOT_TOKEN = '6740264492:AAFwwteh_3c9QXg3deVymVvM8DhQGZW8CK0';
 class CompetitionService {
+
+    channelsLinks;
+    botToken;
     constructor() {
         this.competitionDB = new CompetitionDB();
+        this.channelsLinks = [];
     }
 
     async createCompetition(data){
 
-        await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription, data.contests_id);
+        this.botToken = await this.getBotToken(data.botid)[0].token;
+
+        console.log(this.botToken[0].token)
+
+        await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription, data.contests_id, data.finishTime, data.winners_count, data.competitionName);
 
         return new Promise((resolve, reject) => {
             this.competitionDB.createCompetition(
@@ -40,6 +48,8 @@ class CompetitionService {
                 data.conditions,
                 data.finishTime,
                 data.winners_count,
+                this.channelsLinks,
+                this.botToken,
                 (err, dbData) => {
                     if (err) {
                         reject(err);
@@ -51,12 +61,30 @@ class CompetitionService {
         });
     }
 
-    async sendTelegramMessageWithKeyboard(chatId, message, contest_id) {
+    async getBotToken(botid){
+        return new Promise((resolve, reject) => {
+
+            this.competitionDB.getBotToken(botid, (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+
+        });
+    }
+
+    async sendTelegramMessageWithKeyboard(chatId, message, contest_id, finish_time, winners_count, name) {
         console.log('ChatID: ' + chatId);
 
         const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + contest_id;
     
         const bot = new Telegraf(BOT_TOKEN);
+
+        const contestDescription = name + '\n' + await this.generateTemplateForCompetition(message, 'ru', chatId, finish_time, winners_count, name);
+
+        console.log(contestDescription)
     
         if(chatId.includes(',')){
             console.log('two elements')
@@ -67,7 +95,7 @@ class CompetitionService {
             for (const chatId1 of chatIds) {
                 console.log(chatId1)
                 try {
-                    await bot.telegram.sendMessage(chatId1, message, {
+                    await bot.telegram.sendMessage(chatId1, contestDescription, {
                         reply_markup: {
                             inline_keyboard: [
                                 [
@@ -75,8 +103,10 @@ class CompetitionService {
                                 ],
                             ],
                         },
+                    }).then((response) => {
+                        console.log(response)
+                        console.log('Повідомлення відправлено успішно.');
                     });
-                    console.log('Повідомлення відправлено успішно.');
                 } catch (error) {
                     console.error('Помилка під час відправлення повідомлення:', error);
                 }
@@ -84,7 +114,7 @@ class CompetitionService {
         } else {
             console.log('one element')
             try {
-                await bot.telegram.sendMessage(chatId, message, {
+                await bot.telegram.sendMessage(chatId, contestDescription, {
                     reply_markup: {
                         inline_keyboard: [
                             [
@@ -92,6 +122,7 @@ class CompetitionService {
                             ],
                         ],
                     },
+                    parse_mode: 'HTML'
                 });
                 console.log('Повідомлення відправлено успішно.');
             } catch (error) {
@@ -100,47 +131,66 @@ class CompetitionService {
         }
     }
 
-    // async sendTelegramMessage(chatId, message) {
-    //     const webAppUrl = 'https://8668-46-98-213-149.ngrok-free.app/active-competition/' + chatId;
-    //
-    //     console.log(chatId)
-    //     console.log(message)
-    //
-    //     return new Promise((resolve, reject) => {
-    //         console.log(`${TELEGRAM_API_URL}/bot${BOT_TOKEN}/sendMessage`)
-    //
-    //         fetch(`https://api.telegram.org/bot6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM/sendMessage`, {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({
-    //                 chat_id: chatId,
-    //                 text: message,
-    //                 reply_markup: {
-    //                     inline_keyboard: [
-    //                         [
-    //                             {
-    //                                 text: 'open',
-    //                                 url: webAppUrl
-    //                             }
-    //                         ]
-    //                     ]
-    //                 }
-    //             })
-    //         })
-    //             .then(response => {
-    //                 console.log(response)
-    //                 return response.json()
-    //             })
-    //             .then(data => {
-    //                 if (data.ok) {
-    //                     resolve(data);
-    //                 } else {
-    //                     reject('Не вдалося відправити повідомлення у Telegram');
-    //                 }
-    //             })
-    //             .catch(error => reject(error));
-    //     });
-    // }
+    async generateTemplateForCompetition(message, localization, channel_id, finish_time, winners_count) {
+
+        if (localization === 'ru') {
+            const i = message + '\n' + await this.generateRuTemplate(channel_id, finish_time, winners_count);
+            console.log(i);
+            return i;
+        } else if (localization === 'en') {
+            const i = message + '\n' + await this.generateEnTemplate(channel_id, finish_time, winners_count);
+            console.log(i);
+            return i;
+        } else {
+            return 'error';
+        }
+    }
+
+    async generateRuTemplate(channelIds, finishTime, winnersCount) {
+        let channelsLinks = [];
+
+        if (channelIds.includes(',')) {
+            for (const channelId of channelIds.split(',')) {
+                channelsLinks.push(await this.generateInviteLink(channelId));
+            }
+        } else {
+            channelsLinks.push(await this.generateInviteLink(channelIds));
+        }
+
+        let channelsList = channelsLinks.map((id, index) => `- <a href="${id}">channel</a>`).join('\n');
+        return `
+Для участия в конкурсе надо быть подписанным на эти каналы/чаты:
+${channelsList}
+
+Дата завершения конкурса:
+- ${finishTime}
+
+Количество победителей:
+- ${winnersCount}
+`;
+    }
+
+    async generateEnTemplate(channelIds, finishTime, winnersCount){
+        let channelsLinks = [];
+
+        for (const channelId of channelIds.split(',')) {
+            channelsLinks.push(await this.generateInviteLink(channelId));
+        }
+
+        console.log(channelsLinks);
+
+        let channelsList = channelsLinks.map((id, index) => `- <a href="${id}">channel</a>`).join('\n');
+        return `
+You have to be subscribed to these channels/chats to participate:
+${channelsList}
+
+Contest closing date:
+- ${finishTime}
+
+Winners amount:
+- ${winnersCount}
+`;
+    }
 
     async getCompetition(contest_id) {
         console.log(contest_id)
@@ -155,6 +205,35 @@ class CompetitionService {
                 }
             });
 
+        });
+    }
+
+    async generateInviteLink(channel_id) {
+        console.log('channel_id: ' + channel_id)
+
+        return new Promise((resolve, reject) => {
+            const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/createChatInviteLink`;
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: channel_id,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.ok) {
+                        const inviteLink = data.result.invite_link;
+                        this.channelsLinks.push(inviteLink);
+                        resolve(inviteLink);
+                    } else {
+                        reject(`Error generating invite link: ${data.description}`);
+                    }
+                })
+                .catch((error) => reject(error));
         });
     }
 
