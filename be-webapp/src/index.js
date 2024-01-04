@@ -9,7 +9,7 @@ const express = require('express'),
     
 
 class IndexJs {
-    constructor(app) {
+    constructor(app, url) {
         app.use(
             cors({
                 origin: "https://f733-46-98-213-100.ngrok-free.app"

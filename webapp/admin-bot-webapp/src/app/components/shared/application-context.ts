@@ -1,1 +1,4 @@
-export const main_url = 'https://f733-46-98-213-100.ngrok-free.app';
+
+import { environment } from "../../../environments/environment";
+
+export const main_url = `${environment.server_URL}`;

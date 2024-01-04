@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const http = require("http");
+const fs = require('fs');
 
 const app = express();
 
@@ -27,16 +28,30 @@ app.get('/api/language/:lang', (req, res) => {
   }
 });
 
-const port = 80, host = '0.0.0.0';
+const port = process.env.PORT;
 
 const index = require("../../be-webapp/src/index");
 
-let server_back = new index(app);
+let server_back = new index(app, port);
 
 const server = http.createServer(app);
 
+writeENV();
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/admin-bot-webapp/browser/en-US/index.html'));
 });
 
-server.listen(port, host, () => console.log(`App running on: http://0.0.0.0:${port}`));
+function writeENV() {
+  if (process.env.NODE_ENV) {
+    let content = "(function (window) {" +
+      "window.__env = window.__env || {};" +
+      "window.__env.SERVER_URL = '" + process.env.SERVER_URL + "';" +
+      "}(this));"
+    fs.writeFile(path.join(__dirname.replace(/\\/g, "/"), '/view/dist/assets/environments/env.js'), content, (err) => {
+      if (err) throw err;
+      console.log('SERVER_URL :', process.env.SERVER_URL)
+      console.log('Successfully saved env.js file.');
+    });
+  }
+}
+server.listen(port, () => console.log(`App running on: http://0.0.0.0:${port}`));
