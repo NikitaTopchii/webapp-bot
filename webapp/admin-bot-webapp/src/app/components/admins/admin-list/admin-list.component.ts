@@ -6,6 +6,7 @@ import {PermissionsInterface} from "../../core/permissions.interface";
 import {Router} from "@angular/router";
 import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {AdminsListService} from "../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-admin-list',
@@ -18,23 +19,18 @@ import {TelegramService} from "../../core/services/telegram/telegram.service";
   styleUrl: './admin-list.component.scss'
 })
 export class AdminListComponent implements OnInit, OnDestroy{
+  private adminsList = new Set<Admin>();
 
+  private creatorsIdList: number[] = [];
 
-
-  private adminsList: Admin[] = [
-    new Admin('213', 'Nikita', 'admin'),
-    new Admin('213', 'Sasha', 'admin'),
-    new Admin('213', 'Bodya', 'admin'),
-    new Admin('213', 'Andrey', 'admin'),
-    new Admin('213', 'Admin', 'admin'),
-    new Admin('213', 'Denis', 'admin')
-  ];
+  private userIdsList: number[] = [];
 
   private currentAdmin: string = '';
 
   constructor(private router: Router,
               private editAdminService: EditAdminService,
-              private telegram: TelegramService) {
+              private telegram: TelegramService,
+              private adminsListService: AdminsListService) {
     this.goBack = this.goBack.bind(this);
   }
 
@@ -59,8 +55,6 @@ export class AdminListComponent implements OnInit, OnDestroy{
   }
 
   navigateToEditPermissions(currentAdmin: Admin){
-    console.log(currentAdmin)
-    console.log(currentAdmin.permissions)
     this.editAdminService.getAdminSubject().next(currentAdmin);
     this.router.navigate(['/edit-admin']);
   }
@@ -69,12 +63,107 @@ export class AdminListComponent implements OnInit, OnDestroy{
     this.router.navigate(['']);
   }
 
-  ngOnDestroy(): void {
-    this.telegram.BackButton.offClick(this.goBack);
+  setCreatorsIdList(){
+    const user_id = localStorage.getItem('user_id');
+
+    if (user_id){
+      const formData = new FormData();
+
+      formData.append('user_id', user_id);
+
+      this.adminsListService.getAdminsWithSubscription(formData).subscribe((response) => {
+        const admins = response.results;
+
+        admins.forEach((admin: any) => {
+          this.userIdsList.push(admin.userid);
+
+          const permissions = JSON.parse(admin.rights);
+
+          const newAdmin = new Admin(admin.userid, 'admin', 'admin');
+
+          newAdmin.setPermissions(
+            {
+              selectAdminFromList: permissions.show_admins,
+              actionWithCompetition: permissions.create_competition,
+              editPermission: permissions.edit_permissions
+            }
+          )
+
+          this.adminsList.add(newAdmin);
+        });
+
+        this.setAdmins();
+      })
+    }
+  }
+
+  // setUserIdsList(){
+  //   const formData = new FormData();
+  //
+  //   formData.append('creators_ids', this.creatorsIdList.join(','));
+  //
+  //   this.adminsListService.getAdmins(formData).subscribe((response) => {
+  //     const admins = response.results;
+  //
+  //     admins.forEach((admin: any) => {
+  //       this.userIdsList.push(admin.userid);
+  //
+  //       const permissions = JSON.parse(admin.rights);
+  //
+  //       const newAdmin = new Admin(admin.userid, 'admin', 'admin');
+  //
+  //       newAdmin.setPermissions(
+  //         {
+  //           selectAdminFromList: permissions.show_admins,
+  //           actionWithCompetition: permissions.create_competition,
+  //           editPermission: permissions.edit_permissions
+  //         }
+  //       )
+  //
+  //       this.adminsList.add(newAdmin);
+  //     });
+  //
+  //     this.setAdmins();
+  //   })
+  // }
+
+  setAdmins(){
+    const formData = new FormData();
+
+    formData.append('user_ids', this.userIdsList.join(','));
+
+    this.adminsListService.getUserAdmins(formData).subscribe((response) => {
+      const admins = response.results;
+
+      admins.forEach((admin: any) => {
+        this.setAdminName(admin.userid, admin.username);
+      });
+    })
+  }
+  setAdminName(adminId: any, adminName: string){
+    const existingAdmin = Array.from(this.adminsList).find(admin => admin.id === adminId);
+
+    if(existingAdmin){
+      this.adminsList.delete(existingAdmin);
+
+      const newAdmin = new Admin(existingAdmin.id, adminName, 'admin');
+
+      newAdmin.setPermissions(existingAdmin.permissions);
+
+      this.adminsList.add(newAdmin);
+    }
   }
 
   ngOnInit(): void {
+    this.setCreatorsIdList();
+
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+  }
+
+  ngOnDestroy(): void {
+    this.userIdsList = [];
+    this.creatorsIdList = [];
+    this.telegram.BackButton.offClick(this.goBack);
   }
 }

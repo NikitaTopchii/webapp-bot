@@ -21,9 +21,6 @@ export class PermissionsComponent {
 
   public selectAdminFromList = false;
   public actionWithCompetition = false;
-  public actionWithStatistic =  false;
-  public permissionToTokenAndPrices = false;
-  public actionWithChatSecurity = false;
   public editPermission = false;
 
 
@@ -39,9 +36,6 @@ export class PermissionsComponent {
     return this.fb.group({
       selectAdminFromList: [this.selectAdminFromList],
       actionWithCompetition: [this.actionWithCompetition],
-      actionWithStatistic: [this.actionWithStatistic],
-      permissionToTokenAndPrices: [this.permissionToTokenAndPrices],
-      actionWithChatSecurity: [this.actionWithChatSecurity],
       editPermission: [this.editPermission]
     })
   }
@@ -51,9 +45,6 @@ export class PermissionsComponent {
     if(currentAdminPermissions){
       this.selectAdminFromList = currentAdminPermissions.selectAdminFromList;
       this.actionWithCompetition = currentAdminPermissions.actionWithCompetition;
-      this.actionWithStatistic =  currentAdminPermissions.actionWithStatistic;
-      this.permissionToTokenAndPrices = currentAdminPermissions.permissionToTokenAndPrices;
-      this.actionWithChatSecurity = currentAdminPermissions.actionWithChatSecurity;
       this.editPermission = currentAdminPermissions.editPermission;
     }
   }

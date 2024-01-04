@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ChannelsInterface} from "../../core/telegram-entity/channels.interface";
 import {Router} from "@angular/router";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
+import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {ChannelsService} from "../../core/services/channels/channels.service";
+import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
+import {response} from "express";
+import {AdminsListService} from "../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-competition-endpoint-selector',
@@ -15,70 +20,24 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
   templateUrl: './competition-endpoint-selector.component.html',
   styleUrl: './competition-endpoint-selector.component.scss'
 })
-export class CompetitionEndpointSelectorComponent {
+export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
 
-  private channelsList: TelegramEntityInterface[] = [
-    {
-      id: '1',
-      name: 'Dota2',
-      type: "channel",
-      selected: false
-    },
-    {
-      id: '2',
-      name: 'Rockstar',
-      type: "channel",
-      selected: false,
-    },
-    {
-      id: '3',
-      name: 'Rockstar',
-      type: "chat",
-      selected: false
-    },
-    {
-      id: '4',
-      name: 'Dota2',
-      type: "channel",
-      selected: false
-    },
-    {
-      id: '5',
-      name: 'Rockstar',
-      type: "channel",
-      selected: false
-    },
-    {
-      id: '6',
-      name: 'Rockstar',
-      type: "chat",
-      selected: false
-    },
-    {
-      id: '7',
-      name: 'Dota2',
-      type: "channel",
-      selected: false
-    },
-    {
-      id: '7',
-      name: 'Rockstar',
-      type: "channel",
-      selected: false
-    },
-    {
-      id: '8',
-      name: 'Rockstar',
-      type: "chat",
-      selected: false
-    }
-  ];
+  private channelsList: TelegramEntityInterface[] = [];
 
   selectedTelegramEntity = new Set<TelegramEntityInterface>();
 
   selectElementsExist: boolean = false;
 
-  constructor(private router: Router) {
+  private creatorsIdLists: number[] = [];
+
+  private creatorsId: any;
+
+  constructor(private telegram: TelegramService,
+              private router: Router,
+              private channelsService: ChannelsService,
+              private selectedChannelsService: SelectedChannelsService,
+              private adminsListService: AdminsListService) {
+    this.goBack = this.goBack.bind(this);
   }
 
   getChannelsList(){
@@ -86,18 +45,84 @@ export class CompetitionEndpointSelectorComponent {
   }
 
   navigateToAddNewChannels() {
+    this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
+
     this.router.navigate(['/competition-creator'])
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
-    entity.selected = !entity.selected;
-    this.selectedTelegramEntity.add(entity);
-    this.checkSelectedElements();
+    if(entity.selected){
+      entity.selected = !entity.selected;
+      this.selectedTelegramEntity.delete(entity);
+      this.checkSelectedElements();
+    }else{
+      entity.selected = !entity.selected;
+      this.selectedTelegramEntity.add(entity);
+      this.checkSelectedElements();
+    }
   }
 
   checkSelectedElements(){
-    this.selectedTelegramEntity.forEach(element => {
-      this.selectElementsExist = element.selected;
+    for (const element of this.selectedTelegramEntity) {
+      if (element.selected) {
+        this.selectElementsExist = true;
+        break;
+      } else {
+        this.selectElementsExist = false;
+      }
+    }
+  }
+
+  getCreatorsId(){
+    const userid = localStorage.getItem('user_id');
+
+    if(userid){
+      const formData = new FormData();
+
+      formData.append('user_id', userid);
+
+      this.adminsListService.getAdminsWithSubscription(formData).subscribe((response) => {
+        const admins = response.results;
+
+        admins.forEach((admin: any) => {
+          this.creatorsIdLists.push(admin.chatid);
+        });
+
+        this.getMyChannels();
+      });
+    }
+  }
+
+  private getMyChannels(){
+    const formData = new FormData();
+
+    formData.append('creators_id', this.creatorsIdLists.join(','));
+
+    this.channelsService.getChannels(formData).subscribe((response) => {
+
+      const channels = response.results;
+
+      channels.forEach((channel: any) => {
+        this.channelsList.push({
+          id: channel.chatid,
+          name: channel.name,
+          selected: false
+        })
+      });
     });
+  }
+
+  goBack(){
+    this.router.navigate(['']);
+  }
+
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
+  }
+
+  ngOnInit(): void {
+    this.getCreatorsId();
+    this.telegram.BackButton.show();
+    this.telegram.BackButton.onClick(this.goBack);
   }
 }

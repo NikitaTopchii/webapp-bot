@@ -3,9 +3,9 @@ const mysql = require('mysql');
 class UserDB {
     constructor() {
         this.connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            passHashword: '',
+            host: 'contests.cv0o2wcwu3bw.eu-central-1.rds.amazonaws.com',
+            user: 'admin',
+            password: 'DyadkoVitya228',
             database: 'contests_users'
         });
 
@@ -13,19 +13,7 @@ class UserDB {
             if (err) {
                 console.error(`Error connecting to MySQL: ${err}`);
             } else {
-                console.log('Connected to MySQL');
-            }
-        });
-    }
-
-    // Получение всех пользователей
-    getUsers(callback) {
-        const sql = 'SELECT * FROM users';
-        this.connection.query(sql, (err, results) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(results);
+                console.log('Connected to MySQL users');
             }
         });
     }
@@ -36,27 +24,45 @@ class UserDB {
             if (err) {
                 callback(err, null);
             } else {
+                console.log('results: ' + results)
                 callback(null, {results});
             }
         });
     }
 
-    updateUser(userId, userLogin, passHash, callback) {
-        let sql;
-        if (userLogin && passHash) {
-            sql = 'UPDATE users SET userLogin = ?, passHash = ? WHERE id = ?';
-        } else if (userLogin) {
-            sql = 'UPDATE users SET userLogin = ? WHERE id = ?';
-        } else if (passHash) {
-            sql = 'UPDATE users SET passHash = ? WHERE id = ?';
-        } else {
-            callback("No data to change", null);
+    authUser(userid,
+                      username,
+                      language,
+                      is_admin,
+                      subscription,
+                      callback){
+
+        console.log(username)
+        console.log(userid)
+        const request = 'INSERT INTO users SET ?';
+        const newUser = {
+            userid,
+            username,
+            language,
+            is_admin,
+            subscription
         }
-        this.connection.query(sql, [userLogin, passHash, userId], (err, results) => {
+
+        this.connection.query(request, newUser, (err, results) => {
             if (err) {
                 callback(err, null);
             } else {
-                callback(null, results);
+                callback(null, {results});
+            }
+        });
+    }
+    getUsers(userIds, callback) {
+        const sql = 'SELECT * FROM users WHERE userid IN (?)';
+        this.connection.query(sql, [userIds], (err, results) => {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, {results});
             }
         });
     }

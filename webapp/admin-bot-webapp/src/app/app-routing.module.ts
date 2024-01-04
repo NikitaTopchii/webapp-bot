@@ -8,6 +8,12 @@ import {CompetitionCreatorComponent} from "./components/competition/competition-
 import {
   CompetitionEndpointSelectorComponent
 } from "./components/competition/competition-endpoint-selector/competition-endpoint-selector.component";
+import {
+  CompetitionParticipationComponent
+} from "./components/competition/competition-participation/competition-participation.component";
+import {
+  SuccessCreatingCompetitionComponent
+} from "./components/competition/success-creating-competition/success-creating-competition.component";
 
 const routes: Routes = [
   {
@@ -33,6 +39,14 @@ const routes: Routes = [
   {
     path: 'competition-creator',
     component: CompetitionCreatorComponent
+  },
+  {
+    path: 'active-competition',
+    component: CompetitionParticipationComponent
+  },
+  {
+    path: 'success',
+    component: SuccessCreatingCompetitionComponent
   }
 ];
 

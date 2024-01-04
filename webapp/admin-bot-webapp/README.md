@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Set url 
+
+Set url in shared/application-context
+
+Set url in be-webapp/src/index.js where is cors
+
+Set url in be-webapp/src/competition/service.js
