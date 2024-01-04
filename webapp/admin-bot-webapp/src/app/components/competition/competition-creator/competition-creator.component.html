@@ -1,0 +1,45 @@
+<div class="competition-creator">
+  <div class="competition-creator__wrapper">
+    <span class="competition-creator__title">Create competition</span>
+    <div class="competition-creator__main-form">
+      <form [formGroup]="form" (ngSubmit)="createCompetition(form)" class="form">
+        <div class="competition-creator__name-block">
+          <label>Enter competition name</label>
+          <input class="competition-creator__input-name" formControlName="competitionName" autocomplete="off"/>
+        </div>
+        <div class="competition-creator__describe-block">
+          <label>Enter competition describe</label>
+          <textarea class="competition-creator__textarea-description" formControlName="competitionDescription"></textarea>
+        </div>
+        <div class="competition-creator__date-format">
+          <label>Enter contest final date in format: mm/dd/yyyy</label>
+          <input class="competition-creator__input-name" formControlName="competitionDate" autocomplete="off"/>
+        </div>
+        <div class="competition-creator__date-format">
+          <label>Enter contest final time in format: hh:mm</label>
+          <input class="competition-creator__input-name" formControlName="competitionTime" autocomplete="off"/>
+        </div>
+        <div class="competition-creator__date-format">
+          <label>Enter count of winners: </label>
+          <input class="competition-creator__input-name" formControlName="competitionWinnersCount" autocomplete="off"/>
+        </div>
+        <div class="competition-creator__language-selector">
+          <label>
+            <input type="radio" formControlName="languageSelector" value="ru">
+            ru
+          </label>
+          <label>
+            <input type="radio" formControlName="languageSelector" value="en">
+            en
+          </label>
+        </div>
+        <div class="competition-creator__list-of-channels">
+          <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
+            <span>{{channels.name}}</span>
+          </div>
+        </div>
+        <button type="submit" class="competition-creator__button">create competition</button>
+      </form>
+    </div>
+  </div>
+</div>
