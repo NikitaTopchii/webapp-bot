@@ -23,6 +23,16 @@
           <label>Enter count of winners: </label>
           <input class="competition-creator__input-name" formControlName="competitionWinnersCount" autocomplete="off"/>
         </div>
+        <div class="competition-creator__language-selector">
+          <label>
+            <input type="radio" formControlName="languageSelector" value="ru">
+            ru
+          </label>
+          <label>
+            <input type="radio" formControlName="languageSelector" value="en">
+            en
+          </label>
+        </div>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
             <span>{{channels.name}}</span>

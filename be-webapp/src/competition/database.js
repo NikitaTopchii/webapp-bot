@@ -86,8 +86,9 @@ class CompetitionDB {
 
     getBotToken(bot_id,callback) {
         if(/^[0-9]+$/.test(bot_id)){
-            const sql = 'SELECT * FROM contests_bots WHERE token LIKE = ?';
-            this.connection.query(sql, [bot_id+':%'], (err, results) => {
+            const sql = 'SELECT * FROM contests_bots WHERE token LIKE ?';
+            console.log(sql)
+            this.connection.query(sql, [bot_id + ':%'], (err, results) => {
                 if (err) {
                     callback(err, null);
                 } else {

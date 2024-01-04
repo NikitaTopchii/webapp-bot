@@ -3,6 +3,7 @@ import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {ActivatedRoute} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
 import {NgIf, NgOptimizedImage} from "@angular/common";
+import {AdminsListService} from "../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-competition-participation',
@@ -29,7 +30,8 @@ export class CompetitionParticipationComponent implements OnInit{
   private userId: any;
   constructor(private telegramService: TelegramService,
               private route: ActivatedRoute,
-              private competitionService: CompetitionService) {
+              private competitionService: CompetitionService,
+              private adminsService: AdminsListService) {
     this.route.queryParams.subscribe(params => {
       this.competitionId = params['tgWebAppStartParam'];
       console.log("competitionId" + this.competitionId)
@@ -125,6 +127,66 @@ export class CompetitionParticipationComponent implements OnInit{
     });
   }
 
+  checkAuthUser(){
+    const formData = new FormData();
+
+
+    console.log("USER ID: " + this.userId);
+    formData.append('userid', this.userId);
+
+    this.adminsService.getUser(formData).subscribe((response) => {
+      console.log(response.results.length)
+      console.log(response.results)
+      console.log(response)
+      if(response.results.length === 0){
+        console.log("HUI")
+        this.authUser().subscribe((response) => {
+          this.checkCompetitionCondition();
+        })
+      }else{
+        console.log('RESPONSE')
+        console.log(response)
+        this.checkCompetitionCondition();
+      }
+    });
+  }
+
+  authUser(){
+    const formData = new FormData();
+
+    let userid;
+    let username;
+    let language
+
+    // this.userId = '464155131';
+    //
+    if(this.userId){
+      localStorage.setItem('participantId', this.userId);
+      localStorage.setItem('username', this.telegramService.InitData.username);
+      localStorage.setItem('language', this.telegramService.InitData.language_code)
+      userid = localStorage.getItem('participantId');
+      username = localStorage.getItem('username');
+      language = localStorage.getItem('language');
+    }else{
+      userid = localStorage.getItem('participantId');
+      username = localStorage.getItem('username');
+      language = localStorage.getItem('language');
+    }
+
+
+    if(userid && username && language){
+      const isAdmin = '0';
+      const subscription = '';
+
+      formData.append('userid', userid);
+      formData.append('username', username);
+      formData.append('language', language);
+      formData.append('isAdmin', isAdmin);
+      formData.append('subscription', subscription);
+    }
+
+    return this.adminsService.authUser(formData);
+  }
 
   ngOnInit() {
     this.successParticipation = false;
@@ -133,6 +195,6 @@ export class CompetitionParticipationComponent implements OnInit{
     this.userId = this.telegramService.InitData.id;
 
     this.checkingUsersInfo = true;
-    this.checkCompetitionCondition();
+    this.checkAuthUser();
   }
 }

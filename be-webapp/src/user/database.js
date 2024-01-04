@@ -24,11 +24,38 @@ class UserDB {
             if (err) {
                 callback(err, null);
             } else {
+                console.log('results: ' + results)
                 callback(null, {results});
             }
         });
     }
 
+    authUser(userid,
+                      username,
+                      language,
+                      is_admin,
+                      subscription,
+                      callback){
+
+        console.log(username)
+        console.log(userid)
+        const request = 'INSERT INTO users SET ?';
+        const newUser = {
+            userid,
+            username,
+            language,
+            is_admin,
+            subscription
+        }
+
+        this.connection.query(request, newUser, (err, results) => {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, {results});
+            }
+        });
+    }
     getUsers(userIds, callback) {
         const sql = 'SELECT * FROM users WHERE userid IN (?)';
         this.connection.query(sql, [userIds], (err, results) => {

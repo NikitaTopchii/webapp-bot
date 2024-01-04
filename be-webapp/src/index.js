@@ -12,7 +12,7 @@ class IndexJs {
     constructor(app) {
         app.use(
             cors({
-                origin: "https://f29c-46-98-212-213.ngrok-free.app"
+                origin: "https://f733-46-98-213-100.ngrok-free.app"
             }),
         );
         app.use(express.json());

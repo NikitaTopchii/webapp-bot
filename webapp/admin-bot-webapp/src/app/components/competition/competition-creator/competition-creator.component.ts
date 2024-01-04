@@ -20,6 +20,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   form: FormGroup;
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
   private selectedChannelIds: string[] = [];
+  private selectedChannelNames: string[] = [];
 
   private competitionToken: string = '';
 
@@ -44,7 +45,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       competitionDescription: [''],
       competitionDate: ['', Validators.required],
       competitionTime: ['', Validators.required],
-      competitionWinnersCount: ['', Validators.required]
+      competitionWinnersCount: ['', Validators.required],
+      languageSelector: ['en']
     });
   }
 
@@ -75,6 +77,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
       this.selectedChannels.forEach((channel) => {
         this.selectedChannelIds.push(channel.id);
+        this.selectedChannelNames.push(channel.name);
       })
     })
   }
@@ -106,6 +109,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     const botid = localStorage.getItem('botid');
 
+    const language = form.get('languageSelector')?.value;
+
     if(botid){
       formData.append('competitionName', competitionName);
       formData.append('competitionDescription', competitionDescription);
@@ -115,15 +120,33 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       formData.append('finishTime', competitionDate);
       formData.append('winners_count', winner_count);
       formData.append('botid', botid);
+      formData.append('language', language);
+      formData.append('channelNames', this.selectedChannelNames.join(','))
     }
 
     return this.createCompetitionService.createCompetition(formData);
   }
 
-    convertToISOFormat(dateString: string, expirationTimeString: string): string {
-      const date = new Date(dateString+','+expirationTimeString);
-      return date.toISOString();
-    }
+  convertToISOFormat(dateString: string, expirationTimeString: string): string {
+    // Розбиваємо вхідну дату і час на компоненти
+    const dateComponents = dateString.split('/');
+    const timeComponents = expirationTimeString.split(':');
+
+    // Створюємо об'єкт Date
+    const date = new Date(
+      parseInt(dateComponents[2]), // Рік
+      parseInt(dateComponents[1]) - 1, // Місяць (від 0 до 11)
+      parseInt(dateComponents[0]), // День
+      parseInt(timeComponents[0]), // Година
+      parseInt(timeComponents[1]) // Хвилина
+    );
+
+    // Коригуємо час з урахуванням локального часового поясу користувача
+    const timezoneOffset = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() - timezoneOffset);
+
+    return date.toISOString();
+  }
 
   publishCompetitionInChannels(form: FormGroup, competitionId: number){
     const formData = new FormData();

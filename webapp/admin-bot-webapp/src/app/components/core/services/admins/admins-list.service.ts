@@ -44,6 +44,22 @@ export class AdminsListService {
       .get<any>(main_url + '/users/simple-admins', { params: params });
   }
 
+  getUser(formData: FormData){
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/users/check', { params: params });
+  }
+
+  authUser(formData: FormData) {
+    return this.http
+      .post<string>(main_url + '/users/auth', formData);
+  }
+
   getAdmin(formData: FormData) {
     let params = new HttpParams();
 

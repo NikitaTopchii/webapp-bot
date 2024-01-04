@@ -8,7 +8,7 @@ export class TokenGenerateService {
 
   generateSHA256Token(): number {
     // return CryptoJS.SHA512(this.generateRandomString(2)).toString();
-    return Math.floor(Math.random() * 1000);
+    return Math.floor(Math.random() * 100000000);
   }
 
   generateRandomString(length: number): string {

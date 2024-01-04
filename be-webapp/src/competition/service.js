@@ -15,11 +15,18 @@ class CompetitionService {
 
     async createCompetition(data){
 
-        this.botToken = await this.getBotToken(data.botid)[0].token;
+        this.botToken = await this.getBotToken(data.botid);
 
-        console.log(this.botToken[0].token)
+        console.log(this.botToken.results[0].token)
 
-        await this.sendTelegramMessageWithKeyboard(data.channels, data.competitionDescription, data.contests_id, data.finishTime, data.winners_count, data.competitionName);
+        await this.sendTelegramMessageWithKeyboard(data.channels,
+            data.competitionDescription,
+            data.contests_id,
+            data.finishTime,
+            data.winners_count,
+            data.competitionName,
+            data.language,
+            data.channelNames.split(','));
 
         return new Promise((resolve, reject) => {
             this.competitionDB.createCompetition(
@@ -48,8 +55,8 @@ class CompetitionService {
                 data.conditions,
                 data.finishTime,
                 data.winners_count,
-                this.channelsLinks,
-                this.botToken,
+                this.channelsLinks.join(','),
+                this.botToken.results[0].token,
                 (err, dbData) => {
                     if (err) {
                         reject(err);
@@ -75,14 +82,14 @@ class CompetitionService {
         });
     }
 
-    async sendTelegramMessageWithKeyboard(chatId, message, contest_id, finish_time, winners_count, name) {
+    async sendTelegramMessageWithKeyboard(chatId, message, contest_id, finish_time, winners_count, name, language, channelNames) {
         console.log('ChatID: ' + chatId);
 
         const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + contest_id;
     
         const bot = new Telegraf(BOT_TOKEN);
 
-        const contestDescription = name + '\n' + await this.generateTemplateForCompetition(message, 'ru', chatId, finish_time, winners_count, name);
+        const contestDescription = name + '\n\n' + await this.generateTemplateForCompetition(message, language, chatId, finish_time, winners_count, channelNames);
 
         console.log(contestDescription)
     
@@ -103,6 +110,8 @@ class CompetitionService {
                                 ],
                             ],
                         },
+                        parse_mode: "HTML",
+                        disable_web_page_preview: true
                     }).then((response) => {
                         console.log(response)
                         console.log('Повідомлення відправлено успішно.');
@@ -122,7 +131,8 @@ class CompetitionService {
                             ],
                         ],
                     },
-                    parse_mode: 'HTML'
+                    parse_mode: 'HTML',
+                    disable_web_page_preview: true
                 });
                 console.log('Повідомлення відправлено успішно.');
             } catch (error) {
@@ -131,14 +141,13 @@ class CompetitionService {
         }
     }
 
-    async generateTemplateForCompetition(message, localization, channel_id, finish_time, winners_count) {
-
+    async generateTemplateForCompetition(message, localization, channel_id, finish_time, winners_count, channelNames) {
         if (localization === 'ru') {
-            const i = message + '\n' + await this.generateRuTemplate(channel_id, finish_time, winners_count);
+            const i = message + '\n' + await this.generateRuTemplate(channel_id, finish_time.replace('T', ' ').slice(0, 16), winners_count, channelNames);
             console.log(i);
             return i;
         } else if (localization === 'en') {
-            const i = message + '\n' + await this.generateEnTemplate(channel_id, finish_time, winners_count);
+            const i = message + '\n' + await this.generateEnTemplate(channel_id, finish_time.replace('T', ' ').slice(0, 16), winners_count, channelNames);
             console.log(i);
             return i;
         } else {
@@ -146,7 +155,7 @@ class CompetitionService {
         }
     }
 
-    async generateRuTemplate(channelIds, finishTime, winnersCount) {
+    async generateRuTemplate(channelIds, finishTime, winnersCount, channelNames) {
         let channelsLinks = [];
 
         if (channelIds.includes(',')) {
@@ -157,7 +166,7 @@ class CompetitionService {
             channelsLinks.push(await this.generateInviteLink(channelIds));
         }
 
-        let channelsList = channelsLinks.map((id, index) => `- <a href="${id}">channel</a>`).join('\n');
+        let channelsList = channelsLinks.map((id, index) => `- <a href="${id}">${channelNames[index]}</a>`).join('\n');
         return `
 Для участия в конкурсе надо быть подписанным на эти каналы/чаты:
 ${channelsList}
@@ -170,7 +179,7 @@ ${channelsList}
 `;
     }
 
-    async generateEnTemplate(channelIds, finishTime, winnersCount){
+    async generateEnTemplate(channelIds, finishTime, winnersCount, channelNames){
         let channelsLinks = [];
 
         for (const channelId of channelIds.split(',')) {
@@ -179,7 +188,7 @@ ${channelsList}
 
         console.log(channelsLinks);
 
-        let channelsList = channelsLinks.map((id, index) => `- <a href="${id}">channel</a>`).join('\n');
+        let channelsList = channelsLinks.map((id, index) => `- <a href="${id}">${channelNames[index]}</a>`).join('\n');
         return `
 You have to be subscribed to these channels/chats to participate:
 ${channelsList}
