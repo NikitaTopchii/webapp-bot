@@ -85,11 +85,13 @@ class CompetitionService {
     }
 
     async sendTelegramMessageWithKeyboard(chatId, message, contest_id, finish_time, winners_count, name, language, channelNames) {
+        this.messageIds = [];
+
         console.log('ChatID: ' + chatId);
 
         const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + contest_id;
     
-        const bot = new Telegraf(BOT_TOKEN);
+        const bot = new Telegraf(this.botToken.results[0].token);
 
         const contestDescription = name + '\n\n' + await this.generateTemplateForCompetition(message, language, chatId, finish_time, winners_count, channelNames);
 
