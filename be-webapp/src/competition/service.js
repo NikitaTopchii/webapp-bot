@@ -3,20 +3,21 @@ const {Telegraf, Markup} = require("telegraf");
 
 
 const TELEGRAM_API_URL = 'https://api.telegram.org';
-const BOT_TOKEN = '6740264492:AAFwwteh_3c9QXg3deVymVvM8DhQGZW8CK0';
+const BOT_TOKEN = '6624091262:AAFs5ML4CNEKNn1oP-jNSiKPqQ3zy1-1ywg';
 class CompetitionService {
 
     channelsLinks;
     botToken;
+    messageIds;
     constructor() {
         this.competitionDB = new CompetitionDB();
         this.channelsLinks = [];
+        this.messageIds = [];
     }
 
     async createCompetition(data){
-
         this.botToken = await this.getBotToken(data.botid);
-
+        console.log("bot token: ")
         console.log(this.botToken.results[0].token)
 
         await this.sendTelegramMessageWithKeyboard(data.channels,
@@ -57,6 +58,7 @@ class CompetitionService {
                 data.winners_count,
                 this.channelsLinks.join(','),
                 this.botToken.results[0].token,
+                JSON.stringify(this.messageIds),
                 (err, dbData) => {
                     if (err) {
                         reject(err);
@@ -83,11 +85,13 @@ class CompetitionService {
     }
 
     async sendTelegramMessageWithKeyboard(chatId, message, contest_id, finish_time, winners_count, name, language, channelNames) {
+        this.messageIds = [];
+
         console.log('ChatID: ' + chatId);
 
         const webAppUrl = 'https://t.me/MAIN_TEST_ROBOT/contests?startapp=' + contest_id;
     
-        const bot = new Telegraf(BOT_TOKEN);
+        const bot = new Telegraf(this.botToken.results[0].token);
 
         const contestDescription = name + '\n\n' + await this.generateTemplateForCompetition(message, language, chatId, finish_time, winners_count, channelNames);
 
@@ -113,7 +117,7 @@ class CompetitionService {
                         parse_mode: "HTML",
                         disable_web_page_preview: true
                     }).then((response) => {
-                        console.log(response)
+                        this.messageIds.push({chatId: chatId1, messageId: response.message_id});
                         console.log('Повідомлення відправлено успішно.');
                     });
                 } catch (error) {
@@ -133,6 +137,8 @@ class CompetitionService {
                     },
                     parse_mode: 'HTML',
                     disable_web_page_preview: true
+                }).then((response) => {
+                    this.messageIds.push({chatId: chatId, messageId: response.message_id});
                 });
                 console.log('Повідомлення відправлено успішно.');
             } catch (error) {
@@ -221,8 +227,8 @@ Winners amount:
         console.log('channel_id: ' + channel_id)
 
         return new Promise((resolve, reject) => {
-            const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/createChatInviteLink`;
-
+            const apiUrl = `https://api.telegram.org/bot${this.botToken.results[0].token}/createChatInviteLink`;
+            console.log(apiUrl)
             fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -248,7 +254,7 @@ Winners amount:
 
     async checkSubscription(user_id, channel_id){
         return new Promise((resolve, reject) => {
-            fetch(`${TELEGRAM_API_URL}/bot${BOT_TOKEN}/getChatMember?chat_id=${channel_id}&user_id=${user_id}`)
+            fetch(`${TELEGRAM_API_URL}/bot${this.botToken.results[0].token}/getChatMember?chat_id=${channel_id}&user_id=${user_id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.ok && data.result && ['administrator', 'member', 'creator'].includes(data.result.status)) {
