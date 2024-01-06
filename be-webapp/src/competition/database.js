@@ -43,34 +43,36 @@ class CompetitionDB {
     }
 
     publishCompetition(contest_id,
-                      chatid,
-                      channels,
-                      conditions,
-                      finish_time,
-                      winners_amount,
-                      invite_links,
-                      bot_token,
-                      callback){
+                        chatid,
+                        channels,
+                        conditions,
+                        finish_time,
+                        winners_amount,
+                        invite_links,
+                        bot_token,
+                        message_ids,
+                        callback){
         const request = 'INSERT INTO contests SET ?';
         const newCompetition = {
-            contest_id,
-            chatid,
-            channels,
-            conditions,
-            finish_time,
-            winners_amount,
-            invite_links,
-            bot_token
+        contest_id,
+        chatid,
+        channels,
+        conditions,
+        finish_time,
+        winners_amount,
+        invite_links,
+        bot_token,
+        message_ids
         }
 
         this.connection.query(request, newCompetition, (err, results) => {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, {results});
-            }
+        if (err) {
+        callback(err, null);
+        } else {
+        callback(null, {results});
+        }
         });
-    }
+        }
 
 
     getCompetition(contest_id,callback) {
