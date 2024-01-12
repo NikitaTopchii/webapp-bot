@@ -212,20 +212,20 @@ class CompetitionService {
 // `;
 //   }
 //
-//   async getCompetition(contest_id) {
-//
-//     return new Promise((resolve, reject) => {
-//
-//       this.competitionDB.getCompetition(contest_id, (err, data) => {
-//         if (err) {
-//           reject(err);
-//         } else {
-//           resolve(data);
-//         }
-//       });
-//
-//     });
-//   }
+  async getCompetition(contest_id) {
+
+    return new Promise((resolve, reject) => {
+
+      this.competitionDB.getCompetition(contest_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
 //
 //   async generateInviteLink(channel_id) {
 //
