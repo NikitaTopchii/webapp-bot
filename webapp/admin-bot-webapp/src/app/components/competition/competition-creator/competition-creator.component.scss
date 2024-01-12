@@ -56,9 +56,20 @@
       flex-direction: column;
     }
 
+    &__error-message{
+      color: #d91b1b;
+      margin-left: 10px;
+      margin-top: 5px;
+    }
+
     &__date-format{
       margin-top: 10px;
     }
+
+    &__date-format.__failed input{
+      border: 3px solid #d91b1b;
+    }
+
 
     &__describe-block{
       margin-top: 10px;
@@ -67,6 +78,27 @@
       margin-bottom: 10px;
       margin-top: 10px;
       text-align: center;
+    }
+    &__name-block{
+      display: flex;
+      flex-direction: column;
+    }
+    &__describe-block{
+      display: flex;
+      flex-direction: column;
+    }
+    &__date-format{
+      display: flex;
+      flex-direction: column;
+    }
+    &__language-selector{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
     }
   }
 

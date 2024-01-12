@@ -100,10 +100,23 @@ export class CompetitionParticipationComponent implements OnInit{
     }
   }
 
-  checkCurrentDate(currentTime: Date, finishTime: Date){
-    console.log(currentTime, finishTime)
-    console.log(currentTime < finishTime)
-    return currentTime < finishTime;
+  checkCurrentDate(currentDateTime: Date, finishDateTime: Date){
+    // Парсимо рядок фінішного часу
+    const finishTime = finishDateTime;
+
+    // Отримуємо часовий пояс з поточного часу
+    const currentTimeZoneOffset = currentDateTime.getTimezoneOffset();
+
+    // Переводимо поточний час в той же часовий пояс, що і фінішний час
+    const currentTime = new Date(finishTime.getTime() + (currentTimeZoneOffset * 60 * 1000));
+
+    console.log("Поточний час:", currentTime);
+    console.log("Фінішний час:", finishTime);
+
+    // Порівнюємо часи, ураховуючи часовий пояс
+    console.log(currentTime.getTime() < finishTime.getTime());
+
+    return currentTime.getTime() < finishTime.getTime();
   }
 
   checkSubscribeOnChannels(userId: string, channelId: string): Promise<boolean> {

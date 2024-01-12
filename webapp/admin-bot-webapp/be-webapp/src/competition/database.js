@@ -51,6 +51,7 @@ class CompetitionDB {
                      invite_links,
                      bot_token,
                      message_ids,
+                     language,
                      callback){
     const request = 'INSERT INTO contests SET ?';
     const newCompetition = {
@@ -62,6 +63,7 @@ class CompetitionDB {
       winners_amount,
       invite_links,
       bot_token,
+      language,
       message_ids
     }
 

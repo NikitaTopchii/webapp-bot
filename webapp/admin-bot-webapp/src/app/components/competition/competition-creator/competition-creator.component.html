@@ -11,13 +11,41 @@
           <label>Enter competition describe</label>
           <textarea class="competition-creator__textarea-description" formControlName="competitionDescription"></textarea>
         </div>
-        <div class="competition-creator__date-format">
-          <label>Enter contest final date in format: dd/mm/yyyy</label>
-          <input class="competition-creator__input-name" formControlName="competitionDate" autocomplete="off"/>
+<!--        <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">-->
+<!--          <label>Enter contest final date in format: dd/mm/yyyy</label>-->
+<!--          <input class="competition-creator__input-name" formControlName="competitionDate" autocomplete="off"/>-->
+<!--          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid date format</label>-->
+<!--        </div>-->
+        <mat-form-field appearance="fill">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input
+              readonly
+              matStartDate
+              formControlName="startDate"
+              placeholder="Start date"
+              (dateChange)="handleDateChanged('start',$event)"
+            />
+            <input
+              readonly
+              matEndDate
+              formControlName="endDate"
+              placeholder="End date"
+              (dateChange)="handleDateChanged('end',$event)"
+            />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">
+          <label>Enter contest start time in format: hh:mm</label>
+          <input class="competition-creator__input-name" formControlName="competitionStartTime" autocomplete="off"/>
+          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
         </div>
-        <div class="competition-creator__date-format">
+        <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">
           <label>Enter contest final time in format: hh:mm</label>
-          <input class="competition-creator__input-name" formControlName="competitionTime" autocomplete="off"/>
+          <input class="competition-creator__input-name" formControlName="competitionFinishTime" autocomplete="off"/>
+          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
         </div>
         <div class="competition-creator__date-format">
           <label>Enter count of winners: </label>

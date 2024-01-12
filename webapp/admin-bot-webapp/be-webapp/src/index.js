@@ -6,13 +6,14 @@ const express = require('express'),
     adminsRouter = require('./admins/routes'),
     participationRouter = require('./contests_data/routes'),
     competitionBotRouter = require('./contest_bots/routes');
-    
+
 
 class IndexJs {
     constructor(app) {
         app.use(
             cors({
-                origin: "https://prizebot.online"
+                //origin: "https://prizebot.online"
+              origin: 'https://e6f2-5-248-108-234.ngrok-free.app',
             }),
         );
         app.use(express.json());
