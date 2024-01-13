@@ -15,6 +15,7 @@ class ParticipationService {
             this.participationDB.addParticipant(
                 data.userid,
                 data.contests_id,
+                data.username,
                 (err, data) => {
                     if(err) {
                         reject(err);

@@ -95,7 +95,21 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   createCompetition(form: FormGroup) {
     const competitionId = this.generateTokenService.generateSHA256Token();
 
-    this.sendCompetitionDataToBot(form, competitionId);
+    console.log('CREATE COMPETITION')
+
+    const formData = new FormData();
+    console.log('CREATE COMPETITION')
+
+    const botid = localStorage.getItem('botid');
+
+    if(botid){
+      console.log(botid)
+      formData.append('botid', botid);
+    }
+    this.createCompetitionService.createCompetition(formData).subscribe(() => {
+      console.log("BOT TOKEN WAS GETTING")
+      this.sendCompetitionDataToBot(form, competitionId);
+    });
     //this.sendData(this.getCompetitionData(form, competitionId));
 
     // this.setCompetitionDrafts(form, competitionId).pipe(
@@ -133,41 +147,17 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     }
   }
 
-  setCompetitionDrafts(form: FormGroup, competitionId: number):Observable<any>{
+  setCompetitionDrafts(){
     const formData = new FormData();
-
-    const competitionName = form.get('competitionName')?.value;
-    const competitionDescription = form.get('competitionDescription')?.value;
-
-    const competitionDate = this.dateTimeValidationService.checkDateValidation(
-      form.get('competitionDate')?.value,
-      form.get('competitionTime')?.value
-    );
-
-    console.log(form.get('competitionDate')?.value)
-
-    this.failedDateValidation = !competitionDate;
-
-    const winner_count = form.get('competitionWinnersCount')?.value;
+    console.log('CREATE COMPETITION')
 
     const botid = localStorage.getItem('botid');
 
-    const language = form.get('languageSelector')?.value;
-
     if(botid){
-      formData.append('competitionName', competitionName);
-      formData.append('competitionDescription', competitionDescription);
-      formData.append('channels', this.selectedChannelIds.join(','));
-      formData.append('conditions', 'subscribe');
-      formData.append('contests_id', competitionId.toString());
-      formData.append('finishTime', competitionDate);
-      formData.append('winners_count', winner_count);
+      console.log(botid)
       formData.append('botid', botid);
-      formData.append('language', language);
-      formData.append('channelNames', this.selectedChannelNames.join(','))
     }
-
-    return this.createCompetitionService.createCompetition(formData);
+    this.createCompetitionService.createCompetition(formData);
   }
 
   publishCompetitionInChannels(form: FormGroup, competitionId: number){

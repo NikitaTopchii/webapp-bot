@@ -15,35 +15,15 @@ class CompetitionService {
   }
 
   //
-  // async createCompetition(data){
-  //   this.botToken = await this.getBotToken(data.botid);
-  //
-  //   await this.sendTelegramMessageWithKeyboard(data.channels,
-  //     data.competitionDescription,
-  //     data.contests_id,
-  //     data.finishTime,
-  //     data.winners_count,
-  //     data.competitionName,
-  //     data.language,
-  //     data.channelNames.split(','));
-  //
-  //   return new Promise((resolve, reject) => {
-  //     this.competitionDB.createCompetition(
-  //       data.competitionName,
-  //       data.competitionDescription,
-  //       data.channels,
-  //       data.conditions,
-  //       data.contests_id,
-  //       (err, data) => {
-  //         if(err) {
-  //           reject(err);
-  //         } else {
-  //           resolve(data);
-  //         }
-  //       }
-  //     )
-  //   })
-  // }
+  async createCompetition(data){
+    this.botToken = await this.getBotToken(data.botid);
+    console.log("BOT TOKEN IN CREATE COMPETITION: " + this.botToken)
+
+    return new Promise((resolve, reject) => {
+      resolve('ok');
+      reject('not ok');
+    })
+  }
 
 //   async publishCompetition(data){
 //     return new Promise((resolve, reject) => {
@@ -69,19 +49,20 @@ class CompetitionService {
 //     });
 //   }
 //
-//   async getBotToken(botid){
-//     return new Promise((resolve, reject) => {
-//
-//       this.competitionDB.getBotToken(botid, (err, data) => {
-//         if (err) {
-//           reject(err);
-//         } else {
-//           resolve(data);
-//         }
-//       });
-//
-//     });
-//   }
+  async getBotToken(botid){
+    console.log("GET BOT TOKEN BY BOTID: " + botid)
+    return new Promise((resolve, reject) => {
+
+      this.competitionDB.getBotToken(botid, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
 //
 //   async sendTelegramMessageWithKeyboard(chatId, message, contest_id, finish_time, winners_count, name, language, channelNames) {
 //     this.messageIds = [];
@@ -213,7 +194,7 @@ class CompetitionService {
 //   }
 //
   async getCompetition(contest_id) {
-
+    console.log("GET COMPETITION BY CONTEST_ID: " + contest_id)
     return new Promise((resolve, reject) => {
 
       this.competitionDB.getCompetition(contest_id, (err, data) => {
@@ -256,6 +237,8 @@ class CompetitionService {
 //   }
 
   async checkSubscription(user_id, channel_id){
+    console.log("TOKEN: " + this.botToken.results[0].token)
+
     return new Promise((resolve, reject) => {
       fetch(`${TELEGRAM_API_URL}/bot${this.botToken.results[0].token}/getChatMember?chat_id=${channel_id}&user_id=${user_id}`)
         .then(response => response.json())

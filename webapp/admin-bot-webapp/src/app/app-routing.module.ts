@@ -14,11 +14,18 @@ import {
 import {
   SuccessCreatingCompetitionComponent
 } from "./components/competition/success-creating-competition/success-creating-competition.component";
+import {
+  ChannelsWithCompetitionsComponent
+} from "./components/competition/chennels-with-competitions/channels-with-competitions.component";
 
 const routes: Routes = [
   {
     path: '',
     component: MainAdminPageComponent
+  },
+  {
+    path: 'my-competitions',
+    component: ChannelsWithCompetitionsComponent
   },
   {
     path: 'add-new-admin',

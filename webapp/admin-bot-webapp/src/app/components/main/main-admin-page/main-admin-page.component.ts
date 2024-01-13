@@ -85,4 +85,8 @@ export class MainAdminPageComponent implements OnInit{
   ngOnInit() {
     this.getUser();
   }
+
+  navigateToCompetitionsList() {
+    this.router.navigate(['/my-competitions'])
+  }
 }

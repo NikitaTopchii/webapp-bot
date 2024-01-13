@@ -71,15 +71,19 @@ export class CompetitionParticipationComponent implements OnInit{
                     this.failAlreadyParticipation = true;
                   } else {
 
+                    const username = this.telegramService.InitData.username;
                     const formData = new FormData();
 
-                    formData.append('userid', this.userId);
-                    formData.append('contests_id', this.competitionId);
+                    if(username){
+                      formData.append('userid', this.userId);
+                      formData.append('contests_id', this.competitionId);
+                      formData.append('username', username);
 
-                    this.competitionService.addParticipation(formData);
+                      this.competitionService.addParticipation(formData);
 
-                    this.checkingUsersInfo = false;
-                    this.successParticipation = true;
+                      this.checkingUsersInfo = false;
+                      this.successParticipation = true;
+                    }
                   }
                 });
 
@@ -121,6 +125,7 @@ export class CompetitionParticipationComponent implements OnInit{
 
   checkSubscribeOnChannels(userId: string, channelId: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
+
       const formData = new FormData();
       formData.append('user_id', userId);
       formData.append('channel_id', channelId);

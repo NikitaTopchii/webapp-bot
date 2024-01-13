@@ -20,11 +20,13 @@ class ParticipationDB {
 
     addParticipant(userid,
                       contest_id,
+                      username,
                       callback){
         const request = 'INSERT INTO users_data SET ?';
         const participant = {
             userid,
-            contest_id
+            contest_id,
+            username
         }
 
         this.connection.query(request, participant, (err, results) => {
