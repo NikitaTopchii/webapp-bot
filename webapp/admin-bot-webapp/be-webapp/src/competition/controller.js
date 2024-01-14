@@ -34,6 +34,19 @@ exports.getCompetition = async (req, res) => {
     }
 };
 
+exports.getActiveCompetitions = async (req, res) => {
+  try {
+    console.log(req.query.chatid)
+    const competition = await CompetitionService.getActiveCompetitions(req.query.chatid);
+    res.json(competition);
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error while getting channels' });
+  }
+};
+
+
 exports.checkSubscription = async (req, res) => {
     try {
         const checkedResult = await CompetitionService.checkSubscription(req.query.user_id, req.query.channel_id);

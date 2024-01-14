@@ -88,6 +88,17 @@ class CompetitionDB {
     });
   }
 
+  getActiveCompetition(chat_id,callback) {
+    const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = 0';
+    this.connection.query(sql, [chat_id], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
   getBotToken(bot_id,callback) {
     if(/^[0-9]+$/.test(bot_id)){
       const sql = 'SELECT * FROM contests_bots WHERE token LIKE ?';

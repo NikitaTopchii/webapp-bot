@@ -1,23 +1,30 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
-import {NgForOf} from "@angular/common";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatInputModule} from "@angular/material/input";
-import {response} from "express";
-import {finalize, Observable} from "rxjs";
 import {DateTimeValidatorService} from "../../core/services/date-time-validator.service";
+
 @Component({
-  selector: 'app-competition-creator',
-  templateUrl: './competition-creator.component.html',
-  styleUrl: './competition-creator.component.scss'
+  selector: 'app-public-news-letter-by-chat',
+  standalone: true,
+    imports: [
+        MatDatepickerModule,
+        MatFormFieldModule,
+        NgForOf,
+        NgIf,
+        ReactiveFormsModule
+    ],
+  templateUrl: './public-news-letter-by-chat.component.html',
+  styleUrl: './public-news-letter-by-chat.component.scss'
 })
-export class CompetitionCreatorComponent implements OnInit, OnDestroy{
+export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   form: FormGroup;
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
   private selectedChannelIds: string[] = [];
@@ -128,7 +135,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   getCompetitionData(form: FormGroup, competitionId: number){
     return {
-      type: 'create-contest',
       contestName: form.get('competitionName')?.value,
       contestDescription: form.get('competitionDescription')?.value,
       channels: this.selectedChannelIds.join(','),
@@ -188,3 +194,4 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     this.createCompetitionService.publishCompetition(formData);
   }
 }
+

@@ -5,7 +5,7 @@ const token = '6903067558:AAG23R3ciW8SnvCQ6YWL4j5mferanqLEjAM'
 
 const bot = new Telegraf(token);
 
-const webAppUrl = 'https://af50-188-163-40-175.ngrok-free.app?userid=6308933943&botid=6740264492';
+const webAppUrl = 'https://f4b8-46-98-213-224.ngrok-free.app?userid=464155131&botid=6740264492';
 
 const inlineKeyboard = Markup.keyboard([
     Markup.button.webApp('open webapp', webAppUrl)

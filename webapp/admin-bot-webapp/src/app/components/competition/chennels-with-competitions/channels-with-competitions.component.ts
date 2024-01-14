@@ -19,15 +19,11 @@ import {NgForOf, NgIf} from "@angular/common";
 })
 export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
 
-  private channelsList: TelegramEntityInterface[] = [];
-
-  selectedTelegramEntity = new Set<TelegramEntityInterface>();
+  private chatsList: TelegramEntityInterface[] = [];
 
   selectElementsExist: boolean = false;
 
-  private creatorsIdLists: number[] = [];
-
-  private creatorsId: any;
+  private chatsIdList: number[] = [];
 
   constructor(private telegram: TelegramService,
               private router: Router,
@@ -37,40 +33,23 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
     this.goBack = this.goBack.bind(this);
   }
 
-  getChannelsList(){
-    return this.channelsList;
-  }
-
-  navigateToCompetitions() {
-    this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
-
-    this.router.navigate(['/competitions-type'])
+  getChatsList(){
+    return this.chatsList;
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
-    if(entity.selected){
-      entity.selected = !entity.selected;
-      this.selectedTelegramEntity.delete(entity);
-      this.checkSelectedElements();
-    }else{
-      entity.selected = !entity.selected;
-      this.selectedTelegramEntity.add(entity);
-      this.checkSelectedElements();
-    }
+    this.checkSelectedElements(entity);
   }
 
-  checkSelectedElements(){
-    for (const element of this.selectedTelegramEntity) {
-      if (element.selected) {
-        this.selectElementsExist = true;
-        break;
-      } else {
-        this.selectElementsExist = false;
-      }
-    }
+  checkSelectedElements(element: TelegramEntityInterface){
+    this.selectElementsExist = true;
+    this.selectedChannelsService.setSelectedChat(element);
+    setTimeout(() => {
+      this.router.navigate(['/competitions-type'])
+    }, 100);
   }
 
-  getCreatorsId(){
+  getChatId(){
     const userid = localStorage.getItem('user_id');
 
     if(userid){
@@ -82,7 +61,7 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
         const admins = response.results;
 
         admins.forEach((admin: any) => {
-          this.creatorsIdLists.push(admin.chatid);
+          this.chatsIdList.push(admin.chatid);
         });
 
         this.getMyChannels();
@@ -93,14 +72,14 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
   private getMyChannels(){
     const formData = new FormData();
 
-    formData.append('creators_id', this.creatorsIdLists.join(','));
+    formData.append('creators_id', this.chatsIdList.join(','));
 
     this.channelsService.getChannels(formData).subscribe((response) => {
 
       const channels = response.results;
 
       channels.forEach((channel: any) => {
-        this.channelsList.push({
+        this.chatsList.push({
           id: channel.chatid,
           name: channel.name,
           selected: false
@@ -118,8 +97,15 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.getCreatorsId();
+    this.getChatId();
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+  }
+
+  createNewsLetterByChat(chat: TelegramEntityInterface) {
+    this.selectedChannelsService.setSelectedChatForNewsLetter(chat);
+    setTimeout(() => {
+      this.router.navigate(['/public-news-letter']);
+    }, 100);
   }
 }

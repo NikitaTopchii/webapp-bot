@@ -207,6 +207,22 @@ class CompetitionService {
 
     });
   }
+
+  async getActiveCompetitions(chatid) {
+    console.log("GET COMPETITION BY CONTEST_ID: " + chatid)
+    return new Promise((resolve, reject) => {
+
+      this.competitionDB.getActiveCompetition(chatid, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          console.log(data)
+          resolve(data);
+        }
+      });
+
+    });
+  }
 //
 //   async generateInviteLink(channel_id) {
 //

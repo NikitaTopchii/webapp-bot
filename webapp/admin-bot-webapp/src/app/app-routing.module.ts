@@ -17,6 +17,15 @@ import {
 import {
   ChannelsWithCompetitionsComponent
 } from "./components/competition/chennels-with-competitions/channels-with-competitions.component";
+import {
+  PrivateNewsLetterByCompetitionComponent
+} from "./components/competition/private-news-letter-by-competition/private-news-letter-by-competition.component";
+import {
+  ActiveCompetitionsListComponent
+} from "./components/competition/active-competitions-list/active-competitions-list.component";
+import {
+  CompetitionTypesListComponent
+} from "./components/competition/competition-types-list/competition-types-list.component";
 
 const routes: Routes = [
   {
@@ -26,6 +35,18 @@ const routes: Routes = [
   {
     path: 'my-competitions',
     component: ChannelsWithCompetitionsComponent
+  },
+  {
+    path: 'active-competitions-list',
+    component: ActiveCompetitionsListComponent
+  },
+  {
+    path: 'competitions-type',
+    component: CompetitionTypesListComponent
+  },
+  {
+    path: 'private-news-letter',
+    component: PrivateNewsLetterByCompetitionComponent
   },
   {
     path: 'add-new-admin',

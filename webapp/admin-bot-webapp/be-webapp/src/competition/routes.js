@@ -19,6 +19,10 @@ router
     .get(CompetitionController.getCompetition)
 
 router
+  .route('/active-competitions')
+  .get(CompetitionController.getActiveCompetitions)
+
+router
     .route('/subscribe-verification')
     .get(CompetitionController.checkSubscription)
 

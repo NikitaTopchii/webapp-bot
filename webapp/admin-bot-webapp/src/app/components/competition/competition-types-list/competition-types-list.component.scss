@@ -1,0 +1,96 @@
+@import "../../../styles/colors";
+
+:host{
+  .admin-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &__element-of-list{
+      background: $secondary_bg_color;
+      display: flex;
+      justify-content: space-between;
+      box-sizing: border-box;
+      padding: 10px 3%;
+      margin: 10px;
+      border-radius: 15px;
+      flex-direction: row;
+    }
+    &__main-info{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    &__admin-permissions{
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 10px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      background: $bg_color;
+    }
+    &__admin-permission-element{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      margin-bottom: 3px;
+    }
+    &__active-permission{
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      border-radius: 5px;
+      background: #029b1d;
+    }
+    &__inactive-permission{
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      border-radius: 5px;
+      background: #e70909;
+    }
+    &__button{
+      background: $button_color;
+      color: $button_text_color;
+      border-radius: 15px;
+      border: none;
+      margin: 10px;
+      height: 40px;
+    }
+    &__admin-edit-button{
+      background: $button_color;
+      color: $button_text_color;
+      border-radius: 5px;
+      border: none;
+      margin: 10px;
+      height: 20px;
+      width: 50px;
+    }
+    &__admin-delete-button{
+      background: #d91b1b;
+      color: $button_text_color;
+      border-radius: 5px;
+      border: none;
+      margin: 10px;
+      height: 20px;
+      width: 50px;
+    }
+    &__select-button{
+      width: 25px;
+      height: 25px;
+    }
+    &__title{
+      margin-bottom: 10px;
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
+}
