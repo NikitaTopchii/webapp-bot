@@ -3,18 +3,11 @@ import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {AdminsListService} from "../../core/services/admins/admins-list.service";
 import {CompetitionService} from "../../core/services/competition/competition.service";
 import {ActiveCompetitionInterface} from "../../core/active-competition.interface";
-import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-active-competitions-list',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
   templateUrl: './active-competitions-list.component.html',
   styleUrl: './active-competitions-list.component.scss'
 })
@@ -81,7 +74,7 @@ export class ActiveCompetitionsListComponent implements OnInit, OnDestroy{
   selectCompetitionForNewsLetter(competition: ActiveCompetitionInterface) {
     this.competitionService.setActiveCompetition(competition);
     setTimeout(() => {
-      this.router.navigate(['private-news-letter']);
+      this.router.navigate(['news-letter/private-news-letter']);
     }, 100);
   }
 }

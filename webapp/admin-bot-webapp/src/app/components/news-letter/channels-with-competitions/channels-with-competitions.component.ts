@@ -5,15 +5,9 @@ import {Router} from "@angular/router";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
-import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-channels-with-competitions',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
   templateUrl: './channels-with-competitions.component.html',
   styleUrl: './channels-with-competitions.component.scss'
 })
@@ -24,7 +18,6 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
   selectElementsExist: boolean = false;
 
   private chatsIdList: number[] = [];
-
   constructor(private telegram: TelegramService,
               private router: Router,
               private channelsService: ChannelsService,
@@ -45,7 +38,7 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
     this.selectElementsExist = true;
     this.selectedChannelsService.setSelectedChat(element);
     setTimeout(() => {
-      this.router.navigate(['/competitions-type'])
+      this.router.navigate(['/competition-types-list'])
     }, 100);
   }
 
@@ -105,7 +98,7 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
   createNewsLetterByChat(chat: TelegramEntityInterface) {
     this.selectedChannelsService.setSelectedChatForNewsLetter(chat);
     setTimeout(() => {
-      this.router.navigate(['/public-news-letter']);
+      this.router.navigate(['news-letter/public-news-letter']);
     }, 100);
   }
 }

@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {main_url} from "../../../shared/application-context";
 import {TokenGenerateService} from "../token/token-generate.service";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {ActiveCompetitionInterface} from "../../active-competition.interface";
 
 @Injectable({
@@ -11,7 +11,13 @@ import {ActiveCompetitionInterface} from "../../active-competition.interface";
 })
 export class CompetitionService {
 
-  private activeCompetition = new Subject<ActiveCompetitionInterface>();
+  private activeCompetition = new BehaviorSubject<ActiveCompetitionInterface>({
+    contestId: '',
+    name: '',
+    finishTime: '',
+    chatId: '',
+    botId: ''
+  });
   constructor(private http: HttpClient, private router: Router) {
   }
 

@@ -11,12 +11,6 @@ import {AdminsListService} from "../../core/services/admins/admins-list.service"
 
 @Component({
   selector: 'app-competition-endpoint-selector',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    NgOptimizedImage
-  ],
   templateUrl: './competition-endpoint-selector.component.html',
   styleUrl: './competition-endpoint-selector.component.scss'
 })

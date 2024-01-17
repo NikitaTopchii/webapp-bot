@@ -1,16 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
-import {NgForOf} from "@angular/common";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatInputModule} from "@angular/material/input";
-import {response} from "express";
-import {finalize, Observable} from "rxjs";
 import {DateTimeValidatorService} from "../../core/services/date-time-validator.service";
 @Component({
   selector: 'app-competition-creator',

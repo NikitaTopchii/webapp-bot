@@ -1,8 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {NgForOf, NgIf} from "@angular/common";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
@@ -13,14 +10,6 @@ import {DateTimeValidatorService} from "../../core/services/date-time-validator.
 
 @Component({
   selector: 'app-public-news-letter-by-chat',
-  standalone: true,
-    imports: [
-        MatDatepickerModule,
-        MatFormFieldModule,
-        NgForOf,
-        NgIf,
-        ReactiveFormsModule
-    ],
   templateUrl: './public-news-letter-by-chat.component.html',
   styleUrl: './public-news-letter-by-chat.component.scss'
 })

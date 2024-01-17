@@ -2,16 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {ActivatedRoute} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
-import {NgIf, NgOptimizedImage} from "@angular/common";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-competition-participation',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgOptimizedImage
-  ],
   templateUrl: './competition-participation.component.html',
   styleUrl: './competition-participation.component.scss'
 })

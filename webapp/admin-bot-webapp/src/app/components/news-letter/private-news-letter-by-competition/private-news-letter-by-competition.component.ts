@@ -1,29 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
-import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {TokenGenerateService} from "../../core/services/token/token-generate.service";
 import {DateTimeValidatorService} from "../../core/services/date-time-validator.service";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {NgForOf, NgIf} from "@angular/common";
-import {MatInputModule} from "@angular/material/input";
 import {ActiveCompetitionInterface} from "../../core/active-competition.interface";
 
 @Component({
   selector: 'app-private-news-letter-by-competition',
-  standalone: true,
-  imports: [
-    MatDatepickerModule,
-    MatFormFieldModule,
-    NgForOf,
-    NgIf,
-    ReactiveFormsModule,
-    MatInputModule
-  ],
   templateUrl: './private-news-letter-by-competition.component.html',
   styleUrl: './private-news-letter-by-competition.component.scss'
 })
@@ -66,6 +50,7 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
   }
 
   sendCompetitionDataToBot(form: FormGroup){
+    console.log(this.getNewsLetterData(form));
     this.sendData(this.getNewsLetterData(form));
   }
 
@@ -84,6 +69,7 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
   }
 
   getNewsLetterData(form: FormGroup){
+    console.log(this.activeCompetition)
     return {
       type: 'private-news-letter',
       contestDescription: form.get('newsLetterMessage')?.value,
