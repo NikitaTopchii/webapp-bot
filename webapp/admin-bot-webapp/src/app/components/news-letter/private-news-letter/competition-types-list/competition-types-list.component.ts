@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 @Component({
   selector: 'app-competition-types-list',
@@ -28,5 +28,9 @@ export class CompetitionTypesListComponent implements OnInit, OnDestroy{
 
   navigateToActiveCompetitions() {
     this.router.navigate(['active-competitions-list']);
+  }
+
+  navigateToDelayedCompetitions() {
+    this.router.navigate(['finished-competitions-list']);
   }
 }

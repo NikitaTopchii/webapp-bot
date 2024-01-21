@@ -83,6 +83,16 @@ export class CompetitionService {
 
     return this.http.get<any>(main_url+'/competitions/active-competitions', { params: params });
   }
+
+  getDelayedCompetitions(formData: FormData) {
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http.get<any>(main_url+'/competitions/delayed-competitions', { params: params });
+  }
   publishCompetition(formData: FormData) {
     return this.http
       .post<string>(main_url + '/competitions/publish', formData)
@@ -90,5 +100,15 @@ export class CompetitionService {
 
         console.log(response)
       });
+  }
+
+  getFinishedCompetitions(formData: FormData) {
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http.get<any>(main_url+'/competitions/finished-competitions', { params: params });
   }
 }

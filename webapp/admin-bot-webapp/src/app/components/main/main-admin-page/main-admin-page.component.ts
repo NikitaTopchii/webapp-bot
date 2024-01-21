@@ -69,6 +69,6 @@ export class MainAdminPageComponent implements OnInit{
   }
 
   navigateToCompetitionsList() {
-    this.router.navigate(['/news-letter/channels-with-competitions'])
+    this.router.navigate(['/news-letter/main'])
   }
 }

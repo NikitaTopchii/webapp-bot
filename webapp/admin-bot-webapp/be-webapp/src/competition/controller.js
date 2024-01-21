@@ -11,6 +11,28 @@ exports.createCompetition = async (req, res) => {
     }
 }
 
+exports.getDelayedCompetitions = async (req, res) => {
+  try {
+    const competition = await CompetitionService.getDelayedCompetitions(req.query.chatid);
+    res.json(competition);
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error while getting channels' });
+  }
+}
+
+exports.getFinishedCompetitions = async (req, res) => {
+  try {
+    const competition = await CompetitionService.getFinishedCompetitions(req.query.chatid);
+    res.json(competition);
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error while getting channels' });
+  }
+}
+
 exports.publishCompetition = async (req, res) => {
     try {
         console.log(req.body.channels);

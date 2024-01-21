@@ -16,6 +16,10 @@
 <!--          <input class="competition-creator__input-name" formControlName="competitionDate" autocomplete="off"/>-->
 <!--          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid date format</label>-->
 <!--        </div>-->
+        <div class="competition-creator__name-block">
+          <label>Enter media links</label>
+          <input class="competition-creator__input-name" formControlName="media" autocomplete="off"/>
+        </div>
         <mat-form-field appearance="fill">
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">

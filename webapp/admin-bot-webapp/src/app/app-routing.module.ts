@@ -1,6 +1,9 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {MainAdminPageComponent} from "./components/main/main-admin-page/main-admin-page.component";
+import {
+  CompetitionEndpointSelectorComponent
+} from "./components/competition/competition-endpoint-selector/competition-endpoint-selector.component";
 
 const routes: Routes = [
   {

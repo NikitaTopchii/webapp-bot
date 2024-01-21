@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
-import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {TelegramEntityInterface} from "../../../core/telegram-entity/telegram-entity.interface";
+import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
-import {ChannelsService} from "../../core/services/channels/channels.service";
-import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {AdminsListService} from "../../core/services/admins/admins-list.service";
+import {ChannelsService} from "../../../core/services/channels/channels.service";
+import {SelectedChannelsService} from "../../../core/services/selected-channels/selected-channels.service";
+import {AdminsListService} from "../../../core/services/admins/admins-list.service";
 
 @Component({
   selector: 'app-channels-with-competitions',

@@ -1,3 +1,3 @@
 
-//export const main_url = 'https://prizebot.online';
-export const main_url = 'https://f737-2a02-2378-11b9-3208-3122-92a7-51b3-dfb2.ngrok-free.app'
+export const main_url = 'https://prizebot.online';
+//export const main_url = 'https://310e-2a02-2378-1205-ab27-426-9f7d-32b2-a17c.ngrok-free.app'

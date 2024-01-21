@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
-import {ChannelsService} from "../../core/services/channels/channels.service";
-import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {CompetitionService} from "../../core/services/competition/competition.service";
-import {ActiveCompetitionInterface} from "../../core/active-competition.interface";
+import {ChannelsService} from "../../../core/services/channels/channels.service";
+import {SelectedChannelsService} from "../../../core/services/selected-channels/selected-channels.service";
+import {CompetitionService} from "../../../core/services/competition/competition.service";
+import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
 
 @Component({
   selector: 'app-active-competitions-list',

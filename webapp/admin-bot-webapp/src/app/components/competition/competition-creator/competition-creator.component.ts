@@ -42,6 +42,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     return this.fb.group({
       competitionName: ['', Validators.required],
       competitionDescription: [''],
+      media: [''],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, Validators.required],
@@ -105,16 +106,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       console.log("BOT TOKEN WAS GETTING")
       this.sendCompetitionDataToBot(form, competitionId);
     });
-    //this.sendData(this.getCompetitionData(form, competitionId));
-
-    // this.setCompetitionDrafts(form, competitionId).pipe(
-    //   finalize(() => this.publishCompetitionInChannels(form, competitionId))
-    // ).subscribe((response) => {
-    //   if(response){
-    //     this.sendData(this.getCompetitionData(form, competitionId));
-    //     this.router.navigate(['/success']);
-    //   }
-    // });
   }
 
   sendCompetitionDataToBot(form: FormGroup, competitionId: number){
@@ -135,51 +126,12 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
         form.get('endDate')?.value,
         form.get('competitionFinishTime')?.value
       ),
+      media: form.get('media')?.value,
       winnerCount: form.get('competitionWinnersCount')?.value,
       botid: localStorage.getItem('botid'),
       language: form.get('languageSelector')?.value,
       contestId: competitionId.toString(),
       channelNames: this.selectedChannelNames.join(',')
     }
-  }
-
-  setCompetitionDrafts(){
-    const formData = new FormData();
-    console.log('CREATE COMPETITION')
-
-    const botid = localStorage.getItem('botid');
-
-    if(botid){
-      console.log(botid)
-      formData.append('botid', botid);
-    }
-    this.createCompetitionService.createCompetition(formData);
-  }
-
-  publishCompetitionInChannels(form: FormGroup, competitionId: number){
-    const formData = new FormData();
-
-    const competitionDate = this.dateTimeValidationService.checkDateValidation(
-      form.get('competitionDate')?.value,
-      form.get('competitionTime')?.value
-    );
-
-    if(!competitionDate){
-      this.failedDateValidation = true;
-    }
-
-    const winner_count = form.get('competitionWinnersCount')?.value;
-
-    const language = form.get('languageSelector')?.value;
-
-    formData.append('contest_id', competitionId.toString());
-    formData.append('chatid', this.selectedChannelIds.join(','))
-    formData.append('channels', this.selectedChannelIds.join(','));
-    formData.append('finishTime', competitionDate);
-    formData.append('conditions', 'subscribe');
-    formData.append('winners_count', winner_count);
-    formData.append('language', language);
-
-    this.createCompetitionService.publishCompetition(formData);
   }
 }

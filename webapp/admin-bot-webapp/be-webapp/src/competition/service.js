@@ -223,6 +223,30 @@ class CompetitionService {
 
     });
   }
+
+  async getDelayedCompetitions(chatid) {
+    return new Promise((resolve, reject) => {
+      this.competitionDB.getDelayedCompetitions(chatid, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  }
+
+  async getFinishedCompetitions(chatid) {
+    return new Promise((resolve, reject) => {
+      this.competitionDB.getFinishedCompetitions(chatid, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  }
 //
 //   async generateInviteLink(channel_id) {
 //

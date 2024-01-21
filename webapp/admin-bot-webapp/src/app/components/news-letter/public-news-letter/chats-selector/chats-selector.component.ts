@@ -1,18 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {TelegramEntityInterface} from "../../../core/telegram-entity/telegram-entity.interface";
+import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
-import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
-import {TelegramService} from "../../core/services/telegram/telegram.service";
-import {ChannelsService} from "../../core/services/channels/channels.service";
-import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {response} from "express";
-import {AdminsListService} from "../../core/services/admins/admins-list.service";
+import {ChannelsService} from "../../../core/services/channels/channels.service";
+import {SelectedChannelsService} from "../../../core/services/selected-channels/selected-channels.service";
+import {AdminsListService} from "../../../core/services/admins/admins-list.service";
 
 @Component({
-  selector: 'app-competition-endpoint-selector',
-  templateUrl: './competition-endpoint-selector.component.html',
-  styleUrl: './competition-endpoint-selector.component.scss'
+  selector: 'app-chats-selector',
+  templateUrl: './chats-selector.component.html',
+  styleUrl: './chats-selector.component.scss'
 })
-export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
+export class ChatsSelectorComponent implements OnInit, OnDestroy{
 
   private channelsList: TelegramEntityInterface[] = [];
 
@@ -39,7 +38,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   navigateToAddNewChannels() {
     this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
 
-    this.router.navigate(['/competition-creator'])
+    this.router.navigate(['/create-public-newsletter'])
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
@@ -118,3 +117,4 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     this.telegram.BackButton.onClick(this.goBack);
   }
 }
+

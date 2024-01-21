@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
-import {CompetitionService} from "../../core/services/competition/competition.service";
-import {DateTimeValidatorService} from "../../core/services/date-time-validator.service";
-import {ActiveCompetitionInterface} from "../../core/active-competition.interface";
+import {CompetitionService} from "../../../core/services/competition/competition.service";
+import {DateTimeValidatorService} from "../../../core/services/date-time-validator.service";
+import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
 
 @Component({
   selector: 'app-private-news-letter-by-competition',
@@ -13,8 +13,6 @@ import {ActiveCompetitionInterface} from "../../core/active-competition.interfac
 })
 export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestroy{
   form: FormGroup;
-
-  imageUrls: string[] = [];
 
   private activeCompetition: ActiveCompetitionInterface | undefined;
 
@@ -54,20 +52,6 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
     this.sendData(this.getNewsLetterData(form));
   }
 
-  onFileSelected(event: any) {
-    const files = event.target.files;
-    if (files) {
-      for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          console.log(e.target.result)
-          this.imageUrls.push(e.target.result); // e.target.result містить Data URL
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  }
-
   getNewsLetterData(form: FormGroup){
     console.log(this.activeCompetition)
     return {
@@ -78,7 +62,6 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
         form.get('competitionStartTime')?.value
       ),
       percentUsers: form.get('percentEndpointUsers')?.value,
-      botid: this.activeCompetition?.botId,
       language: form.get('languageSelector')?.value,
       contestId: this.activeCompetition?.contestId,
       chatId: this.activeCompetition?.chatId,
