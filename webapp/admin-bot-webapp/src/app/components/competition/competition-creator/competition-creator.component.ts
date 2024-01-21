@@ -42,6 +42,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     return this.fb.group({
       competitionName: ['', Validators.required],
       competitionDescription: [''],
+      media: [''],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, Validators.required],
@@ -135,6 +136,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
         form.get('endDate')?.value,
         form.get('competitionFinishTime')?.value
       ),
+      media: form.get('media')?.value,
       winnerCount: form.get('competitionWinnersCount')?.value,
       botid: localStorage.getItem('botid'),
       language: form.get('languageSelector')?.value,

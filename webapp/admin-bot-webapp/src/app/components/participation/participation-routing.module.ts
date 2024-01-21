@@ -6,7 +6,7 @@ import {NgModule} from "@angular/core";
 
 const routes: Routes = [
   {
-    path: "subscribe-participation",
+    path: "competition-participation",
     component: PrivateNewsLetterByCompetitionComponent,
   }
 ];
