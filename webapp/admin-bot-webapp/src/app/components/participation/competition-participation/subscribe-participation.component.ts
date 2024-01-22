@@ -6,10 +6,10 @@ import {AdminsListService} from "../../core/services/admins/admins-list.service"
 
 @Component({
   selector: 'app-competition-participation',
-  templateUrl: './competition-participation.component.html',
-  styleUrl: './competition-participation.component.scss'
+  templateUrl: './subscribe-participation.component.html',
+  styleUrl: './subscribe-participation.component.scss'
 })
-export class CompetitionParticipationComponent implements OnInit{
+export class SubscribeParticipationComponent implements OnInit{
   successParticipation = false;
   failParticipationBySubscribe = false;
   failParticipationByTime = false;

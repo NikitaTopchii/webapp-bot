@@ -19,9 +19,20 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private selectedChannelNames: string[] = [];
 
   failedDateValidation = false;
-  failedTimeValidation = false;
-  wrong = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
+
+  //buttons
+  setContestName: boolean = true;
+  setContestDescription: boolean = true;
+  setContestMedia: boolean = true;
+  setContestData: boolean = true;
+  setContestTime: boolean = true;
+  setContestLanguage: boolean = true;
+  setContestWinnersCount: boolean = true;
+  setContestCondition: boolean = true;
+  conditionTypes: boolean = false;
+  setSelfConditionBuilder: boolean = true;
+  setGuessNumberCondition: boolean = true;
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -49,8 +60,51 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       competitionFinishTime: ['', Validators.required],
       competitionWinnersCount: ['', Validators.required],
       languageSelector: ['en'],
+      conditionTypes: ['email'],
+      conditionSelector: ['subscribe'],
+      selfConditionTypes: ['text'],
+      selfConditionName: [''],
+      guessNumberCondition: ['exact'],
+      guessNumber: ['']
     });
   }
+
+  getFieldValue(form: FormGroup, field: string) {
+    return form.get(field)?.value;
+  }
+
+  getContestCondition(form: FormGroup) {
+    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
+
+    switch (conditionSelector) {
+      case 'subscribe':
+        return 'subscribe';
+      case 'condition':
+        const conditionType = this.getFieldValue(form, 'conditionTypes');
+        switch (conditionType) {
+          case 'email':
+            return 'email';
+          case 'number':
+            return 'number';
+          default:
+            return 'self,' + this.getFieldValue(form, 'selfConditionTypes');
+        }
+      default:
+        return this.getFieldValue(form, 'guessNumberCondition');
+    }
+  }
+
+  getContestConditionAnswer(form: FormGroup) {
+    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
+    const conditionType = this.getFieldValue(form, 'conditionTypes');
+
+    if (conditionSelector === 'condition' && conditionType === 'self') {
+      return this.getFieldValue(form, 'selfConditionName');
+    } else {
+      return this.getFieldValue(form, 'guessNumber');
+    }
+  }
+
 
   handleDateChanged(eventName: string, event: any) {
     // this only logs if the user changes the inputs via the UI but not if the form controls are // modified
@@ -131,7 +185,72 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       botid: localStorage.getItem('botid'),
       language: form.get('languageSelector')?.value,
       contestId: competitionId.toString(),
-      channelNames: this.selectedChannelNames.join(',')
+      channelNames: this.selectedChannelNames.join(','),
+      condition: this.getContestCondition(form),
+      answer: this.getContestConditionAnswer(form)
     }
+  }
+
+  showContestNameInput(){
+    this.setContestName = !this.setContestName;
+  }
+
+  showContestDescriptionInput(){
+    this.setContestDescription = !this.setContestDescription;
+  }
+
+  showContestMediaInput(){
+    this.setContestMedia = !this.setContestMedia;
+  }
+
+  showContestDataInput(){
+    this.setContestData = !this.setContestData;
+  }
+
+  showContestTimeInput(){
+    this.setContestTime = !this.setContestTime;
+  }
+
+  showContestWinnersCount(){
+    this.setContestWinnersCount = !this.setContestWinnersCount;
+  }
+
+  showContestLanguageInput(){
+    this.setContestLanguage = !this.setContestLanguage;
+  }
+
+  showContestConditionInput(){
+    this.hideConditionTypes();
+    this.hideSelfConditionBuilder();
+    this.hideGuessNumberCondition();
+    this.setContestCondition = !this.setContestCondition;
+  }
+
+  showConditionTypes() {
+    this.hideGuessNumberCondition();
+    this.conditionTypes = !this.conditionTypes;
+  }
+
+  hideConditionTypes(){
+    this.conditionTypes = false;
+    this.hideGuessNumberCondition();
+  }
+
+  showSelfConditionBuilder() {
+    this.setSelfConditionBuilder = !this.setSelfConditionBuilder;
+  }
+
+  hideSelfConditionBuilder() {
+    this.setSelfConditionBuilder = true;
+  }
+
+  showGuessNumberCondition() {
+    this.hideSelfConditionBuilder();
+    this.hideConditionTypes();
+    this.setGuessNumberCondition = !this.setGuessNumberCondition;
+  }
+
+  hideGuessNumberCondition(){
+    this.setGuessNumberCondition = true;
   }
 }

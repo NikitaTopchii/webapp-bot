@@ -38,6 +38,15 @@
       height: 40px;
     }
 
+    &__selector-button{
+      background: $button_color;
+      color: $button_text_color;
+      border-radius: 15px;
+      border: none;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
     &__list-of-channels{
       margin-top: 10px;
       margin-bottom: 10px;
@@ -92,13 +101,22 @@
       flex-direction: column;
     }
     &__language-selector{
+      margin-top: 10px;
       display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-      width: 100%;
-      padding: 10px;
+      flex-direction: column;
+    }
+    &__condition-selector{
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    &__self-condition-builder{
+      display: flex;
+      flex-direction: column;
+    }
+    &__guess-number{
+      display: flex;
+      flex-direction: column;
     }
   }
 

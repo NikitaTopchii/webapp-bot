@@ -13,7 +13,7 @@ class IndexJs {
         app.use(
             cors({
               origin: "https://prizebot.online"
-              //origin: 'https://310e-2a02-2378-1205-ab27-426-9f7d-32b2-a17c.ngrok-free.app',
+              //origin: 'https://cfbd-188-163-40-175.ngrok-free.app',
             }),
         );
         app.use(express.json());

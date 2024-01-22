@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {CompetitionParticipationComponent} from "./competition-participation/competition-participation.component";
+import {SubscribeParticipationComponent} from "./competition-participation/subscribe-participation.component";
+import {ParticipationCoreComponent} from "./participation-core.component";
 
 
 
 @NgModule({
-  declarations: [CompetitionParticipationComponent],
+  declarations: [
+    SubscribeParticipationComponent,
+    ParticipationCoreComponent],
   imports: [
     CommonModule,
     NgOptimizedImage
