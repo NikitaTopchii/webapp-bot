@@ -1,4 +1,4 @@
-const CompetitionService = require('./service');
+  const CompetitionService = require('./service');
 
 exports.createCompetition = async (req, res) => {
     try {
@@ -14,6 +14,17 @@ exports.createCompetition = async (req, res) => {
 exports.getDelayedCompetitions = async (req, res) => {
   try {
     const competition = await CompetitionService.getDelayedCompetitions(req.query.chatid);
+    res.json(competition);
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error while getting channels' });
+  }
+}
+
+exports.getCompetitionCondition = async (req, res) => {
+  try {
+    const competition = await CompetitionService.getCompetitionCondition(req.query.contest_id);
     res.json(competition);
 
   } catch (error) {

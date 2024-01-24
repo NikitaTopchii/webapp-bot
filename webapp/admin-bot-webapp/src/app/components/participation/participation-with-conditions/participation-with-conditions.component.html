@@ -1,0 +1,11 @@
+<div class="competition-participation">
+  <div class="competition-participation__wrapper">
+    <form [formGroup]="form" (ngSubmit)="addParticipation(form)" class="form" *ngIf="enterAnswer">
+      <label>{{conditionsValue}}</label>
+      <input class="competition-participation__input-name" formControlName="answer" autocomplete="off"/>
+      <button type="submit" class="competition-participation__button">participate</button>
+    </form>
+    <img *ngIf="successParticipation" ngSrc="assets/beating-heart.gif" alt="" height="64" width="64">
+  </div>
+</div>
+

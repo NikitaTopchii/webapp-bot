@@ -14,5 +14,8 @@ router
     .route('/check')
     .get(ParticipationController.getParticipant)
 
+router
+    .route('/answer')
+    .post(upload.any(), ParticipationController.addParticipationWithAnswer);
 
 module.exports = router;

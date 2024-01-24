@@ -19,6 +19,6 @@ export class UserService {
     });
 
     return this.http
-      .get<any>(main_url + '/users/auth', { params: params });
+      .get<any>(main_url + '/users/user', { params: params });
   }
 }

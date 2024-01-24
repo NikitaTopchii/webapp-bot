@@ -80,7 +80,6 @@ export class SubscribeParticipationComponent implements OnInit{
                     }
                   }
                 });
-
               } else {
                 this.checkingUsersInfo = false;
                 this.failParticipationBySubscribe = true;

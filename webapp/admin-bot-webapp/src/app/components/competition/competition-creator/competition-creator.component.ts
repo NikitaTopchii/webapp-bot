@@ -51,14 +51,14 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      competitionName: ['', Validators.required],
-      competitionDescription: [''],
+      competitionName: ['contest', Validators.required],
+      competitionDescription: ['contest description'],
       media: [''],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, Validators.required],
-      competitionFinishTime: ['', Validators.required],
-      competitionWinnersCount: ['', Validators.required],
+      competitionFinishTime: ['19:00', Validators.required],
+      competitionWinnersCount: ['1', Validators.required],
       languageSelector: ['en'],
       conditionTypes: ['email'],
       conditionSelector: ['subscribe'],

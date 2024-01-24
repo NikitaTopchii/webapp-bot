@@ -1,4 +1,4 @@
-@import "../../styles/colors";
+@import "../../../styles/colors";
 
 
 :host{
@@ -23,6 +23,27 @@
       margin: 10px;
       flex-direction: column;
       border-radius: 25px;
+    }
+    &__input-name{
+      border-radius: 15px;
+      margin-top: 10px;
+      height: 40px;
+      transition: 0.2s;
+      box-sizing: border-box;
+      padding-left: 10px;
+      border: 1px solid $button_color;
+      &:focus{
+        outline: none;
+        border: 3px solid $button_color;
+      }
+    }
+    &__button{
+      background: $button_color;
+      color: $button_text_color;
+      border-radius: 15px;
+      border: none;
+      margin: 10px;
+      height: 40px;
     }
   }
 }

@@ -38,6 +38,29 @@ class ParticipationDB {
         });
     }
 
+  addParticipantWithAnswer(userid,
+                 contest_id,
+                 username,
+                 conditions,
+                 text,
+                 callback){
+    const request = 'INSERT INTO users_data SET ?';
+    const participant = {
+      userid,
+      contest_id,
+      username,
+      text
+    }
+
+    this.connection.query(request, participant, (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
     getParticipant(userid, contests_id,callback) {
         console.log("ІВАІВАІВАІВАІВАІВАІ")
         console.log(userid)

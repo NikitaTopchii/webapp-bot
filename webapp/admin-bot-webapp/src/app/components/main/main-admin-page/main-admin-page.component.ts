@@ -4,6 +4,7 @@ import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {UserService} from "../../core/services/user/user.service";
 import {LanguageSelectorComponent} from "../../language-selector/language-selector.component";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
+import {response} from "express";
 
 @Component({
   selector: 'app-main-admin-page',
@@ -17,7 +18,7 @@ import {AdminsListService} from "../../core/services/admins/admins-list.service"
 export class MainAdminPageComponent implements OnInit{
 
   data: any;
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private usersService: UserService) {
     const userIdByLocalStorage = localStorage.getItem('user_id');
 
     let userIdByParams = '';
@@ -47,6 +48,15 @@ export class MainAdminPageComponent implements OnInit{
   getUser() {
     localStorage.setItem('user_id', this.data);
 
+    const formData = new FormData();
+
+    formData.append('userid', this.data);
+
+    this.usersService.getUser(formData).subscribe((response) => {
+      console.log(response)
+      const timezone = response.results[0].timezone;
+      localStorage.setItem('timezone', timezone);
+    })
     // this.userService.getUser(formData).subscribe((response) => {
     //   const user = response.results;
     //

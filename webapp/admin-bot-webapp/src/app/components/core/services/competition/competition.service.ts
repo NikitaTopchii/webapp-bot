@@ -5,6 +5,7 @@ import {main_url} from "../../../shared/application-context";
 import {TokenGenerateService} from "../token/token-generate.service";
 import {BehaviorSubject, Subject} from "rxjs";
 import {ActiveCompetitionInterface} from "../../active-competition.interface";
+import {CompetitionConditionsInterface} from "../../competition-conditions.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class CompetitionService {
     chatId: '',
     botId: ''
   });
+
   constructor(private http: HttpClient, private router: Router) {
   }
 
@@ -28,6 +30,7 @@ export class CompetitionService {
   getActiveCompetition(){
     return this.activeCompetition.asObservable();
   }
+
 
   createCompetition(formData: FormData) {
     return this.http
@@ -41,6 +44,17 @@ export class CompetitionService {
 
         console.log(response)
       });
+  }
+
+  getCompetitionCondition(formData: FormData){
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/competitions/condition', {params: params});
   }
 
   checkParticipation(formData: FormData) {

@@ -57,9 +57,17 @@ export class DateTimeValidatorService {
     // Додаємо час закінчення до об'єкта дати
     date.setHours(parseInt(timeComponents[0]), parseInt(timeComponents[1]));
 
+    console.log('DATE BEFORE' + date)
+
     // Коригуємо час з урахуванням часового поясу, щоб отримати час у форматі UTC
-    const timezoneOffset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - timezoneOffset);
+    const timezoneOffset = localStorage.getItem('timezone');
+    console.log(timezoneOffset)
+    if(timezoneOffset !== null){
+      console.log(timezoneOffset)
+      date.setHours(date.getHours() + parseInt(timezoneOffset));
+    }
+
+    console.log('DATE AFTER' + date)
 
     // Повертаємо дату у форматі ISO
     console.log(date.toISOString())
@@ -68,6 +76,12 @@ export class DateTimeValidatorService {
 
   getCurrentTime() {
     const now = new Date();
+
+    const timezoneOffset = localStorage.getItem('timezone');
+
+    if(timezoneOffset){
+      now.setHours(now.getHours());
+    }
 
     return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   }

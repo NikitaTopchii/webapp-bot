@@ -34,4 +34,8 @@ router
     .route('/finished-competitions')
     .get(CompetitionController.getFinishedCompetitions)
 
+router
+    .route('/condition')
+    .get(CompetitionController.getCompetitionCondition)
+
 module.exports = router;
