@@ -6,6 +6,7 @@ const express = require('express'),
     adminsRouter = require('./admins/routes'),
     participationRouter = require('./contests_data/routes'),
     competitionBotRouter = require('./contest_bots/routes');
+const {main_url} = require("../shared/application-context");
 
 
 class IndexJs {
@@ -13,7 +14,7 @@ class IndexJs {
         app.use(
             cors({
               //origin: "https://prizebot.online"
-              origin: 'https://7975-188-163-40-175.ngrok-free.app',
+              origin: main_url,
             }),
         );
         app.use(express.json());
