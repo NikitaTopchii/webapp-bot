@@ -6,12 +6,20 @@
         <div class="competition-creator__name-block">
           <div>
             <label>Enter competition name</label>
-            <input class="competition-creator__input-name" formControlName="competitionName" autocomplete="off"/>
+            <input class="competition-creator__input-name formControl" formControlName="competitionName" autocomplete="off"/>
+          </div>
+          <div *ngIf="form.get('competitionName')?.hasError('required') && form.get('competitionName')?.touched">
+            Competition name is required
           </div>
         </div>
         <div class="competition-creator__describe-block">
-          <label>Enter competition describe</label>
-          <textarea class="competition-creator__textarea-description" formControlName="competitionDescription"></textarea>
+          <div>
+            <label>Enter competition describe</label>
+            <textarea class="competition-creator__textarea-description formControl" formControlName="competitionDescription"></textarea>
+          </div>
+          <div *ngIf="form.get('competitionDescription')?.hasError('required') && form.get('competitionDescription')?.touched">
+            Description is required
+          </div>
         </div>
         <div class="competition-creator__describe-block">
           <button *ngIf="setContestMedia" (click)="showContestMediaInput()" class="competition-creator__selector-button">enter contest media</button>
@@ -21,7 +29,7 @@
           <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo is allowed here</p>
         </div>
         <div class="competition-creator__describe-block">
-          <button *ngIf="setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">enter contest data</button>
+          <button *ngIf="setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">enter contest date</button>
           <button *ngIf="!setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">close</button>
           <mat-form-field appearance="fill" *ngIf="!setContestData">
             <mat-label>Enter a date range</mat-label>
@@ -49,19 +57,37 @@
           <button *ngIf="setContestTime" (click)="showContestTimeInput()" class="competition-creator__selector-button">enter contest time</button>
           <button *ngIf="!setContestTime" (click)="showContestTimeInput()" class="competition-creator__selector-button">close</button>
           <label *ngIf="!setContestTime">Enter contest start time in format: hh:mm</label>
-          <input *ngIf="!setContestTime" class="competition-creator__input-name" formControlName="competitionStartTime" autocomplete="off"/>
+          <input *ngIf="!setContestTime" class="competition-creator__input-name formControl" formControlName="competitionStartTime" autocomplete="off"/>
           <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
+        </div>
+        <div *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
+          Time is required
+        </div>
+        <div *ngIf="form.get('competitionStartTime')?.hasError('pattern')">
+          String is not valid. Please use format HH:MM
         </div>
         <div class="competition-creator__date-format" [class.__failed]="failedDateValidation" *ngIf="!setContestTime">
           <label>Enter contest final time in format: hh:mm</label>
-          <input class="competition-creator__input-name" formControlName="competitionFinishTime" autocomplete="off"/>
+          <input class="competition-creator__input-name formControl" formControlName="competitionFinishTime" autocomplete="off"/>
           <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
+        </div>
+        <div *ngIf="form.get('competitionFinishTime')?.hasError('required') && form.get('competitionFinishTime')?.touched">
+          Time is required
+        </div>
+        <div *ngIf="form.get('competitionFinishTime')?.hasError('pattern')">
+          String is not valid. Please use format HH:MM
         </div>
         <div class="competition-creator__date-format">
           <button *ngIf="setContestWinnersCount" (click)="showContestWinnersCount()" class="competition-creator__selector-button">enter winners count</button>
           <button *ngIf="!setContestWinnersCount" (click)="showContestWinnersCount()" class="competition-creator__selector-button">close</button>
           <label *ngIf="!setContestWinnersCount">Enter count of winners: </label>
-          <input *ngIf="!setContestWinnersCount" class="competition-creator__input-name" formControlName="competitionWinnersCount" autocomplete="off"/>
+          <input *ngIf="!setContestWinnersCount" class="competition-creator__input-name formControl" formControlName="competitionWinnersCount" autocomplete="off"/>
+        </div>
+        <div *ngIf="form.get('competitionWinnersCount')?.hasError('required') && form.get('competitionWinnersCount')?.touched">
+          Count of winners is required
+        </div>
+        <div *ngIf="form.get('competitionWinnersCount')?.hasError('pattern')">
+          Only numbers are allowed
         </div>
         <div class="competition-creator__language-selector">
           <button *ngIf="setContestLanguage" (click)="showContestLanguageInput()" class="competition-creator__selector-button">enter contest language</button>
@@ -144,7 +170,7 @@
             <span>{{channels.name}}</span>
           </div>
         </div>
-        <button type="submit" class="competition-creator__button">create competition</button>
+        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>
       </form>
     </div>
   </div>

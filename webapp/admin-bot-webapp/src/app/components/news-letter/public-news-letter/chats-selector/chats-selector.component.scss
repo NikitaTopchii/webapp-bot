@@ -64,6 +64,10 @@
       border: none;
       margin: 10px;
       height: 40px;
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
     }
     &__admin-edit-button{
       background: $button_color;
