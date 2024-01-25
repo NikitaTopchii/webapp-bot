@@ -1,6 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {ChannelsInterface} from "../../core/telegram-entity/channels.interface";
 import {Router} from "@angular/router";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
@@ -11,12 +9,6 @@ import {AdminsListService} from "../../core/services/admins/admins-list.service"
 
 @Component({
   selector: 'app-competition-endpoint-selector',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    NgOptimizedImage
-  ],
   templateUrl: './competition-endpoint-selector.component.html',
   styleUrl: './competition-endpoint-selector.component.scss'
 })

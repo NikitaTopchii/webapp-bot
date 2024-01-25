@@ -1,19 +1,9 @@
-import {AdminListComponent} from "./components/admins/admin-list/admin-list.component";
-import {AddAdminPageComponent} from "./components/admins/add-admin-page/add-admin-page.component";
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {EditPermissionsPageComponent} from "./components/admins/edit-permissions-page/edit-permissions-page.component";
 import {MainAdminPageComponent} from "./components/main/main-admin-page/main-admin-page.component";
-import {CompetitionCreatorComponent} from "./components/competition/competition-creator/competition-creator.component";
 import {
   CompetitionEndpointSelectorComponent
 } from "./components/competition/competition-endpoint-selector/competition-endpoint-selector.component";
-import {
-  CompetitionParticipationComponent
-} from "./components/competition/competition-participation/competition-participation.component";
-import {
-  SuccessCreatingCompetitionComponent
-} from "./components/competition/success-creating-competition/success-creating-competition.component";
 
 const routes: Routes = [
   {
@@ -21,32 +11,16 @@ const routes: Routes = [
     component: MainAdminPageComponent
   },
   {
-    path: 'add-new-admin',
-    component: AddAdminPageComponent
+    path: 'competitions',
+    loadChildren: () => import("./components/competition/competition.module").then((m) => m.CompetitionModule)
   },
   {
-    path: 'edit-admin',
-    component: EditPermissionsPageComponent
+    path: 'news-letter',
+    loadChildren: () => import("./components/news-letter/news-letter.module").then((m) => m.NewsLetterModule)
   },
   {
-    path: 'admins-list',
-    component: AdminListComponent
-  },
-  {
-    path: 'channels-list',
-    component: CompetitionEndpointSelectorComponent
-  },
-  {
-    path: 'competition-creator',
-    component: CompetitionCreatorComponent
-  },
-  {
-    path: 'active-competition',
-    component: CompetitionParticipationComponent
-  },
-  {
-    path: 'success',
-    component: SuccessCreatingCompetitionComponent
+    path: 'participation',
+    loadChildren: () => import("./components/participation/participation.module").then((m) => m.ParticipationModule)
   }
 ];
 

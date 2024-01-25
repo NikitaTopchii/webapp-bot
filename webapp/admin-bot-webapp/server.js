@@ -30,7 +30,7 @@ app.get('/api/language/:lang', (req, res) => {
 
 const port = process.env.PORT;
 
-const index = require("../../be-webapp/src/index");
+const index = require("./be-webapp/src/index");
 
 let server_back = new index(app, process.env.SERVER_URL);
 

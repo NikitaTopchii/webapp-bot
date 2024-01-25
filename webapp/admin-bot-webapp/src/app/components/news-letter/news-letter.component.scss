@@ -1,0 +1,29 @@
+@import "../../styles/colors";
+
+:host{
+
+  .main{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    &__menu{
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      height: 20vh;
+      justify-content: space-between;
+      border-radius: 15px;
+      background: $secondary_bg_color;
+    }
+
+    &__nav-to-list{
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: $bg_color;
+      color: $text_color
+    }
+  }
+}
