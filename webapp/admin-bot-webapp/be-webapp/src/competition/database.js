@@ -88,6 +88,38 @@ class CompetitionDB {
     });
   }
 
+  getDelayedCompetitions(chatid, callback) {
+    const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = -1';
+    this.connection.query(sql, [chatid], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
+  getFinishedCompetitions(chatid, callback) {
+    const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = 1';
+    this.connection.query(sql, [chatid], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
+  getCompetitionCondition(contestId, callback){
+    const sql = 'SELECT conditions, answer, finish_time, channels FROM contests WHERE contest_id = ?';
+    this.connection.query(sql, [contestId], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
   getActiveCompetition(chat_id,callback) {
     const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = 0';
     this.connection.query(sql, [chat_id], (err, results) => {

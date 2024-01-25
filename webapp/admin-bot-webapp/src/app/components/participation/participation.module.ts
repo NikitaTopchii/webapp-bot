@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {CompetitionParticipationComponent} from "./competition-participation/competition-participation.component";
+import {ParticipationCoreComponent} from "./participation-core.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {
+  ParticipationWithConditionsComponent
+} from "./participation-with-conditions/participation-with-conditions.component";
+import {ParticipationRoutingModule} from "./participation-routing.module";
 
 
 
 @NgModule({
-  declarations: [CompetitionParticipationComponent],
+  declarations: [
+    ParticipationWithConditionsComponent,
+    ParticipationCoreComponent],
   imports: [
     CommonModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ParticipationRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class ParticipationModule { }

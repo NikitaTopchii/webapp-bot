@@ -57,7 +57,7 @@ export class AdminsListService {
 
   authUser(formData: FormData) {
     return this.http
-      .post<string>(main_url + '/users/auth', formData);
+      .post<any>(main_url + '/users/auth', formData);
   }
 
   getAdmin(formData: FormData) {

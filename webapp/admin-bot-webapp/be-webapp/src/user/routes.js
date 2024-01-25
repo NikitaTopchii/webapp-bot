@@ -12,6 +12,10 @@ router
     // .put(UserController.updateUser)
 
 router
+  .route('/user')
+  .get(UserController.getUser)
+
+router
     .route('/simple-admins')
     .get(UserController.getUsers)
 

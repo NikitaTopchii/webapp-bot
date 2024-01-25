@@ -26,4 +26,16 @@ router
     .route('/subscribe-verification')
     .get(CompetitionController.checkSubscription)
 
+router
+    .route('/delayed-competitions')
+    .get(CompetitionController.getDelayedCompetitions)
+
+router
+    .route('/finished-competitions')
+    .get(CompetitionController.getFinishedCompetitions)
+
+router
+    .route('/condition')
+    .get(CompetitionController.getCompetitionCondition)
+
 module.exports = router;

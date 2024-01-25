@@ -27,6 +27,26 @@ class ParticipationService {
         })
     }
 
+  async addParticipantWithAnswer(data){
+
+    return new Promise((resolve, reject) => {
+      this.participationDB.addParticipantWithAnswer(
+        data.userid,
+        data.contests_id,
+        data.username,
+        data.conditions,
+        data.answer,
+        (err, data) => {
+          if(err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        }
+      )
+    })
+  }
+
     async getParticipant(userid, contests_id){
         console.log(userid)
         return new Promise((resolve, reject) => {

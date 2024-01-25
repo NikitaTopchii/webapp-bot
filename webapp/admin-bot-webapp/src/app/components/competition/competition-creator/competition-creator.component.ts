@@ -19,9 +19,20 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private selectedChannelNames: string[] = [];
 
   failedDateValidation = false;
-  failedTimeValidation = false;
-  wrong = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
+
+  //buttons
+  setContestName: boolean = true;
+  setContestDescription: boolean = true;
+  setContestMedia: boolean = true;
+  setContestData: boolean = true;
+  setContestTime: boolean = true;
+  setContestLanguage: boolean = true;
+  setContestWinnersCount: boolean = true;
+  setContestCondition: boolean = true;
+  conditionTypes: boolean = false;
+  setSelfConditionBuilder: boolean = true;
+  setGuessNumberCondition: boolean = true;
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -40,17 +51,60 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      competitionName: ['', Validators.required],
-      competitionDescription: [''],
+      competitionName: ['contest', Validators.required],
+      competitionDescription: ['contest description'],
       media: [''],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, Validators.required],
-      competitionFinishTime: ['', Validators.required],
-      competitionWinnersCount: ['', Validators.required],
+      competitionFinishTime: ['19:00', Validators.required],
+      competitionWinnersCount: ['1', Validators.required],
       languageSelector: ['en'],
+      conditionTypes: ['email'],
+      conditionSelector: ['subscribe'],
+      selfConditionTypes: ['text'],
+      selfConditionName: [''],
+      guessNumberCondition: ['exact'],
+      guessNumber: ['']
     });
   }
+
+  getFieldValue(form: FormGroup, field: string) {
+    return form.get(field)?.value;
+  }
+
+  getContestCondition(form: FormGroup) {
+    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
+
+    switch (conditionSelector) {
+      case 'subscribe':
+        return 'subscribe';
+      case 'condition':
+        const conditionType = this.getFieldValue(form, 'conditionTypes');
+        switch (conditionType) {
+          case 'email':
+            return 'email';
+          case 'number':
+            return 'number';
+          default:
+            return 'self,' + this.getFieldValue(form, 'selfConditionTypes');
+        }
+      default:
+        return this.getFieldValue(form, 'guessNumberCondition');
+    }
+  }
+
+  getContestConditionAnswer(form: FormGroup) {
+    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
+    const conditionType = this.getFieldValue(form, 'conditionTypes');
+
+    if (conditionSelector === 'condition' && conditionType === 'self') {
+      return this.getFieldValue(form, 'selfConditionName');
+    } else {
+      return this.getFieldValue(form, 'guessNumber');
+    }
+  }
+
 
   handleDateChanged(eventName: string, event: any) {
     // this only logs if the user changes the inputs via the UI but not if the form controls are // modified
@@ -106,16 +160,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       console.log("BOT TOKEN WAS GETTING")
       this.sendCompetitionDataToBot(form, competitionId);
     });
-    //this.sendData(this.getCompetitionData(form, competitionId));
-
-    // this.setCompetitionDrafts(form, competitionId).pipe(
-    //   finalize(() => this.publishCompetitionInChannels(form, competitionId))
-    // ).subscribe((response) => {
-    //   if(response){
-    //     this.sendData(this.getCompetitionData(form, competitionId));
-    //     this.router.navigate(['/success']);
-    //   }
-    // });
   }
 
   sendCompetitionDataToBot(form: FormGroup, competitionId: number){
@@ -141,47 +185,72 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       botid: localStorage.getItem('botid'),
       language: form.get('languageSelector')?.value,
       contestId: competitionId.toString(),
-      channelNames: this.selectedChannelNames.join(',')
+      channelNames: this.selectedChannelNames.join(','),
+      condition: this.getContestCondition(form),
+      answer: this.getContestConditionAnswer(form)
     }
   }
 
-  setCompetitionDrafts(){
-    const formData = new FormData();
-    console.log('CREATE COMPETITION')
-
-    const botid = localStorage.getItem('botid');
-
-    if(botid){
-      console.log(botid)
-      formData.append('botid', botid);
-    }
-    this.createCompetitionService.createCompetition(formData);
+  showContestNameInput(){
+    this.setContestName = !this.setContestName;
   }
 
-  publishCompetitionInChannels(form: FormGroup, competitionId: number){
-    const formData = new FormData();
+  showContestDescriptionInput(){
+    this.setContestDescription = !this.setContestDescription;
+  }
 
-    const competitionDate = this.dateTimeValidationService.checkDateValidation(
-      form.get('competitionDate')?.value,
-      form.get('competitionTime')?.value
-    );
+  showContestMediaInput(){
+    this.setContestMedia = !this.setContestMedia;
+  }
 
-    if(!competitionDate){
-      this.failedDateValidation = true;
-    }
+  showContestDataInput(){
+    this.setContestData = !this.setContestData;
+  }
 
-    const winner_count = form.get('competitionWinnersCount')?.value;
+  showContestTimeInput(){
+    this.setContestTime = !this.setContestTime;
+  }
 
-    const language = form.get('languageSelector')?.value;
+  showContestWinnersCount(){
+    this.setContestWinnersCount = !this.setContestWinnersCount;
+  }
 
-    formData.append('contest_id', competitionId.toString());
-    formData.append('chatid', this.selectedChannelIds.join(','))
-    formData.append('channels', this.selectedChannelIds.join(','));
-    formData.append('finishTime', competitionDate);
-    formData.append('conditions', 'subscribe');
-    formData.append('winners_count', winner_count);
-    formData.append('language', language);
+  showContestLanguageInput(){
+    this.setContestLanguage = !this.setContestLanguage;
+  }
 
-    this.createCompetitionService.publishCompetition(formData);
+  showContestConditionInput(){
+    this.hideConditionTypes();
+    this.hideSelfConditionBuilder();
+    this.hideGuessNumberCondition();
+    this.setContestCondition = !this.setContestCondition;
+  }
+
+  showConditionTypes() {
+    this.hideGuessNumberCondition();
+    this.conditionTypes = !this.conditionTypes;
+  }
+
+  hideConditionTypes(){
+    this.conditionTypes = false;
+    this.hideGuessNumberCondition();
+  }
+
+  showSelfConditionBuilder() {
+    this.setSelfConditionBuilder = !this.setSelfConditionBuilder;
+  }
+
+  hideSelfConditionBuilder() {
+    this.setSelfConditionBuilder = true;
+  }
+
+  showGuessNumberCondition() {
+    this.hideSelfConditionBuilder();
+    this.hideConditionTypes();
+    this.setGuessNumberCondition = !this.setGuessNumberCondition;
+  }
+
+  hideGuessNumberCondition(){
+    this.setGuessNumberCondition = true;
   }
 }

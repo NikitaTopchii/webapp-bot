@@ -5,7 +5,7 @@
       <span class="admin-list__name">{{telegramEntity.name}}</span>
     </div>
     <div>
-      <img src="./assets/check-mark.png" class="admin-list__select-button" *ngIf="telegramEntity.selected">
+      <img src="assets/check-mark.png" class="admin-list__select-button" *ngIf="telegramEntity.selected">
     </div>
   </div>
   <button [disabled]="!selectElementsExist" class="admin-list__button" (click)="navigateToAddNewChannels()">continue</button>

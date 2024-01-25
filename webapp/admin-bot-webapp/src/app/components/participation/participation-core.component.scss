@@ -1,0 +1,28 @@
+@import "../../styles/colors";
+
+
+:host{
+
+  .competition-participation{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    background: #4098ff !important;
+    align-items: center;
+    &__wrapper{
+      background: #fff;
+      color: #000000 !important;
+      width: 300px;
+      height: 300px;
+      box-sizing: border-box;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px;
+      flex-direction: column;
+      border-radius: 25px;
+    }
+  }
+}

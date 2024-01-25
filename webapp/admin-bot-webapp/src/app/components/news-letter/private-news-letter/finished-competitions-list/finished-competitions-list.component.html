@@ -1,0 +1,11 @@
+<div class="admin-list">
+  <span class="admin-list__title">select competition</span>
+  <div class="admin-list__element-of-list" *ngFor="let competition of getFinishedCompetitions()">
+    <div>
+      <span class="admin-list__name">{{competition.name}}</span>
+    </div>
+    <div>
+      <button (click)="selectCompetitionForNewsLetter(competition)">news letter</button>
+    </div>
+  </div>
+</div>
