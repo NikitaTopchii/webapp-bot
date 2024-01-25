@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {CompetitionService} from "../../../core/services/competition/competition.service";
-import {DateTimeValidatorService} from "../../../core/services/date-time-validator.service";
+import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
 
 @Component({

@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
 import {CompetitionService} from "../../core/services/competition/competition.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
-import {DateTimeValidatorService} from "../../core/services/date-time-validator.service";
+import {DateTimeValidatorService} from "../../core/services/validators/date-time/date-time-validator.service";
+import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
 @Component({
   selector: 'app-competition-creator',
   templateUrl: './competition-creator.component.html',
@@ -40,8 +41,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
               private createCompetitionService: CompetitionService,
               private selectedChannelsService: SelectedChannelsService,
               private generateTokenService: TokenGenerateService,
-              private dateTimeValidationService: DateTimeValidatorService) {
-
+              private dateTimeValidationService: DateTimeValidatorService,
+              private fileValidatorService: FileValidatorService) {
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
 
@@ -53,7 +54,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     return this.fb.group({
       competitionName: ['contest', Validators.required],
       competitionDescription: ['contest description'],
-      media: [''],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, Validators.required],
@@ -67,6 +68,16 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       guessNumberCondition: ['exact'],
       guessNumber: ['']
     });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+    this.form.patchValue({ media: file });
   }
 
   getFieldValue(form: FormGroup, field: string) {
@@ -128,7 +139,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
 

@@ -17,7 +17,8 @@
           <button *ngIf="setContestMedia" (click)="showContestMediaInput()" class="competition-creator__selector-button">enter contest media</button>
           <button *ngIf="!setContestMedia" (click)="showContestMediaInput()" class="competition-creator__selector-button">close</button>
           <label *ngIf="!setContestMedia">Enter media links</label>
-          <input *ngIf="!setContestMedia" class="competition-creator__input-name" formControlName="media" autocomplete="off"/>
+          <input *ngIf="!setContestMedia" type="file" (change)="onFileSelected($event)">
+          <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo is allowed here</p>
         </div>
         <div class="competition-creator__describe-block">
           <button *ngIf="setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">enter contest data</button>
