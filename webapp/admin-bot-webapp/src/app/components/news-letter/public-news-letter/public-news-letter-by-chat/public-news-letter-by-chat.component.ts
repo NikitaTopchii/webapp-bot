@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {CompetitionService} from "../../../core/services/competition/competition.service";
 import {SelectedChannelsService} from "../../../core/services/selected-channels/selected-channels.service";
 import {TokenGenerateService} from "../../../core/services/token/token-generate.service";
-import {DateTimeValidatorService} from "../../../core/services/date-time-validator.service";
+import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 
 @Component({
   selector: 'app-public-news-letter-by-chat',
