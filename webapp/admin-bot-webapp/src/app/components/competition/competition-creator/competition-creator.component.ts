@@ -53,7 +53,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
       competitionName: ['contest', Validators.required],
-      competitionDescription: ['contest description', Validators.required],
+      competitionDescription: ['contest description', [Validators.required, Validators.maxLength(1024)]],
       media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],

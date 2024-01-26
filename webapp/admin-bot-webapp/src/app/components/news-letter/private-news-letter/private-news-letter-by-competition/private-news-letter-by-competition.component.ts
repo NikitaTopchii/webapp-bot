@@ -38,10 +38,9 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      newsLetterMessage: [''],
+      newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, Validators.required],
-      percentEndpointUsers: ['', Validators.required],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       languageSelector: ['en'],
       imagesLinks: ['', Validators.required],
     });
@@ -61,7 +60,6 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
         form.get('startDate')?.value,
         form.get('competitionStartTime')?.value
       ),
-      percentUsers: form.get('percentEndpointUsers')?.value,
       language: form.get('languageSelector')?.value,
       contestId: this.activeCompetition?.contestId,
       chatId: this.activeCompetition?.chatId,

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CompetitionService} from "../core/services/competition/competition.service";
 import {AdminsListService} from "../core/services/admins/admins-list.service";
 import {ParticipationService} from "../core/services/participation/participation.service";
+import {user_id} from "../shared/application-context";
 
 @Component({
   selector: 'app-participation-core',
@@ -227,7 +228,8 @@ export class ParticipationCoreComponent {
     this.successParticipation = false;
     this.failParticipationBySubscribe = false;
     this.failParticipationByTime = false;
-    this.userId = this.telegramService.InitData.id;
+    // this.userId = this.telegramService.InitData.id;
+    this.userId = this.telegramService.InitData.id ?? user_id;
 
     this.checkingUsersInfo = true;
     this.checkAuthUser();

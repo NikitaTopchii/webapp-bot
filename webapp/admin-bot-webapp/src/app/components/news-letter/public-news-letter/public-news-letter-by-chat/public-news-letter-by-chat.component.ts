@@ -7,6 +7,7 @@ import {CompetitionService} from "../../../core/services/competition/competition
 import {SelectedChannelsService} from "../../../core/services/selected-channels/selected-channels.service";
 import {TokenGenerateService} from "../../../core/services/token/token-generate.service";
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
+import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
 
 @Component({
   selector: 'app-public-news-letter-by-chat',
@@ -23,6 +24,7 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   failedTimeValidation = false;
   wrong = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
+  setContestMedia: boolean = true;
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -30,7 +32,8 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
               private createCompetitionService: CompetitionService,
               private selectedChannelsService: SelectedChannelsService,
               private generateTokenService: TokenGenerateService,
-              private dateTimeValidationService: DateTimeValidatorService) {
+              private dateTimeValidationService: DateTimeValidatorService,
+              private fileValidatorService: FileValidatorService) {
 
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
@@ -45,13 +48,23 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      newsLetterMessage: [''],
+      newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, Validators.required],
-      percentEndpointUsers: ['', Validators.required],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       languageSelector: ['en'],
-      imagesLinks: ['', Validators.required],
+      // imagesLinks: ['', Validators.required],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
     });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+    this.form.patchValue({ media: file });
   }
 
   getSelectedChannels(){
@@ -97,11 +110,12 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
         form.get('startDate')?.value,
         form.get('competitionStartTime')?.value
       ),
-      percentUsers: form.get('percentEndpointUsers')?.value,
       language: form.get('languageSelector')?.value,
       chatId: this.selectedChannelIds?.join(','),
-      urls: form.get('imagesLinks')?.value,
+      // urls: form.get('imagesLinks')?.value,
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
     }
   }
 }
+
 

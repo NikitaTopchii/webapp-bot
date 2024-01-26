@@ -5,7 +5,13 @@
       <form [formGroup]="form" (ngSubmit)="pushNewsLetter(form)" class="form">
         <div class="competition-creator__describe-block">
           <label>Enter news letter message</label>
-          <textarea class="competition-creator__textarea-description" formControlName="newsLetterMessage"></textarea>
+          <textarea class="competition-creator__textarea-description formControl" formControlName="newsLetterMessage"></textarea>
+        </div>
+        <div *ngIf="form.get('newsLetterMessage')?.hasError('required') && form.get('newsLetterMessage')?.touched">
+          Message is required
+        </div>
+        <div *ngIf="form.get('newsLetterMessage')?.hasError('maxlength') && form.get('newsLetterMessage')?.touched">
+          Maximum length exceeded (maximum 1024 characters)
         </div>
         <label>Enter links on images: </label>
         <input class="competition-creator__input-name" formControlName="imagesLinks">
@@ -18,12 +24,14 @@
         </mat-form-field>
         <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">
           <label>Enter contest start time in format: hh:mm</label>
-          <input class="competition-creator__input-name" formControlName="competitionStartTime">
+          <input class="competition-creator__input-name formControl" formControlName="competitionStartTime">
           <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
         </div>
-        <div class="competition-creator__date-format">
-          <label>Enter percent of users: </label>
-          <input class="competition-creator__input-name" formControlName="percentEndpointUsers">
+        <div *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
+          Time is required
+        </div>
+        <div *ngIf="form.get('competitionStartTime')?.hasError('pattern') && form.get('competitionStartTime')?.touched">
+          String is not valid. Please use format HH:MM
         </div>
         <div class="competition-creator__language-selector">
           <label>
@@ -35,7 +43,7 @@
             en
           </label>
         </div>
-        <button type="submit" class="competition-creator__button">create news letter</button>
+        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create news letter</button>
       </form>
     </div>
   </div>

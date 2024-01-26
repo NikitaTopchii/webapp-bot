@@ -36,6 +36,10 @@
       border: none;
       margin: 10px;
       height: 40px;
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
     }
 
     &__list-of-channels{
@@ -108,4 +112,8 @@
     padding: 10px;
     flex-direction: column;
   }
+}
+
+.formControl.ng-invalid {
+  border: 2px solid red;
 }
