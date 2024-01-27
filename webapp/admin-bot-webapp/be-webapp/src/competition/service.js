@@ -1,6 +1,9 @@
 const CompetitionDB = require('./database');
 const {Telegraf, Markup} = require("telegraf");
 
+const folderName = '../media/';
+const fs = require('node:fs');
+const path = require('path');
 
 const TELEGRAM_API_URL = 'https://api.telegram.org';
 class CompetitionService {
@@ -61,6 +64,62 @@ class CompetitionService {
           resolve(data);
         }
       });
+    });
+  }
+
+  async deleteMedia(data){
+    return new Promise((resolve, reject) => {
+      const filePath = path.join(__dirname, '..', 'media', data);
+
+      fs.unlink(filePath, (err, data) => {
+        if (err) {
+          console.error(err);
+          // Якщо файл не знайдено, повернути 404
+          if (err.code === 'ENOENT') {
+            reject(err + ' file not found');
+          }
+          // Інші помилки
+          reject(data);
+        }
+      });
+      resolve('file deleted')
+    });
+  }
+  async uploadMedia(data){
+    console.log('upload media')
+    return new Promise((resolve, reject) => {
+      try{
+        console.log(data)
+        // Перевірка на наявність директорії
+        console.log(folderName)
+        if (!fs.existsSync(folderName)) {
+          console.log(folderName)
+          fs.mkdirSync(folderName, { recursive: true });
+        }
+
+        // Отримання даних файлу
+        const file = data; // Переконайтеся, що це потік даних
+        console.log(file)
+        const filename = data.originalname || 'defaultName'; // Назва файлу для збереження
+        console.log(filename)
+
+        // Створення повного шляху для файлу
+        const filePath = path.join(folderName, filename);
+        console.log(filePath)
+
+        // Запис файлу
+        fs.writeFile(filePath, file, (err) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(`File saved to ${filePath}`);
+          }
+        });
+      } catch (err) {
+        console.error(err);
+        reject(err);
+      }
     });
   }
 //
@@ -296,6 +355,7 @@ class CompetitionService {
         .then(response => response.json())
         .then(data => {
           if (data.ok && data.result && ['administrator', 'member', 'creator'].includes(data.result.status)) {
+            console.log('this work')
             resolve(true);
           } else {
             resolve(false);

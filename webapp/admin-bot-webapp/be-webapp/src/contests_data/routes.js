@@ -12,7 +12,7 @@ router
 
 router
     .route('/check')
-    .get(ParticipationController.getParticipant)
+    .get(ParticipationController.checkParticipation)
 
 router
     .route('/answer')

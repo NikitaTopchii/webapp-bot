@@ -8,6 +8,7 @@ const express = require('express'),
     competitionBotRouter = require('./contest_bots/routes');
 const {main_url} = require("../shared/application-context");
 
+const path = require('path');
 
 class IndexJs {
     constructor(app) {
@@ -25,7 +26,13 @@ class IndexJs {
         app.use('/channels', channelsRouter);
         app.use('/admins', adminsRouter);
         app.use('/participant', participationRouter);
-        app.use('/bots', competitionBotRouter)
+        app.use('/bots', competitionBotRouter);
+        app.use('/media', express.static(path.join(__dirname, '..', 'media')));
+        console.log(path.join(__dirname, 'be-webapp', 'media'));
+        app.use((req, res, next) => {
+          console.log(`Request URL: ${req.url}`);
+          next();
+        });
     }
 }
 

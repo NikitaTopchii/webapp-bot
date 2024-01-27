@@ -2,15 +2,17 @@ const UsersService = require('./service');
 const CompetitionService = require("../competition/service");
 
 exports.getUser = async (req, res) => {
-    try {
-        console.log(req.query.userid)
-        const user = await UsersService.getUser(req.query.userid);
-        res.json(user);
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).send({ message: 'Error while getting user' });
+  try {
+    const user = await UsersService.getUser(req.query.participantId);
+    if (user) {
+      res.json({ exists: true, user });
+    } else {
+      res.json({ exists: false });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error while getting user' });
+  }
 };
 
 exports.getUsers = async (req, res) => {
