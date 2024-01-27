@@ -1,3 +1,5 @@
 
-export const main_url = 'https://prizebot.online';
-//export const main_url = 'https://310e-2a02-2378-1205-ab27-426-9f7d-32b2-a17c.ngrok-free.app'
+//export const main_url = 'https://prizebot.online';
+export const main_url = 'https://ff3f-46-98-213-153.ngrok-free.app'
+
+export const bot_webhook_url = 'https://9431-46-98-213-153.ngrok-free.app'

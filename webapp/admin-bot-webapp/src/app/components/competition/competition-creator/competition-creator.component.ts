@@ -54,7 +54,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     return this.fb.group({
       competitionName: ['contest', Validators.required],
       competitionDescription: ['contest description', Validators.required],
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
@@ -77,6 +77,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     }
 
     const file = input.files[0];
+
     this.form.patchValue({ media: file });
   }
 
@@ -126,8 +127,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     return this.selectedChannels;
   }
 
-  sendData(data: any){
-    this.telegram.sendData(data);
+  sendData(data: FormData){
+    this.createCompetitionService.createContest(data);
+    //this.telegram.sendData(data);
   }
 
   goBack(){
@@ -177,38 +179,38 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   getCompetitionData(form: FormGroup, competitionId: number){
-    return {
-      type: 'create-contest',
-      contestName: form.get('competitionName')?.value,
-      contestDescription: form.get('competitionDescription')?.value,
-      channels: this.selectedChannelIds.join(','),
-      competitionStartDate: this.dateTimeValidationService.checkDateValidation(
+
+    const formData = new FormData();
+
+    const botId = localStorage.getItem('botid');
+    const userId = localStorage.getItem('user_id');
+
+    if(botId && userId){
+      formData.append('type', 'create-contest')
+      formData.append('contestName', form.get('competitionName')?.value)
+      formData.append('contestDescription', form.get('competitionDescription')?.value)
+      formData.append('channels', this.selectedChannelIds.join(','))
+      formData.append('competitionStartDate', this.dateTimeValidationService.checkDateValidation(
         form.get('startDate')?.value,
         form.get('competitionStartTime')?.value
-      ),
-      competitionFinishDate: this.dateTimeValidationService.checkDateValidation(
+      ))
+      formData.append('competitionFinishDate', this.dateTimeValidationService.checkDateValidation(
         form.get('endDate')?.value,
         form.get('competitionFinishTime')?.value
-      ),
-      media: form.get('media')?.value,
-      winnerCount: form.get('competitionWinnersCount')?.value,
-      botid: localStorage.getItem('botid'),
-      language: form.get('languageSelector')?.value,
-      contestId: competitionId.toString(),
-      channelNames: this.selectedChannelNames.join(','),
-      condition: this.getContestCondition(form),
-      answer: this.getContestConditionAnswer(form)
+      ))
+      formData.append('media', form.get('media')?.value)
+      formData.append('winnerCount', form.get('competitionWinnersCount')?.value)
+      formData.append('botid', botId)
+      formData.append('language', form.get('languageSelector')?.value)
+      formData.append('contestId', competitionId.toString())
+      formData.append('channelNames', this.selectedChannelNames.join(','))
+      formData.append('condition', this.getContestCondition(form))
+      formData.append('answer', this.getContestConditionAnswer(form))
+      formData.append('userId', userId)
     }
-  }
 
-  showContestNameInput(){
-    this.setContestName = !this.setContestName;
+    return formData;
   }
-
-  showContestDescriptionInput(){
-    this.setContestDescription = !this.setContestDescription;
-  }
-
   showContestMediaInput(){
     this.setContestMedia = !this.setContestMedia;
   }

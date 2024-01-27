@@ -33,3 +33,23 @@ exports.getParticipant = async (req, res) => {
         res.status(500).send({message: 'Error oops'})
     }
 }
+
+exports.checkParticipation = async (req, res) => {
+  try {
+    console.log('THIS IS CONSOLE LOG')
+    console.log(req.query.userid);
+    const user = await ParticipationService.getParticipant(req.query.userid, req.query.contests_id);
+    if(user.results.length === 1){
+      console.log('this man already participant')
+      console.log(user)
+      res.json({isParticipant: true})
+    }else{
+      console.log('user not found')
+      res.json({isParticipant: false})
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({message: 'Error oops'})
+  }
+}
+

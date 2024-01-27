@@ -6,6 +6,16 @@ const multer = require('multer');
 
 const upload = multer(); // Configure multer as needed
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './be-webapp/media/') // Здесь 'uploads/' - это папка, в которой будут сохраняться файлы
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname) // Здесь file.originalname - это имя файла, с которым он был загружен
+  }
+})
+const uploadMedia = multer({ storage: storage });
+
 router
     .route('/create')
     .post(upload.any(), CompetitionController.createCompetition)
@@ -37,5 +47,11 @@ router
 router
     .route('/condition')
     .get(CompetitionController.getCompetitionCondition)
+
+router
+  .route('/create-competition')
+  .post(upload.any(), CompetitionController.createContest)
+
+
 
 module.exports = router;
