@@ -10,6 +10,8 @@ import {ChannelsService} from "../core/services/channels/channels.service";
 import {
   CompetitionEndpointSelectorComponent
 } from "./competition-endpoint-selector/competition-endpoint-selector.component";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import {
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
+    MatChipsModule,
+    MatCheckboxModule,
   ],
   providers: [ChannelsService],
 })

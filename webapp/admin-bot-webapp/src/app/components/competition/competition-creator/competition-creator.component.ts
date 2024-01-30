@@ -8,6 +8,8 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
 import {DateTimeValidatorService} from "../../core/services/validators/date-time/date-time-validator.service";
 import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
+import {main_url} from "../../shared/application-context";
+import {ConditionInterface} from "../../core/condition.interface";
 @Component({
   selector: 'app-competition-creator',
   templateUrl: './competition-creator.component.html',
@@ -32,8 +34,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   setContestWinnersCount: boolean = true;
   setContestCondition: boolean = true;
   conditionTypes: boolean = false;
-  setSelfConditionBuilder: boolean = true;
-  setGuessNumberCondition: boolean = true;
+  setSelfConditionBuilder: boolean = false;
+  setGuessNumberCondition: boolean = false;
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -50,6 +52,24 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     this.form = this.getCreateCompetitionForm();
   }
 
+  ngOnInit(): void {
+    this.telegram.BackButton.show();
+    this.telegram.BackButton.onClick(this.goBack);
+
+    this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
+      this.selectedChannels = channels;
+
+      this.selectedChannels.forEach((channel) => {
+        this.selectedChannelIds.push(channel.id);
+        this.selectedChannelNames.push(channel.name);
+      })
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
+  }
+
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
       competitionName: ['contest', Validators.required],
@@ -61,8 +81,11 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       languageSelector: ['en'],
-      conditionTypes: ['email'],
-      conditionSelector: ['subscribe'],
+      selectedCondition: [''],
+      selectedBaseCondition: [{ value: 'subscribe', disabled: true }],
+      emailCondition: [true],
+      phoneCondition: [false],
+      selfCondition: [false],
       selfConditionTypes: ['text'],
       selfConditionName: [''],
       guessNumberCondition: ['exact'],
@@ -78,7 +101,13 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     const file = input.files[0];
 
+    const formData = new FormData();
+
+    formData.append('media', file);
+
     this.form.patchValue({ media: file });
+
+    this.createCompetitionService.uploadMedia(formData);
   }
 
   getFieldValue(form: FormGroup, field: string) {
@@ -86,31 +115,40 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   getContestCondition(form: FormGroup) {
-    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
+    const conditionSelector = this.getFieldValue(form, 'selectedCondition');
 
-    switch (conditionSelector) {
-      case 'subscribe':
-        return 'subscribe';
-      case 'condition':
-        const conditionType = this.getFieldValue(form, 'conditionTypes');
-        switch (conditionType) {
-          case 'email':
-            return 'email';
-          case 'number':
-            return 'number';
-          default:
-            return 'self,' + this.getFieldValue(form, 'selfConditionTypes');
-        }
-      default:
-        return this.getFieldValue(form, 'guessNumberCondition');
+    console.log(conditionSelector);
+
+    if(conditionSelector === 'condition'){
+      const emailCondition = this.getFieldValue(form, 'emailCondition') ? 'emailCondition' : '';
+      const phoneCondition = this.getFieldValue(form, 'phoneCondition') ? 'phoneCondition' : '';
+      const selfCondition = this.getFieldValue(form, 'selfCondition') ? this.getFieldValue(form, 'selfConditionTypes') : '';
+
+      const condition: ConditionInterface = {
+        emailCondition: emailCondition,
+        phoneCondition: phoneCondition,
+        selfCondition: selfCondition,
+        guessNumber: ''
+      }
+
+      return JSON.stringify(condition);
+    }else if(conditionSelector === 'guess number'){
+      const condition: ConditionInterface = {
+        emailCondition: '',
+        phoneCondition: '',
+        selfCondition: '',
+        guessNumber: this.getFieldValue(form, 'guessNumberCondition')
+      }
+
+      return JSON.stringify(condition);
     }
+    return 'subscribe';
   }
 
   getContestConditionAnswer(form: FormGroup) {
-    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
-    const conditionType = this.getFieldValue(form, 'conditionTypes');
+    const selfConditionSelector = this.getFieldValue(form, 'selfCondition');
 
-    if (conditionSelector === 'condition' && conditionType === 'self') {
+    if (selfConditionSelector) {
       return this.getFieldValue(form, 'selfConditionName');
     } else {
       return this.getFieldValue(form, 'guessNumber');
@@ -128,30 +166,13 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   sendData(data: FormData){
-    this.createCompetitionService.createContest(data);
-    //this.telegram.sendData(data);
+    //this.createCompetitionService.createContest(data);
+    console.log(data)
+    this.telegram.sendData(data);
   }
 
   goBack(){
-    this.router.navigate(['/channels-list']);
-  }
-
-  ngOnDestroy(): void {
-    this.telegram.BackButton.offClick(this.goBack);
-  }
-
-  ngOnInit(): void {
-    this.telegram.BackButton.show();
-    this.telegram.BackButton.onClick(this.goBack);
-
-    this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
-      this.selectedChannels = channels;
-
-      this.selectedChannels.forEach((channel) => {
-        this.selectedChannelIds.push(channel.id);
-        this.selectedChannelNames.push(channel.name);
-      })
-    })
+    this.router.navigate(['/competition-endpoint-selector']);
   }
 
   createCompetition(form: FormGroup) {
@@ -159,23 +180,16 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     console.log('CREATE COMPETITION')
 
-    const formData = new FormData();
-    console.log('CREATE COMPETITION')
+    const formData = this.getCompetitionData(form, competitionId)
 
-    const botid = localStorage.getItem('botid');
-
-    if(botid){
-      console.log(botid)
-      formData.append('botid', botid);
-    }
-    this.createCompetitionService.createCompetition(formData).subscribe(() => {
-      console.log("BOT TOKEN WAS GETTING")
-      this.sendCompetitionDataToBot(form, competitionId);
+    this.createCompetitionService.createCompetitionDraft(formData).subscribe(() => {
+      console.log('CONTEST DRAFT WAS CREATE')
+      this.sendCompetitionDataToBot(this.getDataForBot(form, competitionId));
     });
   }
 
-  sendCompetitionDataToBot(form: FormGroup, competitionId: number){
-    this.sendData(this.getCompetitionData(form, competitionId));
+  sendCompetitionDataToBot(data: any){
+    this.sendData(data);
   }
 
   getCompetitionData(form: FormGroup, competitionId: number){
@@ -198,7 +212,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
         form.get('endDate')?.value,
         form.get('competitionFinishTime')?.value
       ))
-      formData.append('media', form.get('media')?.value)
+      formData.append('media', form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '')
       formData.append('winnerCount', form.get('competitionWinnersCount')?.value)
       formData.append('botid', botId)
       formData.append('language', form.get('languageSelector')?.value)
@@ -210,6 +224,31 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     }
 
     return formData;
+  }
+
+  getDataForBot(form: FormGroup, competitionId: number){
+    return {
+      type: 'create-contest',
+      contestName: form.get('competitionName')?.value,
+      contestDescription: form.get('competitionDescription')?.value,
+      channels: this.selectedChannelIds.join(','),
+      competitionStartDate: this.dateTimeValidationService.checkDateValidation(
+        form.get('startDate')?.value,
+        form.get('competitionStartTime')?.value
+      ),
+      competitionFinishDate: this.dateTimeValidationService.checkDateValidation(
+        form.get('endDate')?.value,
+        form.get('competitionFinishTime')?.value
+      ),
+      media: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
+      winnerCount: form.get('competitionWinnersCount')?.value,
+      botid: localStorage.getItem('botid'),
+      language: form.get('languageSelector')?.value,
+      contestId: competitionId.toString(),
+      channelNames: this.selectedChannelNames.join(','),
+      condition: this.getContestCondition(form),
+      answer: this.getContestConditionAnswer(form)
+    }
   }
   showContestMediaInput(){
     this.setContestMedia = !this.setContestMedia;
@@ -245,7 +284,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   hideConditionTypes(){
     this.conditionTypes = false;
-    this.hideGuessNumberCondition();
   }
 
   showSelfConditionBuilder() {
@@ -257,12 +295,11 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   showGuessNumberCondition() {
-    this.hideSelfConditionBuilder();
     this.hideConditionTypes();
     this.setGuessNumberCondition = !this.setGuessNumberCondition;
   }
 
   hideGuessNumberCondition(){
-    this.setGuessNumberCondition = true;
+    this.setGuessNumberCondition = false;
   }
 }

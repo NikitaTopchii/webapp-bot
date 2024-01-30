@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ParticipationService} from "../../core/services/participation/participation.service";
 import {response} from "express";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 @Component({
   selector: 'app-participation-with-conditions',
   templateUrl: './participation-with-conditions.component.html',
@@ -18,6 +19,11 @@ export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
   conditionsType: File | string = '';
   conditionsValue: File | string = '';
 
+  conditionsValueEmail: any;
+  conditionsValuePhone: any;
+  conditionsValueSelfCondition: any;
+  conditionsGuessNumber: any;
+
   successParticipation: boolean = false;
   enterAnswer: boolean = true;
 
@@ -25,9 +31,22 @@ export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
     this.form = this.getParticipationForm();
   }
 
+  ngOnInit() {
+    this.participationService.getCompetitionConditionSubject().subscribe((contestData) => {
+      this.contestData = contestData.contestData;
+      this.checkConditionsType(contestData.contestData);
+    })
+  }
+
+  ngOnDestroy() {
+  }
+
   getParticipationForm(){
     return this.fb.group({
-      answer: ['', Validators.required],
+      email: [''],
+      phone: [''],
+      selfAnswer: [''],
+      guessedNumber: ['']
     });
   }
 
@@ -37,11 +56,19 @@ export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
 
     this.contestData.delete('answer')
 
-    this.contestData.append('answer', form.get('answer')?.value);
+    const guessedNumber = form.get('guessedNumber')?.value;
 
-    console.log('++++++++++')
-    console.log(this.contestData)
-    console.log('++++++++++')
+    if(guessedNumber){
+      this.contestData.append('answer', guessedNumber);
+    }else{
+      const answer = {
+        email: form.get('email')?.value,
+        phone: form.get('phone')?.value,
+        selfAnswer: form.get('selfAnswer')?.value
+      }
+
+      this.contestData.append('answer', JSON.stringify(answer));
+    }
 
     this.successParticipation = false;
 
@@ -54,48 +81,42 @@ export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
 
   checkConditionsType(contestData: FormData){
 
-    const conditionsType = contestData.get('conditions');
+    const conditions = contestData.get('conditions');
     const answer = contestData.get('answer');
 
-    console.log('============')
-    console.log(conditionsType)
-    console.log(answer)
-    console.log('============')
+    if(conditions){
+      const conditionsType = conditions.toString().split(',');
 
-    if((conditionsType === 'self,media' || conditionsType === 'self,text' || conditionsType === 'self,links' || conditionsType === 'self,number') && answer){
-      console.log('type self')
-      this.conditionsValue = answer;
-      this.conditionsType = 'self';
-    }else{
-      if(conditionsType === 'email'){
-        console.log('type email');
-        this.conditionsType = 'email';
-        this.conditionsValue = 'Enter your email'
-      }else if(conditionsType === 'number'){
-        console.log('type number')
-        this.conditionsType = 'number'
-        this.conditionsValue = 'Enter your phone number'
-      }else if(conditionsType === 'exact' || conditionsType === 'closest'){
-        console.log('guessNumber')
-        this.conditionsValue = 'Enter number for guess'
-        this.conditionsType = 'guessNumber'
-      }else{
-        console.log('ХЗ ЧО У ВАС ТАМ ПРОИСХОДИТ')
-        this.conditionsType = 'unknown condition'
-      }
+      console.log(conditionsType)
+
+      conditionsType.forEach((type) => {
+        console.log(type)
+        this.setValues(type, answer);
+      })
     }
   }
 
-  ngOnInit() {
-    this.participationService.getCompetitionConditionSubject().subscribe((contestData) => {
-      console.log('NG ON INIT NAHUI')
-      console.log(contestData.contestData)
-      console.log('NG ON INIT NAHUI END')
-      this.contestData = contestData.contestData;
-      this.checkConditionsType(contestData.contestData);
-    })
-  }
-
-  ngOnDestroy() {
+  setValues(conditionsType: string, answer: FormDataEntryValue | null){
+    if((conditionsType === 'media' || conditionsType === 'text' || conditionsType === 'links' || conditionsType === 'number') && answer){
+      console.log('type self')
+      this.conditionsValueSelfCondition = answer.toString();
+      this.conditionsType = 'self';
+    }else{
+      if(conditionsType === 'emailCondition'){
+        console.log('type email');
+        this.conditionsType = 'email';
+        this.conditionsValueEmail = 'Enter your email'
+      }else if(conditionsType === 'phoneCondition'){
+        console.log('type number')
+        this.conditionsType = 'number'
+        this.conditionsValuePhone = 'Enter your phone number'
+      }else if(conditionsType === 'exact' || conditionsType === 'closest'){
+        console.log('guessNumber')
+        this.conditionsGuessNumber = 'Enter number for guess'
+        this.conditionsType = 'guessNumber'
+      }else{
+        this.conditionsType = 'unknown condition'
+      }
+    }
   }
 }
