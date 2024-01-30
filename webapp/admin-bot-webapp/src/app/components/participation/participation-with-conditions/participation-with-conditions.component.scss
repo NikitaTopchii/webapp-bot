@@ -37,6 +37,14 @@
         border: 3px solid $button_color;
       }
     }
+    &__input-block{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 4px;
+    }
     &__button{
       background: $button_color;
       color: $button_text_color;
@@ -45,5 +53,12 @@
       margin: 10px;
       height: 40px;
     }
+  }
+
+  .form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 }

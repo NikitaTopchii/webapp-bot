@@ -33,8 +33,6 @@ class UserDB {
     authUser(userid,
                       username,
                       language,
-                      is_admin,
-                      subscription,
                       callback){
 
         console.log(username)
@@ -43,9 +41,7 @@ class UserDB {
         const newUser = {
             userid,
             username,
-            language,
-            is_admin,
-            subscription
+            language
         }
 
         this.connection.query(request, newUser, (err, results) => {

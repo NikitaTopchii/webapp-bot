@@ -42,32 +42,26 @@ class CompetitionDB {
     });
   }
 
-  publishCompetition(contest_id,
-                     chatid,
+  createContestDraft(contest_id,
+                     name,
                      channels,
+                     description,
+                     owner_id,
+                     media,
                      conditions,
-                     finish_time,
-                     winners_amount,
-                     invite_links,
-                     bot_token,
-                     message_ids,
-                     language,
                      callback){
-    const request = 'INSERT INTO contests SET ?';
-    const newCompetition = {
+    const request = 'INSERT INTO contests_draft SET ?';
+    const newContestDraft = {
       contest_id,
-      chatid,
+      name,
       channels,
-      conditions,
-      finish_time,
-      winners_amount,
-      invite_links,
-      bot_token,
-      language,
-      message_ids
+      description,
+      owner_id,
+      media,
+      conditions
     }
 
-    this.connection.query(request, newCompetition, (err, results) => {
+    this.connection.query(request, newContestDraft, (err, results) => {
       if (err) {
         callback(err, null);
       } else {
@@ -111,7 +105,7 @@ class CompetitionDB {
   }
 
   getCompetitionCondition(contestId, callback){
-    const sql = 'SELECT conditions, answer, finish_time, channels FROM contests WHERE contest_id = ?';
+    const sql = 'SELECT conditions, answer, is_closed, channels, bot_token FROM contests WHERE contest_id = ?';
     this.connection.query(sql, [contestId], (err, results) => {
       if (err) {
         callback(err, null);

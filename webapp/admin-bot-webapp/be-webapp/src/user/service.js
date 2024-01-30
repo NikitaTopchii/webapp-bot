@@ -14,7 +14,8 @@ class UsersService {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(data);
+                  console.log(data)
+                  resolve(data);
                 }
             });
 
@@ -28,8 +29,6 @@ class UsersService {
                 data.userid,
                 data.username,
                 data.language,
-                data.isAdmin,
-                data.subscription,
                 (err, data) => {
                     if(err) {
                         reject(err);

@@ -32,7 +32,7 @@ export class CompetitionService {
   }
 
 
-  createCompetition(formData: FormData) {
+  createCompetitionDraft(formData: FormData) {
     return this.http
       .post<string>(main_url + '/competitions/create', formData);
   }
@@ -135,6 +135,14 @@ export class CompetitionService {
   createPublicNewsLetter(formData: FormData){
     return this.http
       .post<string>(bot_webhook_url + '/public-newsletter', formData)
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
+
+  uploadMedia(formData: FormData){
+    return this.http
+      .post<string>(main_url + '/competitions/upload-media', formData)
       .subscribe((response) => {
         console.log(response);
       });

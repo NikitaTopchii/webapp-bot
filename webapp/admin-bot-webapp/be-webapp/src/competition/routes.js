@@ -3,22 +3,29 @@ const express = require('express'),
     CompetitionController = require('./controller');
 
 const multer = require('multer');
+const fs = require("fs");
 
 const upload = multer(); // Configure multer as needed
 
+const mediaPath = './be-webapp/media/';
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './be-webapp/media/') // Здесь 'uploads/' - это папка, в которой будут сохраняться файлы
+    if (!fs.existsSync(mediaPath)){
+      fs.mkdirSync(mediaPath, { recursive: true }); // Створення папки, якщо вона не існує
+    }
+    cb(null, mediaPath);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname) // Здесь file.originalname - это имя файла, с которым он был загружен
+    cb(null, file.originalname); // або будь-яка інша логіка для імені файлу
   }
-})
+});
+
 const uploadMedia = multer({ storage: storage });
 
 router
     .route('/create')
-    .post(upload.any(), CompetitionController.createCompetition)
+    .post(upload.any(), CompetitionController.createContestDraft)
 
 router
     .route('/publish')
@@ -52,6 +59,13 @@ router
   .route('/create-competition')
   .post(upload.any(), CompetitionController.createContest)
 
+router
+  .route('/upload-media')
+  .post(uploadMedia.any(), (req, res) => {
+    // req.files міститиме інформацію про завантажені файли
+    console.log(req.files);
+    res.json('Файл успішно завантажено');
+  })
 
 
 module.exports = router;

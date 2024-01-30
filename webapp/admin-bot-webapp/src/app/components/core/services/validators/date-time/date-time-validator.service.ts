@@ -60,12 +60,12 @@ export class DateTimeValidatorService {
     console.log('DATE BEFORE' + date)
 
     // Коригуємо час з урахуванням часового поясу, щоб отримати час у форматі UTC
-    const timezoneOffset = localStorage.getItem('timezone');
-    console.log(timezoneOffset)
-    if(timezoneOffset !== null){
-      console.log(timezoneOffset)
-      date.setHours(date.getHours() + parseInt(timezoneOffset));
-    }
+    // const timezoneOffset = localStorage.getItem('timezone');
+    // console.log(timezoneOffset)
+    // if(timezoneOffset !== null){
+    //   console.log(timezoneOffset)
+    //   date.setHours(date.getHours() + parseInt(timezoneOffset));
+    // }
 
     console.log('DATE AFTER' + date)
 
@@ -77,11 +77,11 @@ export class DateTimeValidatorService {
   getCurrentTime() {
     const now = new Date();
 
-    const timezoneOffset = localStorage.getItem('timezone');
-
-    if(timezoneOffset){
-      now.setHours(now.getHours());
-    }
+    // const timezoneOffset = localStorage.getItem('timezone');
+    //
+    // if(timezoneOffset){
+    //   now.setHours(now.getHours());
+    // }
 
     return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   }

@@ -79,6 +79,17 @@ exports.getActiveCompetitions = async (req, res) => {
   }
 };
 
+exports.createContestDraft = async (req, res) => {
+    try {
+      console.log(req.body);
+      await CompetitionService.createContestDraft(req.body);
+      res.json('ok');
+    } catch (error) {
+      console.log(error)
+      res.status(500).send({message: 'Error oops'})
+    }
+}
+
 
 exports.checkSubscription = async (req, res) => {
   try {

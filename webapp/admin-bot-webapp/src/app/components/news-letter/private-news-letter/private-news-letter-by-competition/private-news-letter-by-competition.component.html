@@ -7,8 +7,11 @@
           <label>Enter news letter message</label>
           <textarea class="competition-creator__textarea-description" formControlName="newsLetterMessage"></textarea>
         </div>
-        <label>Enter links on images: </label>
-        <input class="competition-creator__input-name" formControlName="imagesLinks">
+        <div class="competition-creator__describe-block">
+          <label>Enter media links</label>
+          <input type="file" (change)="onFileSelected($event)">
+          <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
+        </div>
         <mat-form-field>
           <mat-label>Choose a date</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="startDate">

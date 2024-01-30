@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {CompetitionService} from "../../../core/services/competition/competition.service";
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
+import {main_url} from "../../../shared/application-context";
+import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
 
 @Component({
   selector: 'app-private-news-letter-by-competition',
@@ -24,7 +26,8 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
               private telegram: TelegramService,
               private router: Router,
               private competitionService: CompetitionService,
-              private dateTimeValidationService: DateTimeValidatorService) {
+              private dateTimeValidationService: DateTimeValidatorService,
+              private fileValidatorService: FileValidatorService) {
 
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
@@ -43,8 +46,25 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
       competitionStartTime: [this.currentTime, Validators.required],
       percentEndpointUsers: ['', Validators.required],
       languageSelector: ['en'],
-      imagesLinks: ['', Validators.required],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
     });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const formData = new FormData();
+
+    formData.append('media', file);
+
+    this.form.patchValue({ media: file });
+
+    this.competitionService.uploadMedia(formData);
   }
 
   sendCompetitionDataToBot(form: FormGroup){
@@ -65,7 +85,7 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
       language: form.get('languageSelector')?.value,
       contestId: this.activeCompetition?.contestId,
       chatId: this.activeCompetition?.chatId,
-      urls: form.get('imagesLinks')?.value,
+      urls: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
     }
   }
 

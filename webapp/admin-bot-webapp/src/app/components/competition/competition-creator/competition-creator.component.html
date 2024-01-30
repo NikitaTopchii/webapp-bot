@@ -101,58 +101,46 @@
             en
           </label>
         </div>
+        <div class="competition-creator__conditions-block">
+          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedBaseCondition">
+            <mat-chip-option color="accent" selected [disabled]="true">subscribe</mat-chip-option>
+          </mat-chip-listbox>
+          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedCondition">
+            <mat-chip-option (click)="showConditionTypes()">condition</mat-chip-option>
+            <mat-chip-option (click)="showGuessNumberCondition()">guess number</mat-chip-option>
+          </mat-chip-listbox>
+        </div>
         <div class="competition-creator__condition-selector">
-          <button *ngIf="setContestCondition" class="competition-creator__selector-button" (click)="showContestConditionInput()">select contest condition</button>
-          <button *ngIf="!setContestCondition" class="competition-creator__selector-button" (click)="showContestConditionInput()">close</button>
-          <label *ngIf="!setContestCondition" (click)="hideConditionTypes()">
-            <input type="radio" formControlName="conditionSelector" value="subscribe">
-            subscribe
-          </label>
-          <label *ngIf="!setContestCondition" (click)="showConditionTypes()">
-            <input type="radio" formControlName="conditionSelector" value="condition">
-            condition
-          </label>
-          <label>
-            <label *ngIf="conditionTypes">
-              <input type="radio" formControlName="conditionTypes" value="email" (click)="hideSelfConditionBuilder()">
-              enter email
-            </label>
-            <label *ngIf="conditionTypes">
-              <input type="radio" formControlName="conditionTypes" value="number" (click)="hideSelfConditionBuilder()">
-              enter number
-            </label>
-            <label *ngIf="conditionTypes" (click)="showSelfConditionBuilder()">
-              <input type="radio" formControlName="conditionTypes" value="self">
-              self condition
-            </label>
-          </label>
-          <div *ngIf="!setSelfConditionBuilder" class="competition-creator__self-condition-builder">
-            <label>Enter condition</label>
-            <input class="competition-creator__input-name" formControlName="selfConditionName" autocomplete="off"/>
-            <label>
+          <div class="competition-creator__conditions" *ngIf="conditionTypes">
+            <p class="competition-creator__checkbox-text"><mat-checkbox formControlName="emailCondition">email</mat-checkbox></p>
+            <p class="competition-creator__checkbox-text"><mat-checkbox formControlName="phoneCondition">phone</mat-checkbox></p>
+            <p class="competition-creator__checkbox-text"><mat-checkbox formControlName="selfCondition" (click)="showSelfConditionBuilder()">self</mat-checkbox></p>
+            <div class="competition-creator__self-condition-builder" *ngIf="setSelfConditionBuilder">
+              <label>Enter self condition</label>
+              <input class="competition-creator__input-name" formControlName="selfConditionName" autocomplete="off"/>
               <label>
                 <input type="radio" formControlName="selfConditionTypes" value="text">
                 text
               </label>
               <label>
-                <input type="radio" formControlName="selfConditionTypes" value="numbers">
-                numbers
+                <input type="radio" formControlName="selfConditionTypes" value="number">
+                number
               </label>
               <label>
-                <input type="radio" formControlName="selfConditionTypes" value="media">
-                media
+                <input type="radio" formControlName="selfConditionTypes" value="image">
+                image
               </label>
               <label>
-                <input type="radio" formControlName="selfConditionTypes" value="links">
-                links
+                <input type="radio" formControlName="selfConditionTypes" value="video">
+                video
               </label>
-            </label>
+              <label>
+                <input type="radio" formControlName="selfConditionTypes" value="link">
+                link
+              </label>
+            </div>
           </div>
-          <label *ngIf="!setContestCondition" (click)="showGuessNumberCondition()">
-            <input type="radio" formControlName="conditionSelector" value="guess number">
-            guess number
-          </label>
-          <div *ngIf="!setGuessNumberCondition" class="competition-creator__guess-number">
+          <div class="competition-creator__guess-number-condition" *ngIf="setGuessNumberCondition">
             <label>Enter number</label>
             <input class="competition-creator__input-name" formControlName="guessNumber" autocomplete="off"/>
             <label>

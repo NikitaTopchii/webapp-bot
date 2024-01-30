@@ -54,9 +54,7 @@ export class ParticipationCoreComponent {
 
     this.participationService.getCompetitionCondition(formData).subscribe((response) => {
 
-      const finishTime = new Date(response.results[0].finish_time);
-
-      if (this.checkCurrentDate(finishTime)) {
+      if (!this.checkContestExist(response.is_closed)) {
         this.processCompetitionResponse(response)
       } else {
         this.checkingUsersInfo = false;
@@ -66,9 +64,9 @@ export class ParticipationCoreComponent {
   }
 
   processCompetitionResponse(response: any) {
-    const conditions = response.results[0].conditions;
-    const answer = response.results[0].answer;
-    const channelIds = response.results[0].channels.split(',');
+    const conditions = response.conditions;
+    const answer = response.answer;
+    const channelIds = response.channels.split(',');
 
     forkJoin(channelIds.map((id:string) => this.checkSubscribeOnChannels(this.getParticipantId(), id))).pipe(
       switchMap((statuses: any) => {
@@ -130,14 +128,8 @@ export class ParticipationCoreComponent {
     return formData;
   }
 
-  checkCurrentDate(finishDateTime: Date){
-    const currentDateTime = new Date();
-
-    const currentTimeZoneOffset = currentDateTime.getTimezoneOffset();
-
-    const currentTime = new Date(finishDateTime.getTime() + (currentTimeZoneOffset * 60 * 1000));
-
-    return currentTime.getTime() < finishDateTime.getTime();
+  checkContestExist(finishDateTime: number){
+    return finishDateTime === 1;
   }
 
   checkSubscribeOnChannels(participantId: string, chatId: string):Observable<boolean> {
@@ -160,9 +152,13 @@ export class ParticipationCoreComponent {
 
     this.adminsService.getUser(formData).pipe(
       switchMap(response => {
+        console.log('response from auth user')
+        console.log(response)
         if (response.exists) {
+          console.log('user exists')
           return of(response.user);
         } else {
+          console.log('auth user')
           return this.authUser();
         }
       }),
