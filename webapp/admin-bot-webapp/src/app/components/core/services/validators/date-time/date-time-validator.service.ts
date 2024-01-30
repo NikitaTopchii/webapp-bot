@@ -44,34 +44,13 @@ export class DateTimeValidatorService {
     }
   }
 
-  convertToISOFormat(dateString: string, expirationTimeString: string): string {
-    // Створюємо об'єкт Date із вхідного рядка дати
-    let date = new Date(dateString);
+  convertToISOFormat(dateString:string, timeString:string) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
 
-    // Розбиваємо рядок часу закінчення на компоненти (години, хвилини)
-    const timeComponents = expirationTimeString.split(':');
-    if (timeComponents.length !== 2) {
-      throw new Error("Invalid expiration time format");
-    }
-
-    // Додаємо час закінчення до об'єкта дати
-    date.setHours(parseInt(timeComponents[0]), parseInt(timeComponents[1]));
-
-    console.log('DATE BEFORE' + date)
-
-    // Коригуємо час з урахуванням часового поясу, щоб отримати час у форматі UTC
-    // const timezoneOffset = localStorage.getItem('timezone');
-    // console.log(timezoneOffset)
-    // if(timezoneOffset !== null){
-    //   console.log(timezoneOffset)
-    //   date.setHours(date.getHours() + parseInt(timezoneOffset));
-    // }
-
-    console.log('DATE AFTER' + date)
-
-    // Повертаємо дату у форматі ISO
-    console.log(date.toISOString())
-    return date.toISOString();
+    return `${year}-${month}-${day}T${timeString}:00.000Z`;
   }
 
   getCurrentTime() {

@@ -26,7 +26,7 @@ export class MainAdminPageComponent implements OnInit{
 
     this.route.queryParams.subscribe(params => {
       userIdByParams = params['userid'];
-      botId = params['botid'];
+      botId = params['botid'] || localStorage.getItem('botid');
     });
 
     if(userIdByParams){

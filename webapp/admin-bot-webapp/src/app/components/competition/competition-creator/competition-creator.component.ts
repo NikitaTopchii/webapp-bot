@@ -172,7 +172,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   goBack(){
-    this.router.navigate(['/channels-list']);
+    this.router.navigate(['/competition-endpoint-selector']);
   }
 
   createCompetition(form: FormGroup) {
