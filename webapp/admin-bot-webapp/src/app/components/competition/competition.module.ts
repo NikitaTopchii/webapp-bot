@@ -10,6 +10,7 @@ import {ChannelsService} from "../core/services/channels/channels.service";
 import {
   CompetitionEndpointSelectorComponent
 } from "./competition-endpoint-selector/competition-endpoint-selector.component";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
+    MatMomentDateModule,
   ],
   providers: [ChannelsService],
 })

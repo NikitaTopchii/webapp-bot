@@ -19,6 +19,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private selectedChannelIds: string[] = [];
   private selectedChannelNames: string[] = [];
 
+  minDate: Date;
+
   failedDateValidation = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
 
@@ -43,24 +45,25 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
               private generateTokenService: TokenGenerateService,
               private dateTimeValidationService: DateTimeValidatorService,
               private fileValidatorService: FileValidatorService) {
+
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
+    this.minDate = new Date(Date.now());
 
-    console.log(this.currentTime)
     this.form = this.getCreateCompetitionForm();
   }
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      competitionName: ['contest', Validators.required],
-      competitionDescription: ['contest description', [Validators.required, Validators.maxLength(1024)]],
+      competitionName: ['contest', Validators.maxLength(500)],
+      competitionDescription: ['contest description', Validators.maxLength(500)],
       media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      languageSelector: ['en'],
+      languageSelector: ['ru'],
       conditionTypes: ['email'],
       conditionSelector: ['subscribe'],
       selfConditionTypes: ['text'],

@@ -41,7 +41,7 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
       newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      languageSelector: ['en'],
+      languageSelector: ['ru'],
       imagesLinks: ['', Validators.required],
     });
   }
