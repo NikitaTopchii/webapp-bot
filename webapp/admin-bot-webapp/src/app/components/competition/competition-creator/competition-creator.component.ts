@@ -81,7 +81,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      languageSelector: ['en'],
+      languageSelector: ['ru'],
       selectedCondition: [''],
       selectedBaseCondition: [{ value: 'subscribe', disabled: true }],
       emailCondition: [true],

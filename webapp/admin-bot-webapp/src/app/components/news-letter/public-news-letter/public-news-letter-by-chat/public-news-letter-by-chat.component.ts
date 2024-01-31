@@ -50,13 +50,13 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      newsLetterMessage: ['', Validators.required],
+      newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, Validators.required],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       percentEndpointUsers: ['', Validators.required],
       languageSelector: ['ru'],
       imagesLinks: ['', Validators.required],
-      inlineLink: [''],
+      inlineLink: ['', Validators.required],
       media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
     });
   }
