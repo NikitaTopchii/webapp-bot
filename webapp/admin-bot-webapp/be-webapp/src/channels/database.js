@@ -18,9 +18,9 @@ class ChannelsDB {
         });
     }
 
-    getChannels(creators_id, callback) {
-        const sql = 'SELECT * FROM channels WHERE chatid IN (?)';
-        this.connection.query(sql, [creators_id], (err, results) => {
+    getChannels(creators_id, botid, callback) {
+        const sql = 'SELECT * FROM channels WHERE chatid IN (?) AND bot_token LIKE ?';
+        this.connection.query(sql, [creators_id, botid + ':%'], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {

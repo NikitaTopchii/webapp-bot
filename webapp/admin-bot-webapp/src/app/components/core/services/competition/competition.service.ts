@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {main_url} from "../../../shared/application-context";
+import {bot_webhook_url, main_url} from "../../../shared/application-context";
 import {TokenGenerateService} from "../token/token-generate.service";
 import {BehaviorSubject, Subject} from "rxjs";
 import {ActiveCompetitionInterface} from "../../active-competition.interface";
@@ -32,7 +32,7 @@ export class CompetitionService {
   }
 
 
-  createCompetition(formData: FormData) {
+  createCompetitionDraft(formData: FormData) {
     return this.http
       .post<string>(main_url + '/competitions/create', formData);
   }
@@ -113,6 +113,38 @@ export class CompetitionService {
       .subscribe((response) => {
 
         console.log(response)
+      });
+  }
+
+  createContest(formData: FormData){
+    return this.http
+      .post<string>(bot_webhook_url + '/create-contest', formData)
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
+
+  createPrivateNewsLetter(formData: FormData){
+    return this.http
+      .post<string>(bot_webhook_url + '/private-newsletter', formData)
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
+
+  createPublicNewsLetter(formData: FormData){
+    return this.http
+      .post<string>(bot_webhook_url + '/public-newsletter', formData)
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
+
+  uploadMedia(formData: FormData){
+    return this.http
+      .post<string>(main_url + '/competitions/upload-media', formData)
+      .subscribe((response) => {
+        console.log(response);
       });
   }
 

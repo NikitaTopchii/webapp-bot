@@ -1,4 +1,5 @@
   const CompetitionService = require('./service');
+  const {main_url} = require("../../shared/application-context");
 
 exports.createCompetition = async (req, res) => {
     try {
@@ -79,13 +80,56 @@ exports.getActiveCompetitions = async (req, res) => {
   }
 };
 
+exports.createContestDraft = async (req, res) => {
+    try {
+      console.log(req.body);
+      await CompetitionService.createContestDraft(req.body);
+      res.json('ok');
+    } catch (error) {
+      console.log(error)
+      res.status(500).send({message: 'Error oops'})
+    }
+}
+
 
 exports.checkSubscription = async (req, res) => {
-    try {
-        const checkedResult = await CompetitionService.checkSubscription(req.query.user_id, req.query.channel_id);
-        res.json(checkedResult);
-    } catch (error) {
-        console.log(error)
-        res.status(500).send({ message: 'Error while check subs' });
-    }
+  try {
+    console.log(req.query.participantId)
+    console.log(req.query.chatId)
+    const checkedResult = await CompetitionService.checkSubscription(req.query.participantId, req.query.chatId);
+    res.json({ isSubscribed: checkedResult });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error while checking subscription' });
+  }
 };
+
+exports.uploadMedia = async (req, res) => {
+  try {
+    console.log(req.files);
+    //await CompetitionService.uploadMedia(req.files);
+    res.json('ok');
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({message: 'Error uploading media'})
+  }
+}
+
+exports.createContest = async (req, res) => {
+  console.log(req.body)
+  try{
+    await fetch(`${main_url}/create-contest`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    }).then((response) => {
+      console.log('its okay')
+      console.log(response)
+      res.json(response);
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

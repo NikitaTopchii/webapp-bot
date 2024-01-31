@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {CompetitionService} from "../../../core/services/competition/competition.service";
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
+import {main_url} from "../../../shared/application-context";
+import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
 
 @Component({
   selector: 'app-private-news-letter-by-competition',
@@ -24,7 +26,8 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
               private telegram: TelegramService,
               private router: Router,
               private competitionService: CompetitionService,
-              private dateTimeValidationService: DateTimeValidatorService) {
+              private dateTimeValidationService: DateTimeValidatorService,
+              private fileValidatorService: FileValidatorService) {
 
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
@@ -41,9 +44,28 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
       newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
+      percentEndpointUsers: ['', Validators.required],
       languageSelector: ['ru'],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
       imagesLinks: ['', Validators.required],
     });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const formData = new FormData();
+
+    formData.append('media', file);
+
+    this.form.patchValue({ media: file });
+
+    this.competitionService.uploadMedia(formData);
   }
 
   sendCompetitionDataToBot(form: FormGroup){
@@ -60,10 +82,11 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
         form.get('startDate')?.value,
         form.get('competitionStartTime')?.value
       ),
+      percentUsers: form.get('percentEndpointUsers')?.value,
       language: form.get('languageSelector')?.value,
       contestId: this.activeCompetition?.contestId,
       chatId: this.activeCompetition?.chatId,
-      urls: form.get('imagesLinks')?.value,
+      urls: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
     }
   }
 

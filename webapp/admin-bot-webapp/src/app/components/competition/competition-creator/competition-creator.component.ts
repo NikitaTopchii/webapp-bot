@@ -8,6 +8,8 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
 import {DateTimeValidatorService} from "../../core/services/validators/date-time/date-time-validator.service";
 import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
+import {main_url} from "../../shared/application-context";
+import {ConditionInterface} from "../../core/condition.interface";
 @Component({
   selector: 'app-competition-creator',
   templateUrl: './competition-creator.component.html',
@@ -18,8 +20,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
   private selectedChannelIds: string[] = [];
   private selectedChannelNames: string[] = [];
-
-  minDate: Date;
 
   failedDateValidation = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
@@ -34,8 +34,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   setContestWinnersCount: boolean = true;
   setContestCondition: boolean = true;
   conditionTypes: boolean = false;
-  setSelfConditionBuilder: boolean = true;
-  setGuessNumberCondition: boolean = true;
+  setSelfConditionBuilder: boolean = false;
+  setGuessNumberCondition: boolean = false;
+  minDate: Date = new Date(Date.now());
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -45,100 +46,11 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
               private generateTokenService: TokenGenerateService,
               private dateTimeValidationService: DateTimeValidatorService,
               private fileValidatorService: FileValidatorService) {
-
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
-    this.minDate = new Date(Date.now());
 
+    console.log(this.currentTime)
     this.form = this.getCreateCompetitionForm();
-  }
-
-  private getCreateCompetitionForm(): FormGroup {
-    return this.fb.group({
-      competitionName: ['contest', Validators.maxLength(500)],
-      competitionDescription: ['contest description', Validators.maxLength(500)],
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      languageSelector: ['ru'],
-      conditionTypes: ['email'],
-      conditionSelector: ['subscribe'],
-      selfConditionTypes: ['text'],
-      selfConditionName: [''],
-      guessNumberCondition: ['exact'],
-      guessNumber: ['']
-    });
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
-
-    const file = input.files[0];
-    this.form.patchValue({ media: file });
-  }
-
-  getFieldValue(form: FormGroup, field: string) {
-    return form.get(field)?.value;
-  }
-
-  getContestCondition(form: FormGroup) {
-    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
-
-    switch (conditionSelector) {
-      case 'subscribe':
-        return 'subscribe';
-      case 'condition':
-        const conditionType = this.getFieldValue(form, 'conditionTypes');
-        switch (conditionType) {
-          case 'email':
-            return 'email';
-          case 'number':
-            return 'number';
-          default:
-            return 'self,' + this.getFieldValue(form, 'selfConditionTypes');
-        }
-      default:
-        return this.getFieldValue(form, 'guessNumberCondition');
-    }
-  }
-
-  getContestConditionAnswer(form: FormGroup) {
-    const conditionSelector = this.getFieldValue(form, 'conditionSelector');
-    const conditionType = this.getFieldValue(form, 'conditionTypes');
-
-    if (conditionSelector === 'condition' && conditionType === 'self') {
-      return this.getFieldValue(form, 'selfConditionName');
-    } else {
-      return this.getFieldValue(form, 'guessNumber');
-    }
-  }
-
-
-  handleDateChanged(eventName: string, event: any) {
-    // this only logs if the user changes the inputs via the UI but not if the form controls are // modified
-    console.log(`daterange change event:${eventName}`, event.value);
-  }
-
-  getSelectedChannels(){
-    return this.selectedChannels;
-  }
-
-  sendData(data: any){
-    this.telegram.sendData(data);
-  }
-
-  goBack(){
-    this.router.navigate(['/channels-list']);
-  }
-
-  ngOnDestroy(): void {
-    this.telegram.BackButton.offClick(this.goBack);
   }
 
   ngOnInit(): void {
@@ -155,31 +67,167 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     })
   }
 
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
+  }
+
+  private getCreateCompetitionForm(): FormGroup {
+    return this.fb.group({
+      competitionName: ['contest', Validators.maxLength(500)],
+      competitionDescription: ['contest description', Validators.maxLength(500)],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg', 'mp4'])]],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
+      competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
+      competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      languageSelector: ['en'],
+      selectedCondition: [''],
+      selectedBaseCondition: [{ value: 'subscribe', disabled: true }],
+      emailCondition: [true],
+      phoneCondition: [false],
+      selfCondition: [false],
+      selfConditionTypes: ['text'],
+      selfConditionName: [''],
+      guessNumberCondition: ['exact'],
+      guessNumber: ['']
+    });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const formData = new FormData();
+
+    formData.append('media', file);
+
+    this.form.patchValue({ media: file });
+
+    this.createCompetitionService.uploadMedia(formData);
+  }
+
+  getFieldValue(form: FormGroup, field: string) {
+    return form.get(field)?.value;
+  }
+
+  getContestCondition(form: FormGroup) {
+    const conditionSelector = this.getFieldValue(form, 'selectedCondition');
+
+    console.log(conditionSelector);
+
+    if(conditionSelector === 'condition'){
+      const emailCondition = this.getFieldValue(form, 'emailCondition') ? 'emailCondition' : '';
+      const phoneCondition = this.getFieldValue(form, 'phoneCondition') ? 'phoneCondition' : '';
+      const selfCondition = this.getFieldValue(form, 'selfCondition') ? this.getFieldValue(form, 'selfConditionTypes') : '';
+
+      const condition: ConditionInterface = {
+        emailCondition: emailCondition,
+        phoneCondition: phoneCondition,
+        selfCondition: selfCondition,
+        guessNumber: ''
+      }
+
+      return JSON.stringify(condition);
+    }else if(conditionSelector === 'guess number'){
+      const condition: ConditionInterface = {
+        emailCondition: '',
+        phoneCondition: '',
+        selfCondition: '',
+        guessNumber: this.getFieldValue(form, 'guessNumberCondition')
+      }
+
+      return JSON.stringify(condition);
+    }
+    return 'subscribe';
+  }
+
+  getContestConditionAnswer(form: FormGroup) {
+    const selfConditionSelector = this.getFieldValue(form, 'selfCondition');
+
+    if (selfConditionSelector) {
+      return this.getFieldValue(form, 'selfConditionName');
+    } else {
+      return this.getFieldValue(form, 'guessNumber');
+    }
+  }
+
+
+  handleDateChanged(eventName: string, event: any) {
+    // this only logs if the user changes the inputs via the UI but not if the form controls are // modified
+    console.log(`daterange change event:${eventName}`, event.value);
+  }
+
+  getSelectedChannels(){
+    return this.selectedChannels;
+  }
+
+  sendData(data: FormData){
+    //this.createCompetitionService.createContest(data);
+    console.log(data)
+    this.telegram.sendData(data);
+  }
+
+  goBack(){
+    this.router.navigate(['/competition-endpoint-selector']);
+  }
+
   createCompetition(form: FormGroup) {
     const competitionId = this.generateTokenService.generateSHA256Token();
 
     console.log('CREATE COMPETITION')
 
-    const formData = new FormData();
-    console.log('CREATE COMPETITION')
+    const formData = this.getCompetitionData(form, competitionId)
 
-    const botid = localStorage.getItem('botid');
-
-    if(botid){
-      console.log(botid)
-      formData.append('botid', botid);
-    }
-    this.createCompetitionService.createCompetition(formData).subscribe(() => {
-      console.log("BOT TOKEN WAS GETTING")
-      this.sendCompetitionDataToBot(form, competitionId);
+    this.createCompetitionService.createCompetitionDraft(formData).subscribe(() => {
+      console.log('CONTEST DRAFT WAS CREATE')
+      this.sendCompetitionDataToBot(this.getDataForBot(form, competitionId));
     });
   }
 
-  sendCompetitionDataToBot(form: FormGroup, competitionId: number){
-    this.sendData(this.getCompetitionData(form, competitionId));
+  sendCompetitionDataToBot(data: any){
+    this.sendData(data);
   }
 
   getCompetitionData(form: FormGroup, competitionId: number){
+
+    const formData = new FormData();
+
+    const botId = localStorage.getItem('botid');
+    const userId = localStorage.getItem('user_id');
+
+    if(botId && userId){
+      formData.append('type', 'create-contest')
+      formData.append('contestName', form.get('competitionName')?.value)
+      formData.append('contestDescription', form.get('competitionDescription')?.value)
+      formData.append('channels', this.selectedChannelIds.join(','))
+      formData.append('competitionStartDate', this.dateTimeValidationService.checkDateValidation(
+        form.get('startDate')?.value,
+        form.get('competitionStartTime')?.value
+      ))
+      formData.append('competitionFinishDate', this.dateTimeValidationService.checkDateValidation(
+        form.get('endDate')?.value,
+        form.get('competitionFinishTime')?.value
+      ))
+      formData.append('media', form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '')
+      formData.append('winnerCount', form.get('competitionWinnersCount')?.value)
+      formData.append('botid', botId)
+      formData.append('language', form.get('languageSelector')?.value)
+      formData.append('contestId', competitionId.toString())
+      formData.append('channelNames', this.selectedChannelNames.join(','))
+      formData.append('condition', this.getContestCondition(form))
+      formData.append('answer', this.getContestConditionAnswer(form))
+      formData.append('userId', userId)
+    }
+
+    return formData;
+  }
+
+  getDataForBot(form: FormGroup, competitionId: number){
     return {
       type: 'create-contest',
       contestName: form.get('competitionName')?.value,
@@ -193,7 +241,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
         form.get('endDate')?.value,
         form.get('competitionFinishTime')?.value
       ),
-      media: form.get('media')?.value,
+      media: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
       winnerCount: form.get('competitionWinnersCount')?.value,
       botid: localStorage.getItem('botid'),
       language: form.get('languageSelector')?.value,
@@ -203,15 +251,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       answer: this.getContestConditionAnswer(form)
     }
   }
-
-  showContestNameInput(){
-    this.setContestName = !this.setContestName;
-  }
-
-  showContestDescriptionInput(){
-    this.setContestDescription = !this.setContestDescription;
-  }
-
   showContestMediaInput(){
     this.setContestMedia = !this.setContestMedia;
   }
@@ -246,7 +285,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   hideConditionTypes(){
     this.conditionTypes = false;
-    this.hideGuessNumberCondition();
   }
 
   showSelfConditionBuilder() {
@@ -258,12 +296,11 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   showGuessNumberCondition() {
-    this.hideSelfConditionBuilder();
     this.hideConditionTypes();
     this.setGuessNumberCondition = !this.setGuessNumberCondition;
   }
 
   hideGuessNumberCondition(){
-    this.setGuessNumberCondition = true;
+    this.setGuessNumberCondition = false;
   }
 }
