@@ -10,6 +10,12 @@ import {DateTimeValidatorService} from "../../core/services/validators/date-time
 import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
 import {main_url} from "../../shared/application-context";
 import {ConditionInterface} from "../../core/condition.interface";
+type ConditionType = 'contestMedia' | 'contestDate' | 'contestTime' | 'contestWinnersCount' | 'contestLanguage' | 'contestCondition';
+
+type VisibilityState = {
+  [key in ConditionType]: boolean;
+};
+
 @Component({
   selector: 'app-competition-creator',
   templateUrl: './competition-creator.component.html',
@@ -24,16 +30,24 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   failedDateValidation = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
 
+  public visibilityState: VisibilityState = {
+    contestMedia: false,
+    contestDate: false,
+    contestTime: false,
+    contestWinnersCount: false,
+    contestLanguage: false,
+    contestCondition: false
+  }
+
+  public changeVisibilityState(conditionType: ConditionType, newValue?: boolean): void {
+    if (newValue) {
+        this.visibilityState[conditionType] = newValue;
+        return;
+    }
+    this.visibilityState[conditionType] = !this.visibilityState[conditionType];
+  }
+
   //buttons
-  setContestName: boolean = true;
-  setContestDescription: boolean = true;
-  setContestMedia: boolean = true;
-  setContestData: boolean = true;
-  setContestTime: boolean = true;
-  setContestLanguage: boolean = true;
-  setContestWinnersCount: boolean = true;
-  setContestCondition: boolean = true;
-  conditionTypes: boolean = false;
   setSelfConditionBuilder: boolean = false;
   setGuessNumberCondition: boolean = false;
   minDate: Date = new Date(Date.now());
@@ -251,56 +265,57 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       answer: this.getContestConditionAnswer(form)
     }
   }
-  showContestMediaInput(){
-    this.setContestMedia = !this.setContestMedia;
-  }
 
-  showContestDataInput(){
-    this.setContestData = !this.setContestData;
-  }
+  // showContestMediaInput(){
+  //   this.isSetContestMediaVisible = !this.isSetContestMediaVisible;
+  // }
+  //
+  // showContestDataInput(){
+  //   this.isSetContestDateVisible = !this.isSetContestDateVisible;
+  // }
+  //
+  // showContestTimeInput(){
+  //   this.setContestTime = !this.setContestTime;
+  // }
+  //
+  // showContestWinnersCount(){
+  //   this.setContestWinnersCount = !this.setContestWinnersCount;
+  // }
+  //
+  // showContestLanguageInput(){
+  //   this.setContestLanguage = !this.setContestLanguage;
+  // }
 
-  showContestTimeInput(){
-    this.setContestTime = !this.setContestTime;
-  }
+  // showContestConditionInput(){
+  //   this.hideConditionTypes();
+  //   this.hideSelfConditionBuilder();
+  //   this.hideGuessNumberCondition();
+  //   this.changeVisibilityState('contestCondition');
+  // }
 
-  showContestWinnersCount(){
-    this.setContestWinnersCount = !this.setContestWinnersCount;
-  }
+  // showConditionTypes() {
+  //   this.hideGuessNumberCondition();
+    // this.conditionTypes = !this.conditionTypes;
+  // }
 
-  showContestLanguageInput(){
-    this.setContestLanguage = !this.setContestLanguage;
-  }
+  // hideConditionTypes(){
+  //   this.conditionTypes = false;
+  // }
 
-  showContestConditionInput(){
-    this.hideConditionTypes();
-    this.hideSelfConditionBuilder();
-    this.hideGuessNumberCondition();
-    this.setContestCondition = !this.setContestCondition;
-  }
+  // showSelfConditionBuilder() {
+  //   this.setSelfConditionBuilder = !this.setSelfConditionBuilder;
+  // }
 
-  showConditionTypes() {
-    this.hideGuessNumberCondition();
-    this.conditionTypes = !this.conditionTypes;
-  }
+  // hideSelfConditionBuilder() {
+  //   this.setSelfConditionBuilder = true;
+  // }
 
-  hideConditionTypes(){
-    this.conditionTypes = false;
-  }
+  // showGuessNumberCondition() {
+  //   this.hideConditionTypes();
+  //   this.setGuessNumberCondition = !this.setGuessNumberCondition;
+  // }
 
-  showSelfConditionBuilder() {
-    this.setSelfConditionBuilder = !this.setSelfConditionBuilder;
-  }
-
-  hideSelfConditionBuilder() {
-    this.setSelfConditionBuilder = true;
-  }
-
-  showGuessNumberCondition() {
-    this.hideConditionTypes();
-    this.setGuessNumberCondition = !this.setGuessNumberCondition;
-  }
-
-  hideGuessNumberCondition(){
-    this.setGuessNumberCondition = false;
-  }
+  // hideGuessNumberCondition(){
+  //   this.setGuessNumberCondition = false;
+  // }
 }

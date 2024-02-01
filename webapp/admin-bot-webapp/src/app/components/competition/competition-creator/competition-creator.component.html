@@ -6,7 +6,8 @@
         <div class="competition-creator__name-block">
           <div>
             <label>Enter competition name</label>
-            <input class="competition-creator__input-name formControl" formControlName="competitionName" autocomplete="off"/>
+            <input class="competition-creator__input-name formControl" formControlName="competitionName"
+                   autocomplete="off"/>
           </div>
           <div *ngIf="form.get('competitionName')?.hasError('maxlength') && form.get('competitionName')?.touched">
             Maximum length exceeded (maximum 500 characters)
@@ -15,133 +16,189 @@
         <div class="competition-creator__describe-block">
           <div>
             <label>Enter competition describe</label>
-            <textarea class="competition-creator__textarea-description formControl" formControlName="competitionDescription"></textarea>
+            <textarea class="competition-creator__textarea-description formControl"
+                      formControlName="competitionDescription"></textarea>
           </div>
-          <div *ngIf="form.get('competitionDescription')?.hasError('maxlength') && form.get('competitionDescription')?.touched">
+          <div
+            *ngIf="form.get('competitionDescription')?.hasError('maxlength') && form.get('competitionDescription')?.touched">
             Maximum length exceeded (maximum 500 characters)
           </div>
         </div>
         <div class="competition-creator__describe-block">
-          <button *ngIf="setContestMedia" (click)="showContestMediaInput()" class="competition-creator__selector-button">enter contest media</button>
-          <button *ngIf="!setContestMedia" (click)="showContestMediaInput()" class="competition-creator__selector-button">close</button>
-          <label *ngIf="!setContestMedia">Enter media links</label>
-          <input *ngIf="!setContestMedia" type="file" (change)="onFileSelected($event)">
-          <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
+          <ng-container *ngIf="visibilityState.contestMedia">
+            <button (click)="changeVisibilityState('contestMedia', false)" class="competition-creator__selector-button">close</button>
+            <label>Enter media links</label>
+            <input type="file" (change)="onFileSelected($event)">
+            <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
+          </ng-container>
+          <ng-container *ngIf="!visibilityState.contestMedia">
+            <button (click)="changeVisibilityState('contestMedia', true)" class="competition-creator__selector-button">enter contest
+              media
+            </button>
+          </ng-container>
         </div>
         <div class="competition-creator__describe-block">
-          <button *ngIf="setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">enter contest date</button>
-          <button *ngIf="!setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">close</button>
-          <mat-form-field *ngIf="!setContestData">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="picker" [min]="minDate">
-              <input matStartDate placeholder="Start date"  formControlName="startDate">
-              <input matEndDate placeholder="End date" formControlName="endDate" >
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          </mat-form-field>
+          <button (click)="changeVisibilityState('contestDate', true)"
+                  class="competition-creator__selector-button">enter contest date
+          </button>
+          <ng-container *ngIf="visibilityState.contestDate">
+            <button (click)="changeVisibilityState('contestDate', false)"
+                    class="competition-creator__selector-button">close
+            </button>
+            <mat-form-field>
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+                <input matStartDate placeholder="Start date" formControlName="startDate">
+                <input matEndDate placeholder="End date" formControlName="endDate">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+          </ng-container>
         </div>
-        <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">
-          <button *ngIf="setContestTime" (click)="showContestTimeInput()" class="competition-creator__selector-button">enter contest time</button>
-          <button *ngIf="!setContestTime" (click)="showContestTimeInput()" class="competition-creator__selector-button">close</button>
-          <label *ngIf="!setContestTime">Enter contest start time in format: hh:mm</label>
-          <input *ngIf="!setContestTime" class="competition-creator__input-name formControl" formControlName="competitionStartTime" autocomplete="off"/>
-          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
+        <div class="competition-creator__date-format formControl">
+          <button *ngIf="!visibilityState.contestTime" (click)="changeVisibilityState('contestTime', true)" class="competition-creator__selector-button">
+            enter contest time
+          </button>
+          <ng-container *ngIf="visibilityState.contestTime">
+            <button (click)="changeVisibilityState('contestTime', false)" class="competition-creator__selector-button">
+              close
+            </button>
+            <label>Enter contest start time in format: hh:mm</label>
+            <input class="competition-creator__input-name formControl"
+                   formControlName="competitionStartTime" autocomplete="off"/>
+          </ng-container>
+          <div
+            *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
+            Time is required
+          </div>
         </div>
-        <div *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
-          Time is required
-        </div>
-        <div *ngIf="form.get('competitionStartTime')?.hasError('pattern')">
-          String is not valid. Please use format HH:MM
-        </div>
-        <div class="competition-creator__date-format" [class.__failed]="failedDateValidation" *ngIf="!setContestTime">
+
+        <div class="competition-creator__date-format formControl" *ngIf="visibilityState.contestTime">
           <label>Enter contest final time in format: hh:mm</label>
-          <input class="competition-creator__input-name formControl" formControlName="competitionFinishTime" autocomplete="off"/>
-          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
+          <input class="competition-creator__input-name formControl" formControlName="competitionFinishTime"
+                 autocomplete="off"/>
+          <div
+            *ngIf="form.get('competitionFinishTime')?.hasError('required') && form.get('competitionFinishTime')?.touched">
+            Time is required
+          </div>
+          <div *ngIf="form.get('competitionFinishTime')?.hasError('pattern')">
+            String is not valid. Please use format HH:MM
+          </div>
         </div>
-        <div *ngIf="form.get('competitionFinishTime')?.hasError('required') && form.get('competitionFinishTime')?.touched">
-          Time is required
-        </div>
-        <div *ngIf="form.get('competitionFinishTime')?.hasError('pattern')">
-          String is not valid. Please use format HH:MM
-        </div>
+
         <div class="competition-creator__date-format">
-          <button *ngIf="setContestWinnersCount" (click)="showContestWinnersCount()" class="competition-creator__selector-button">enter winners count</button>
-          <button *ngIf="!setContestWinnersCount" (click)="showContestWinnersCount()" class="competition-creator__selector-button">close</button>
-          <label *ngIf="!setContestWinnersCount">Enter count of winners: </label>
-          <input *ngIf="!setContestWinnersCount" class="competition-creator__input-name formControl" formControlName="competitionWinnersCount" autocomplete="off"/>
+          <ng-container *ngIf="!visibilityState.contestWinnersCount">
+            <button (click)="changeVisibilityState('contestWinnersCount', true)"
+                    class="competition-creator__selector-button">enter winners count
+            </button>
+          </ng-container>
+          <ng-container *ngIf="visibilityState.contestWinnersCount">
+            <button (click)="changeVisibilityState('contestWinnersCount', false)"
+                    class="competition-creator__selector-button">close
+            </button>
+            <label>Enter count of winners: </label>
+            <input class="competition-creator__input-name formControl"
+                   formControlName="competitionWinnersCount" autocomplete="off"/>
+          </ng-container>
         </div>
-        <div *ngIf="form.get('competitionWinnersCount')?.hasError('required') && form.get('competitionWinnersCount')?.touched">
+        <div
+          *ngIf="form.get('competitionWinnersCount')?.hasError('required') && form.get('competitionWinnersCount')?.touched">
           Count of winners is required
         </div>
         <div *ngIf="form.get('competitionWinnersCount')?.hasError('pattern')">
           Only numbers are allowed
         </div>
         <div class="competition-creator__language-selector">
-          <button *ngIf="setContestLanguage" (click)="showContestLanguageInput()" class="competition-creator__selector-button">enter contest language</button>
-          <button *ngIf="!setContestLanguage" (click)="showContestLanguageInput()" class="competition-creator__selector-button">close</button>
-          <label *ngIf="!setContestLanguage">
-            <input type="radio" formControlName="languageSelector" value="ru">
-            ru
-          </label>
-          <label *ngIf="!setContestLanguage">
-            <input type="radio" formControlName="languageSelector" value="en">
-            en
-          </label>
+          <ng-container *ngIf="!visibilityState.contestLanguage">
+            <button (click)="changeVisibilityState('contestLanguage', true)"
+                    class="competition-creator__selector-button">enter contest language
+            </button>
+          </ng-container>
+          <ng-container *ngIf="visibilityState.contestLanguage">
+            <button (click)="changeVisibilityState('contestLanguage', false)"
+                    class="competition-creator__selector-button">close
+            </button>
+            <label>
+              <input type="radio" formControlName="languageSelector" value="ru">
+              ru
+            </label>
+            <label>
+              <input type="radio" formControlName="languageSelector" value="en">
+              en
+            </label>
+          </ng-container>
         </div>
         <div class="competition-creator__conditions-block">
-          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedBaseCondition">
-            <mat-chip-option color="accent" selected [disabled]="true">subscribe</mat-chip-option>
-          </mat-chip-listbox>
-          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedCondition">
-            <mat-chip-option (click)="showConditionTypes()">condition</mat-chip-option>
-            <mat-chip-option (click)="showGuessNumberCondition()">guess number</mat-chip-option>
-          </mat-chip-listbox>
+          <button *ngIf="!visibilityState.contestCondition" (click)="changeVisibilityState('contestCondition', true)"
+                  class="">Select content conditions
+          </button>
+          <ng-container *ngIf="visibilityState.contestCondition">
+            <button (click)="changeVisibilityState('contestCondition', false)"
+                    class="">close
+            </button>
+            <app-contest-conditions></app-contest-conditions>
+          </ng-container>
         </div>
-        <div class="competition-creator__condition-selector">
-          <div class="competition-creator__conditions" *ngIf="conditionTypes">
-            <p class="competition-creator__checkbox-text"><mat-checkbox formControlName="emailCondition">email</mat-checkbox></p>
-            <p class="competition-creator__checkbox-text"><mat-checkbox formControlName="phoneCondition">phone</mat-checkbox></p>
-            <p class="competition-creator__checkbox-text"><mat-checkbox formControlName="selfCondition" (click)="showSelfConditionBuilder()">self</mat-checkbox></p>
-            <div class="competition-creator__self-condition-builder" *ngIf="setSelfConditionBuilder">
-              <label>Enter self condition</label>
-              <input class="competition-creator__input-name" formControlName="selfConditionName" autocomplete="off"/>
-              <label>
-                <input type="radio" formControlName="selfConditionTypes" value="text">
-                text
-              </label>
-              <label>
-                <input type="radio" formControlName="selfConditionTypes" value="number">
-                number
-              </label>
-              <label>
-                <input type="radio" formControlName="selfConditionTypes" value="image">
-                image
-              </label>
-              <label>
-                <input type="radio" formControlName="selfConditionTypes" value="video">
-                video
-              </label>
-              <label>
-                <input type="radio" formControlName="selfConditionTypes" value="link">
-                link
-              </label>
-            </div>
-          </div>
-          <div class="competition-creator__guess-number-condition" *ngIf="setGuessNumberCondition">
-            <label>Enter number</label>
-            <input class="competition-creator__input-name" formControlName="guessNumber" autocomplete="off"/>
-            <label>
-              <input type="radio" formControlName="guessNumberCondition" value="exact">
-              exact value
-            </label>
-            <label>
-              <input type="radio" formControlName="guessNumberCondition" value="closest">
-              closest value
-            </label>
-          </div>
-        </div>
+<!--        <div class="competition-creator__conditions-block">-->
+<!--          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedBaseCondition">-->
+<!--            <mat-chip-option color="accent" selected [disabled]="true">subscribe</mat-chip-option>-->
+<!--          </mat-chip-listbox>-->
+<!--          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedCondition">-->
+<!--            <mat-chip-option (click)="showConditionTypes()">condition</mat-chip-option>-->
+<!--            <mat-chip-option (click)="showGuessNumberCondition()">guess number</mat-chip-option>-->
+<!--          </mat-chip-listbox>-->
+<!--        </div>-->
+<!--        <div class="competition-creator__condition-selector">-->
+<!--          <div class="competition-creator__conditions" *ngIf="conditionTypes">-->
+<!--            <p class="competition-creator__checkbox-text">-->
+<!--              <mat-checkbox formControlName="emailCondition">email</mat-checkbox>-->
+<!--            </p>-->
+<!--            <p class="competition-creator__checkbox-text">-->
+<!--              <mat-checkbox formControlName="phoneCondition">phone</mat-checkbox>-->
+<!--            </p>-->
+<!--            <p class="competition-creator__checkbox-text">-->
+<!--              <mat-checkbox formControlName="selfCondition" (click)="showSelfConditionBuilder()">self</mat-checkbox>-->
+<!--            </p>-->
+<!--            <div class="competition-creator__self-condition-builder" *ngIf="setSelfConditionBuilder">-->
+<!--              <label>Enter self condition</label>-->
+<!--              <input class="competition-creator__input-name" formControlName="selfConditionName" autocomplete="off"/>-->
+<!--              <label>-->
+<!--                <input type="radio" formControlName="selfConditionTypes" value="text">-->
+<!--                text-->
+<!--              </label>-->
+<!--              <label>-->
+<!--                <input type="radio" formControlName="selfConditionTypes" value="number">-->
+<!--                number-->
+<!--              </label>-->
+<!--              <label>-->
+<!--                <input type="radio" formControlName="selfConditionTypes" value="image">-->
+<!--                image-->
+<!--              </label>-->
+<!--              <label>-->
+<!--                <input type="radio" formControlName="selfConditionTypes" value="video">-->
+<!--                video-->
+<!--              </label>-->
+<!--              <label>-->
+<!--                <input type="radio" formControlName="selfConditionTypes" value="link">-->
+<!--                link-->
+<!--              </label>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="competition-creator__guess-number-condition" *ngIf="setGuessNumberCondition">-->
+<!--            <label>Enter number</label>-->
+<!--            <input class="competition-creator__input-name" formControlName="guessNumber" autocomplete="off"/>-->
+<!--            <label>-->
+<!--              <input type="radio" formControlName="guessNumberCondition" value="exact">-->
+<!--              exact value-->
+<!--            </label>-->
+<!--            <label>-->
+<!--              <input type="radio" formControlName="guessNumberCondition" value="closest">-->
+<!--              closest value-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
             <span>{{channels.name}}</span>
