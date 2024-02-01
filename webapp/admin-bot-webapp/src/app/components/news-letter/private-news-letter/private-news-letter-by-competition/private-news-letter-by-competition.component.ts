@@ -15,6 +15,7 @@ import {FileValidatorService} from "../../../core/services/validators/file/file-
 })
 export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestroy{
   form: FormGroup;
+  minDate: Date = new Date(Date.now());
 
   private activeCompetition: ActiveCompetitionInterface | undefined;
 

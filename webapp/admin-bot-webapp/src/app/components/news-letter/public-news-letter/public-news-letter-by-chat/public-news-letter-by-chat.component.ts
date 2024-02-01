@@ -9,6 +9,7 @@ import {TokenGenerateService} from "../../../core/services/token/token-generate.
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
 import {main_url} from "../../../shared/application-context";
+import {TextValidatorService} from "../../../core/services/validators/text-validator/text-validator.service";
 
 @Component({
   selector: 'app-public-news-letter-by-chat',
@@ -17,6 +18,7 @@ import {main_url} from "../../../shared/application-context";
 })
 export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   form: FormGroup;
+  minDate: Date = new Date(Date.now());
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
   private selectedChannelIds: string[] = [];
   private selectedChannelNames: string[] = [];
@@ -35,6 +37,7 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
               private dateTimeValidationService: DateTimeValidatorService,
               private fileValidatorService: FileValidatorService,
               private generateTokenService: TokenGenerateService,
+              private textValidatorService: TextValidatorService,
               ) {
 
     this.goBack = this.goBack.bind(this);
@@ -56,7 +59,7 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
       percentEndpointUsers: ['', Validators.required],
       languageSelector: ['ru'],
       imagesLinks: ['', Validators.required],
-      inlineLink: ['', Validators.required],
+      inlineLink: ['', [Validators.required, this.textValidatorService.urlValidator()]],
       media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
     });
   }

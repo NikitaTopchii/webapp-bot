@@ -20,7 +20,7 @@
         </div>
         <mat-form-field>
           <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="startDate">
+          <input matInput [matDatepicker]="picker" formControlName="startDate" [min]="minDate">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -38,10 +38,13 @@
         </div>
         <div class="competition-creator__date-format">
           <label>Enter link for inline button: </label>
-          <input class="competition-creator__input-name" formControlName="inlineLink">
+          <input class="competition-creator__input-name formControl" formControlName="inlineLink">
         </div>
         <div *ngIf="form.get('inlineLink')?.hasError('required') && form.get('inlineLink')?.touched">
           Link is required
+        </div>
+        <div *ngIf="form.get('inlineLink')?.hasError('invalidUrl') && form.get('inlineLink')?.touched">
+          Is not a link
         </div>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
