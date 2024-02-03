@@ -111,20 +111,34 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   }
 
   getCompetitionData(form: FormGroup) {
-    return {
-      type: 'public-news-letter',
-      contestDescription: form.get('newsLetterMessage')?.value,
-      competitionStartDate: this.dateTimeValidationService.checkDateValidation(
-        form.get('startDate')?.value,
-        form.get('competitionStartTime')?.value
-      ),
-      inlineLink: form.get('inlineLink')?.value,
-      language: form.get('languageSelector')?.value,
-      chatId: this.selectedChannelIds?.join(','),
-      // urls: form.get('imagesLinks')?.value,
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
-      urls: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
-    }
+    const formData = new FormData();
+
+    formData.append('post_description', form.get('newsLetterMessage')?.value)
+    formData.append('post_start_date', this.dateTimeValidationService.checkDateValidation(
+      form.get('startDate')?.value,
+      form.get('competitionStartTime')?.value
+    ))
+    formData.append('inline_link', form.get('inlineLink')?.value)
+    formData.append('post_language', form.get('languageSelector')?.value)
+    formData.append('chatId', this.selectedChannelIds?.join(','))
+    formData.append('media', form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '')
+    formData.append('bot_id', localStorage.getItem('botid') || '');
+
+    return formData;
+    // return {
+    //   type: 'public-news-letter',
+    //   contestDescription: form.get('newsLetterMessage')?.value,
+    //   competitionStartDate: this.dateTimeValidationService.checkDateValidation(
+    //     form.get('startDate')?.value,
+    //     form.get('competitionStartTime')?.value
+    //   ),
+    //   inlineLink: form.get('inlineLink')?.value,
+    //   language: form.get('languageSelector')?.value,
+    //   chatId: this.selectedChannelIds?.join(','),
+    //   // urls: form.get('imagesLinks')?.value,
+    //   media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
+    //   urls: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
+    // }
   }
 }
 
