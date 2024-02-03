@@ -68,7 +68,7 @@ export class MainAdminPageComponent implements OnInit{
   }
 
   navigateToAdminsList() {
-    this.router.navigate(['/active-competition'])
+    this.router.navigate(['/admins'])
   }
   navigateToCompetitionCreator() {
     this.router.navigate(['/competitions/competition-endpoint-selector'])

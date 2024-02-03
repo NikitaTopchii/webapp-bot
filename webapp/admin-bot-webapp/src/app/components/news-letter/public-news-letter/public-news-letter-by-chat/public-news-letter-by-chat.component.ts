@@ -60,8 +60,8 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   }
 
   sendData(data: any){
-    //this.createCompetitionService.createPublicNewsLetter(data);
-    this.telegram.sendData(data);
+    this.createCompetitionService.createPublicNewsLetter(data);
+    //this.telegram.sendData(data);
   }
 
   goBack(){

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PermissionsComponent } from './permissions.component';
+import { ChatPermissionsComponent } from './chat-permissions.component';
 
-describe('PermissionsComponent', () => {
-  let component: PermissionsComponent;
-  let fixture: ComponentFixture<PermissionsComponent>;
+describe('ChatPermissionsComponent', () => {
+  let component: ChatPermissionsComponent;
+  let fixture: ComponentFixture<ChatPermissionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PermissionsComponent]
+      imports: [ChatPermissionsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PermissionsComponent);
+    fixture = TestBed.createComponent(ChatPermissionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

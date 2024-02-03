@@ -65,7 +65,7 @@ export class ChannelsWithCompetitionsComponent implements OnInit, OnDestroy{
   private getMyChannels(){
     const formData = new FormData();
 
-    formData.append('creators_id', this.chatsIdList.join(','));
+    formData.append('chat_ids', this.chatsIdList.join(','));
 
     this.channelsService.getChannels(formData).subscribe((response) => {
 

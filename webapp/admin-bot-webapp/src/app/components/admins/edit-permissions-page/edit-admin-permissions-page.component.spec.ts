@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditPermissionsPageComponent } from './edit-permissions-page.component';
+import { EditAdminPermissionsPageComponent } from './edit-admin-permissions-page.component';
 
 describe('EditPermissionsPageComponent', () => {
-  let component: EditPermissionsPageComponent;
-  let fixture: ComponentFixture<EditPermissionsPageComponent>;
+  let component: EditAdminPermissionsPageComponent;
+  let fixture: ComponentFixture<EditAdminPermissionsPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditPermissionsPageComponent]
+      imports: [EditAdminPermissionsPageComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(EditPermissionsPageComponent);
+
+    fixture = TestBed.createComponent(EditAdminPermissionsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -20,9 +20,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
 
   selectElementsExist: boolean = false;
 
-  private creatorsIdLists: number[] = [];
-
-  private creatorsId: any;
+  private chatIdsList: number[] = [];
 
   constructor(private telegram: TelegramService,
               private router: Router,
@@ -65,7 +63,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     }
   }
 
-  getCreatorsId(){
+  getChatIds(){
     const userid = localStorage.getItem('user_id');
 
     if(userid){
@@ -77,7 +75,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
         const admins = response.results;
 
         admins.forEach((admin: any) => {
-          this.creatorsIdLists.push(admin.chatid);
+          this.chatIdsList.push(admin.chatid);
         });
 
         this.getMyChannels();
@@ -91,7 +89,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     const botid = localStorage.getItem('botid');
 
     if(botid){
-      formData.append('creators_id', this.creatorsIdLists.join(','));
+      formData.append('chat_ids', this.chatIdsList.join(','));
       formData.append('botid', botid);
 
       this.channelsService.getChannels(formData).subscribe((response) => {
@@ -118,7 +116,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.getCreatorsId();
+    this.getChatIds();
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
   }

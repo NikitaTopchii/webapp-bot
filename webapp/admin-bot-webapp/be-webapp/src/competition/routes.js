@@ -56,8 +56,12 @@ router
     .get(CompetitionController.getCompetitionCondition)
 
 router
-  .route('/create-competition')
+  .route('/create-contest')
   .post(upload.any(), CompetitionController.createContest)
+
+router
+  .route('/public-newsletter')
+  .post(upload.any(), CompetitionController.publicPost)
 
 router
   .route('/upload-media')

@@ -20,9 +20,9 @@ class AdminsDB {
         });
     }
 
-    getHiresAdmins(user_id, callback){
-            const sql = 'SELECT * FROM creators_groups WHERE owner = ?';
-        this.connection.query(sql, [user_id], (err, results) => {
+    getHiredAdmins(owner_id, callback){
+      const sql = 'SELECT * FROM admins_info WHERE owner = ?';
+        this.connection.query(sql, [owner_id], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {
@@ -30,6 +30,56 @@ class AdminsDB {
             }
         })
     }
+
+    savePermissions(rights,
+                    userid,
+                    chatid,
+                    owner,
+                    callback) {
+      const sql = 'UPDATE creators_groups SET rights = ? WHERE userid = ? AND chatid = ? AND owner = ?';
+      this.connection.query(sql, [rights, userid, chatid, owner], (err, results) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      })
+    }
+
+  deleteAdmin(admin_id, callback) {
+    const sql = 'DELETE FROM admins_info WHERE userid = ?';
+    this.connection.query(sql, [admin_id], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    })
+  }
+
+  // data.user_id,
+  // data.chat_id,
+  // data.rights,
+  // data.owner,
+
+  addChatForAdmin(userid, chatid, rights, owner, callback) {
+    const sql = 'INSERT INTO creators_groups SET ?';
+
+    const newAdminChat = {
+      userid,
+      chatid,
+      rights,
+      owner
+    }
+
+    this.connection.query(sql, [newAdminChat], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    })
+  }
 
     getAdmins(owner, callback){
         const rightsCondition = '{"create_competition": true,"show_admins": true,"edit_permissions": true}';
@@ -53,6 +103,17 @@ class AdminsDB {
                 callback(null, {results});
             }
         });
+    }
+
+    getHiredAdminChats(userid, owner, callback){
+      const sql = 'SELECT * FROM creators_groups WHERE userid = ? AND owner = ?';
+      this.connection.query(sql, [userid, owner], (err, results) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      });
     }
 }
 

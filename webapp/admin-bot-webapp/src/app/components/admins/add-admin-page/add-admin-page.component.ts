@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {_MatSlideToggleRequiredValidatorModule, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatButtonModule} from "@angular/material/button";
-import {PermissionsComponent} from "../permissions/permissions.component";
+import {AdminPermissionsComponent} from "../admin-permissions/admin-permissions.component";
 import {AddNewAdminService} from "../../core/services/add-new-admin/add-new-admin.service";
 import {PermissionsService} from "../../core/services/permissions/permissions.service";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
     _MatSlideToggleRequiredValidatorModule,
     MatButtonModule,
     ReactiveFormsModule,
-    PermissionsComponent,
+    AdminPermissionsComponent,
   ],
   templateUrl: './add-admin-page.component.html',
   styleUrl: './add-admin-page.component.scss'
@@ -58,7 +58,7 @@ export class AddAdminPageComponent implements OnInit, OnDestroy{
   }
 
   getPermissions(){
-    this.permissionsService.getPermissionsSubject().subscribe((result) => {
+    this.permissionsService.getAdminPermissionsSubject().subscribe((result) => {
       this.permissions = result.value;
     })
   }

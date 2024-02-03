@@ -90,7 +90,7 @@ export class ChatsSelectorComponent implements OnInit, OnDestroy{
     const botid = localStorage.getItem('botid');
 
     if(botid){
-      formData.append('creators_id', this.creatorsIdLists.join(','));
+      formData.append('chat_ids', this.creatorsIdLists.join(','));
       formData.append('botid', botid);
 
       this.channelsService.getChannels(formData).subscribe((response) => {

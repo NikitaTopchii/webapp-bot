@@ -166,9 +166,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   sendData(data: FormData){
-    //this.createCompetitionService.createContest(data);
-    console.log(data)
-    this.telegram.sendData(data);
+    this.createCompetitionService.createContest(data);
+    //console.log(data)
+    //this.telegram.sendData(data);
   }
 
   goBack(){
@@ -184,7 +184,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     this.createCompetitionService.createCompetitionDraft(formData).subscribe(() => {
       console.log('CONTEST DRAFT WAS CREATE')
-      this.sendCompetitionDataToBot(this.getDataForBot(form, competitionId));
+      this.sendCompetitionDataToBot(this.getCompetitionData(form, competitionId));
     });
   }
 
