@@ -5,17 +5,17 @@ import {Subject} from "rxjs";
 import {PermissionsService} from "../../core/services/permissions/permissions.service";
 
 @Component({
-  selector: 'app-permissions',
+  selector: 'app-admin-permissions',
   standalone: true,
     imports: [
         FormsModule,
         MatSlideToggleModule,
         ReactiveFormsModule
     ],
-  templateUrl: './permissions.component.html',
-  styleUrl: './permissions.component.scss'
+  templateUrl: './admin-permissions.component.html',
+  styleUrl: './admin-permissions.component.scss'
 })
-export class PermissionsComponent {
+export class AdminPermissionsComponent {
 
   public permissionsForm: FormGroup;
 
@@ -27,7 +27,12 @@ export class PermissionsComponent {
   constructor(private readonly fb: FormBuilder, private permissionsService: PermissionsService) {
     this.permissionsForm = this.getPermissionsForm();
     this.permissionsForm.valueChanges.subscribe(() => {
-      this.permissionsService.checkPermissionValuesState(this.permissionsForm);
+      this.permissionsService.checkAdminPermissionValuesState(this.permissionsForm);
+      this.permissionsService.setCurrentAdminPermissions({
+        actionWithCompetition: this.permissionsForm.get('actionWithCompetition')?.value,
+        editPermission: this.permissionsForm.get('editPermission')?.value,
+        selectAdminFromList: this.permissionsForm.get('selectAdminFromList')?.value
+      })
     })
   }
 
@@ -42,6 +47,7 @@ export class PermissionsComponent {
 
   setCurrentPermissions(){
     const currentAdminPermissions = this.permissionsService.getCurrentAdminPermissions();
+    console.log(currentAdminPermissions)
     if(currentAdminPermissions){
       this.selectAdminFromList = currentAdminPermissions.selectAdminFromList;
       this.actionWithCompetition = currentAdminPermissions.actionWithCompetition;
@@ -50,6 +56,11 @@ export class PermissionsComponent {
   }
 
   setPermissions(form: FormGroup){
-    console.log(form.value);
+    console.log(form.value)
+    this.permissionsService.setCurrentAdminPermissions({
+      actionWithCompetition: form.get('actionWithCompetition')?.value,
+      editPermission: form.get('editPermissions')?.value,
+      selectAdminFromList: form.get('selectAdminFromList')?.value
+    })
   }
 }

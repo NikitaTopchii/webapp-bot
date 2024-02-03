@@ -1,5 +1,5 @@
   const CompetitionService = require('./service');
-  const {main_url} = require("../../shared/application-context");
+  const {bot_webhook_url} = require("../../shared/application-context");
 
 exports.createCompetition = async (req, res) => {
     try {
@@ -116,9 +116,13 @@ exports.uploadMedia = async (req, res) => {
 }
 
 exports.createContest = async (req, res) => {
+  console.log(bot_webhook_url + '/create-contest')
+
+  console.log('///////////')
   console.log(req.body)
+  console.log('///////////')
   try{
-    await fetch(`${main_url}/create-contest`, {
+    await fetch(bot_webhook_url + '/create-contest', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -132,4 +136,24 @@ exports.createContest = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+
+exports.publicPost = async (req, res) => {
+    console.log(req.body)
+    try{
+      await fetch(bot_webhook_url + '/public-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req.body),
+      }).then((response) => {
+        console.log('its okay')
+        console.log(response)
+        res.json(response);
+      })
+    } catch (error) {
+      console.log(error)
+    }
 }

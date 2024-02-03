@@ -12,47 +12,29 @@ export class AdminsListService {
   }
 
   getAdminsWithSubscription(formData: FormData) {
-    let params = new HttpParams();
-
-    formData.forEach((value, key) => {
-      params = params.append(key, value as string);
-    });
-
     return this.http
-      .get<any>(main_url + '/admins/all-subscription', { params: params });
+      .get<any>(main_url + '/admins/all-subscription', { params: this.createHttpParams(formData) });
   }
 
-  getAdmins(formData: FormData) {
-    let params = new HttpParams();
-
-    formData.forEach((value, key) => {
-      params = params.append(key, value as string);
-    });
-
+  getHiredAdmins(formData: FormData){
     return this.http
-      .get<any>(main_url + '/admins/all', { params: params });
+      .get<any>(main_url + '/admins/hired-admins', { params: this.createHttpParams(formData) });
   }
 
-  getUserAdmins(formData: FormData) {
-    let params = new HttpParams();
-
-    formData.forEach((value, key) => {
-      params = params.append(key, value as string);
-    });
-
+  savePermissions(formData: FormData){
     return this.http
-      .get<any>(main_url + '/users/simple-admins', { params: params });
+      .post<any>(main_url + '/admins/save-admin-permissions', formData);
+  }
+
+  //'/admins/get-chats'
+  getHiredAdminChats(formData: FormData){
+    return this.http
+      .get<any>(main_url + '/admins/get-chats', { params: this.createHttpParams(formData) });
   }
 
   getUser(formData: FormData){
-    let params = new HttpParams();
-
-    formData.forEach((value, key) => {
-      params = params.append(key, value as string);
-    });
-
     return this.http
-      .get<any>(main_url + '/users/check', { params: params });
+      .get<any>(main_url + '/users/check', { params: this.createHttpParams(formData) });
   }
 
   authUser(formData: FormData) {
@@ -60,14 +42,22 @@ export class AdminsListService {
       .post<any>(main_url + '/users/auth', formData);
   }
 
-  getAdmin(formData: FormData) {
-    let params = new HttpParams();
+  deleteAdmin(formData: FormData) {
+    return this.http
+      .post<any>(main_url + '/admins/delete', formData);
+  }
 
+  addChatForHiredAdmin(formData: FormData) {
+    console.log('add chat for hired admin')
+    return this.http
+      .post<any>(main_url + '/admins/add-chat', formData);
+  }
+
+  private createHttpParams(formData: FormData): HttpParams {
+    let params = new HttpParams();
     formData.forEach((value, key) => {
       params = params.append(key, value as string);
     });
-
-    return this.http
-      .get<any>(main_url + '/admins/one', { params: params });
+    return params;
   }
 }

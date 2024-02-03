@@ -118,7 +118,7 @@ export class CompetitionService {
 
   createContest(formData: FormData){
     return this.http
-      .post<string>(bot_webhook_url + '/create-contest', formData)
+      .post<string>(main_url + '/competitions/create-contest', formData)
       .subscribe((response) => {
         console.log(response);
       });
@@ -134,7 +134,7 @@ export class CompetitionService {
 
   createPublicNewsLetter(formData: FormData){
     return this.http
-      .post<string>(bot_webhook_url + '/public-newsletter', formData)
+      .post<string>(main_url + '/competitions/public-newsletter', formData)
       .subscribe((response) => {
         console.log(response);
       });
