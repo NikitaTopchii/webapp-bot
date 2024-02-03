@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
-import {MatNativeDateModule} from "@angular/material/core";
+import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import {CompetitionCreatorComponent} from "./competition-creator/competition-creator.component";
 import {CompetitionRoutingModule} from "./competition-routing.module";
 import {ChannelsService} from "../core/services/channels/channels.service";
@@ -19,6 +19,8 @@ import {
 import { MatRadioButton, MatRadioGroup } from "@angular/material/radio";
 import { GuessNumberComponent } from "./competition-creator/components/guess-number/guess-number.component";
 import { DataConditionComponent } from "./competition-creator/components/data-condition/data-condition.component";
+import { MatSelect } from "@angular/material/select";
+import { MatButton } from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -41,6 +43,9 @@ import { DataConditionComponent } from "./competition-creator/components/data-co
     MatRadioButton,
     MatRadioGroup,
     FormsModule,
+    MatSelect,
+    MatOption,
+    MatButton,
   ],
   providers: [ChannelsService],
 })

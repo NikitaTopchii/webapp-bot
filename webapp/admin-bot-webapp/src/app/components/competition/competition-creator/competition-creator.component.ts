@@ -27,7 +27,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private selectedChannelIds: string[] = [];
   private selectedChannelNames: string[] = [];
 
-  failedDateValidation = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
 
   public visibilityState: VisibilityState = {
@@ -39,17 +38,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     contestCondition: false
   }
 
-  public changeVisibilityState(conditionType: ConditionType, newValue?: boolean): void {
-    if (newValue) {
-        this.visibilityState[conditionType] = newValue;
-        return;
-    }
-    this.visibilityState[conditionType] = !this.visibilityState[conditionType];
-  }
-
-  //buttons
-  setSelfConditionBuilder: boolean = false;
-  setGuessNumberCondition: boolean = false;
   minDate: Date = new Date(Date.now());
 
   constructor(private readonly fb: FormBuilder,
@@ -85,29 +73,14 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     this.telegram.BackButton.offClick(this.goBack);
   }
 
-  private getCreateCompetitionForm(): FormGroup {
-    return this.fb.group({
-      competitionName: ['contest', Validators.maxLength(500)],
-      competitionDescription: ['contest description', Validators.maxLength(500)],
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg', 'mp4'])]],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      languageSelector: ['ru'],
-      selectedCondition: [''],
-      selectedBaseCondition: [{ value: 'subscribe', disabled: true }],
-      emailCondition: [true],
-      phoneCondition: [false],
-      selfCondition: [false],
-      selfConditionTypes: ['text'],
-      selfConditionName: [''],
-      guessNumberCondition: ['exact'],
-      guessNumber: ['']
-    });
-  }
 
+  public changeVisibilityState(conditionType: ConditionType, newValue?: boolean): void {
+    if (newValue) {
+      this.visibilityState[conditionType] = newValue;
+      return;
+    }
+    this.visibilityState[conditionType] = !this.visibilityState[conditionType];
+  }
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
@@ -195,6 +168,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     console.log('CREATE COMPETITION')
 
+    console.log(form.value);
+    return;
+
     const formData = this.getCompetitionData(form, competitionId)
 
     this.createCompetitionService.createCompetitionDraft(formData).subscribe(() => {
@@ -266,56 +242,27 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     }
   }
 
-  // showContestMediaInput(){
-  //   this.isSetContestMediaVisible = !this.isSetContestMediaVisible;
-  // }
-  //
-  // showContestDataInput(){
-  //   this.isSetContestDateVisible = !this.isSetContestDateVisible;
-  // }
-  //
-  // showContestTimeInput(){
-  //   this.setContestTime = !this.setContestTime;
-  // }
-  //
-  // showContestWinnersCount(){
-  //   this.setContestWinnersCount = !this.setContestWinnersCount;
-  // }
-  //
-  // showContestLanguageInput(){
-  //   this.setContestLanguage = !this.setContestLanguage;
-  // }
+  private getCreateCompetitionForm(): FormGroup {
+    return this.fb.group({
+      competitionName: ['contest', Validators.maxLength(500)],
+      competitionDescription: ['contest description', Validators.maxLength(500)],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg', 'mp4'])]],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
+      competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
+      competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      languageSelector: ['ru'],
+      selectedCondition: [''],
+      selectedBaseCondition: [{ value: 'subscribe', disabled: true }],
+      emailCondition: [true],
+      phoneCondition: [false],
+      selfCondition: [false],
+      selfConditionTypes: ['text'],
+      selfConditionName: [''],
+      guessNumberCondition: ['exact'],
+      guessNumber: ['']
+    });
+  }
 
-  // showContestConditionInput(){
-  //   this.hideConditionTypes();
-  //   this.hideSelfConditionBuilder();
-  //   this.hideGuessNumberCondition();
-  //   this.changeVisibilityState('contestCondition');
-  // }
-
-  // showConditionTypes() {
-  //   this.hideGuessNumberCondition();
-    // this.conditionTypes = !this.conditionTypes;
-  // }
-
-  // hideConditionTypes(){
-  //   this.conditionTypes = false;
-  // }
-
-  // showSelfConditionBuilder() {
-  //   this.setSelfConditionBuilder = !this.setSelfConditionBuilder;
-  // }
-
-  // hideSelfConditionBuilder() {
-  //   this.setSelfConditionBuilder = true;
-  // }
-
-  // showGuessNumberCondition() {
-  //   this.hideConditionTypes();
-  //   this.setGuessNumberCondition = !this.setGuessNumberCondition;
-  // }
-
-  // hideGuessNumberCondition(){
-  //   this.setGuessNumberCondition = false;
-  // }
 }

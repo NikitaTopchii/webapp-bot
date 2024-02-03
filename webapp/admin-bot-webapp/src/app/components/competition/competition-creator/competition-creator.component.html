@@ -141,70 +141,13 @@
             <app-contest-conditions></app-contest-conditions>
           </ng-container>
         </div>
-<!--        <div class="competition-creator__conditions-block">-->
-<!--          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedBaseCondition">-->
-<!--            <mat-chip-option color="accent" selected [disabled]="true">subscribe</mat-chip-option>-->
-<!--          </mat-chip-listbox>-->
-<!--          <mat-chip-listbox aria-label="Contest selection" formControlName="selectedCondition">-->
-<!--            <mat-chip-option (click)="showConditionTypes()">condition</mat-chip-option>-->
-<!--            <mat-chip-option (click)="showGuessNumberCondition()">guess number</mat-chip-option>-->
-<!--          </mat-chip-listbox>-->
-<!--        </div>-->
-<!--        <div class="competition-creator__condition-selector">-->
-<!--          <div class="competition-creator__conditions" *ngIf="conditionTypes">-->
-<!--            <p class="competition-creator__checkbox-text">-->
-<!--              <mat-checkbox formControlName="emailCondition">email</mat-checkbox>-->
-<!--            </p>-->
-<!--            <p class="competition-creator__checkbox-text">-->
-<!--              <mat-checkbox formControlName="phoneCondition">phone</mat-checkbox>-->
-<!--            </p>-->
-<!--            <p class="competition-creator__checkbox-text">-->
-<!--              <mat-checkbox formControlName="selfCondition" (click)="showSelfConditionBuilder()">self</mat-checkbox>-->
-<!--            </p>-->
-<!--            <div class="competition-creator__self-condition-builder" *ngIf="setSelfConditionBuilder">-->
-<!--              <label>Enter self condition</label>-->
-<!--              <input class="competition-creator__input-name" formControlName="selfConditionName" autocomplete="off"/>-->
-<!--              <label>-->
-<!--                <input type="radio" formControlName="selfConditionTypes" value="text">-->
-<!--                text-->
-<!--              </label>-->
-<!--              <label>-->
-<!--                <input type="radio" formControlName="selfConditionTypes" value="number">-->
-<!--                number-->
-<!--              </label>-->
-<!--              <label>-->
-<!--                <input type="radio" formControlName="selfConditionTypes" value="image">-->
-<!--                image-->
-<!--              </label>-->
-<!--              <label>-->
-<!--                <input type="radio" formControlName="selfConditionTypes" value="video">-->
-<!--                video-->
-<!--              </label>-->
-<!--              <label>-->
-<!--                <input type="radio" formControlName="selfConditionTypes" value="link">-->
-<!--                link-->
-<!--              </label>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="competition-creator__guess-number-condition" *ngIf="setGuessNumberCondition">-->
-<!--            <label>Enter number</label>-->
-<!--            <input class="competition-creator__input-name" formControlName="guessNumber" autocomplete="off"/>-->
-<!--            <label>-->
-<!--              <input type="radio" formControlName="guessNumberCondition" value="exact">-->
-<!--              exact value-->
-<!--            </label>-->
-<!--            <label>-->
-<!--              <input type="radio" formControlName="guessNumberCondition" value="closest">-->
-<!--              closest value-->
-<!--            </label>-->
-<!--          </div>-->
-<!--        </div>-->
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
             <span>{{channels.name}}</span>
           </div>
         </div>
-        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>
+        <button type="submit" class="competition-creator__button">create competition</button>
+<!--        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>-->
       </form>
     </div>
   </div>

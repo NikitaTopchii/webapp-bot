@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from "@angular/forms";
 
-type ConditionType = 'guess' | 'condition';
+type ConditionType = 'exact' | 'closest';
 interface RadioOption {
   label: string;
   value: ConditionType
@@ -18,12 +18,12 @@ export class GuessNumberComponent {
   }
 
   public conditionForm = this.fb.group({
-    conditionType: [''],
+    conditionType: ['exact'],
     number: [null],
   });
 
   public radioOptions: RadioOption[] = [
-    { label: 'Guess', value: 'guess' },
-    { label: 'Condition', value: 'condition' },
+    { label: 'Exact', value: 'exact' },
+    { label: 'Closest', value: 'closest' },
   ];
 }
