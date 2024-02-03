@@ -8,8 +8,8 @@
             <label>Enter competition name</label>
             <input class="competition-creator__input-name formControl" formControlName="competitionName" autocomplete="off"/>
           </div>
-          <div *ngIf="form.get('competitionName')?.hasError('required') && form.get('competitionName')?.touched">
-            Competition name is required
+          <div *ngIf="form.get('competitionName')?.hasError('maxlength') && form.get('competitionName')?.touched">
+            Maximum length exceeded (maximum 500 characters)
           </div>
         </div>
         <div class="competition-creator__describe-block">
@@ -17,8 +17,8 @@
             <label>Enter competition describe</label>
             <textarea class="competition-creator__textarea-description formControl" formControlName="competitionDescription"></textarea>
           </div>
-          <div *ngIf="form.get('competitionDescription')?.hasError('required') && form.get('competitionDescription')?.touched">
-            Description is required
+          <div *ngIf="form.get('competitionDescription')?.hasError('maxlength') && form.get('competitionDescription')?.touched">
+            Maximum length exceeded (maximum 500 characters)
           </div>
         </div>
         <div class="competition-creator__describe-block">
@@ -31,25 +31,14 @@
         <div class="competition-creator__describe-block">
           <button *ngIf="setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">enter contest date</button>
           <button *ngIf="!setContestData" (click)="showContestDataInput()" class="competition-creator__selector-button">close</button>
-          <mat-form-field appearance="fill" *ngIf="!setContestData">
+          <mat-form-field *ngIf="!setContestData">
             <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-              <input
-                readonly
-                matStartDate
-                formControlName="startDate"
-                placeholder="Start date"
-                (dateChange)="handleDateChanged('start',$event)"
-              />
-              <input
-                readonly
-                matEndDate
-                formControlName="endDate"
-                placeholder="End date"
-                (dateChange)="handleDateChanged('end',$event)"
-              />
+            <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+              <input matStartDate placeholder="Start date"  formControlName="startDate">
+              <input matEndDate placeholder="End date" formControlName="endDate" >
             </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
         </div>

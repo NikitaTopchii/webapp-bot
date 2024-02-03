@@ -36,6 +36,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   conditionTypes: boolean = false;
   setSelfConditionBuilder: boolean = false;
   setGuessNumberCondition: boolean = false;
+  minDate: Date = new Date(Date.now());
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -72,15 +73,15 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      competitionName: ['contest', Validators.required],
-      competitionDescription: ['contest description', Validators.required],
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
+      competitionName: ['contest', Validators.maxLength(500)],
+      competitionDescription: ['contest description', Validators.maxLength(500)],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg', 'mp4'])]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionFinishTime: ['19:00', [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       competitionWinnersCount: ['1', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      languageSelector: ['en'],
+      languageSelector: ['ru'],
       selectedCondition: [''],
       selectedBaseCondition: [{ value: 'subscribe', disabled: true }],
       emailCondition: [true],

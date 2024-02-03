@@ -15,6 +15,7 @@ import {FileValidatorService} from "../../../core/services/validators/file/file-
 })
 export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestroy{
   form: FormGroup;
+  minDate: Date = new Date(Date.now());
 
   private activeCompetition: ActiveCompetitionInterface | undefined;
 
@@ -41,12 +42,13 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      newsLetterMessage: [''],
+      newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, Validators.required],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
       percentEndpointUsers: ['', Validators.required],
-      languageSelector: ['en'],
+      languageSelector: ['ru'],
       media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
+      imagesLinks: ['', Validators.required],
     });
   }
 

@@ -12,6 +12,7 @@ import {
 } from "./competition-endpoint-selector/competition-endpoint-selector.component";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatNativeDateModule,
     MatChipsModule,
     MatCheckboxModule,
+    MatMomentDateModule,
   ],
   providers: [ChannelsService],
 })

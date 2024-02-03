@@ -9,6 +9,7 @@ import {TokenGenerateService} from "../../../core/services/token/token-generate.
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
 import {main_url} from "../../../shared/application-context";
+import {TextValidatorService} from "../../../core/services/validators/text-validator/text-validator.service";
 
 @Component({
   selector: 'app-public-news-letter-by-chat',
@@ -17,6 +18,7 @@ import {main_url} from "../../../shared/application-context";
 })
 export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   form: FormGroup;
+  minDate: Date = new Date(Date.now());
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
   private selectedChannelIds: string[] = [];
   private selectedChannelNames: string[] = [];
@@ -25,6 +27,7 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   failedTimeValidation = false;
   wrong = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
+  setContestMedia: boolean = true;
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -32,7 +35,10 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
               private createCompetitionService: CompetitionService,
               private selectedChannelsService: SelectedChannelsService,
               private dateTimeValidationService: DateTimeValidatorService,
-              private fileValidatorService: FileValidatorService) {
+              private fileValidatorService: FileValidatorService,
+              private generateTokenService: TokenGenerateService,
+              private textValidatorService: TextValidatorService,
+              ) {
 
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
@@ -47,12 +53,25 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      newsLetterMessage: ['', Validators.required],
+      newsLetterMessage: ['Your message', [Validators.required, Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
-      competitionStartTime: [this.currentTime, Validators.required],
-      inlineLink: [''],
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
+      competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
+      percentEndpointUsers: ['', Validators.required],
+      languageSelector: ['ru'],
+      imagesLinks: ['', Validators.required],
+      inlineLink: ['', [Validators.required, this.textValidatorService.urlValidator()]],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
     });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+    this.form.patchValue({ media: file });
   }
 
   getSelectedChannels(){
@@ -100,26 +119,12 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
         form.get('competitionStartTime')?.value
       ),
       inlineLink: form.get('inlineLink')?.value,
+      language: form.get('languageSelector')?.value,
       chatId: this.selectedChannelIds?.join(','),
+      // urls: form.get('imagesLinks')?.value,
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
       urls: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
     }
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
-
-    const file = input.files[0];
-
-    const formData = new FormData();
-
-    formData.append('media', file);
-
-    this.form.patchValue({ media: file });
-
-    this.createCompetitionService.uploadMedia(formData);
   }
 }
 
