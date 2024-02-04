@@ -168,8 +168,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     console.log('CREATE COMPETITION')
 
-    console.log(form.value);
-    return;
+    form.value.startDate = form.value.startDate.toDate();
+    form.value.endDate = form.value.endDate.toDate();
 
     const formData = this.getCompetitionData(form, competitionId)
 

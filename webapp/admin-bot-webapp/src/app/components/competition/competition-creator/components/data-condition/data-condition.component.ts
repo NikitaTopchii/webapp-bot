@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { map, tap } from "rxjs";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 
 type ConditionType = 'text' | 'image' | 'link' | 'video' | 'number';
