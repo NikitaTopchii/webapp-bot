@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CompetitionCreatorService } from "../../services/competition-creator.service";
 
 
 type ConditionType = 'text' | 'image' | 'link' | 'video' | 'number';
@@ -12,7 +13,9 @@ type ConditionType = 'text' | 'image' | 'link' | 'video' | 'number';
 export class DataConditionComponent {
   public dataConditionForm: FormGroup = this.getDataConditionForm();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private competitionCreatorService: CompetitionCreatorService) {
+    this.initValueChangeSubscription();
   }
 
   public get otherConditions() {
@@ -48,6 +51,12 @@ export class DataConditionComponent {
     return this.fb.group({
       label: ['', Validators.required],
       type: 'text'
+    });
+  }
+
+  private initValueChangeSubscription() {
+    this.dataConditionForm.valueChanges.subscribe((value) => {
+      this.competitionCreatorService.conditionRequest = {...value, subscription: true};
     });
   }
 }

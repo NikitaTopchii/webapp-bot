@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from "@angular/forms";
+import { CompetitionCreatorService } from "../../services/competition-creator.service";
 
 type ConditionType = 'guess' | 'condition';
 interface RadioOption {
@@ -19,5 +20,19 @@ export class ContestConditionsComponent {
     { label: 'Guess', value: 'guess' },
     { label: 'Condition', value: 'condition' },
   ];
+
+  constructor(private competitionCreatorService: CompetitionCreatorService) {
+    this.initValueChangeSubscription();
+  }
+
+  private initValueChangeSubscription() {
+    this.selectedOption.valueChanges.subscribe((value) => {
+      if (value === 'guess') {
+        this.competitionCreatorService.setDefaultGuessNumber();
+      } else {
+        this.competitionCreatorService.setDefaultSelfCondition();
+      }
+    })
+  }
 
 }
