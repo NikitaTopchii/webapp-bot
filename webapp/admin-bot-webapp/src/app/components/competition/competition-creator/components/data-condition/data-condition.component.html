@@ -1,0 +1,35 @@
+<form [formGroup]="dataConditionForm" (ngSubmit)="submit()">
+  <mat-checkbox formControlName="email">Email</mat-checkbox>
+
+  <mat-checkbox formControlName="phoneNumber">Phone Number</mat-checkbox>
+
+  <mat-checkbox formControlName="ownCondition">Own condition</mat-checkbox>
+
+  <div *ngIf="(dataConditionForm.get('ownCondition')?.valueChanges | async) === true" formArrayName="otherConditions">
+    <div *ngFor="let condition of otherConditions.controls; let i = index">
+      <div [formGroupName]="i">
+        <mat-form-field appearance="fill">
+          <mat-label>Label</mat-label>
+          <input matInput formControlName="label">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option value="text">Text</mat-option>
+            <mat-option value="image">Image</mat-option>
+            <mat-option value="link">Link</mat-option>
+            <mat-option value="video">Video</mat-option>
+            <mat-option value="number">Number</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button type="button" (click)="removeOtherCondition(i)">Remove</button>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="addOtherCondition()">Add Condition</button>
+  </div>
+
+  <button mat-raised-button>submit</button>
+</form>
