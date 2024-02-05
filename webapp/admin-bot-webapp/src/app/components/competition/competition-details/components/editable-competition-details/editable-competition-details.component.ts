@@ -20,7 +20,7 @@ export class EditableCompetitionDetailsComponent implements OnInit {
   private getEditableCompetitionForm(): FormGroup {
     return this.fb.group({
       competitionName: [],
-      
+
     })
   }
 
