@@ -7,9 +7,6 @@
           <label>Enter news letter message</label>
           <textarea class="competition-creator__textarea-description formControl" formControlName="newsLetterMessage"></textarea>
         </div>
-        <div *ngIf="form.get('newsLetterMessage')?.hasError('required') && form.get('newsLetterMessage')?.touched">
-          Message is required
-        </div>
         <div *ngIf="form.get('newsLetterMessage')?.hasError('maxlength') && form.get('newsLetterMessage')?.touched">
           Maximum length exceeded (maximum 1024 characters)
         </div>
