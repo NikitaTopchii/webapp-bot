@@ -27,8 +27,6 @@ export class ParticipationService {
       params = params.append(key, value as string);
     });
 
-    console.log(params)
-
     return this.http
       .get<any>(main_url + '/competitions/condition', {params: params});
   }
@@ -51,10 +49,7 @@ export class ParticipationService {
   addParticipation(formData: FormData){
     return this.http
       .post<string>(main_url + '/participant/add', formData)
-      .subscribe((response) => {
-
-        console.log(response)
-      });
+      .subscribe((response) => {});
   }
 
   checkParticipation(formData: FormData) {

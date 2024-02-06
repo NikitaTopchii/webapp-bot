@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {bot_webhook_url, main_url} from "../../../shared/application-context";
+import {main_url} from "../../../shared/application-context";
 import {TokenGenerateService} from "../token/token-generate.service";
 import {BehaviorSubject, Subject} from "rxjs";
 import {ActiveCompetitionInterface} from "../../active-competition.interface";
@@ -40,10 +40,7 @@ export class CompetitionService {
   addParticipation(formData: FormData){
     return this.http
       .post<string>(main_url + '/participant/add', formData)
-      .subscribe((response) => {
-
-        console.log(response)
-      });
+      .subscribe((response) => {});
   }
 
   getCompetitionCondition(formData: FormData){
@@ -110,42 +107,31 @@ export class CompetitionService {
   publishCompetition(formData: FormData) {
     return this.http
       .post<string>(main_url + '/competitions/publish', formData)
-      .subscribe((response) => {
-
-        console.log(response)
-      });
+      .subscribe((response) => {});
   }
 
   createContest(formData: FormData){
     return this.http
       .post<string>(main_url + '/competitions/create-contest', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   createPrivateNewsLetter(formData: FormData){
     return this.http
-      .post<string>(bot_webhook_url + '/private-newsletter', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .post<string>(main_url + '/private-newsletter', formData)
+      .subscribe((response) => {});
   }
 
   createPublicNewsLetter(formData: FormData){
     return this.http
       .post<string>(main_url + '/competitions/public-newsletter', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   uploadMedia(formData: FormData){
     return this.http
       .post<string>(main_url + '/competitions/upload-media', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   getFinishedCompetitions(formData: FormData) {

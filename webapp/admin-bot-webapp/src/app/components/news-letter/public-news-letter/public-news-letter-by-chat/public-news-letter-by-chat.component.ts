@@ -43,7 +43,6 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
 
-    console.log(this.currentTime)
     this.form = this.getCreateCompetitionForm();
   }
 

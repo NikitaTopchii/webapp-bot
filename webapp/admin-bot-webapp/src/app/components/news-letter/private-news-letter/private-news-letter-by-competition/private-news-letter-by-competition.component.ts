@@ -70,12 +70,10 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
   }
 
   sendCompetitionDataToBot(form: FormGroup){
-    console.log(this.getNewsLetterData(form));
     this.sendData(this.getNewsLetterData(form));
   }
 
   getNewsLetterData(form: FormGroup){
-    console.log(this.activeCompetition)
     return {
       type: 'private-news-letter',
       contestDescription: form.get('newsLetterMessage')?.value,

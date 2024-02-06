@@ -7,14 +7,12 @@ class UsersService {
     }
 
     async getUser(userId) {
-        console.log('USER ID: ' + userId)
 
         return new Promise((resolve, reject) => {
             this.userDB.getUser(userId, (err, data) => {
                 if (err) {
                     reject(err);
                 } else {
-                  console.log(data)
                   resolve(data);
                 }
             });
@@ -23,7 +21,6 @@ class UsersService {
     }
 
     authUser(data){
-        console.log('auth user')
         return new Promise((resolve, reject) => {
             this.userDB.authUser(
                 data.userid,
@@ -41,7 +38,6 @@ class UsersService {
     }
 
     async getUsers(userIds) {
-        console.log(userIds)
 
         return new Promise((resolve, reject) => {
 

@@ -28,7 +28,6 @@ export class TelegramService {
     this.window = this._document.defaultView;
     // @ts-ignore
     this.tg = this.window.Telegram.WebApp;
-    console.log(this.tg)
   }
 
   get MainButton(): TgButton{

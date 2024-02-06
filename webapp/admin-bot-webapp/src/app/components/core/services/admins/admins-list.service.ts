@@ -48,7 +48,6 @@ export class AdminsListService {
   }
 
   addChatForHiredAdmin(formData: FormData) {
-    console.log('add chat for hired admin')
     return this.http
       .post<any>(main_url + '/admins/add-chat', formData);
   }

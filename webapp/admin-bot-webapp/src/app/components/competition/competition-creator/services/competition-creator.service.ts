@@ -21,9 +21,14 @@ interface SelfConditionRequest extends BaseConditionRequest {
   }[];
 }
 
+interface SubscriptionConditionRequest extends BaseConditionRequest {
+
+}
+
 type CombinedRequest =
   | GuessNumberConditionRequest
-  | SelfConditionRequest;
+  | SelfConditionRequest
+  | SubscriptionConditionRequest;
 
 
 @Injectable({
@@ -58,6 +63,12 @@ export class CompetitionCreatorService {
       phoneNumber: false,
       ownCondition: false,
       otherConditions: []
+    }
+  }
+
+  public setSubscribeCondition() {
+    this.conditionRequestState = {
+      subscription: true
     }
   }
 

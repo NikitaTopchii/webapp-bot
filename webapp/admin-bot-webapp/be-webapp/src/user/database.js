@@ -24,7 +24,6 @@ class UserDB {
             if (err) {
                 callback(err, null);
             } else {
-                console.log('results: ' + results)
                 callback(null, {results});
             }
         });
@@ -34,9 +33,6 @@ class UserDB {
                       username,
                       language,
                       callback){
-
-        console.log(username)
-        console.log(userid)
         const request = 'INSERT INTO users SET ?';
         const newUser = {
             userid,

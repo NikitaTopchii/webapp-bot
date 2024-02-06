@@ -8,7 +8,6 @@ export class DateTimeValidatorService {
   constructor() { }
 
   isFailDateFormatState(finishDate: string){
-    console.log(finishDate)
     if(finishDate.includes('/')){
       const dataByArray = finishDate.split('/');
 
@@ -55,12 +54,6 @@ export class DateTimeValidatorService {
 
   getCurrentTime() {
     const now = new Date();
-
-    // const timezoneOffset = localStorage.getItem('timezone');
-    //
-    // if(timezoneOffset){
-    //   now.setHours(now.getHours());
-    // }
 
     return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   }

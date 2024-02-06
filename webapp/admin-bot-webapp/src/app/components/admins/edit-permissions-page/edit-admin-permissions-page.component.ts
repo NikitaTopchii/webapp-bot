@@ -24,7 +24,6 @@ import {ObservableInput, forkJoin, map, mergeMap} from "rxjs";
   ],
   templateUrl: './edit-admin-permissions-page.component.html',
   styleUrl: './edit-admin-permissions-page.component.scss',
-  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditAdminPermissionsPageComponent implements OnInit, OnDestroy {
 
@@ -73,10 +72,8 @@ export class EditAdminPermissionsPageComponent implements OnInit, OnDestroy {
       });
 
       forkJoin(requests).subscribe(responses => {
-        // Всі запити виконано, робимо редірект
-        this.router.navigate(['/admins']); // Замініть '/new-page' на шлях, куди потрібно здійснити редірект
+        this.router.navigate(['/admins']);
       }, error => {
-        // Обробка помилок, якщо один або кілька запитів не вдалися
         console.error(error);
       });
     }
@@ -162,7 +159,6 @@ export class EditAdminPermissionsPageComponent implements OnInit, OnDestroy {
         this.router.navigate(['admins/add-chat', this.admin.id]);
     }
     getChatList() {
-        console.log(this.adminChats)
       return this.adminChats;
     }
 }

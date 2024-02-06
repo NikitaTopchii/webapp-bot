@@ -26,7 +26,6 @@ export class ChatPermissionsComponent implements OnChanges{
 
   constructor(private readonly fb: FormBuilder, private permissionsService: PermissionsService) {
     this.permissionsForm = this.getPermissionsForm();
-    console.log('chat id in contsructor: ' + this.chatId)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -34,7 +33,6 @@ export class ChatPermissionsComponent implements OnChanges{
       this.permissionsForm = this.getPermissionsForm();
 
       this.permissionsForm.valueChanges.subscribe(() => {
-        console.log('permission form was changed , chatid is ' + this.chatId)
         this.permissionsService.checkChatPermissionValuesState(this.permissionsForm);
         this.permissionsService.setCurrentChatPermissions(this.chatId,{
           actionWithCompetition: this.permissionsForm.get('actionWithCompetition')?.value,
@@ -47,9 +45,6 @@ export class ChatPermissionsComponent implements OnChanges{
 
   private getPermissionsForm(){
     this.setCurrentPermissions();
-    console.log('1 : ' + this.selectAdminFromList)
-    console.log('2 : ' + this.actionWithCompetition)
-    console.log('3 : ' + this.editPermission)
     return this.fb.group({
       selectAdminFromList: [this.selectAdminFromList],
       actionWithCompetition: [this.actionWithCompetition],
@@ -58,17 +53,9 @@ export class ChatPermissionsComponent implements OnChanges{
   }
 
   setCurrentPermissions(){
-    console.log('start getting current permissions + ' + this.chatId)
     const currentAdminPermissions = this.permissionsService.getCurrentChatPermissions(this.chatId);
 
-    console.log('current admin permissions: ')
-    console.log('edit permissions: ' + currentAdminPermissions.editPermission)
-    console.log('competition actions: ' + currentAdminPermissions.actionWithCompetition)
-    console.log('show admins: ' + currentAdminPermissions.selectAdminFromList)
-
-
     if(currentAdminPermissions){
-      console.log('set current permissions )))')
       this.selectAdminFromList = currentAdminPermissions.selectAdminFromList;
       this.actionWithCompetition = currentAdminPermissions.actionWithCompetition;
       this.editPermission = currentAdminPermissions.editPermission;
@@ -76,7 +63,6 @@ export class ChatPermissionsComponent implements OnChanges{
   }
 
   setPermissions(form: FormGroup){
-    console.log(form.value)
     this.permissionsService.setCurrentChatPermissions(this.chatId,{
       actionWithCompetition: form.get('actionWithCompetition')?.value,
       editPermission: form.get('editPermissions')?.value,

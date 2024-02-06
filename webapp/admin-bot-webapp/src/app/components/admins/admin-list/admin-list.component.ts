@@ -79,8 +79,6 @@ export class AdminListComponent implements OnInit, OnDestroy{
 
         admins.forEach((admin: any) => {
 
-          console.log(admin)
-
           const permissions = JSON.parse(admin.rights);
 
           const newAdmin = new Admin(admin.userid, admin.note || 'unnamed admin', 'hired');

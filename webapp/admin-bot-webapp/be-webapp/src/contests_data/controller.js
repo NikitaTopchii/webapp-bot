@@ -2,53 +2,40 @@ const ParticipationService = require('./service');
 
 exports.addParticipation = async (req, res) => {
     try {
-        console.log('this is is');
         await ParticipationService.addParticipant(req.body);
         res.json('ok');
     } catch (error) {
-        console.log(error)
         res.status(500).send({message: 'Error oops'})
     }
 }
 
 exports.addParticipationWithAnswer = async (req, res) => {
   try {
-    console.log('this is is');
     await ParticipationService.addParticipantWithAnswer(req.body);
     res.json('ok');
   } catch (error) {
-    console.log(error)
     res.status(500).send({message: 'Error oops'})
   }
 }
 
 exports.getParticipant = async (req, res) => {
     try {
-        console.log('THIS IS CONSOLE LOG')
-        console.log(req.query.userid);
         const user = await ParticipationService.getParticipant(req.query.userid, req.query.contests_id);
         res.json(user);
     } catch (error) {
-        console.log(error)
         res.status(500).send({message: 'Error oops'})
     }
 }
 
 exports.checkParticipation = async (req, res) => {
   try {
-    console.log('THIS IS CONSOLE LOG')
-    console.log(req.query.userid);
     const user = await ParticipationService.getParticipant(req.query.userid, req.query.contests_id);
     if(user.results.length === 1){
-      console.log('this man already participant')
-      console.log(user)
       res.json({isParticipant: true})
     }else{
-      console.log('user not found')
       res.json({isParticipant: false})
     }
   } catch (error) {
-    console.log(error)
     res.status(500).send({message: 'Error oops'})
   }
 }

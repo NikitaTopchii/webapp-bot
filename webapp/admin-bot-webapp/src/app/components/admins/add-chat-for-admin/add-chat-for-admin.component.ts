@@ -71,7 +71,6 @@ export class AddChatForAdminComponent implements OnInit, OnDestroy{
   }
 
   navigateToAddNewChannels() {
-    console.log(this.selectedChatEntity)
     this.selectedChatEntity.forEach((chat) => {
       const formData = new FormData();
 

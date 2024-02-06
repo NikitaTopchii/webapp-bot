@@ -27,14 +27,10 @@ export class PermissionsService {
   }
 
   setCurrentAdminPermissions(currentAdminPermissions: PermissionsInterface){
-    console.log('set current admin admin-permissions')
-    console.log(currentAdminPermissions)
     this.currentAdminPermissions = currentAdminPermissions;
   }
 
   getCurrentAdminPermissions(){
-    console.log('--')
-    console.log(this.currentAdminPermissions)
     return this.currentAdminPermissions;
   }
 
@@ -52,24 +48,10 @@ export class PermissionsService {
   }
 
   setCurrentChatPermissions(chatId: string, currentChatPermissions: PermissionsInterface){
-    console.log('chat id: ' + chatId)
-    console.log('permissions: ')
-    console.log(currentChatPermissions)
     this.currentChatPermissions.set(chatId, currentChatPermissions);
   }
 
   getCurrentChatPermissions(chatId: string): any{
-    console.log('chatId: ')
-    console.log(chatId)
-
-    console.log('this.currentChatPermissions')
-    console.log(this.currentChatPermissions)
-    console.log('-=-=-=-=--=-=-=-=-=--==-')
-
-    console.log('-------------------------------')
-    console.log(this.currentChatPermissions.get(chatId))
-    console.log('-------------------------------')
-
     const permissions = this.currentChatPermissions.get(chatId);
 
     return permissions || {};
