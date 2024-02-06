@@ -122,57 +122,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     this.createCompetitionService.uploadMedia(formData);
   }
 
-  // getFieldValue(form: FormGroup, field: string) {
-  //   return form.get(field)?.value;
-  // }
-
-  // getContestCondition(form: FormGroup) {
-  //   const conditionSelector = this.getFieldValue(form, 'selectedCondition');
-  //
-  //   console.log(conditionSelector);
-  //
-  //   if(conditionSelector === 'condition'){
-  //     const emailCondition = this.getFieldValue(form, 'emailCondition') ? 'emailCondition' : '';
-  //     const phoneCondition = this.getFieldValue(form, 'phoneCondition') ? 'phoneCondition' : '';
-  //     const selfCondition = this.getFieldValue(form, 'selfCondition') ? this.getFieldValue(form, 'selfConditionTypes') : '';
-  //
-  //     const condition: ConditionInterface = {
-  //       emailCondition: emailCondition,
-  //       phoneCondition: phoneCondition,
-  //       selfCondition: selfCondition,
-  //       guessNumber: ''
-  //     }
-  //
-  //     return JSON.stringify(condition);
-  //   }else if(conditionSelector === 'guess number'){
-  //     const condition: ConditionInterface = {
-  //       emailCondition: '',
-  //       phoneCondition: '',
-  //       selfCondition: '',
-  //       guessNumber: this.getFieldValue(form, 'guessNumberCondition')
-  //     }
-  //
-  //     return JSON.stringify(condition);
-  //   }
-  //   return 'subscribe';
-  // }
-
-  // getContestConditionAnswer(form: FormGroup) {
-  //   const selfConditionSelector = this.getFieldValue(form, 'selfCondition');
-  //
-  //   if (selfConditionSelector) {
-  //     return this.getFieldValue(form, 'selfConditionName');
-  //   } else {
-  //     return this.getFieldValue(form, 'guessNumber');
-  //   }
-  // }
-
-
-  // handleDateChanged(eventName: string, event: any) {
-  //   // this only logs if the user changes the inputs via the UI but not if the form controls are // modified
-  //   console.log(`daterange change event:${eventName}`, event.value);
-  // }
-
   getSelectedChannels(){
     return this.selectedChannels;
   }
@@ -186,8 +135,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   createCompetition(form: FormGroup) {
-    console.log('this is condition request')
-    console.log(this.competitionCreatorService.conditionRequest);
 
     if (this.form.invalid) {
       return;
@@ -195,18 +142,12 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     const competitionId = this.generateTokenService.generateSHA256Token();
 
-    console.log('CREATE COMPETITION')
-
-    console.log(form.value.startDate, form.value.endDate)
     form.value.startDate = form.value.startDate?.toDate();
     form.value.endDate = form.value.endDate?.toDate();
-
-    console.log(form.value)
 
     const formData = this.getCompetitionData(form, competitionId)
 
     this.createCompetitionService.createCompetitionDraft(formData).subscribe(() => {
-      console.log('CONTEST DRAFT WAS CREATE')
       this.sendCompetitionDataToBot(this.getCompetitionData(form, competitionId));
     });
   }
@@ -247,31 +188,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     return formData;
   }
-
-  // getDataForBot(form: FormGroup, competitionId: number){
-  //   return {
-  //     type: 'create-contest',
-  //     contestName: form.get('competitionName')?.value,
-  //     contestDescription: form.get('competitionDescription')?.value,
-  //     channels: this.selectedChannelIds.join(','),
-  //     competitionStartDate: this.dateTimeValidationService.checkDateValidation(
-  //       form.get('startDate')?.value,
-  //       form.get('competitionStartTime')?.value
-  //     ),
-  //     competitionFinishDate: this.dateTimeValidationService.checkDateValidation(
-  //       form.get('endDate')?.value,
-  //       form.get('competitionFinishTime')?.value
-  //     ),
-  //     media: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
-  //     winnerCount: form.get('competitionWinnersCount')?.value,
-  //     botid: localStorage.getItem('botid'),
-  //     language: form.get('languageSelector')?.value,
-  //     contestId: competitionId.toString(),
-  //     channelNames: this.selectedChannelNames.join(','),
-  //     condition: this.getContestCondition(form),
-  //     answer: this.getContestConditionAnswer(form)
-  //   }
-  // }
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({

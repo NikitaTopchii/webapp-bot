@@ -62,8 +62,6 @@ class ParticipationDB {
   }
 
     getParticipant(userid, contests_id,callback) {
-        console.log("ІВАІВАІВАІВАІВАІВАІ")
-        console.log(userid)
         const sql = 'SELECT * FROM users_data WHERE userid = ? AND contest_id = ?';
         this.connection.query(sql, [userid, contests_id], (err, results) => {
             if (err) {

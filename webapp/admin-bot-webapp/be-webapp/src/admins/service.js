@@ -7,7 +7,6 @@ class AdminsService {
     }
 
     async getAdmins(creators_id) {
-        console.log(creators_id)
 
         return new Promise((resolve, reject) => {
 
@@ -25,7 +24,6 @@ class AdminsService {
     }
 
     async getAdminsWithSubscription(user_id) {
-        console.log(user_id)
 
         return new Promise((resolve, reject) => {
 
@@ -41,7 +39,6 @@ class AdminsService {
     }
 
     async getAdmin(user_id) {
-        console.log(user_id)
 
         return new Promise((resolve, reject) => {
             this.admins.getAdmin(user_id, (err, data) => {
@@ -83,8 +80,6 @@ class AdminsService {
 
     savePermissions(data){
       return new Promise((resolve, reject) => {
-        console.log(data.permissions)
-        console.log(data.userid)
         this.admins.savePermissions(
           data.permissions,
           data.userid,
@@ -103,7 +98,6 @@ class AdminsService {
 
   deleteAdmin(data){
     return new Promise((resolve, reject) => {
-      console.log(data.admin_id)
       this.admins.deleteAdmin(
         data.admin_id,
         (err, data) => {

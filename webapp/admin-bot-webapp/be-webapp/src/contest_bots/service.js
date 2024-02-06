@@ -5,7 +5,6 @@ class CompetitionBotsService {
     }
 
     async getBotToken(bot_id) {
-        console.log(bot_id)
 
         return new Promise((resolve, reject) => {
 

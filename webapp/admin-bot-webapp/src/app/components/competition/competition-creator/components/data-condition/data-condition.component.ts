@@ -35,7 +35,6 @@ export class DataConditionComponent {
     if (this.dataConditionForm.invalid) {
       return;
     }
-    console.log(this.dataConditionForm.value);
   }
 
   private getDataConditionForm() {

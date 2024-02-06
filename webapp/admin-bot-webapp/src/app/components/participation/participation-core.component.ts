@@ -42,7 +42,6 @@ export class ParticipationCoreComponent {
 
   checkCompetitionCondition() {
     if (!this.getContestId()) {
-      console.error('Contest ID is missing');
       return;
     }
 
@@ -70,7 +69,6 @@ export class ParticipationCoreComponent {
 
     forkJoin(channelIds.map((id:string) => this.checkSubscribeOnChannels(this.getParticipantId(), id))).pipe(
       switchMap((statuses: any) => {
-        console.log(statuses)
         if (statuses.every((status:boolean) => status)) {
           return this.processParticipation(conditions, answer);
         } else {
@@ -80,7 +78,6 @@ export class ParticipationCoreComponent {
         }
       }),
       catchError(error => {
-        console.error('Error in method:', error);
         return EMPTY;
       })
     ).subscribe();
@@ -140,8 +137,6 @@ export class ParticipationCoreComponent {
     return this.participationService.checkSubscription(formData).pipe(
       map(response => response.isSubscribed),
       catchError(error => {
-        console.error('Error in checkSubscribeOnChannels:', error);
-        // Updated usage of throwError
         return throwError(() => new Error('Error checking subscription'));
       })
     );
@@ -152,13 +147,9 @@ export class ParticipationCoreComponent {
 
     this.adminsService.getUser(formData).pipe(
       switchMap(response => {
-        console.log('response from auth user')
-        console.log(response)
         if (response.exists) {
-          console.log('user exists')
           return of(response.user);
         } else {
-          console.log('auth user')
           return this.authUser();
         }
       }),

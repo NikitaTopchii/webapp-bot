@@ -7,8 +7,6 @@ class ChannelsService {
     }
 
     async getChannelsWithChatIds(chatids, botid){
-        console.log(chatids)
-        console.log(botid)
 
         return new Promise((resolve, reject) => {
 

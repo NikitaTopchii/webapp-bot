@@ -67,7 +67,6 @@ router
   .route('/upload-media')
   .post(uploadMedia.any(), (req, res) => {
     // req.files міститиме інформацію про завантажені файли
-    console.log(req.files);
     res.json('Файл успішно завантажено');
   })
 

@@ -47,7 +47,6 @@ export class AdminPermissionsComponent {
 
   setCurrentPermissions(){
     const currentAdminPermissions = this.permissionsService.getCurrentAdminPermissions();
-    console.log(currentAdminPermissions)
     if(currentAdminPermissions){
       this.selectAdminFromList = currentAdminPermissions.selectAdminFromList;
       this.actionWithCompetition = currentAdminPermissions.actionWithCompetition;
@@ -56,7 +55,6 @@ export class AdminPermissionsComponent {
   }
 
   setPermissions(form: FormGroup){
-    console.log(form.value)
     this.permissionsService.setCurrentAdminPermissions({
       actionWithCompetition: form.get('actionWithCompetition')?.value,
       editPermission: form.get('editPermissions')?.value,

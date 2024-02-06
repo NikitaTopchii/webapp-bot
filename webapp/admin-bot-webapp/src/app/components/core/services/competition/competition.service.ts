@@ -40,10 +40,7 @@ export class CompetitionService {
   addParticipation(formData: FormData){
     return this.http
       .post<string>(main_url + '/participant/add', formData)
-      .subscribe((response) => {
-
-        console.log(response)
-      });
+      .subscribe((response) => {});
   }
 
   getCompetitionCondition(formData: FormData){
@@ -110,42 +107,31 @@ export class CompetitionService {
   publishCompetition(formData: FormData) {
     return this.http
       .post<string>(main_url + '/competitions/publish', formData)
-      .subscribe((response) => {
-
-        console.log(response)
-      });
+      .subscribe((response) => {});
   }
 
   createContest(formData: FormData){
     return this.http
       .post<string>(main_url + '/competitions/create-contest', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   createPrivateNewsLetter(formData: FormData){
     return this.http
       .post<string>(main_url + '/private-newsletter', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   createPublicNewsLetter(formData: FormData){
     return this.http
       .post<string>(main_url + '/competitions/public-newsletter', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   uploadMedia(formData: FormData){
     return this.http
       .post<string>(main_url + '/competitions/upload-media', formData)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   getFinishedCompetitions(formData: FormData) {

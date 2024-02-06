@@ -87,10 +87,7 @@ export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
     if(conditions){
       const conditionsType = conditions.toString().split(',');
 
-      console.log(conditionsType)
-
       conditionsType.forEach((type) => {
-        console.log(type)
         this.setValues(type, answer);
       })
     }
@@ -98,20 +95,16 @@ export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
 
   setValues(conditionsType: string, answer: FormDataEntryValue | null){
     if((conditionsType === 'media' || conditionsType === 'text' || conditionsType === 'links' || conditionsType === 'number') && answer){
-      console.log('type self')
       this.conditionsValueSelfCondition = answer.toString();
       this.conditionsType = 'self';
     }else{
       if(conditionsType === 'emailCondition'){
-        console.log('type email');
         this.conditionsType = 'email';
         this.conditionsValueEmail = 'Enter your email'
       }else if(conditionsType === 'phoneCondition'){
-        console.log('type number')
         this.conditionsType = 'number'
         this.conditionsValuePhone = 'Enter your phone number'
       }else if(conditionsType === 'exact' || conditionsType === 'closest'){
-        console.log('guessNumber')
         this.conditionsGuessNumber = 'Enter number for guess'
         this.conditionsType = 'guessNumber'
       }else{

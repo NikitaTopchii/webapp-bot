@@ -12,7 +12,6 @@ export class AppComponent {
   telegram = inject(TelegramService);
 
   constructor() {
-    console.log('MyService is injected', this.telegram);
     this.telegram.ready();
   }
 }
