@@ -38,9 +38,11 @@
           </ng-container>
         </div>
         <div class="competition-creator__describe-block">
-          <button (click)="changeVisibilityState('contestDate', true)"
-                  class="competition-creator__selector-button">enter contest date
-          </button>
+          <ng-container *ngIf="!visibilityState.contestDate">
+            <button (click)="changeVisibilityState('contestDate', true)"
+                    class="competition-creator__selector-button">enter contest date
+            </button>
+          </ng-container>
           <ng-container *ngIf="visibilityState.contestDate">
             <button (click)="changeVisibilityState('contestDate', false)"
                     class="competition-creator__selector-button">close
@@ -146,8 +148,8 @@
             <span>{{channels.name}}</span>
           </div>
         </div>
-        <button type="submit" class="competition-creator__button">create competition</button>
-<!--        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>-->
+<!--        <button type="submit" class="competition-creator__button">create competition</button>-->
+        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>
       </form>
     </div>
   </div>

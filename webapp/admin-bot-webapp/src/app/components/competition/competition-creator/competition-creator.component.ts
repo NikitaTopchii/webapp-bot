@@ -186,10 +186,13 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   createCompetition(form: FormGroup) {
+    console.log('this is condition request')
     console.log(this.competitionCreatorService.conditionRequest);
+
     if (this.form.invalid) {
       return;
     }
+
     const competitionId = this.generateTokenService.generateSHA256Token();
 
     console.log('CREATE COMPETITION')
@@ -199,8 +202,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     form.value.endDate = form.value.endDate?.toDate();
 
     console.log(form.value)
-
-    return
 
     const formData = this.getCompetitionData(form, competitionId)
 
@@ -239,9 +240,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       formData.append('botid', botId)
       formData.append('language', form.get('languageSelector')?.value)
       formData.append('contestId', competitionId.toString())
+      formData.append('conditions', JSON.stringify(this.competitionCreatorService.conditionRequest))
       formData.append('channelNames', this.selectedChannelNames.join(','))
-      // formData.append('condition', this.getContestCondition(form))
-      // formData.append('answer', this.getContestConditionAnswer(form))
       formData.append('userId', userId)
     }
 

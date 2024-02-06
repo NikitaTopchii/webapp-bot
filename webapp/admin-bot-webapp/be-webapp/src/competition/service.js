@@ -29,7 +29,7 @@ class CompetitionService {
         data.contestDescription,
         data.userId,
         data.media,
-        data.condition,
+        data.conditions,
         (err, data) => {
           if(err) {
             reject(err);

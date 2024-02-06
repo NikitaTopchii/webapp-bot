@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {bot_webhook_url, main_url} from "../../../shared/application-context";
+import {main_url} from "../../../shared/application-context";
 import {TokenGenerateService} from "../token/token-generate.service";
 import {BehaviorSubject, Subject} from "rxjs";
 import {ActiveCompetitionInterface} from "../../active-competition.interface";
@@ -126,7 +126,7 @@ export class CompetitionService {
 
   createPrivateNewsLetter(formData: FormData){
     return this.http
-      .post<string>(bot_webhook_url + '/private-newsletter', formData)
+      .post<string>(main_url + '/private-newsletter', formData)
       .subscribe((response) => {
         console.log(response);
       });
