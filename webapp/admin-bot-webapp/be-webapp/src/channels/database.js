@@ -1,5 +1,17 @@
 const mysql = require('mysql');
-
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.green,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 class ChannelsDB {
     constructor() {
         this.connection = mysql.createConnection({
@@ -11,16 +23,16 @@ class ChannelsDB {
 
         this.connection.connect((err) => {
             if (err) {
-                console.error(`Error connecting to MySQL: ${err}`);
+                logger.error(`Error connecting to MySQL: ${err}`);
             } else {
-                console.log('Connected to MySQL contests_channels');
+                logger.trace('Connected to MySQL contests_channels');
             }
         });
     }
 
-    getChannels(creators_id, callback) {
-        const sql = 'SELECT * FROM channels WHERE chatid IN (?)';
-        this.connection.query(sql, [creators_id], (err, results) => {
+    getChannels(creators_id, botid, callback) {
+        const sql = 'SELECT * FROM channels WHERE chatid IN (?) AND bot_token LIKE ?';
+        this.connection.query(sql, [creators_id, botid + ':%'], (err, results) => {
             if (err) {
                 callback(err, null);
             } else {

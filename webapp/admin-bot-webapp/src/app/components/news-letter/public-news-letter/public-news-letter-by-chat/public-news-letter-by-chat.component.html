@@ -5,42 +5,53 @@
       <form [formGroup]="form" (ngSubmit)="pushNewsLetter(form)" class="form">
         <div class="competition-creator__describe-block">
           <label>Enter news letter message</label>
-          <textarea class="competition-creator__textarea-description" formControlName="newsLetterMessage"></textarea>
+          <textarea class="competition-creator__textarea-description formControl" formControlName="newsLetterMessage"></textarea>
         </div>
-        <label>Enter links on images: </label>
-        <input class="competition-creator__input-name" formControlName="imagesLinks">
+        <div *ngIf="form.get('newsLetterMessage')?.hasError('required') && form.get('newsLetterMessage')?.touched">
+          Message is required
+        </div>
+        <div *ngIf="form.get('newsLetterMessage')?.hasError('maxlength') && form.get('newsLetterMessage')?.touched">
+          Maximum length exceeded (maximum 1024 characters)
+        </div>
+        <div class="competition-creator__describe-block">
+          <label>Enter media links</label>
+          <input type="file" (change)="onFileSelected($event)">
+          <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
+        </div>
         <mat-form-field>
           <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="startDate">
+          <input matInput [matDatepicker]="picker" formControlName="startDate" [min]="minDate">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">
           <label>Enter contest start time in format: hh:mm</label>
-          <input class="competition-creator__input-name" formControlName="competitionStartTime">
+          <input class="competition-creator__input-name formControl" formControlName="competitionStartTime">
           <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
         </div>
-        <div class="competition-creator__date-format">
-          <label>Enter percent of users: </label>
-          <input class="competition-creator__input-name" formControlName="percentEndpointUsers">
+        <div *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
+          Time is required
         </div>
-        <div class="competition-creator__language-selector">
-          <label>
-            <input type="radio" formControlName="languageSelector" value="ru">
-            ru
-          </label>
-          <label>
-            <input type="radio" formControlName="languageSelector" value="en">
-            en
-          </label>
+        <div *ngIf="form.get('competitionStartTime')?.hasError('pattern') && form.get('competitionStartTime')?.touched">
+          String is not valid. Please use format HH:MM
+        </div>
+        <div class="competition-creator__date-format">
+          <label>Enter link for inline button: </label>
+          <input class="competition-creator__input-name formControl" formControlName="inlineLink">
+        </div>
+        <div *ngIf="form.get('inlineLink')?.hasError('required') && form.get('inlineLink')?.touched">
+          Link is required
+        </div>
+        <div *ngIf="form.get('inlineLink')?.hasError('invalidUrl') && form.get('inlineLink')?.touched">
+          Is not a link
         </div>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
             <span>{{channels.name}}</span>
           </div>
         </div>
-        <button type="submit" class="competition-creator__button">create competition</button>
+        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>
       </form>
     </div>
   </div>

@@ -4,7 +4,7 @@
       <span class="admin-list__name" (click)="showPermissions(admin.name)">{{admin.name}}</span>
       <div>
         <button class="admin-list__admin-edit-button" (click)="navigateToEditPermissions(admin)" i18n>edit</button>
-        <button class="admin-list__admin-delete-button" i18n>delete</button>
+        <button class="admin-list__admin-delete-button" (click)="deleteAdmin(admin)" i18n>delete</button>
       </div>
     </div>
     <div class="admin-list__admin-permissions" *ngIf="admin.name == getCurrentAdmin()">
@@ -22,5 +22,4 @@
       </div>
     </div>
   </div>
-  <button class="admin-list__button" (click)="navigateToAddNewAdmin()" i18n>Add Admin</button>
 </div>

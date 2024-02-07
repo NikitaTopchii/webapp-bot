@@ -8,6 +8,21 @@ const express = require('express'),
     competitionBotRouter = require('./contest_bots/routes');
 const {main_url} = require("../shared/application-context");
 
+const path = require('path');
+
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgYellow,
+      info: colors.green,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 
 class IndexJs {
     constructor(app) {
@@ -25,7 +40,12 @@ class IndexJs {
         app.use('/channels', channelsRouter);
         app.use('/admins', adminsRouter);
         app.use('/participant', participationRouter);
-        app.use('/bots', competitionBotRouter)
+        app.use('/bots', competitionBotRouter);
+        app.use('/media', express.static(path.join(__dirname, '..', 'media')));
+        app.use((req, res, next) => {
+          logger.trace(`Request URL: ${req.url}`);
+          next();
+        });
     }
 }
 

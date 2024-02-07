@@ -1,0 +1,13 @@
+<mat-checkbox [checked]="true" disabled>Subscription</mat-checkbox>
+<mat-radio-group [formControl]="selectedOption">
+  <mat-radio-button *ngFor="let option of radioOptions" [value]="option.value">
+    {{ option.label }}
+  </mat-radio-button>
+</mat-radio-group>
+
+<ng-container *ngIf="selectedOption.value === 'condition'">
+  <app-data-condition></app-data-condition>
+</ng-container>
+<ng-container *ngIf="selectedOption.value === 'guess'">
+  <app-guess-number></app-guess-number>
+</ng-container>

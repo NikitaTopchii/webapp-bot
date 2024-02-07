@@ -41,15 +41,12 @@ export class ActiveCompetitionsListComponent implements OnInit, OnDestroy{
   }
 
   setActiveCompetitions(chatId: string){
-    console.log('SET ACTIVE COMPETITIONS')
-
     const formData = new FormData();
 
     formData.append('chatid', chatId);
 
     const botId = localStorage.getItem('botid');
 
-    console.log("BOT ID: " + botId)
     if(botId){
       this.competitionService.getActiveCompetitions(formData).subscribe((response) => {
         for(let competition of response.results){

@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'participation',
     loadChildren: () => import("./components/participation/participation.module").then((m) => m.ParticipationModule)
+  },
+  {
+    path: 'admins',
+    loadChildren: () => import("./components/admins/admins.module").then((m) => m.AdminsModule)
   }
 ];
 

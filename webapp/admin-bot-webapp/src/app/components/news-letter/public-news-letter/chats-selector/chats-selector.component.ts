@@ -87,20 +87,25 @@ export class ChatsSelectorComponent implements OnInit, OnDestroy{
   private getMyChannels(){
     const formData = new FormData();
 
-    formData.append('creators_id', this.creatorsIdLists.join(','));
+    const botid = localStorage.getItem('botid');
 
-    this.channelsService.getChannels(formData).subscribe((response) => {
+    if(botid){
+      formData.append('chat_ids', this.creatorsIdLists.join(','));
+      formData.append('botid', botid);
 
-      const channels = response.results;
+      this.channelsService.getChannels(formData).subscribe((response) => {
 
-      channels.forEach((channel: any) => {
-        this.channelsList.push({
-          id: channel.chatid,
-          name: channel.name,
-          selected: false
-        })
+        const channels = response.results;
+
+        channels.forEach((channel: any) => {
+          this.channelsList.push({
+            id: channel.chatid,
+            name: channel.name,
+            selected: false
+          })
+        });
       });
-    });
+    }
   }
 
   goBack(){

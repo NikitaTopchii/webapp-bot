@@ -20,9 +20,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
 
   selectElementsExist: boolean = false;
 
-  private creatorsIdLists: number[] = [];
-
-  private creatorsId: any;
+  private chatIdsList: number[] = [];
 
   constructor(private telegram: TelegramService,
               private router: Router,
@@ -65,7 +63,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     }
   }
 
-  getCreatorsId(){
+  getChatIds(){
     const userid = localStorage.getItem('user_id');
 
     if(userid){
@@ -77,7 +75,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
         const admins = response.results;
 
         admins.forEach((admin: any) => {
-          this.creatorsIdLists.push(admin.chatid);
+          this.chatIdsList.push(admin.chatid);
         });
 
         this.getMyChannels();
@@ -88,20 +86,25 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   private getMyChannels(){
     const formData = new FormData();
 
-    formData.append('creators_id', this.creatorsIdLists.join(','));
+    const botid = localStorage.getItem('botid');
 
-    this.channelsService.getChannels(formData).subscribe((response) => {
+    if(botid){
+      formData.append('chat_ids', this.chatIdsList.join(','));
+      formData.append('botid', botid);
 
-      const channels = response.results;
+      this.channelsService.getChannels(formData).subscribe((response) => {
 
-      channels.forEach((channel: any) => {
-        this.channelsList.push({
-          id: channel.chatid,
-          name: channel.name,
-          selected: false
-        })
+        const channels = response.results;
+
+        channels.forEach((channel: any) => {
+          this.channelsList.push({
+            id: channel.chatid,
+            name: channel.name,
+            selected: false
+          })
+        });
       });
-    });
+    }
   }
 
   goBack(){
@@ -113,7 +116,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.getCreatorsId();
+    this.getChatIds();
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
   }

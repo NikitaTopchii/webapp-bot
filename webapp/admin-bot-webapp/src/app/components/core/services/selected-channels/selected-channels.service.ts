@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {TelegramEntityInterface} from "../../telegram-entity/telegram-entity.interface";
+import {Chat} from "../../chat";
 
 @Injectable({
   providedIn: 'root'

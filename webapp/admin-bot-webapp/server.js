@@ -7,7 +7,6 @@ const app = express();
 
 const serveStaticFiles = (lang) => {
   const staticFilesPath = path.join(__dirname, `dist/admin-bot-webapp/browser/${lang}`);
-  console.log(`Static files path for ${lang}: ${staticFilesPath}`);
   app.use(`/${lang}`, express.static(staticFilesPath));
 };
 

@@ -26,7 +26,7 @@ export class MainAdminPageComponent implements OnInit{
 
     this.route.queryParams.subscribe(params => {
       userIdByParams = params['userid'];
-      botId = params['botid'];
+      botId = params['botid'] || localStorage.getItem('botid');
     });
 
     if(userIdByParams){
@@ -36,13 +36,6 @@ export class MainAdminPageComponent implements OnInit{
     }
 
     localStorage.setItem('botid', botId);
-    // if(userId){
-    //   this.data = userId;
-    // } else {
-    //   this.route.queryParams.subscribe(params => {
-    //     this.data = params['userid'];
-    //   });
-    // }
   }
 
   getUser() {
@@ -53,22 +46,13 @@ export class MainAdminPageComponent implements OnInit{
     formData.append('userid', this.data);
 
     this.usersService.getUser(formData).subscribe((response) => {
-      console.log(response)
       const timezone = response.results[0].timezone;
       localStorage.setItem('timezone', timezone);
     })
-    // this.userService.getUser(formData).subscribe((response) => {
-    //   const user = response.results;
-    //
-    //   console.log(user[0])
-    //   console.log(user.userid)
-    //
-    //   this.setAdminRole(user[0].userid);
-    // });
   }
 
   navigateToAdminsList() {
-    this.router.navigate(['/active-competition'])
+    this.router.navigate(['/admins'])
   }
   navigateToCompetitionCreator() {
     this.router.navigate(['/competitions/competition-endpoint-selector'])

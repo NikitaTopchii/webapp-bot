@@ -6,14 +6,13 @@ class ChannelsService {
         this.userDB = new ChannelsDB();
     }
 
-    async getChannelsWithChatIds(chatids){
-        console.log(chatids)
+    async getChannelsWithChatIds(chatids, botid){
 
         return new Promise((resolve, reject) => {
 
             const creatorsIdList = chatids.split(',');
 
-            this.userDB.getChannels(creatorsIdList, (err, data) => {
+            this.userDB.getChannels(creatorsIdList, botid, (err, data) => {
                 if (err) {
                     reject(err);
                 } else {

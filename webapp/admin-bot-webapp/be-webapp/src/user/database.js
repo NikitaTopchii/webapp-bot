@@ -1,5 +1,17 @@
 const mysql = require('mysql');
-
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.green,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 class UserDB {
     constructor() {
         this.connection = mysql.createConnection({
@@ -11,9 +23,9 @@ class UserDB {
 
         this.connection.connect((err) => {
             if (err) {
-                console.error(`Error connecting to MySQL: ${err}`);
+                logger.error(`Error connecting to MySQL: ${err}`);
             } else {
-                console.log('Connected to MySQL users');
+                logger.trace('Connected to MySQL users');
             }
         });
     }
@@ -24,7 +36,6 @@ class UserDB {
             if (err) {
                 callback(err, null);
             } else {
-                console.log('results: ' + results)
                 callback(null, {results});
             }
         });
@@ -33,19 +44,12 @@ class UserDB {
     authUser(userid,
                       username,
                       language,
-                      is_admin,
-                      subscription,
                       callback){
-
-        console.log(username)
-        console.log(userid)
         const request = 'INSERT INTO users SET ?';
         const newUser = {
             userid,
             username,
-            language,
-            is_admin,
-            subscription
+            language
         }
 
         this.connection.query(request, newUser, (err, results) => {

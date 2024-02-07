@@ -8,7 +8,7 @@ const upload = multer(); // Configure multer as needed
 
 router
     .route('/check')
-    .get(UserController.getUser)
+    .get(UserController.checkUser)
     // .put(UserController.updateUser)
 
 router

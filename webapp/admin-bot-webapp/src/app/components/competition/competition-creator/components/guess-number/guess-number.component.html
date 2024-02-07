@@ -1,0 +1,8 @@
+<form [formGroup]="conditionForm">
+  <mat-radio-group formControlName="conditionType">
+    <mat-radio-button *ngFor="let option of radioOptions" [value]="option.value">
+      {{ option.label }}
+    </mat-radio-button>
+  </mat-radio-group>
+  <input matInput formControlName="number">
+</form>

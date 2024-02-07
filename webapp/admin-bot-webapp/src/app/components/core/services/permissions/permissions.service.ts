@@ -2,40 +2,62 @@ import {Injectable} from "@angular/core";
 import {HttpService} from "../http/http.service";
 import {Subject} from "rxjs";
 import {FormGroup} from "@angular/forms";
-
+import {PermissionsInterface} from "../../permissions.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionsService {
 
-  private permissionsSubject = new Subject<FormGroup>();
+  private adminPermissionsSubject = new Subject<FormGroup>();
+  private chatPermissionsSubject = new Subject<FormGroup>();
+
   private currentAdminPermissions: any;
+  private currentChatPermissions = new Map<string, PermissionsInterface>();
   constructor() {
   }
 
-  checkPermissionValuesState(form: FormGroup){
+  checkAdminPermissionValuesState(form: FormGroup){
     for (const key in form.value) {
       if (form.value[key] === true) {
-        this.permissionsSubject.next(form);
+        this.adminPermissionsSubject.next(form);
       }
     }
-    this.permissionsSubject.next(form);
+    this.adminPermissionsSubject.next(form);
   }
 
-  setCurrentAdminPermissions(currentAdminPermissions: any){
-    console.log('set current admin permissions')
-    console.log(currentAdminPermissions)
+  setCurrentAdminPermissions(currentAdminPermissions: PermissionsInterface){
     this.currentAdminPermissions = currentAdminPermissions;
   }
 
   getCurrentAdminPermissions(){
-    console.log('--')
-    console.log(this.currentAdminPermissions)
     return this.currentAdminPermissions;
   }
 
-  getPermissionsSubject(){
-    return this.permissionsSubject;
+  getAdminPermissionsSubject(){
+    return this.adminPermissionsSubject;
+  }
+
+  checkChatPermissionValuesState(form: FormGroup){
+    for (const key in form.value) {
+      if (form.value[key] === true) {
+        this.chatPermissionsSubject.next(form);
+      }
+    }
+    this.chatPermissionsSubject.next(form);
+  }
+
+  setCurrentChatPermissions(chatId: string, currentChatPermissions: PermissionsInterface){
+    this.currentChatPermissions.set(chatId, currentChatPermissions);
+  }
+
+  getCurrentChatPermissions(chatId: string): any{
+    const permissions = this.currentChatPermissions.get(chatId);
+
+    return permissions || {};
+  }
+
+  getChatPermissionsSubject(){
+    return this.chatPermissionsSubject;
   }
 }

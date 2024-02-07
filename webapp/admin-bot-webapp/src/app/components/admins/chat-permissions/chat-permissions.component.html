@@ -1,0 +1,7 @@
+<div class="save-permissions">
+  <form [formGroup]="permissionsForm" (ngSubmit)="setPermissions(permissionsForm)" class="form">
+    <mat-slide-toggle formControlName="selectAdminFromList" class="slide-toggle" i18n>Select Admin from the list</mat-slide-toggle>
+    <mat-slide-toggle formControlName="actionWithCompetition" class="slide-toggle" i18n>Create competition and getting result</mat-slide-toggle>
+    <mat-slide-toggle formControlName="editPermission" class="slide-toggle" i18n>Edit permissions</mat-slide-toggle>
+  </form>
+</div>
