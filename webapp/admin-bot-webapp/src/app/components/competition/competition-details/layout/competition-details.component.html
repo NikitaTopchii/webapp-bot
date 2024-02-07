@@ -1,1 +1,23 @@
 <p>competition-details works!</p>
+<app-editable-competition-details *ngIf="(isEditMode$ | async) === true"></app-editable-competition-details>
+<app-readonly-competition-details *ngIf="(isEditMode$ | async) === false"></app-readonly-competition-details>
+
+<button (click)="edit()">Edit</button>
+<button (click)="cancel()">Cancel</button>
+
+<!--Display action buttons group depends on competitionState using ngSwitch-->
+
+<div [ngSwitch]="competitionStatus$ | async">
+  <div *ngSwitchCase="CompetitionStateEnum.DELAYED">
+    <app-active-competition-buttons></app-active-competition-buttons>
+  </div>
+  <div *ngSwitchCase="CompetitionStateEnum.ACTIVE">
+    <app-delayed-competition-buttons></app-delayed-competition-buttons>
+  </div>
+  <div *ngSwitchCase="CompetitionStateEnum.ENDED">
+    <app-finished-competitions-buttons></app-finished-competitions-buttons>
+  </div>
+  <div *ngSwitchCase="CompetitionStateEnum.DRAFT">
+    <app-draft-competitions-buttons></app-draft-competitions-buttons>
+  </div>
+</div>
