@@ -1,1 +1,37 @@
 <p>editable-competition-details works!</p>
+
+<form [formGroup]="form">
+  <mat-form-field>
+    <div>
+      <mat-label>Name</mat-label>
+      <input matInput>
+    </div>
+    <div>
+      <mat-label>Description</mat-label>
+      <textarea matInput></textarea>
+    </div>
+    <div>
+      <mat-label>Media</mat-label>
+      <input matInput>
+    </div>
+    <div>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+        <input matStartDate placeholder="Start date" formControlName="startDate">
+        <input matEndDate placeholder="End date" formControlName="endDate">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </div>
+    <app-contest-conditions></app-contest-conditions>
+    <div>
+      <mat-label>Amount of winners</mat-label>
+      <input matInput>
+    </div>
+    <div>
+      <mat-label>Amount of participant</mat-label>
+      <input matInput>
+    </div>
+  </mat-form-field>
+</form>
