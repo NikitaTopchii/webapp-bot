@@ -1,4 +1,17 @@
 const mysql = require("mysql");
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.bgGreen,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 
 class CompetitionDB {
   constructor() {
@@ -11,33 +24,9 @@ class CompetitionDB {
 
     this.connection.connect((err) => {
       if (err) {
-        console.error(`Error connecting to MySQL: ${err}`);
+        logger.error(`Error connecting to MySQL: ${err}`);
       } else {
-        console.log('Connected to MySQL contests');
-      }
-    });
-  }
-
-  createCompetition(name,
-                    description,
-                    channels,
-                    conditions,
-                    contest_id,
-                    callback){
-    const request = 'INSERT INTO contests_draft SET ?';
-    const newCompetition = {
-      name,
-      description,
-      channels,
-      conditions,
-      contest_id
-    }
-
-    this.connection.query(request, newCompetition, (err, results) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, {results});
+        logger.trace('Connected to MySQL contests');
       }
     });
   }
@@ -50,7 +39,7 @@ class CompetitionDB {
                      media,
                      conditions,
                      callback){
-    const request = 'INSERT INTO contests_draft SET ?';
+    const sql = 'INSERT INTO contests_draft SET ?';
     const newContestDraft = {
       contest_id,
       name,
@@ -60,11 +49,14 @@ class CompetitionDB {
       media,
       conditions
     }
-
-    this.connection.query(request, newContestDraft, (err, results) => {
+    logger.info(newContestDraft)
+    logger.trace(sql)
+    this.connection.query(sql, newContestDraft, (err, results) => {
       if (err) {
+        logger.error(err);
         callback(err, null);
       } else {
+        logger.info(results)
         callback(null, {results});
       }
     });
@@ -73,10 +65,15 @@ class CompetitionDB {
 
   getCompetition(contest_id,callback) {
     const sql = 'SELECT * FROM contests WHERE contest_id = ?';
+
+    logger.info('contest id: ' + contest_id);
+    logger.trace(sql)
     this.connection.query(sql, [contest_id], (err, results) => {
       if (err) {
+        logger.error(err);
         callback(err, null);
       } else {
+        logger.info({results})
         callback(null, {results});
       }
     });
@@ -84,10 +81,15 @@ class CompetitionDB {
 
   getDelayedCompetitions(chatid, callback) {
     const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = -1';
+
+    logger.info('chat id: ' + chatid);
+    logger.trace(sql);
     this.connection.query(sql, [chatid], (err, results) => {
       if (err) {
+        logger.error(err);
         callback(err, null);
       } else {
+        logger.info({results});
         callback(null, {results});
       }
     });
@@ -95,10 +97,15 @@ class CompetitionDB {
 
   getFinishedCompetitions(chatid, callback) {
     const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = 1';
+
+    logger.info('chat id: ' + chatid);
+    logger.trace(sql);
     this.connection.query(sql, [chatid], (err, results) => {
       if (err) {
+        logger.error(err);
         callback(err, null);
       } else {
+        logger.info({results})
         callback(null, {results});
       }
     });
@@ -106,36 +113,33 @@ class CompetitionDB {
 
   getCompetitionCondition(contestId, callback){
     const sql = 'SELECT conditions, answer, is_closed, channels, bot_token FROM contests WHERE contest_id = ?';
+
+    logger.info('contest id: ' + contestId)
+    logger.trace(sql);
     this.connection.query(sql, [contestId], (err, results) => {
       if (err) {
+        logger.error(err)
         callback(err, null);
       } else {
+        logger.info({results})
         callback(null, {results});
       }
     });
   }
   getActiveCompetition(chat_id,callback) {
     const sql = 'SELECT * FROM contests WHERE chatid = ? AND is_closed = 0';
+
+    logger.info('chat id: ' + chat_id);
+    logger.trace(sql);
     this.connection.query(sql, [chat_id], (err, results) => {
       if (err) {
+        logger.error(err);
         callback(err, null);
       } else {
+        logger.info({results})
         callback(null, {results});
       }
     });
-  }
-
-  getBotToken(bot_id,callback) {
-    if(/^[0-9]+$/.test(bot_id)){
-      const sql = 'SELECT * FROM contests_bots WHERE token LIKE ?';
-      this.connection.query(sql, [bot_id + ':%'], (err, results) => {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, {results});
-        }
-      });
-    }
   }
 }
 

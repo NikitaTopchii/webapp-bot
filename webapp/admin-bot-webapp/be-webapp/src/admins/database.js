@@ -1,4 +1,17 @@
 const mysql = require('mysql');
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.green,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 
 class AdminsDB {
 
@@ -13,9 +26,9 @@ class AdminsDB {
 
         this.connection.connect((err) => {
             if (err) {
-                console.error(`Error connecting to MySQL: ${err}`);
+                logger.error(`Error connecting to MySQL: ${err}`);
             } else {
-                console.log('Connected to MySQL admins_info');
+                logger.trace('Connected to MySQL admins_info');
             }
         });
     }
