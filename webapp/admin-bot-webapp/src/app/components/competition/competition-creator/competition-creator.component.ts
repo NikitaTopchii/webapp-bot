@@ -164,7 +164,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     const userId = localStorage.getItem('user_id');
 
     if(botId && userId){
-      formData.append('type', 'create-contest')
+      formData.append('types', 'create-contest-webhook')
       formData.append('contestName', form.get('competitionName')?.value)
       formData.append('contestDescription', form.get('competitionDescription')?.value)
       formData.append('channels', this.selectedChannelIds.join(','))

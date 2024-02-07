@@ -1,5 +1,17 @@
 const mysql = require("mysql");
-
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.green,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 class CompetitionBotsDB {
     constructor() {
         this.connection = mysql.createConnection({
@@ -11,9 +23,9 @@ class CompetitionBotsDB {
 
         this.connection.connect((err) => {
             if (err) {
-                console.error(`Error connecting to MySQL: ${err}`);
+                logger.error(`Error connecting to MySQL: ${err}`);
             } else {
-                console.log('Connected to MySQL contests_bots');
+                logger.trace('Connected to MySQL contests_bots');
             }
         });
     }
