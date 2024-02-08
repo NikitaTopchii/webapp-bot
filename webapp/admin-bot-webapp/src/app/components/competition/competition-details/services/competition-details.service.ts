@@ -18,4 +18,8 @@ export class CompetitionDetailsService {
     }));
   }
 
+  updateCompetitionById(id: number, body: any) {
+
+  }
+
 }
