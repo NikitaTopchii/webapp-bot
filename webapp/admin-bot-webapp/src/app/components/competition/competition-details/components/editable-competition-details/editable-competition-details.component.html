@@ -1,20 +1,26 @@
 <p>editable-competition-details works!</p>
 
-<form [formGroup]="form">
-  <mat-form-field>
-    <div>
+<form [formGroup]="form" class="editableForm">
+    <mat-form-field>
       <mat-label>Name</mat-label>
-      <input matInput>
-    </div>
-    <div>
+      <input matInput formControlName="competitionName">
+      <div *ngIf="form.get('competitionName')?.hasError('maxlength') && form.get('competitionName')?.touched">
+        Maximum length exceeded (maximum 500 characters)
+      </div>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea matInput></textarea>
-    </div>
-    <div>
+      <textarea matInput formControlName="competitionDescription" style="resize: none;"></textarea>
+      <div
+        *ngIf="form.get('competitionDescription')?.hasError('maxlength') && form.get('competitionDescription')?.touched">
+        Maximum length exceeded (maximum 500 characters)
+      </div>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Media</mat-label>
-      <input matInput>
-    </div>
-    <div>
+      <input matInput formControlName="media">
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker" [min]="minDate">
         <input matStartDate placeholder="Start date" formControlName="startDate">
@@ -23,15 +29,25 @@
       <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
-    </div>
+    </mat-form-field>
     <app-contest-conditions></app-contest-conditions>
-    <div>
+    <mat-form-field>
       <mat-label>Amount of winners</mat-label>
-      <input matInput>
-    </div>
-    <div>
+      <input matInput formControlName="competitionWinnersCount">
+      <mat-error
+        *ngIf="form.get('competitionWinnersCount')?.hasError('required') && form.get('competitionWinnersCount')?.touched">
+        Count of winners is required
+      </mat-error>
+      <mat-error *ngIf="form.get('competitionWinnersCount')?.hasError('pattern')">
+        Only numbers are allowed
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Amount of participant</mat-label>
-      <input matInput>
-    </div>
-  </mat-form-field>
+      <input matInput formControlName="competitionParticipant">
+    </mat-form-field>
 </form>
+
+<button type="submit" [disabled]="!form.valid" (click)="submitForm()">button</button>
+
+

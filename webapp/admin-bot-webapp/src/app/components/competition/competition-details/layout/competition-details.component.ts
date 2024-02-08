@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CompetitionDetailsService} from "../services/competition-details.service";
 import {ActivatedRoute, Router} from '@angular/router';
-import {map, Observable} from "rxjs";
+import {filter, map, Observable} from "rxjs";
 import {switchMap} from "rxjs/operators"
 import {Contest} from "../shared/contest.model";
 
@@ -28,6 +28,7 @@ export class CompetitionDetailsComponent implements OnInit {
     switchMap(params => this.competitionService.getContestById(params['competitionId']))
   );
   public competitionStatus$: Observable<CompetitionStateEnum> = this.contest$.pipe(
+    filter(contest => !!contest),
     map(contest => this.getContestStatus(contest) )
   );
 
