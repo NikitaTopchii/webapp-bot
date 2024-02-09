@@ -14,14 +14,24 @@
     ]
   })
 
-exports.createCompetition = async (req, res) => {
+exports.createContestDraft = async (req, res) => {
     try {
-        await CompetitionService.createCompetition(req.body);
+        await CompetitionService.createContestDraft(req.body);
         res.json('ok');
     } catch (error) {
         res.status(500).send({message: 'Error oops'})
     }
 }
+
+exports.updateContestDraft = async (req, res) => {
+    try {
+      await CompetitionService.updateContestDraft(req.body);
+      res.json('ok');
+    } catch (error) {
+      res.status(500).send({message: 'Error oops'})
+    }
+}
+
 
 exports.getDelayedCompetitions = async (req, res) => {
   logger.info('chat id for getting delayed competitions: ' + req.query.chatid)
@@ -32,6 +42,29 @@ exports.getDelayedCompetitions = async (req, res) => {
   } catch (error) {
     logger.error(error)
     res.status(500).send({ message: 'Error while getting delayed competitions' });
+  }
+}
+
+exports.getDelayedCompetitionsForEdit = async (req, res) => {
+    logger.info('contest id for getting delayed competitions for edit: ' + req.query.contest_id)
+    try {
+      const competition = await CompetitionService.getDelayedCompetitionForEdit(req.query.contest_id);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error)
+      res.status(500).send({ message: 'Error while getting delayed competitions' });
+    }
+  }
+
+exports.editDelayedCompetition = async (req, res) => {
+  logger.info('contest id for getting delayed competitions for edit: ' + req.body)
+  try {
+    await CompetitionService.editDelayedCompetition(req.body);
+    res.json('ok');
+  } catch (error) {
+    logger.error(error)
+    res.status(500).send({ message: 'Error while edit delayed competition' });
   }
 }
 

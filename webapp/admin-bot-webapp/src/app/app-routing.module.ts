@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'admins',
     loadChildren: () => import("./components/admins/admins.module").then((m) => m.AdminsModule)
+  },
+  {
+    path: 'my-tokens',
+    loadChildren: () => import("./components/chat-token/chat-token.module").then((m) => m.ChatTokenModule)
   }
 ];
 

@@ -75,9 +75,6 @@ export class CompetitionCreatorService {
   private initConditionRequest(): CombinedRequest {
     return {
       subscription: true,
-      type: 'guess',
-      exact: false,
-      value: 0
     }
   }
 }
