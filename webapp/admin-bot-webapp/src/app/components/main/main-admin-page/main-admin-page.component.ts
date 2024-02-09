@@ -65,4 +65,8 @@ export class MainAdminPageComponent implements OnInit{
   navigateToCompetitionsList() {
     this.router.navigate(['/news-letter/main'])
   }
+
+  navigateToTokensPage() {
+    this.router.navigate(['/my-tokens'])
+  }
 }

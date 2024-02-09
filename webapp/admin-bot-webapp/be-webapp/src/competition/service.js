@@ -38,6 +38,27 @@ class CompetitionService {
     })
   }
 
+  async updateContestDraft(data){
+    return new Promise((resolve, reject) => {
+      this.competitionDB.updateContestDraft(
+        data.contestId,
+        data.contestName,
+        data.channels,
+        data.contestDescription,
+        data.userId,
+        data.media,
+        data.conditions,
+        (err, data) => {
+          if(err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        }
+      )
+    })
+  }
+
   async deleteMedia(data){
     return new Promise((resolve, reject) => {
       const filePath = path.join(__dirname, '..', 'media', data);
@@ -139,6 +160,33 @@ class CompetitionService {
           resolve(data);
         }
       })
+    })
+  }
+
+  async getDelayedCompetitionForEdit(contest_id){
+    return new Promise((resolve, reject) => {
+      this.competitionDB.getDelayedCompetitionForEdit(contest_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  }
+
+  async editDelayedCompetition(data){
+    return new Promise((resolve, reject) => {
+      this.competitionDB.editDelayedCompetition(
+        data,
+        (err, data) => {
+          if(err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        }
+      )
     })
   }
 

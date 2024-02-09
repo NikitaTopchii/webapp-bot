@@ -28,6 +28,10 @@ router
     .post(upload.any(), CompetitionController.createContestDraft)
 
 router
+  .route('/update-contest-draft')
+  .post(upload.any(), CompetitionController.updateContestDraft)
+
+router
     .route('/publish')
     .post(upload.any(), CompetitionController.publishCompetition)
 
@@ -36,16 +40,24 @@ router
     .get(CompetitionController.getCompetition)
 
 router
+  .route('/subscribe-verification')
+  .get(CompetitionController.checkSubscription)
+
+router
   .route('/active-competitions')
   .get(CompetitionController.getActiveCompetitions)
 
 router
-    .route('/subscribe-verification')
-    .get(CompetitionController.checkSubscription)
-
-router
     .route('/delayed-competitions')
     .get(CompetitionController.getDelayedCompetitions)
+
+router
+  .route('/delayed-competitions-for-edit')
+  .get(CompetitionController.getDelayedCompetitionsForEdit)
+
+router
+  .route('/edit-delayed-competitions')
+  .post(upload.any(), CompetitionController.editDelayedCompetition)
 
 router
     .route('/finished-competitions')
@@ -64,9 +76,16 @@ router
   .post(upload.any(), CompetitionController.publicPost)
 
 router
+  .route('/delayed-contest-for-edit')
+  .get(CompetitionController.getDelayedCompetitionsForEdit)
+
+router
+  .route('/edit-contest')
+  .post(upload.any, CompetitionController.editDelayedCompetition)
+router
   .route('/upload-media')
   .post(uploadMedia.any(), (req, res) => {
-    // req.files міститиме інформацію про завантажені файли
+    // req.files міститиме інформацію про завантажені файлиv
     res.json('Файл успішно завантажено');
   })
 
