@@ -18,7 +18,7 @@ enum CompetitionStateEnum {
   templateUrl: './competition-details.component.html',
   styleUrl: './competition-details.component.scss'
 })
-export class CompetitionDetailsComponent implements OnInit {
+export class CompetitionDetailsComponent {
   public CompetitionStateEnum = CompetitionStateEnum;
   public competitionState: CompetitionStateEnum = CompetitionStateEnum.NONE;
   public isEditMode$: Observable<boolean> = this.route.queryParams.pipe(
@@ -38,7 +38,6 @@ export class CompetitionDetailsComponent implements OnInit {
               private router: Router) {
   }
 
-  ngOnInit() {}
 
   edit() {
     this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}});
@@ -49,7 +48,7 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   private getContestStatus(contest: Contest): CompetitionStateEnum {
-    switch (contest.is_closed) {
+    switch (contest?.is_closed) {
       case "-1":
         return CompetitionStateEnum.DELAYED;
       case "0":

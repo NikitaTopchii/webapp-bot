@@ -42,8 +42,8 @@ import {
 } from "./competition-details/components/action-buttons/delayed-competition-buttons/delayed-competition-buttons.component";
 import {
   SelectCompetitionListComponent
-} from "./competition-details/select-competition-list/select-competition-list.component";
-import {CompetitionListComponent} from "./competition-details/competition-list/competition-list.component";
+} from "./competition-details/components/select-competition-list/select-competition-list.component";
+import {CompetitionListComponent} from "./competition-details/components/competition-list/competition-list.component";
 
 @NgModule({
   declarations: [

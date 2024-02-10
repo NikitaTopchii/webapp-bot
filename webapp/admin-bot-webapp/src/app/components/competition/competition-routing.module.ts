@@ -5,10 +5,10 @@ import {
   CompetitionEndpointSelectorComponent
 } from "./competition-endpoint-selector/competition-endpoint-selector.component";
 import {CompetitionDetailsComponent} from "./competition-details/layout/competition-details.component";
-import {CompetitionListComponent} from "./competition-details/competition-list/competition-list.component";
+import {CompetitionListComponent} from "./competition-details/components/competition-list/competition-list.component";
 import {
   SelectCompetitionListComponent
-} from "./competition-details/select-competition-list/select-competition-list.component";
+} from "./competition-details/components/select-competition-list/select-competition-list.component";
 
 const routes: Routes = [
   {
