@@ -1,18 +1,31 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
+import {NgForOf, NgIf} from "@angular/common";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {Router} from "@angular/router";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
+import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-competition-endpoint-selector',
-  templateUrl: './competition-endpoint-selector.component.html',
-  styleUrl: './competition-endpoint-selector.component.scss'
+  selector: 'app-token-selector',
+  standalone: true,
+  imports: [
+    NgForOf,
+    NgIf,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatHint,
+    ReactiveFormsModule
+  ],
+  templateUrl: './token-selector.component.html',
+  styleUrl: './token-selector.component.scss'
 })
-export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
-
+export class TokenSelectorComponent {
   private channelsList: TelegramEntityInterface[] = [];
 
   selectedTelegramEntity = new Set<TelegramEntityInterface>();
@@ -20,6 +33,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
   selectElementsExist: boolean = false;
 
   private chatIdsList: number[] = [];
+  form: any;
 
   constructor(private telegram: TelegramService,
               private router: Router,
@@ -29,14 +43,24 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     this.goBack = this.goBack.bind(this);
   }
 
+  ngOnDestroy(): void {
+    this.telegram.BackButton.offClick(this.goBack);
+  }
+
+  ngOnInit(): void {
+    this.getChatIds();
+    this.telegram.BackButton.show();
+    this.telegram.BackButton.onClick(this.goBack);
+  }
+
   getChannelsList(){
     return this.channelsList;
   }
 
-  navigateToAddNewChannels() {
+  navigateToSetupToken() {
     this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
 
-    this.router.navigate(['/competition-creator'])
+    this.router.navigate(['/setup-token'])
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
@@ -110,13 +134,7 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     this.router.navigate(['']);
   }
 
-  ngOnDestroy(): void {
-    this.telegram.BackButton.offClick(this.goBack);
-  }
+  addToken(form: any) {
 
-  ngOnInit(): void {
-    this.getChatIds();
-    this.telegram.BackButton.show();
-    this.telegram.BackButton.onClick(this.goBack);
   }
 }

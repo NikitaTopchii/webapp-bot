@@ -1,18 +1,23 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {Router} from "@angular/router";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-competition-endpoint-selector',
-  templateUrl: './competition-endpoint-selector.component.html',
-  styleUrl: './competition-endpoint-selector.component.scss'
+  selector: 'app-chat-selector',
+  standalone: true,
+  imports: [
+    NgForOf,
+    NgIf
+  ],
+  templateUrl: './chat-selector.component.html',
+  styleUrl: './chat-selector.component.scss'
 })
-export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
-
+export class ChatSelectorComponent {
   private channelsList: TelegramEntityInterface[] = [];
 
   selectedTelegramEntity = new Set<TelegramEntityInterface>();
@@ -33,10 +38,10 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     return this.channelsList;
   }
 
-  navigateToAddNewChannels() {
+  navigateToSetupToken() {
     this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
 
-    this.router.navigate(['/competition-creator'])
+    this.router.navigate(['/my-tokens/setup-token'])
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {

@@ -29,6 +29,10 @@ export class EditableCompetitionDetailsComponent implements OnInit {
     })
   }
 
+  submitForm() {
+
+  }
+
 
 
 
