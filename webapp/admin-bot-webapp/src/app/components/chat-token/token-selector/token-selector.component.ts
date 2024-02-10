@@ -8,7 +8,9 @@ import {SelectedChannelsService} from "../../core/services/selected-channels/sel
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
 import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ChatTokenService} from "../../core/services/chat-token/chat-token.service";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
   selector: 'app-token-selector',
@@ -30,16 +32,23 @@ export class TokenSelectorComponent {
 
   selectedTelegramEntity = new Set<TelegramEntityInterface>();
 
+  private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
+  private selectedChannelIds: string[] = [];
+  private selectedChannelNames: string[] = [];
+
   selectElementsExist: boolean = false;
 
   private chatIdsList: number[] = [];
   form: any;
 
-  constructor(private telegram: TelegramService,
+  constructor(private readonly fb: FormBuilder,
+              private telegram: TelegramService,
               private router: Router,
+              private chatTokenService: ChatTokenService,
               private channelsService: ChannelsService,
               private selectedChannelsService: SelectedChannelsService,
               private adminsListService: AdminsListService) {
+    this.form = this.getTokenForm();
     this.goBack = this.goBack.bind(this);
   }
 
@@ -48,9 +57,23 @@ export class TokenSelectorComponent {
   }
 
   ngOnInit(): void {
-    this.getChatIds();
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+
+    this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
+      this.selectedChannels = channels;
+
+      this.selectedChannels.forEach((channel) => {
+        this.selectedChannelIds.push(channel.id);
+        this.selectedChannelNames.push(channel.name);
+      })
+    })
+  }
+
+  getTokenForm(){
+    return this.fb.group({
+      tokenName: ['tokenName', Validators.maxLength(32)],
+    });
   }
 
   getChannelsList(){
@@ -86,55 +109,28 @@ export class TokenSelectorComponent {
     }
   }
 
-  getChatIds(){
-    const userid = localStorage.getItem('user_id');
-
-    if(userid){
-      const formData = new FormData();
-
-      formData.append('user_id', userid);
-
-      this.adminsListService.getAdminsWithSubscription(formData).subscribe((response) => {
-        const admins = response.results;
-
-        admins.forEach((admin: any) => {
-          this.chatIdsList.push(admin.chatid);
-        });
-
-        this.getMyChannels();
-      });
-    }
-  }
-
-  private getMyChannels(){
-    const formData = new FormData();
-
-    const botid = localStorage.getItem('botid');
-
-    if(botid){
-      formData.append('chat_ids', this.chatIdsList.join(','));
-      formData.append('botid', botid);
-
-      this.channelsService.getChannels(formData).subscribe((response) => {
-
-        const channels = response.results;
-
-        channels.forEach((channel: any) => {
-          this.channelsList.push({
-            id: channel.chatid,
-            name: channel.name,
-            selected: false
-          })
-        });
-      });
-    }
-  }
-
   goBack(){
     this.router.navigate(['']);
   }
 
-  addToken(form: any) {
+  addToken(form: FormGroup) {
+    const formData = new FormData();
 
+    formData.append('name', form.get('tokenName')?.value);
+    formData.append('owner', localStorage.getItem('user_id') || '');
+    formData.append('chats', this.selectedChannelIds.join(','));
+
+    this.chatTokenService.addChatToken(formData).subscribe(() => {
+      this.selectedChannelIds.forEach((chatid) => {
+        const formData = new FormData();
+
+        formData.append('token', form.get('tokenName')?.value);
+        formData.append('chatid', chatid);
+
+        this.chatTokenService.addChatTokenToChannel(formData).subscribe(() => {
+          console.log('added')
+        })
+      })
+    })
   }
 }

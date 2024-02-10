@@ -6,6 +6,9 @@ router
     .route('/my')
     .get(ChannelsController.getChannels)
 
+router
+  .route('/set-token')
+  .get(ChannelsController.setGameToken)
 
 
 module.exports = router;

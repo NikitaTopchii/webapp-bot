@@ -127,6 +127,18 @@ exports.getActiveCompetitions = async (req, res) => {
   }
 };
 
+  exports.getActiveCompetitionById = async (req, res) => {
+    logger.info('contest_id for getting active competition: ' + req.query.contestid)
+    try {
+      const competition = await CompetitionService.getActiveCompetitions(req.query.contestid);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).send({ message: 'Error while getting active competition' });
+    }
+  };
+
 exports.createContestDraft = async (req, res) => {
     logger.info(req.body)
     try {
@@ -183,7 +195,7 @@ exports.createContest = async (req, res) => {
 
 
 exports.publicPost = async (req, res) => {
-  logger.info('contest: ' + JSON.stringify(req.body));
+  logger.info('post: ' + JSON.stringify(req.body));
   logger.trace('post request on url: ' + bot_webhook_url + '/public-post')
     try{
       await fetch(bot_webhook_url + '/public-post', {

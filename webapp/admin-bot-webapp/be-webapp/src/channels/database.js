@@ -40,6 +40,17 @@ class ChannelsDB {
             }
         });
     }
+
+    setGameToken(token, chatid, callback) {
+      const sql = 'UPDATE channels SET game_token = ? WHERE chatid = ? LIMIT 1';
+      this.connection.query(sql, [token, chatid], (err, results) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      });
+    }
 }
 
 module.exports = ChannelsDB;

@@ -48,6 +48,10 @@ router
   .get(CompetitionController.getActiveCompetitions)
 
 router
+  .route('/active-competition-by-id')
+  .get(CompetitionController.getActiveCompetitionById)
+
+router
     .route('/delayed-competitions')
     .get(CompetitionController.getDelayedCompetitions)
 
@@ -74,10 +78,6 @@ router
 router
   .route('/public-newsletter')
   .post(upload.any(), CompetitionController.publicPost)
-
-router
-  .route('/delayed-contest-for-edit')
-  .get(CompetitionController.getDelayedCompetitionsForEdit)
 
 router
   .route('/edit-contest')
