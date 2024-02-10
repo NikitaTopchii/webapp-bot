@@ -55,22 +55,27 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
       newsLetterMessage: ['Your message', [Validators.maxLength(1024)]],
       startDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      percentEndpointUsers: ['', Validators.required],
-      languageSelector: ['ru'],
-      imagesLinks: ['', Validators.required],
-      inlineLink: ['', [Validators.required, this.textValidatorService.urlValidator()]],
+      inlineLink: ['', [this.textValidatorService.urlValidator()]],
       media: ['', [this.fileValidatorService.fileValidator(['png', 'jpg'])]],
     });
   }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
+
     if (!input.files?.length) {
       return;
     }
 
     const file = input.files[0];
+
+    const formData = new FormData();
+
+    formData.append('media', file);
+
     this.form.patchValue({ media: file });
+
+    this.createCompetitionService.uploadMedia(formData);
   }
 
   getSelectedChannels(){
@@ -118,10 +123,10 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
       form.get('competitionStartTime')?.value
     ))
     formData.append('inline_link', form.get('inlineLink')?.value)
-    formData.append('post_language', form.get('languageSelector')?.value)
     formData.append('chatId', this.selectedChannelIds?.join(','))
     formData.append('media', form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '')
     formData.append('bot_id', localStorage.getItem('botid') || '');
+    formData.append('user_id', localStorage.getItem('user_id') || '');
 
     return formData;
     // return {
