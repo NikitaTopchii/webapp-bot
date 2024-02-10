@@ -5,7 +5,7 @@
 
   <mat-checkbox formControlName="ownCondition">Own condition</mat-checkbox>
 
-  <div *ngIf="(dataConditionForm.get('ownCondition')?.valueChanges | async) === true" formArrayName="otherConditions">
+  <div *ngIf="dataConditionForm.get('ownCondition')?.value === true" formArrayName="otherConditions">
     <div *ngFor="let condition of otherConditions.controls; let i = index">
       <div [formGroupName]="i">
         <mat-form-field appearance="fill">

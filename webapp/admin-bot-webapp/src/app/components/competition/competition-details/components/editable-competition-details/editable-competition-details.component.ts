@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { CompetitionDetailsService } from "../../services/competition-details.service";
+import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
 
 @Component({
   selector: 'app-editable-competition-details',
@@ -10,11 +12,13 @@ export class EditableCompetitionDetailsComponent implements OnInit {
   form: FormGroup;
   minDate: Date = new Date(Date.now());
 
-  constructor(private fb: FormBuilder,) {
+  constructor(private fb: FormBuilder,
+              private competitionCreatorService: CompetitionCreatorService){
     this.form = this.getEditableCompetitionForm();
   }
 
   ngOnInit() {
+    this.initPatchValue();
   }
 
   private getEditableCompetitionForm(): FormGroup {
@@ -33,8 +37,14 @@ export class EditableCompetitionDetailsComponent implements OnInit {
 
   }
 
-
-
-
-
+  private initPatchValue(): void {
+    this.competitionCreatorService.conditionRequest = {
+      email: true,
+      otherConditions: [{label: 'test', type: 'text'}],
+      ownCondition: true,
+      phoneNumber: true,
+      subscription: true,
+      type: 'condition'
+    }
+  }
 }

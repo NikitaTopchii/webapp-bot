@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CompetitionCreatorService } from "../../services/competition-creator.service";
 
-
-type ConditionType = 'text' | 'image' | 'link' | 'video' | 'number';
-
 @Component({
   selector: 'app-data-condition',
   templateUrl: './data-condition.component.html',
@@ -16,6 +13,7 @@ export class DataConditionComponent {
   constructor(private fb: FormBuilder,
               private competitionCreatorService: CompetitionCreatorService) {
     this.initValueChangeSubscription();
+    this.initPatchValue();
   }
 
   public get otherConditions() {
@@ -57,5 +55,21 @@ export class DataConditionComponent {
     this.dataConditionForm.valueChanges.subscribe((value) => {
       this.competitionCreatorService.conditionRequest = {...value, subscription: true};
     });
+  }
+
+  private initPatchValue() {
+    this.competitionCreatorService.conditionRequest$.subscribe(data => {
+      if (data.type === 'condition') {
+        this.dataConditionForm.patchValue({
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          ownCondition: data.ownCondition,
+        }, { emitEvent: false });
+        this.otherConditions.clear();
+        data.otherConditions.forEach(condition => {
+          this.otherConditions.push(this.fb.group(condition));
+        });
+      }
+    })
   }
 }

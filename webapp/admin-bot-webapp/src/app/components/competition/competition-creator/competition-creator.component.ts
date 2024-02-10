@@ -135,6 +135,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   createCompetition(form: FormGroup) {
+    console.log(this.competitionCreatorService.conditionRequest);
 
     if (this.form.invalid) {
       return;

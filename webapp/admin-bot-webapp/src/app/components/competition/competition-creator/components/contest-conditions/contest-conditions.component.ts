@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { CompetitionCreatorService } from "../../services/competition-creator.service";
+import { take } from "rxjs";
 
 type ConditionType = 'guess' | 'condition' | 'nothing';
 interface RadioOption {
@@ -25,6 +26,7 @@ export class ContestConditionsComponent {
   constructor(private competitionCreatorService: CompetitionCreatorService) {
     this.competitionCreatorService.setSubscribeCondition();
     this.initValueChangeSubscription();
+    this.patchValue();
   }
 
   private initValueChangeSubscription() {
@@ -39,4 +41,9 @@ export class ContestConditionsComponent {
     })
   }
 
+  private patchValue(): void {
+    this.competitionCreatorService.conditionRequest$.pipe(take(2)).subscribe(value => {
+      this.selectedOption.setValue(value.type, {emitEvent: false});
+    })
+  }
 }
