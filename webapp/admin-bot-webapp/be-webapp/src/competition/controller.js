@@ -130,7 +130,7 @@ exports.getActiveCompetitions = async (req, res) => {
   exports.getActiveCompetitionById = async (req, res) => {
     logger.info('contest_id for getting active competition: ' + req.query.contestid)
     try {
-      const competition = await CompetitionService.getActiveCompetitions(req.query.contestid);
+      const competition = await CompetitionService.getActiveCompetitionById(req.query.contestid);
       logger.info(competition)
       res.json(competition);
     } catch (error) {

@@ -45,4 +45,10 @@ export class CompetitionListComponent implements OnInit {
         return of([])
     }
   }
+
+  activeContest() {
+    this.competitionDetailsService.getActiveCompetitionById('82339984').subscribe(data => {
+      console.log(data)
+    })
+  }
 }

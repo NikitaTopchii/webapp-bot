@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {Contest} from "../shared/contest.model";
 import {CONTEST_LIST} from "../contest";
@@ -42,6 +42,15 @@ export class CompetitionDetailsService {
 
   public getFinishedCompetitions$(): Observable<any[]> {
     return this.http.get<any[]>('finished-competitions');
+  }
+
+  public getActiveCompetitionById(contestid: string): Observable<any> {
+    return this.http.get('/competitions/active-competition-by-id', {params: {contestid}})
+  }
+
+  public getDraftCompetitions$(): Observable<any[]> {
+    // not yet implemented
+    return of([]);
   }
 
   private createHttpParams(formData: FormData): HttpParams {
