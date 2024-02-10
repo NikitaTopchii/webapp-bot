@@ -120,7 +120,7 @@ class CompetitionDB {
     logger.info('chat ids: ' + chatIds.join(', '));
     logger.trace(sql);
 
-    this.connection.query(sql, [chatIds], (err, results) => {
+    this.connection.query(sql, chatIds, (err, results) => {
       if (err) {
         logger.error(err);
         callback(err, null);
@@ -197,7 +197,7 @@ class CompetitionDB {
     logger.info('chat ids: ' + chatIds.join(', '));
     logger.trace(sql);
 
-    this.connection.query(sql, [chatIds], (err, results) => {
+    this.connection.query(sql, chatIds, (err, results) => {
       if (err) {
         logger.error(err);
         callback(err, null);
