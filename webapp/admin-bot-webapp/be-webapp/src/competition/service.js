@@ -140,7 +140,21 @@ class CompetitionService {
   async getActiveCompetitions(chatid) {
     return new Promise((resolve, reject) => {
 
-      this.competitionDB.getActiveCompetition(chatid, (err, data) => {
+      this.competitionDB.getActiveCompetitions(chatid, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
+  async getActiveCompetitionById(contest_id) {
+    return new Promise((resolve, reject) => {
+
+      this.competitionDB.getActiveCompetitionById(contest_id, (err, data) => {
         if (err) {
           reject(err);
         } else {

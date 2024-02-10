@@ -8,3 +8,12 @@ exports.getChannels = async (req, res) => {
         res.status(500).send({ message: 'Error while getting channels' });
     }
 };
+
+exports.setGameToken = async (req, res) => {
+  try {
+    await ChannelsService.setGameToken(req.query.token, req.query.chatid);
+    res.json('ok');
+  } catch (error) {
+    res.status(500).send({ message: 'Error while set game token' });
+  }
+};
