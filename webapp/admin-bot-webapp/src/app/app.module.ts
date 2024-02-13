@@ -8,6 +8,9 @@ import {CompetitionModule} from "./components/competition/competition.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TelegramService} from "./components/core/services/telegram/telegram.service";
 import {HttpClientModule} from "@angular/common/http";
+import {ChatTokenModule} from "./components/chat-token/chat-token.module";
+import {AdminsModule} from "./components/admins/admins.module";
+import {ParticipationModule} from "./components/participation/participation.module";
 
 @NgModule({
   declarations: [
@@ -18,8 +21,11 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    AdminsModule,
+    ParticipationModule,
     NewsLetterModule,
-    CompetitionModule
+    CompetitionModule,
+    ChatTokenModule
   ],
   providers: [TelegramService],
   bootstrap: [AppComponent]

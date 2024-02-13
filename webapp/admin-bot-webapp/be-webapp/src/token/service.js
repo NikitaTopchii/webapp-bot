@@ -21,6 +21,35 @@ class TokensService {
     });
   }
 
+  async getToken(owner_id, tokenName){
+
+    return new Promise((resolve, reject) => {
+
+      this.tokenDB.getToken(owner_id, tokenName, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
+  deleteToken(tokenId){
+    return new Promise((resolve, reject) => {
+
+      this.tokenDB.deleteToken(tokenId, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
   async addToken(data){
 
     return new Promise((resolve, reject) => {
@@ -28,7 +57,6 @@ class TokensService {
       this.tokenDB.addToken(
         data.name,
         data.owner,
-        data.chats,
         (err, data) => {
         if (err) {
           reject(err);

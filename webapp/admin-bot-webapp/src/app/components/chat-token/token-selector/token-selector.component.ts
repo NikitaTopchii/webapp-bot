@@ -1,53 +1,50 @@
 import { Component } from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";
-import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
-import {AdminsListService} from "../../core/services/admins/admins-list.service";
-import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ChatTokenService} from "../../core/services/chat-token/chat-token.service";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+
+interface ValidTokenState{
+  tokenExist: boolean;
+  addingTokenSuccess: boolean;
+}
+
+interface Token{
+  tokenName: string,
+  tokenId: string
+}
 
 @Component({
   selector: 'app-token-selector',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatHint,
-    ReactiveFormsModule
-  ],
   templateUrl: './token-selector.component.html',
   styleUrl: './token-selector.component.scss'
 })
 export class TokenSelectorComponent {
-  private channelsList: TelegramEntityInterface[] = [];
-
-  selectedTelegramEntity = new Set<TelegramEntityInterface>();
 
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
   private selectedChannelIds: string[] = [];
-  private selectedChannelNames: string[] = [];
 
   selectElementsExist: boolean = false;
 
-  private chatIdsList: number[] = [];
-  form: any;
+  validToken: ValidTokenState = {
+    tokenExist: false,
+    addingTokenSuccess: false
+  };
+
+  private tokensList = new Set<Token>();
+
+  form: FormGroup;
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
               private router: Router,
               private chatTokenService: ChatTokenService,
-              private channelsService: ChannelsService,
               private selectedChannelsService: SelectedChannelsService,
-              private adminsListService: AdminsListService) {
+              public matDialog: MatDialog) {
     this.form = this.getTokenForm();
     this.goBack = this.goBack.bind(this);
   }
@@ -60,12 +57,39 @@ export class TokenSelectorComponent {
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
 
+    this.getTokensByAdminId();
+
     this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
       this.selectedChannels = channels;
 
       this.selectedChannels.forEach((channel) => {
         this.selectedChannelIds.push(channel.id);
-        this.selectedChannelNames.push(channel.name);
+      })
+    })
+
+    this.form.valueChanges.subscribe(() => {
+      this.validToken.tokenExist = false;
+      this.validToken.addingTokenSuccess = false;
+    })
+  }
+
+  getTokenList(){
+    return this.tokensList;
+  }
+
+  getTokensByAdminId(){
+    this.tokensList.clear();
+
+    const formData = new FormData();
+
+    formData.append('owner_id', localStorage.getItem('user_id') || '');
+
+    this.chatTokenService.getTokens(formData).subscribe((response) => {
+      response.results.forEach((token:any) => {
+        this.tokensList.add({
+          tokenName: token.name,
+          tokenId: token.id
+        });
       })
     })
   }
@@ -76,61 +100,74 @@ export class TokenSelectorComponent {
     });
   }
 
-  getChannelsList(){
-    return this.channelsList;
-  }
-
-  navigateToSetupToken() {
-    this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
-
-    this.router.navigate(['/setup-token'])
-  }
-
-  selectTelegramEntity(entity: TelegramEntityInterface) {
-    if(entity.selected){
-      entity.selected = !entity.selected;
-      this.selectedTelegramEntity.delete(entity);
-      this.checkSelectedElements();
-    }else{
-      entity.selected = !entity.selected;
-      this.selectedTelegramEntity.add(entity);
-      this.checkSelectedElements();
-    }
-  }
-
-  checkSelectedElements(){
-    for (const element of this.selectedTelegramEntity) {
-      if (element.selected) {
-        this.selectElementsExist = true;
-        break;
-      } else {
-        this.selectElementsExist = false;
-      }
-    }
-  }
-
   goBack(){
     this.router.navigate(['']);
   }
 
-  addToken(form: FormGroup) {
+  addNewToken(form: FormGroup) {
     const formData = new FormData();
 
     formData.append('name', form.get('tokenName')?.value);
     formData.append('owner', localStorage.getItem('user_id') || '');
-    formData.append('chats', this.selectedChannelIds.join(','));
 
-    this.chatTokenService.addChatToken(formData).subscribe(() => {
-      this.selectedChannelIds.forEach((chatid) => {
-        const formData = new FormData();
+    this.chatTokenService.tokenExist(formData).subscribe((response) => {
+      if(response.tokenExist){
+        this.validToken.tokenExist = true;
+      }else{
+        this.chatTokenService.addChatToken(formData).subscribe((response) => {
 
-        formData.append('token', form.get('tokenName')?.value);
-        formData.append('chatid', chatid);
+          this.validToken.addingTokenSuccess = true;
 
-        this.chatTokenService.addChatTokenToChannel(formData).subscribe(() => {
-          console.log('added')
+          this.selectedChannelIds.forEach((chatid) => {
+            const formData = new FormData();
+
+            formData.append('token', response.results.insertId);
+            formData.append('chatid', chatid);
+
+            this.chatTokenService.addChatTokenToChannel(formData).subscribe(() => {
+              this.getTokensByAdminId();
+            })
+          })
         })
+      }
+    })
+  }
+
+  addTokenFromList(tokenId:string){
+
+    this.selectedChannelIds.forEach((chatid) => {
+      const formData = new FormData();
+
+      formData.append('token', tokenId);
+      formData.append('chatid', chatid);
+
+      this.chatTokenService.addChatTokenToChannel(formData).subscribe(() => {
+        console.log('added')
       })
+    })
+  }
+
+  invalidTokenState() {
+    return this.validToken.tokenExist;
+  }
+
+  validTokenState(){
+    return this.validToken.addingTokenSuccess;
+  }
+
+  openConfirmDialog(tokenId: string, tokenName: string) {
+    localStorage.setItem('tokenId', tokenId);
+    localStorage.setItem('tokenName', tokenName);
+
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = true;
+    dialogConfig.id = "modal-component";
+    dialogConfig.height = "200px";
+    dialogConfig.width = "400px";
+    const modalDialog = this.matDialog.open(ConfirmDialogComponent, dialogConfig);
+
+    modalDialog.afterClosed().subscribe(() => {
+      this.getTokensByAdminId();
     })
   }
 }

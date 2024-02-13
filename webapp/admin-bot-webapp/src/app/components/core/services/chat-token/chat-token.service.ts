@@ -12,7 +12,18 @@ export class ChatTokenService {
 
   addChatToken(formData: FormData) {
     return this.http
-      .post<string>(main_url + '/token/add-token', formData);
+      .post<any>(main_url + '/token/add-token', formData);
+  }
+
+  tokenExist(formData: FormData){
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/token/token-exist', { params: params });
   }
 
   addChatTokenToChannel(formData: FormData){
@@ -24,5 +35,27 @@ export class ChatTokenService {
 
     return this.http
       .get<any>(main_url + '/channels/set-token', { params: params });
+  }
+
+  getTokens(formData: FormData){
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/token/get-tokens', { params: params });
+  }
+
+  deleteToken(formData: FormData) {
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/token/delete-token', { params: params });
   }
 }

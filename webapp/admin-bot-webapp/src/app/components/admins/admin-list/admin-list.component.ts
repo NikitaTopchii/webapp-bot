@@ -1,8 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserInterface} from "../../core/user.interface";
 import {Admin} from "../../core/admin";
-import {NgForOf, NgIf} from "@angular/common";
-import {PermissionsInterface} from "../../core/permissions.interface";
 import {Router} from "@angular/router";
 import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
@@ -10,11 +7,6 @@ import {AdminsListService} from "../../core/services/admins/admins-list.service"
 
 @Component({
   selector: 'app-admin-list',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
   templateUrl: './admin-list.component.html',
   styleUrl: './admin-list.component.scss'
 })
@@ -47,10 +39,6 @@ export class AdminListComponent implements OnInit, OnDestroy{
     }else{
       this.currentAdmin = adminName;
     }
-  }
-
-  public getCurrentAdmin(){
-    return this.currentAdmin;
   }
 
   public getAdminsList(){

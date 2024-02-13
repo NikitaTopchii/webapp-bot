@@ -5,22 +5,12 @@
  import {ChannelsService} from "../../core/services/channels/channels.service";
  import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
  import {AdminsListService} from "../../core/services/admins/admins-list.service";
- import {NgForOf, NgIf} from "@angular/common";
- import {AdminPermissionsComponent} from "../admin-permissions/admin-permissions.component";
  import {Chat} from "../../core/chat";
  import {PermissionsService} from "../../core/services/permissions/permissions.service";
- import {ChatPermissionsComponent} from "../chat-permissions/chat-permissions.component";
  import {map, of, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-add-chat-for-admin',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    AdminPermissionsComponent,
-    ChatPermissionsComponent
-  ],
   templateUrl: './add-chat-for-admin.component.html',
   styleUrl: './add-chat-for-admin.component.scss'
 })

@@ -14,14 +14,6 @@ import {ObservableInput, forkJoin, map, mergeMap} from "rxjs";
 
 @Component({
   selector: 'app-edit-admin-permissions-page',
-  standalone: true,
-  imports: [
-    AdminPermissionsComponent,
-    RouterLink,
-    ChatPermissionsComponent,
-    NgForOf,
-    NgIf
-  ],
   templateUrl: './edit-admin-permissions-page.component.html',
   styleUrl: './edit-admin-permissions-page.component.scss',
 })

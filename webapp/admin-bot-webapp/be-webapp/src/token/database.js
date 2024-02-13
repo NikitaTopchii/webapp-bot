@@ -41,13 +41,38 @@ class TokenDB {
     });
   }
 
-  addToken(name, owner, chats, callback) {
+  getToken(owner, tokenName, callback) {
+    logger.info('owner: ' + owner)
+    logger.info('tokenName: ' + tokenName)
+    const sql = 'SELECT * FROM contest_tokens WHERE owner = ? AND name = ?';
+    this.connection.query(sql, [owner, tokenName], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
+  deleteToken(tokenId, callback){
+    logger.info('delete token with id: ' + tokenId)
+    const sql = 'DELETE FROM contest_tokens WHERE id = ?';
+    this.connection.query(sql, tokenId, (err, results) => {
+      if (err) {
+        logger.error(err);
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
+  addToken(name, owner, callback) {
     const sql = 'INSERT INTO contest_tokens SET ?';
 
     const token = {
       name,
-      owner,
-      chats
+      owner
     }
 
     this.connection.query(sql, [token], (err, results) => {

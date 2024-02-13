@@ -5,15 +5,9 @@ import {Router} from "@angular/router";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
-import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-chat-selector',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
   templateUrl: './chat-selector.component.html',
   styleUrl: './chat-selector.component.scss'
 })

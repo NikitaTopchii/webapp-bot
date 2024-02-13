@@ -11,6 +11,14 @@ router
   .get(TokensController.getTokens);
 
 router
+  .route('/token-exist')
+  .get(TokensController.tokenExist)
+
+router
+  .route('/delete-token')
+  .get(TokensController.deleteToken)
+
+router
   .route('/add-token')
   .post(upload.any(), TokensController.addToken);
 
