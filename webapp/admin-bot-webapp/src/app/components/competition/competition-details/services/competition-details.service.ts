@@ -27,25 +27,30 @@ export class CompetitionDetailsService {
 
   }
 
-  // public getActiveCompetitions$(): Observable<any[]> {
-  //   return this.http.get<any[]>('active-competitions');
-  // }
 
   getActiveCompetitions$(chatid: string) {
     return this.http
       .get<any>(main_url + '/competitions/active-competitions', { params: {chatid} });
   }
 
-  public getDelayedCompetitions$(): Observable<any[]> {
-    return this.http.get<any[]>('delayed-competitions');
+  getDelayedCompetitions$(chatid: string) {
+    return this.http
+      .get<any>(main_url + '/competitions/delayed-competitions', { params: {chatid} });
   }
 
-  public getFinishedCompetitions$(): Observable<any[]> {
-    return this.http.get<any[]>('finished-competitions');
+  getFinishedCompetitions$(chatid: string) {
+    return this.http
+      .get<any>(main_url + '/competitions/finished-competitions', { params: {chatid} });
   }
+
 
   public getActiveCompetitionById(contestid: string): Observable<any> {
     return this.http.get('/competitions/active-competition-by-id', {params: {contestid}})
+  }
+
+  public getDelayedCompetitionById(contestid: string): Observable<any> {
+    return  this.http.get('/competitions/delayed-competitions-for-edit', {params: {contestid}})
+
   }
 
   public getDraftCompetitions$(): Observable<any[]> {

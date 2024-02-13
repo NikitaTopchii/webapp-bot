@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {filter, map, Observable} from "rxjs";
 import {switchMap} from "rxjs/operators"
 import {Contest} from "../shared/contest.model";
+import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvider";
 
 enum CompetitionStateEnum {
   DELAYED = -1,
@@ -18,7 +19,8 @@ enum CompetitionStateEnum {
   templateUrl: './competition-details.component.html',
   styleUrl: './competition-details.component.scss'
 })
-export class CompetitionDetailsComponent {
+export class CompetitionDetailsComponent implements OnInit {
+  // public currentContest$: Observable<any> = this.getCurrentContest$()
   public CompetitionStateEnum = CompetitionStateEnum;
   public competitionState: CompetitionStateEnum = CompetitionStateEnum.NONE;
   public isEditMode$: Observable<boolean> = this.route.queryParams.pipe(
@@ -36,6 +38,9 @@ export class CompetitionDetailsComponent {
     constructor(private competitionService: CompetitionDetailsService,
               private route: ActivatedRoute,
               private router: Router) {
+  }
+
+  ngOnInit() {
   }
 
 
@@ -62,5 +67,14 @@ export class CompetitionDetailsComponent {
     }
 
   }
+
+
+  // private getCurrentContest$(): Observable<any> {
+  //     const competitionId: string = this.route.snapshot.params['competitionId']
+  //     switch (this.route.snapshot.queryParams['type']) {
+  //       case: 'ACTIVE'
+  //         return this.competitionService.getActiveCompetitionById(competitionId).pipe()
+  //     }
+  // }
 }
 
