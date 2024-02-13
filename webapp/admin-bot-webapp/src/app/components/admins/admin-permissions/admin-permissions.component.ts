@@ -6,12 +6,6 @@ import {PermissionsService} from "../../core/services/permissions/permissions.se
 
 @Component({
   selector: 'app-admin-permissions',
-  standalone: true,
-    imports: [
-        FormsModule,
-        MatSlideToggleModule,
-        ReactiveFormsModule
-    ],
   templateUrl: './admin-permissions.component.html',
   styleUrl: './admin-permissions.component.scss'
 })

@@ -1,7 +1,7 @@
 @import "../../../styles/colors";
 
 :host{
-  .admin-list{
+  .token-list{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,50 +25,8 @@
       border-radius: 15px;
       flex-direction: column;
     }
-    &__main-info{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-    &__admin-permissions{
-      box-sizing: border-box;
-      padding: 10px;
-      border-radius: 10px;
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      display: flex;
-      flex-direction: column;
-      background: $bg_color;
-    }
-    &__admin-permission-element{
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      margin-bottom: 3px;
-    }
-    &__active-permission{
-      width: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2px;
-      border-radius: 5px;
-      background: #029b1d;
-    }
-    &__inactive-permission{
-      width: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2px;
-      border-radius: 5px;
-      background: #e70909;
-    }
     &__button{
-      background: $button_color;
+      background: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
       color: $button_text_color;
       border-radius: 15px;
       border: none;
@@ -79,32 +37,62 @@
         cursor: not-allowed;
       }
     }
-    &__admin-edit-button{
-      background: $button_color;
-      color: $button_text_color;
+    &__tokens{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    &__token-element{
+      position: relative;
+      display: flex;
+      width: 70%;
+      justify-content: center;
+      align-items: center;
+      margin: 3px;
+      box-sizing: border-box;
+      padding: 10px;
       border-radius: 5px;
-      border: none;
-      margin: 10px;
-      height: 20px;
-      width: 50px;
+      background: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
     }
-    &__admin-delete-button{
-      background: #d91b1b;
+    &__token-title{
       color: $button_text_color;
-      border-radius: 5px;
-      border: none;
-      margin: 10px;
+    }
+    &__alert-icon{
+      width: 20px;
       height: 20px;
-      width: 50px;
+      margin: 3px;
     }
-    &__select-button{
-      width: 25px;
-      height: 25px;
+    &__invalid-token-message{
+      margin: 10px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 10px;
+      background-color: rgba(227, 15, 15, 0.34);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
     }
-    &__title{
-      margin-bottom: 10px;
-      margin-top: 10px;
-      text-align: center;
+    &__valid-token-message{
+      margin: 10px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 10px;
+      background-color: rgba(79, 203, 101, 0.47);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    &__delete-button{
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-top: -10px;
+      margin-right: -10px;
+      width: 30px;
+      height: 30px;
     }
   }
 

@@ -56,6 +56,14 @@ router
     .get(CompetitionController.getDelayedCompetitions)
 
 router
+  .route('/finished-competition-by-id')
+  .get(CompetitionController.getFinishedCompetitionById)
+
+router
+  .route('/competition-draft-by-id')
+  .get(CompetitionController.getCompetitionDraftById)
+
+router
   .route('/delayed-competitions-for-edit')
   .get(CompetitionController.getDelayedCompetitionsForEdit)
 

@@ -139,6 +139,30 @@ exports.getActiveCompetitions = async (req, res) => {
     }
   };
 
+  exports.getFinishedCompetitionById = async (req, res) => {
+    logger.info('contest_id for getting active competition: ' + req.query.contestid)
+    try {
+      const competition = await CompetitionService.getFinishedCompetitionById(req.query.contestid);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).send({ message: 'Error while getting active competition' });
+    }
+  };
+
+  exports.getCompetitionDraftById = async (req, res) => {
+    logger.info('contest_id for getting active competition: ' + req.query.contestid)
+    try {
+      const competition = await CompetitionService.getCompetitionDraftById(req.query.contestid);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).send({ message: 'Error while getting active competition' });
+    }
+  };
+
 exports.createContestDraft = async (req, res) => {
     logger.info(req.body)
     try {

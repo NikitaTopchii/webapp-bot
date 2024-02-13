@@ -165,6 +165,34 @@ class CompetitionService {
     });
   }
 
+  async getFinishedCompetitionById(contest_id) {
+    return new Promise((resolve, reject) => {
+
+      this.competitionDB.getFinishedCompetitionById(contest_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
+  async getCompetitionDraftById(contest_id) {
+    return new Promise((resolve, reject) => {
+
+      this.competitionDB.getCompetitionDraftById(contest_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
   async getDelayedCompetitions(chatid) {
     return new Promise((resolve, reject) => {
       this.competitionDB.getDelayedCompetitions(chatid, (err, data) => {

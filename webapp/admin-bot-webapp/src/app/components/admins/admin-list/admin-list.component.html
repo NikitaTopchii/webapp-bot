@@ -7,19 +7,5 @@
         <button class="admin-list__admin-delete-button" (click)="deleteAdmin(admin)" i18n>delete</button>
       </div>
     </div>
-    <div class="admin-list__admin-permissions" *ngIf="admin.name == getCurrentAdmin()">
-      <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title" i18n>Select Admin from the list</span>
-        <span class="admin-list__inactive-permission">{{admin.permissions.selectAdminFromList}}</span>
-      </div>
-      <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title" i18n>Create competition and getting result</span>
-        <span class="admin-list__inactive-permission">{{admin.permissions.actionWithCompetition}}</span>
-      </div>
-      <div class="admin-list__admin-permission-element">
-        <span class="admin-list__permission-title" i18n>Edit permissions</span>
-        <span class="admin-list__inactive-permission">{{admin.permissions.editPermission}}</span>
-      </div>
-    </div>
   </div>
 </div>
