@@ -5,12 +5,6 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-chat-permissions',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatSlideToggleModule,
-    ReactiveFormsModule
-  ],
   templateUrl: './chat-permissions.component.html',
   styleUrl: './chat-permissions.component.scss'
 })
@@ -25,6 +19,7 @@ export class ChatPermissionsComponent implements OnChanges{
 
 
   constructor(private readonly fb: FormBuilder, private permissionsService: PermissionsService) {
+    console.log('this works')
     this.permissionsForm = this.getPermissionsForm();
   }
 
@@ -44,7 +39,9 @@ export class ChatPermissionsComponent implements OnChanges{
   }
 
   private getPermissionsForm(){
+    console.log('this also works')
     this.setCurrentPermissions();
+    console.log('???')
     return this.fb.group({
       selectAdminFromList: [this.selectAdminFromList],
       actionWithCompetition: [this.actionWithCompetition],
