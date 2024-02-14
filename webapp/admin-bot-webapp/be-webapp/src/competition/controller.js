@@ -46,9 +46,9 @@ exports.getDelayedCompetitions = async (req, res) => {
 }
 
 exports.getDelayedCompetitionsForEdit = async (req, res) => {
-    logger.info('contest id for getting delayed competitions for edit: ' + req.query.contest_id)
+    logger.info('contest id for getting delayed competitions for edit: ' + req.query.contestid)
     try {
-      const competition = await CompetitionService.getDelayedCompetitionForEdit(req.query.contest_id);
+      const competition = await CompetitionService.getDelayedCompetitionForEdit(req.query.contestid);
       logger.info(competition)
       res.json(competition);
     } catch (error) {
