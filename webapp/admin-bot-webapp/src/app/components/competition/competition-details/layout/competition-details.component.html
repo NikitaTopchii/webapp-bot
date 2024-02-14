@@ -1,6 +1,6 @@
 <p>competition-details works!</p>
 <app-editable-competition-details *ngIf="(isEditMode$ | async) === true"></app-editable-competition-details>
-<app-readonly-competition-details *ngIf="(isEditMode$ | async) === false"></app-readonly-competition-details>
+<app-readonly-competition-details *ngIf="(isEditMode$ | async) === false" [currentContest]="currentContest$ | async"></app-readonly-competition-details>
 
 <button mat-button (click)="edit()">Edit</button>
 <button mat-button (click)="cancel()">Cancel</button>

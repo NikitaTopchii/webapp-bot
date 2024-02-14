@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {map} from "rxjs/operators";
-import {Contest} from "../shared/contest.model";
-import {CONTEST_LIST} from "../contest";
+import {Observable, of} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {main_url} from "../../../shared/application-context";
 
@@ -10,18 +7,10 @@ import {main_url} from "../../../shared/application-context";
   providedIn: 'root'
 })
 export class CompetitionDetailsService {
-  private competitionListSource: BehaviorSubject<Contest[]> = new BehaviorSubject<Contest[]>(CONTEST_LIST);
-  public competitionList$ = this.competitionListSource.asObservable();
 
   constructor(private http: HttpClient) {
   }
 
-  getContestById(id: string): Observable<Contest> {
-    return this.competitionList$.pipe(
-      map((contests: Contest[]) => {
-         return contests.filter((contest: Contest) => contest.id === id)[0];
-    }));
-  }
 
   updateCompetitionById(id: number, body: any) {
 

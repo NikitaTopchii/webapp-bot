@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CompetitionDetailsService} from "../../services/competition-details.service";
-import {BehaviorSubject, map, Observable, of, switchMap} from "rxjs";
+import {map, Observable, of, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AdminsListService} from "../../../../core/services/admins/admins-list.service";
 
@@ -11,19 +11,28 @@ import {AdminsListService} from "../../../../core/services/admins/admins-list.se
 })
 export class CompetitionListComponent implements OnInit {
   public user_id = localStorage.getItem('user_id');
+  public type = this.route.snapshot.queryParams['type'];
+  public competitionList$: Observable<any[]> = this.getCompetitionList$();
+
   constructor(private competitionDetailsService: CompetitionDetailsService,
               private route: ActivatedRoute,
-              private adminsListService: AdminsListService) {
+              private adminsListService: AdminsListService,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.competitionDetailsService.getActiveCompetitionById('82339984').subscribe(data => {
-      console.log(data)
-    })
   }
 
 
-  public competitionList$: Observable<any[]> = this.getCompetitionList$();
+
+
+  public redirectToCompetitionDetails(competitionId: string) {
+    this.router.navigate(['competitions', competitionId], {
+      queryParams: {
+        type: this.type
+      }
+    });
+  }
 
   private getCompetitionList$() {
     if (!this.user_id) {
@@ -57,10 +66,4 @@ export class CompetitionListComponent implements OnInit {
         return of([]);
     }
   }
-
-  // activeContest(): any{
-  //   this.competitionDetailsService.getActiveCompetitionById('82339984').subscribe(data => {
-  //     console.log(data)
-  //   })
-  // }
 }

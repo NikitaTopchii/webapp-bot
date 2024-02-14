@@ -1,6 +1,5 @@
-<!--<button mat-button (click)="activeContest()">IDI NAHUI</button>-->
 <div *ngIf="competitionList$ | async as competitionList">
   <div *ngFor="let competition of competitionList">
-    <p routerLink="/competition-details" [queryParams]="">{{competition.name}}</p>
+    <p (click)="redirectToCompetitionDetails(competition.contest_id)">{{competition.name}}</p>
   </div>
 </div>

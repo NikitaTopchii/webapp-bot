@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CompetitionDetailsService} from "../services/competition-details.service";
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, map, Observable} from "rxjs";
-import {switchMap} from "rxjs/operators"
+import {filter, map, Observable, of} from "rxjs";
 import {Contest} from "../shared/contest.model";
-import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvider";
 
 enum CompetitionStateEnum {
   DELAYED = -1,
@@ -20,16 +18,13 @@ enum CompetitionStateEnum {
   styleUrl: './competition-details.component.scss'
 })
 export class CompetitionDetailsComponent implements OnInit {
-  // public currentContest$: Observable<any> = this.getCurrentContest$()
+  public currentContest$: Observable<any> = this.getCurrentContest$()
   public CompetitionStateEnum = CompetitionStateEnum;
-  public competitionState: CompetitionStateEnum = CompetitionStateEnum.NONE;
   public isEditMode$: Observable<boolean> = this.route.queryParams.pipe(
     map(params => Boolean(params['edit']) || false));
 
-  public contest$: Observable<Contest> = this.route.params.pipe(
-    switchMap(params => this.competitionService.getContestById(params['competitionId']))
-  );
-  public competitionStatus$: Observable<CompetitionStateEnum> = this.contest$.pipe(
+
+  public competitionStatus$: Observable<CompetitionStateEnum> = this.currentContest$.pipe(
     filter(contest => !!contest),
     map(contest => this.getContestStatus(contest) )
   );
@@ -41,6 +36,15 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.currentContest$.subscribe(d => {
+        console.log('current contest', d)
+      });
+
+      this.getCurrentContest$().subscribe(d => {
+        console.log('get current contest', d);
+      })
+
+    console.log(this.route.snapshot.queryParams)
   }
 
 
@@ -69,12 +73,23 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
 
-  // private getCurrentContest$(): Observable<any> {
-  //     const competitionId: string = this.route.snapshot.params['competitionId']
-  //     switch (this.route.snapshot.queryParams['type']) {
-  //       case: 'ACTIVE'
-  //         return this.competitionService.getActiveCompetitionById(competitionId).pipe()
-  //     }
-  // }
+  private getCurrentContest$(): Observable<any> {
+      const competitionId: string = this.route.snapshot.params['competitionId'];
+    console.log(this.route.snapshot.queryParams['type'])
+      switch (this.route.snapshot.queryParams['type']) {
+        case 'ACTIVE':
+          console.log('active')
+          return this.competitionService.getActiveCompetitionById(competitionId).pipe(
+            map(data => data.results[0])
+          );
+        case 'DELAYED':
+          return this.competitionService.getDelayedCompetitionById(competitionId).pipe(
+            map(data => data.results[0])
+          );
+        default:
+          console.log('default')
+          return of(undefined);
+      }
+  }
 }
 

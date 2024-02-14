@@ -1,8 +1,12 @@
 <p>readonly-competition-details works!</p>
 
-<p>Name</p>
-<p>Description</p>
-<p>Media</p>
-<p>Start date and end date</p>
-<p>Amount of winners</p>
-<p>Amount of participant</p>
+<p>Name: {{currentContest?.name}}</p>
+<p>Description: {{currentContest?.description}}</p>
+<p>Start date: {{currentContest?.start_time}}</p>
+<p>End date: {{currentContest?.finish_time}}</p>
+<p>{{currentContest?.condition}}</p>
+<p>Amount of winners: {{currentContest?.winners_amount}}</p>
+<p>Amount of participant: {{currentContest?.amount_participiant}}</p>
+
+
+{{currentContest | json}}
