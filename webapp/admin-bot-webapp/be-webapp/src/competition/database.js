@@ -134,9 +134,9 @@ class CompetitionDB {
   getDelayedCompetitionForEdit(contest_id, callback){
     const sql = 'SELECT contests_draft.name, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = -1 GROUP BY contests.contest_id LIMIT 1;';
 
-    logger.info('contest id: ' + data);
+    logger.info('contest id: ' + contest_id);
     logger.trace(sql);
-    this.connection.query(sql, [contest_id], (err, results) => {
+    this.connection.query(sql, contest_id, (err, results) => {
       if (err) {
         logger.error(err);
         callback(err, null);
