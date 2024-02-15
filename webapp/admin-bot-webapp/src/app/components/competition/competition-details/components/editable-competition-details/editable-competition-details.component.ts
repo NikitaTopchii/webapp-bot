@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { CompetitionDetailsService } from "../../services/competition-details.service";
 import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
 
 @Component({
@@ -8,7 +7,8 @@ import { CompetitionCreatorService } from "../../../competition-creator/services
   templateUrl: './editable-competition-details.component.html',
   styleUrl: './editable-competition-details.component.scss'
 })
-export class EditableCompetitionDetailsComponent implements OnInit {
+export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
+  @Input() public currentContest: any;
   form: FormGroup;
   minDate: Date = new Date(Date.now());
 
@@ -18,6 +18,11 @@ export class EditableCompetitionDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initPatchValue();
+    console.log(this.currentContest)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     this.initPatchValue();
   }
 
@@ -33,6 +38,8 @@ export class EditableCompetitionDetailsComponent implements OnInit {
     })
   }
 
+
+
   submitForm() {
 
   }
@@ -46,5 +53,16 @@ export class EditableCompetitionDetailsComponent implements OnInit {
       subscription: true,
       type: 'condition'
     }
+
+    this.form.patchValue({
+      competitionName: this.currentContest?.name,
+      competitionDescription: this.currentContest?.description,
+      startDate: this.currentContest?.start_time,
+      endDate: this.currentContest?.finish_time,
+      competitionWinnersCount: this.currentContest?.winners_amount,
+      competitionParticipant: this.currentContest?.amount_participiant
+    });
   }
+
+
 }
