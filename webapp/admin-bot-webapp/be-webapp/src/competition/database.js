@@ -132,7 +132,7 @@ class CompetitionDB {
   }
 
   getDelayedCompetitionForEdit(contest_id, callback){
-    const sql = 'SELECT contests_draft.name, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = -1 GROUP BY contests.contest_id LIMIT 1;';
+    const sql = 'SELECT contests_draft.name, contests_draft.media, contests_draft.description, contests_draft.channels, contests_draft.media, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = -1 GROUP BY contests.contest_id LIMIT 1;';
 
     logger.info('contest id: ' + contest_id);
     logger.trace(sql);
@@ -148,10 +148,10 @@ class CompetitionDB {
   }
 
   editDelayedCompetition(data, callback){
-    const sql = 'UPDATE contest_draft SET name = ?, description = ?, conditions = ? WHERE contest_id = ?';
+    const sql = 'UPDATE contest_draft SET name = ?, media = ?, description = ?, conditions = ? WHERE contest_id = ?';
     logger.info('contest id: ' + data);
     logger.trace(sql);
-    this.connection.query(sql, [data.contestName, data.contestDescription, data.conditions, data.contestId], (err, results) => {
+    this.connection.query(sql, [data.contestName, data.media, data.contestDescription, data.conditions, data.contestId], (err, results) => {
       if (err) {
         logger.error(err);
         callback(err, null);
@@ -225,7 +225,7 @@ class CompetitionDB {
   }
 
   getFinishedCompetitionById(contest_id, callback){
-    const sql = `SELECT contests_draft.name, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 1 GROUP BY contests.contest_id LIMIT 1;`;
+    const sql = `SELECT contests_draft.name, contests_draft.media, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 1 GROUP BY contests.contest_id LIMIT 1;`;
 
     logger.info('contest_id: ' + contest_id);
     logger.trace(sql);
@@ -258,8 +258,29 @@ class CompetitionDB {
     });
   }
 
+  getCompetitionDrafts(owner_id, callback){
+    const chatIds = chatIdsStr.split(',');
+
+    const placeholders = chatIds.map(() => '?').join(',');
+    const sql = `SELECT * FROM contests_draft WHERE owner_id = ? GROUP BY owner_id`;
+
+    logger.info('placeholders: ' + placeholders)
+    logger.info('chat ids: ' + chatIds.join(', '));
+    logger.trace(sql);
+
+    this.connection.query(sql, owner_id, (err, results) => {
+      if (err) {
+        logger.error(err);
+        callback(err, null);
+      } else {
+        logger.info({results});
+        callback(null, {results});
+      }
+    });
+  }
+
   getActiveCompetitionById(contest_id, callback) {
-    const sql = `SELECT contests_draft.name, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 0 GROUP BY contests.contest_id LIMIT 1;`;
+    const sql = `SELECT contests_draft.name, contest_draft.media, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 0 GROUP BY contests.contest_id LIMIT 1;`;
 
     logger.info('contest_id: ' + contest_id);
     logger.trace(sql);

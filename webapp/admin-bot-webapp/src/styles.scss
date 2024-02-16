@@ -1,8 +1,9 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import "app/styles/colors";
 
 body{
-  background: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
+  background: $body_bg_color_dark_theme;
+  //color: var(--tg-theme-text-color);
   margin: 0;
   padding: 0;
 }

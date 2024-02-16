@@ -55,7 +55,7 @@ export class MainAdminPageComponent implements OnInit{
     this.router.navigate(['/admins'])
   }
   navigateToCompetitionCreator() {
-    this.router.navigate(['/competitions/competition-endpoint-selector'])
+    this.router.navigate(['/competitions/competition-creator'])
   }
 
   ngOnInit() {
@@ -68,5 +68,9 @@ export class MainAdminPageComponent implements OnInit{
 
   navigateToTokensPage() {
     this.router.navigate(['/my-tokens'])
+  }
+
+  navigateToJointCompetitionCreator() {
+    this.router.navigate(['/competitions/joint-competition-creator'])
   }
 }

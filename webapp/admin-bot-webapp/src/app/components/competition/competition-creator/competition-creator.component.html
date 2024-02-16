@@ -143,13 +143,16 @@
             <app-contest-conditions></app-contest-conditions>
           </ng-container>
         </div>
+        <div>
+          <button class="competition-creator__button" (click)="selectChats()">select chats</button>
+        </div>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">
             <span>{{channels.name}}</span>
           </div>
         </div>
 <!--        <button type="submit" class="competition-creator__button">create competition</button>-->
-        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>
+        <button type="submit" class="competition-creator__button" [disabled]="!form.valid && selectedChannelIds">create competition</button>
       </form>
     </div>
   </div>

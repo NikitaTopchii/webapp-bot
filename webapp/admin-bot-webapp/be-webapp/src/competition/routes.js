@@ -88,6 +88,10 @@ router
   .post(upload.any(), CompetitionController.publicPost)
 
 router
+  .route('/competition-drafts')
+  .get(CompetitionController.getCompetitionDrafts)
+
+router
   .route('/edit-contest')
   .post(upload.any, CompetitionController.editDelayedCompetition)
 router
