@@ -148,15 +148,16 @@ class CompetitionDB {
   }
 
   editDelayedCompetition(data, callback){
-    const sql = 'UPDATE contest_draft SET name = ?, description = ?, conditions = ? WHERE contest_id = ?';
-    logger.info('contest id: ' + data);
+    logger.info('HA HA HA PIDORU', data.contestName, data.contestDescription);
+    const sql = 'UPDATE contests_draft SET name = ?, description = ?, conditions = ? WHERE contest_id = ?';
+    logger.info(data);
     logger.trace(sql);
     this.connection.query(sql, [data.contestName, data.contestDescription, data.conditions, data.contestId], (err, results) => {
       if (err) {
         logger.error(err);
         callback(err, null);
       } else {
-        const sql = 'UPDATE contests SET start_time = ?, finish_time = ?, winner_amount = ?, language = ?, answer = ? WHERE contest_id = ?';
+        const sql = 'UPDATE contests SET start_time = ?, finish_time = ?, winners_amount = ?, language = ?, answer = ? WHERE contest_id = ?';
         logger.info({results});
         this.connection.query(sql, [data.start_time, data.finish_time, data.winner_amount, data.language, data.answer, data.contestId], (err, results) => {
           if (err) {

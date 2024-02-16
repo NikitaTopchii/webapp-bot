@@ -3,16 +3,16 @@
 <form [formGroup]="form" class="editableForm">
     <mat-form-field>
       <mat-label>Name</mat-label>
-      <input matInput formControlName="competitionName">
-      <div *ngIf="form.get('competitionName')?.hasError('maxlength') && form.get('competitionName')?.touched">
+      <input matInput formControlName="contestName">
+      <div *ngIf="form.get('contestName')?.hasError('maxlength') && form.get('contestName')?.touched">
         Maximum length exceeded (maximum 500 characters)
       </div>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="competitionDescription" style="resize: none;"></textarea>
+      <textarea matInput formControlName="contestDescription" style="resize: none;"></textarea>
       <div
-        *ngIf="form.get('competitionDescription')?.hasError('maxlength') && form.get('competitionDescription')?.touched">
+        *ngIf="form.get('contestDescription')?.hasError('maxlength') && form.get('contestDescription')?.touched">
         Maximum length exceeded (maximum 500 characters)
       </div>
     </mat-form-field>
@@ -23,8 +23,8 @@
     <mat-form-field>
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker" [min]="minDate">
-        <input matStartDate placeholder="Start date" formControlName="startDate">
-        <input matEndDate placeholder="End date" formControlName="endDate">
+        <input matStartDate placeholder="Start date" formControlName="start_time">
+        <input matEndDate placeholder="End date" formControlName="finish_time">
       </mat-date-range-input>
       <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -33,12 +33,12 @@
     <app-contest-conditions></app-contest-conditions>
     <mat-form-field>
       <mat-label>Amount of winners</mat-label>
-      <input matInput formControlName="competitionWinnersCount">
+      <input matInput formControlName="winner_amount">
       <mat-error
-        *ngIf="form.get('competitionWinnersCount')?.hasError('required') && form.get('competitionWinnersCount')?.touched">
+        *ngIf="form.get('winner_amount')?.hasError('required') && form.get('winner_amount')?.touched">
         Count of winners is required
       </mat-error>
-      <mat-error *ngIf="form.get('competitionWinnersCount')?.hasError('pattern')">
+      <mat-error *ngIf="form.get('winner_amount')?.hasError('winner_amount')">
         Only numbers are allowed
       </mat-error>
     </mat-form-field>
@@ -49,5 +49,6 @@
 </form>
 
 <button type="submit" [disabled]="!form.valid" (click)="submitForm()">button</button>
+<button mat-button mat-raised-button (click)="onUpdateDelayedCompetition()">upDate</button>
 
 

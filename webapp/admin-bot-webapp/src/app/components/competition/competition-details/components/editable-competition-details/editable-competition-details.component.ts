@@ -1,6 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
+import {CompetitionDetailsService} from "../../services/competition-details.service";
+import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
   selector: 'app-editable-competition-details',
@@ -13,7 +15,9 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
   minDate: Date = new Date(Date.now());
 
   constructor(private fb: FormBuilder,
-              private competitionCreatorService: CompetitionCreatorService){
+              private competitionCreatorService: CompetitionCreatorService,
+              private competitionDetalisService: CompetitionDetailsService,
+              private route: ActivatedRoute){
     this.form = this.getEditableCompetitionForm();
   }
 
@@ -22,18 +26,19 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
     console.log(this.currentContest)
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.initPatchValue();
+    console.log(this.currentContest)
   }
 
   private getEditableCompetitionForm(): FormGroup {
     return this.fb.group({
-      competitionName: ['', Validators.maxLength(500)],
-      competitionDescription: ['', Validators.maxLength(500)],
+      contestName: ['', Validators.maxLength(500)],
+      contestDescription: ['', Validators.maxLength(500)],
       media: [],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      competitionWinnersCount: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      start_time: ['', Validators.required],
+      finish_time: ['', Validators.required],
+      winner_amount: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       competitionParticipant: []
     })
   }
@@ -54,15 +59,27 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
       type: 'condition'
     }
 
-    this.form.patchValue({
-      competitionName: this.currentContest?.name,
-      competitionDescription: this.currentContest?.description,
-      startDate: this.currentContest?.start_time,
-      endDate: this.currentContest?.finish_time,
-      competitionWinnersCount: this.currentContest?.winners_amount,
-      competitionParticipant: this.currentContest?.amount_participiant
-    });
+    if(this.currentContest) {
+      const {name, description, start_time, finish_time, winners_amount} = this.currentContest;
+
+      this.form.patchValue({
+        contestName: name, contestDescription: description, start_time, finish_time, winner_amount: winners_amount,
+        competitionParticipant: this.currentContest?.amount_participiant || 0
+      });
+    }
   }
 
+  onUpdateDelayedCompetition() {
+    let formData = new FormData();
+    const {answer, channels, language} = this.currentContest
+    const contestId = this.route.snapshot.params['competitionId'];
+    let updatedContest = { ...this.form.value, answer, channels, language, contestId: contestId, conditions: JSON.stringify(this.competitionCreatorService.conditionRequest) };
+    for (let key in updatedContest) {
+      formData.append(key, updatedContest[key]);
+    }
 
+    this.competitionDetalisService.updateDelayedCompetition(formData).subscribe(data => {
+      console.log('fucking request');
+    })
+  }
 }

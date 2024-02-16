@@ -5,12 +5,14 @@ import {UserService} from "../../core/services/user/user.service";
 import {LanguageSelectorComponent} from "../../language-selector/language-selector.component";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
 import {response} from "express";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-main-admin-page',
   standalone: true,
   imports: [
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    MatButton
   ],
   templateUrl: './main-admin-page.component.html',
   styleUrl: './main-admin-page.component.scss'

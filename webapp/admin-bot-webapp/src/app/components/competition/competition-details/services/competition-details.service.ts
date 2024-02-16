@@ -11,12 +11,9 @@ export class CompetitionDetailsService {
   constructor(private http: HttpClient) {
   }
 
-
-  updateCompetitionById(id: number, body: any) {
-
+  updateDelayedCompetition(data: FormData): Observable<any> {
+    return this.http.post('/competitions/edit-delayed-competitions', data)
   }
-
-
   getActiveCompetitions$(chatid: string) {
     return this.http
       .get<any>(main_url + '/competitions/active-competitions', { params: {chatid} });
