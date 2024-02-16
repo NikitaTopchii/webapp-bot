@@ -1,13 +1,13 @@
 <div class="admin-list">
-  <span *ngIf="!selectElementsExist" class="admin-list__title">select more then one channel/chat</span>
+  <span class="admin-list__title">Select more then one channel/chat</span>
   <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getChannelsList()" (click)="selectTelegramEntity(telegramEntity)">
     <div>
       <span class="admin-list__name">{{telegramEntity.name}}</span>
     </div>
     <div>
-      <img src="assets/check-mark.png" class="admin-list__select-button" *ngIf="telegramEntity.selected">
+      <img src="assets/selector-active.svg" class="admin-list__select-button" *ngIf="telegramEntity.selected">
+      <img src="assets/selector-inactive.svg" class="admin-list__select-button" *ngIf="!telegramEntity.selected">
     </div>
   </div>
   <button [disabled]="!selectElementsExist" class="admin-list__button" (click)="navigateToAddNewChannels()" [class.disabled]="!selectElementsExist">continue</button>
-<!--  <button class="admin-list__button" (click)="navigateToAddNewChannels()">next</button>-->
 </div>

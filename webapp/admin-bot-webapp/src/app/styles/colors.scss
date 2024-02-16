@@ -10,3 +10,13 @@ $link_color: var(--tg-theme-link-color);
 //telegram theme button colors
 $button_color: var(--tg-theme-button-color);
 $button_text_color: var(--tg-theme-button-text-color);
+
+$body_bg_color_dark_theme: #191919;
+$element_bg_color_dark_theme: #222222;
+$text_color_dark_theme: #16AB83;
+$text_color_dark_theme_v2: #ffffff;
+
+$active_element_bg_color_dark_theme: #242E2A;
+
+$button_bg_color_dark_theme: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
+$button_disabled_bg_color_dark_theme: linear-gradient(91.15deg, rgba(22, 171, 131, 0.5) 4.75%, rgba(17, 130, 100, 0.5) 65.64%);

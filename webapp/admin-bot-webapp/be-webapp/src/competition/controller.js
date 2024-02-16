@@ -57,6 +57,18 @@ exports.getDelayedCompetitionsForEdit = async (req, res) => {
     }
   }
 
+  exports.getCompetitionDrafts = async (req, res) => {
+    logger.info('contest id for getting delayed competitions for edit: ' + req.query.ownerid)
+    try {
+      const competition = await CompetitionService.getCompetitionDrafts(req.query.ownerid);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error)
+      res.status(500).send({ message: 'Error while getting delayed competitions' });
+    }
+  }
+
 exports.editDelayedCompetition = async (req, res) => {
   try {
     await CompetitionService.editDelayedCompetition(req.body);
