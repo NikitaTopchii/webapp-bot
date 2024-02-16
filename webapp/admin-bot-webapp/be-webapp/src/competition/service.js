@@ -205,6 +205,18 @@ class CompetitionService {
     })
   }
 
+  async getCompetitionDrafts(owner_id) {
+    return new Promise((resolve, reject) => {
+      this.competitionDB.getCompetitionDrafts(owner_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  }
+
   async getDelayedCompetitionForEdit(contest_id){
     return new Promise((resolve, reject) => {
       this.competitionDB.getDelayedCompetitionForEdit(contest_id, (err, data) => {

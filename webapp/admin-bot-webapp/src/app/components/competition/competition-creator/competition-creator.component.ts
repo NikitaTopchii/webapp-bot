@@ -49,7 +49,7 @@ type CombinedRequest =
 export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   form: FormGroup;
   private selectedChannels: Set<TelegramEntityInterface> = new Set<TelegramEntityInterface>();
-  private selectedChannelIds: string[] = [];
+  selectedChannelIds: string[] = [];
   private selectedChannelNames: string[] = [];
 
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
@@ -212,4 +212,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     });
   }
 
+  selectChats() {
+    this.router.navigate(['/competitions/competition-endpoint-selector'])
+  }
 }
