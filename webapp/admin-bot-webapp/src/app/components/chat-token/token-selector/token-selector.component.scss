@@ -16,9 +16,8 @@
       flex-direction: row;
     }
     &__adding-form{
-      background: $secondary_bg_color;
+      background: $element_bg_color_dark_theme;
       display: flex;
-      justify-content: space-between;
       box-sizing: border-box;
       padding: 10px 3%;
       margin: 10px;
@@ -31,6 +30,7 @@
       border-radius: 15px;
       border: none;
       margin: 10px;
+      width: 92%;
       height: 40px;
       &:disabled {
         background-color: #ccc;
@@ -43,17 +43,42 @@
       justify-content: center;
       align-items: center;
     }
-    &__token-element{
-      position: relative;
+    &__token-element-wrapper{
       display: flex;
-      width: 70%;
+      flex-direction: row;
+      width: 90%;
+    }
+    &__token-element{
+      display: flex;
+      width: 76%;
       justify-content: center;
       align-items: center;
-      margin: 3px;
+      margin-bottom: 5px;
+      margin-right: 5px;
       box-sizing: border-box;
       padding: 10px;
-      border-radius: 5px;
-      background: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
+      height: 50px;
+      border-radius: 10px;
+      background: $element_bg_color_dark_theme;
+    }
+    &__trash-element{
+      background: $delete-button_color_v2;
+      width: 12%;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__chat-element{
+      background: linear-gradient(91.15deg, rgba(22, 171, 131, 0.5) 4.75%, rgba(17, 130, 100, 0.5) 65.64%);
+      width: 12%;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 5px;
     }
     &__token-title{
       color: $button_text_color;
@@ -86,18 +111,72 @@
       align-items: center;
     }
     &__delete-button{
-      position: absolute;
-      top: 0;
-      right: 0;
-      margin-top: -10px;
-      margin-right: -10px;
-      width: 30px;
-      height: 30px;
+      width: 20px;
+      height: 20px;
+    }
+
+    &__title{
+      color: $text_color_dark_theme_v2;
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+    }
+    &__subtitle{
+      color: $text_color_dark_theme;
+    }
+    &__token-icon{
+      margin-bottom: 10px;
+      margin-top: 5px;
     }
   }
 
   .example-form{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+::ng-deep {
+
+  .mat-mdc-form-field.token-name-input{
+    margin-top: 10px;
+    width: 92%;
+  }
+
+  .mat-mdc-form-field.token-name-confirm-input{
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .mat-mdc-text-field-wrapper{
+    background: $body_bg_color_dark_theme !important;
+    border-radius: 15px !important;
+  }
+
+  .mdc-floating-label{
+    color: $hint_color_dark_theme_v2 !important;
+  }
+
+  .token-name-input{
+    color: $text_color_dark_theme_v2 !important;
+  }
+
+  .mat-mdc-form-field-hint{
+    border: 0.5px solid #ffffff !important;
+    background: $body_bg_color_dark_theme !important;
+    color: #ffffff !important;
+    border-radius: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: -10px;
+  }
+
+  .mat-mdc-dialog-container{
+    border-radius: 20px;
+  }
+
+  .back-drop{
+    backdrop-filter: blur(4px);
   }
 }

@@ -1,13 +1,16 @@
 <div class="token-list">
   <div class="token-list__adding-form">
     <form class="example-form" [formGroup]="form" (ngSubmit)="addNewToken(form)">
-      <mat-form-field class="example-full-width">
-        <mat-label>TOKEN</mat-label>
-        <input matInput #message maxlength="32" placeholder="cucumber" formControlName="tokenName">
-        <mat-hint align="start"><strong>Enter name for your token</strong> </mat-hint>
+      <img src="assets/token-icon.svg" alt="" class="token-list__token-icon">
+      <span class="token-list__title">
+        <span class="token-list__subtitle">Setup</span> Token
+      </span>
+      <mat-form-field class="example-full-width token-name-input">
+        <mat-label>Enter name for your token</mat-label>
+        <input matInput #message maxlength="32" class="token-name-input" formControlName="tokenName">
         <mat-hint align="end">{{message.value.length}} / 32</mat-hint>
       </mat-form-field>
-      <button type="submit" class="token-list__button">add</button>
+      <button type="submit" class="token-list__button">Add Token</button>
     </form>
     <div class="token-list__invalid-token-message" *ngIf="invalidTokenState()">
       <img src="assets/alert.png" class="token-list__alert-icon" alt="">
@@ -18,9 +21,16 @@
     </div>
   </div>
   <div class="token-list__tokens">
-    <div class="token-list__token-element" *ngFor="let token of getTokenList()">
-      <img src="assets/delete-icon.png" alt="" class="token-list__delete-button" (click)="openConfirmDialog(token.tokenId, token.tokenName)">
-      <span class="token-list__token-title" (click)="addTokenFromList(token.tokenId)">{{token.tokenName}}</span>
+    <div class="token-list__token-element-wrapper" *ngFor="let token of getTokenList()">
+      <div class="token-list__token-element">
+        <span class="token-list__token-title">{{token.tokenName}}</span>
+      </div>
+      <div class="token-list__chat-element">
+        <img src="assets/token-icon.svg" alt="" class="token-list__delete-button" (click)="openChatSelector(token.tokenId)">
+      </div>
+      <div class="token-list__trash-element">
+        <img src="assets/trash-icon.svg" alt="" class="token-list__delete-button" (click)="openConfirmDialog(token.tokenId, token.tokenName)">
+      </div>
     </div>
   </div>
 </div>
