@@ -259,13 +259,9 @@ class CompetitionDB {
   }
 
   getCompetitionDrafts(owner_id, callback){
-    const chatIds = chatIdsStr.split(',');
 
-    const placeholders = chatIds.map(() => '?').join(',');
-    const sql = `SELECT * FROM contests_draft WHERE owner_id = ? GROUP BY owner_id`;
+    const sql = `SELECT * FROM contests_draft WHERE owner_id = ?`;
 
-    logger.info('placeholders: ' + placeholders)
-    logger.info('chat ids: ' + chatIds.join(', '));
     logger.trace(sql);
 
     this.connection.query(sql, owner_id, (err, results) => {
@@ -280,7 +276,7 @@ class CompetitionDB {
   }
 
   getActiveCompetitionById(contest_id, callback) {
-    const sql = `SELECT contests_draft.name, contest_draft.media, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 0 GROUP BY contests.contest_id LIMIT 1;`;
+    const sql = `SELECT contests_draft.name, contests_draft.media, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 0 GROUP BY contests.contest_id LIMIT 1;`;
 
     logger.info('contest_id: ' + contest_id);
     logger.trace(sql);

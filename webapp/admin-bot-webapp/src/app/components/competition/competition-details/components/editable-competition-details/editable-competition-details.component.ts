@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
 import {CompetitionDetailsService} from "../../services/competition-details.service";
@@ -11,6 +11,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 })
 export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
   @Input() public currentContest: any;
+  @Output() public isDraftChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
   minDate: Date = new Date(Date.now());
 

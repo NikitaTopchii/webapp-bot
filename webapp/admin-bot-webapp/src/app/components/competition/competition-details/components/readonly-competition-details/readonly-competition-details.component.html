@@ -1,12 +1,24 @@
 <p>readonly-competition-details works!</p>
 
-<p>Name: {{currentContest?.name}}</p>
-<p>Description: {{currentContest?.description}}</p>
-<p>Start date: {{currentContest?.start_time}}</p>
-<p>End date: {{currentContest?.finish_time}}</p>
-<p>{{currentContest?.condition}}</p>
-<p>Amount of winners: {{currentContest?.winners_amount}}</p>
-<p>Amount of participant: {{currentContest?.amount_participiant}}</p>
+@if(isDraft$ | async) {
+  <div>
+    <p>Name: {{currentContest?.name}}</p>
+    <p>Description: {{currentContest?.description}}</p>
+    <p>{{currentContest?.condition}}</p>
 
+    {{currentContest | json}}
+  </div>
+} @else {
+  <div>
+    <p>Name: {{currentContest?.name}}</p>
+    <p>Description: {{currentContest?.description}}</p>
+    <p>Start date: {{currentContest?.start_time}}</p>
+    <p>End date: {{currentContest?.finish_time}}</p>
+    <p>{{currentContest?.condition}}</p>
+    <p>Amount of winners: {{currentContest?.winners_amount}}</p>
+    <p>Amount of participant: {{currentContest?.amount_participiant}}</p>
 
-{{currentContest | json}}
+    {{currentContest | json}}
+  </div>
+}
+

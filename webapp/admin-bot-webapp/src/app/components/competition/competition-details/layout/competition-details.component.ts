@@ -86,6 +86,10 @@ export class CompetitionDetailsComponent implements OnInit {
           return this.competitionService.getDelayedCompetitionById(competitionId).pipe(
             map(data => data.results[0])
           );
+        case 'DRAFT':
+          return this.competitionService.getDraftCompetitionById(competitionId).pipe(
+            map(data => data.results[0])
+          );
         default:
           console.log('default')
           return of(undefined);

@@ -62,6 +62,14 @@ export class CompetitionListComponent implements OnInit {
           switchMap(data => this.competitionDetailsService.getFinishedCompetitions$(data)),
           map(data => data.results)
         );
+      case 'DRAFT':
+        return this.competitionDetailsService.getDraftCompetitions$(this.user_id).pipe(
+          map(data => data.results)
+        )
+        // return getChatIds$.pipe(
+        //   switchMap(data => this.competitionDetailsService.getDraftCompetitions$(data)),
+        //   map(data => data.results)
+        // );
       default:
         return of([]);
     }

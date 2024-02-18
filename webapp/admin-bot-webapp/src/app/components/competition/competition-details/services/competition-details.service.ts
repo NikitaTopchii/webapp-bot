@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {main_url} from "../../../shared/application-context";
+import {ActivatedRoute} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,9 @@ export class CompetitionDetailsService {
       .get<any>(main_url + '/competitions/finished-competitions', { params: {chatid} });
   }
 
-  public getDraftCompetitions$(): Observable<any[]> {
-    return this.http.get<any[]>('/competitions/competition-drafts')
+  public getDraftCompetitions$(ownerid: string): Observable<any> {
+    return this.http
+      .get<any>(main_url + '/competitions/competition-drafts', { params: {ownerid} });
   }
 
 
