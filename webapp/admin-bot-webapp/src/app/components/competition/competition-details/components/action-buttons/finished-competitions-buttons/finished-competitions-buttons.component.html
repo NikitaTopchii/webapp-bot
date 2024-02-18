@@ -1,7 +1,8 @@
 <p>finished-competitions-buttons works!</p>
 
 <div>
-  <button mat-button>show info</button>
-  <button mat-button>write newslleter</button>
-  <button mat-button>finish</button>
+  <button mat-button (click)="customEvent.emit('SHOW_INFO')">show info</button>
+  <button mat-button (click)="customEvent.emit('WRITE_NEWSLETTER')">write newslleter</button>
+  <button mat-button (click)="customEvent.emit('DOWNLOAD')">download</button>
+  <button mat-button (click)="customEvent.emit( 'DELETE')">delete</button>
 </div>

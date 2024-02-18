@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
+
+type pidor = 'SHOW_INFO' | 'WRITE_NEWSLETTER' | 'FINISH_COMPETITION'
 
 @Component({
   selector: 'app-active-competition-buttons',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './active-competition-buttons.component.scss'
 })
 export class ActiveCompetitionButtonsComponent {
-
+  @Output() customEvent: EventEmitter<pidor> = new EventEmitter<pidor>();
 }

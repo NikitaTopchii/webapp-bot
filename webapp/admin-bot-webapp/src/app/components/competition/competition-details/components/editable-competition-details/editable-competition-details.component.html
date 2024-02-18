@@ -1,57 +1,107 @@
-<p>editable-competition-details works!</p>
+<!--<p>editable-competition-details works!</p>-->
 
 
+<!--@if (isDraft$ | async) {-->
+<!--  <form [formGroup]="form" class="editableForm">-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Name</mat-label>-->
+<!--      <input matInput formControlName="contestName">-->
+<!--      <div *ngIf="form.get('contestName')?.hasError('maxlength') && form.get('contestName')?.touched">-->
+<!--        Maximum length exceeded (maximum 500 characters)-->
+<!--      </div>-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Description</mat-label>-->
+<!--      <textarea matInput formControlName="contestDescription" style="resize: none;"></textarea>-->
+<!--      <div-->
+<!--        *ngIf="form.get('contestDescription')?.hasError('maxlength') && form.get('contestDescription')?.touched">-->
+<!--        Maximum length exceeded (maximum 500 characters)-->
+<!--      </div>-->
+<!--    </mat-form-field>-->
+<!--  </form>-->
+<!--} @else {-->
+<!--  <form [formGroup]="form" class="editableForm">-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Name</mat-label>-->
+<!--      <input matInput formControlName="contestName">-->
+<!--      <div *ngIf="form.get('contestName')?.hasError('maxlength') && form.get('contestName')?.touched">-->
+<!--        Maximum length exceeded (maximum 500 characters)-->
+<!--      </div>-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Description</mat-label>-->
+<!--      <textarea matInput formControlName="contestDescription" style="resize: none;"></textarea>-->
+<!--      <div-->
+<!--        *ngIf="form.get('contestDescription')?.hasError('maxlength') && form.get('contestDescription')?.touched">-->
+<!--        Maximum length exceeded (maximum 500 characters)-->
+<!--      </div>-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Media</mat-label>-->
+<!--      <input matInput formControlName="media">-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Enter a date range</mat-label>-->
+<!--      <mat-date-range-input [rangePicker]="picker" [min]="minDate">-->
+<!--        <input matStartDate placeholder="Start date" formControlName="start_time">-->
+<!--        <input matEndDate placeholder="End date" formControlName="finish_time">-->
+<!--      </mat-date-range-input>-->
+<!--      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>-->
+<!--      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--      <mat-date-range-picker #picker></mat-date-range-picker>-->
+<!--    </mat-form-field>-->
+<!--    <app-contest-conditions></app-contest-conditions>-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Amount of winners</mat-label>-->
+<!--      <input matInput formControlName="winner_amount">-->
+<!--      <mat-error-->
+<!--        *ngIf="form.get('winner_amount')?.hasError('required') && form.get('winner_amount')?.touched">-->
+<!--        Count of winners is required-->
+<!--      </mat-error>-->
+<!--      <mat-error *ngIf="form.get('winner_amount')?.hasError('winner_amount')">-->
+<!--        Only numbers are allowed-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Amount of participant</mat-label>-->
+<!--      <input matInput formControlName="competitionParticipant">-->
+<!--    </mat-form-field>-->
+<!--  </form>-->
+<!--}-->
 
-@if(isDraftChanged | async) {
-  <form [formGroup]="form" class="editableForm">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="contestName">
-      <div *ngIf="form.get('contestName')?.hasError('maxlength') && form.get('contestName')?.touched">
-        Maximum length exceeded (maximum 500 characters)
-      </div>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="contestDescription" style="resize: none;"></textarea>
-      <div
-        *ngIf="form.get('contestDescription')?.hasError('maxlength') && form.get('contestDescription')?.touched">
-        Maximum length exceeded (maximum 500 characters)
-      </div>
-    </mat-form-field>
-  </form>
-} @else {
-  <form [formGroup]="form" class="editableForm">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="contestName">
-      <div *ngIf="form.get('contestName')?.hasError('maxlength') && form.get('contestName')?.touched">
-        Maximum length exceeded (maximum 500 characters)
-      </div>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="contestDescription" style="resize: none;"></textarea>
-      <div
-        *ngIf="form.get('contestDescription')?.hasError('maxlength') && form.get('contestDescription')?.touched">
-        Maximum length exceeded (maximum 500 characters)
-      </div>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Media</mat-label>
-      <input matInput formControlName="media">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker" [min]="minDate">
-        <input matStartDate placeholder="Start date" formControlName="start_time">
-        <input matEndDate placeholder="End date" formControlName="finish_time">
-      </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-    <app-contest-conditions></app-contest-conditions>
+<form [formGroup]="form" class="editableForm">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="contestName">
+    <div *ngIf="form.get('contestName')?.hasError('maxlength') && form.get('contestName')?.touched">
+      Maximum length exceeded (maximum 500 characters)
+    </div>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="contestDescription" style="resize: none;"></textarea>
+    <div
+      *ngIf="form.get('contestDescription')?.hasError('maxlength') && form.get('contestDescription')?.touched">
+      Maximum length exceeded (maximum 500 characters)
+    </div>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Media</mat-label>
+    <input matInput formControlName="media">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+      <input matStartDate placeholder="Start date" formControlName="start_time">
+      <input matEndDate placeholder="End date" formControlName="finish_time">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <app-contest-conditions></app-contest-conditions>
+
+  @if (!(isDraft$ | async)) {
     <mat-form-field>
       <mat-label>Amount of winners</mat-label>
       <input matInput formControlName="winner_amount">
@@ -67,10 +117,9 @@
       <mat-label>Amount of participant</mat-label>
       <input matInput formControlName="competitionParticipant">
     </mat-form-field>
-  </form>
-}
+  }
+</form>
 
-<button type="submit" [disabled]="!form.valid" (click)="submitForm()">button</button>
-<button mat-button mat-raised-button (click)="onUpdateDelayedCompetition()">upDate</button>
+<button mat-button mat-raised-button (click)="updateCompetition()">Update</button>
 
 

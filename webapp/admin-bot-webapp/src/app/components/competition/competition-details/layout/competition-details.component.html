@@ -10,16 +10,16 @@
 
 <div [ngSwitch]="competitionStatus$ | async">
   <div *ngSwitchCase="CompetitionStateEnum.DELAYED">
-    <app-active-competition-buttons></app-active-competition-buttons>
+    <app-delayed-competition-buttons (customEvent)="handleCustomEvent($event)"></app-delayed-competition-buttons>
   </div>
   <div *ngSwitchCase="CompetitionStateEnum.ACTIVE">
-    <app-delayed-competition-buttons></app-delayed-competition-buttons>
+    <app-active-competition-buttons (customEvent)="handleCustomEvent($event)"></app-active-competition-buttons>
   </div>
-  <div *ngSwitchCase="CompetitionStateEnum.ENDED">
-    <app-finished-competitions-buttons></app-finished-competitions-buttons>
+  <div *ngSwitchCase="CompetitionStateEnum.FINISHED">
+    <app-finished-competitions-buttons (customEvent)="handleCustomEvent($event)"></app-finished-competitions-buttons>
   </div>
   <div *ngSwitchCase="CompetitionStateEnum.DRAFT">
-    <app-draft-competitions-buttons></app-draft-competitions-buttons>
+    <app-draft-competitions-buttons (customEvent)="handleCustomEvent($event)"></app-draft-competitions-buttons>
   </div>
 </div>
 

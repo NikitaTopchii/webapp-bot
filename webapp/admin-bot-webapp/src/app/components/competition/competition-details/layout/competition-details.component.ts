@@ -7,7 +7,7 @@ import {Contest} from "../shared/contest.model";
 enum CompetitionStateEnum {
   DELAYED = -1,
   ACTIVE,
-  ENDED,
+  FINISHED,
   DRAFT,
   NONE
 }
@@ -49,7 +49,7 @@ export class CompetitionDetailsComponent implements OnInit {
 
 
   edit() {
-    this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}});
+    this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}, queryParamsHandling: 'merge'});
   }
 
   cancel() {
@@ -63,7 +63,7 @@ export class CompetitionDetailsComponent implements OnInit {
       case "0":
         return CompetitionStateEnum.ACTIVE;
       case "1":
-        return CompetitionStateEnum.ENDED;
+        return CompetitionStateEnum.FINISHED;
       case "2":
         return CompetitionStateEnum.DRAFT;
       default:
@@ -94,6 +94,25 @@ export class CompetitionDetailsComponent implements OnInit {
           console.log('default')
           return of(undefined);
       }
+  }
+
+  handleCustomEvent(actionType: string) {
+    switch (actionType) {
+      case 'SHOW_INFO':
+        return;
+      case 'WRITE_NEWSLETTER':
+        return;
+      case 'FINISH_COMPETITION':
+        return;
+      case 'PUBLISH':
+        return;
+      case 'EDIT':
+        return;
+      case 'DELETE':
+        return;
+      case 'DOWNLOAD':
+        return;
+    }
   }
 }
 

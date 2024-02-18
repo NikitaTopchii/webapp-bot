@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
 import {CompetitionDetailsService} from "../../services/competition-details.service";
 import {ActivatedRoute, Params} from "@angular/router";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-editable-competition-details',
@@ -11,20 +12,24 @@ import {ActivatedRoute, Params} from "@angular/router";
 })
 export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
   @Input() public currentContest: any;
-  @Output() public isDraftChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
   minDate: Date = new Date(Date.now());
+  public isDraft$: Observable<boolean> = this.route.queryParams.pipe(
+    map(params => Boolean(params['type'] === 'DRAFT') || false));
+
 
   constructor(private fb: FormBuilder,
               private competitionCreatorService: CompetitionCreatorService,
               private competitionDetalisService: CompetitionDetailsService,
               private route: ActivatedRoute){
     this.form = this.getEditableCompetitionForm();
+    this.route.queryParams.subscribe(param => {
+      console.log('ssssuka', param)
+    })
   }
 
   ngOnInit() {
     this.initPatchValue();
-    console.log(this.currentContest)
   }
 
   ngOnChanges() {
@@ -44,33 +49,7 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
     })
   }
 
-
-
-  submitForm() {
-
-  }
-
-  private initPatchValue(): void {
-    this.competitionCreatorService.conditionRequest = {
-      email: true,
-      otherConditions: [{label: 'test', type: 'text'}],
-      ownCondition: true,
-      phoneNumber: true,
-      subscription: true,
-      type: 'condition'
-    }
-
-    if(this.currentContest) {
-      const {name, description, start_time, finish_time, winners_amount} = this.currentContest;
-
-      this.form.patchValue({
-        contestName: name, contestDescription: description, start_time, finish_time, winner_amount: winners_amount,
-        competitionParticipant: this.currentContest?.amount_participiant || 0
-      });
-    }
-  }
-
-  onUpdateDelayedCompetition() {
+  updateCompetition() {
     let formData = new FormData();
     const {answer, channels, language} = this.currentContest
     const contestId = this.route.snapshot.params['competitionId'];
@@ -82,5 +61,17 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
     this.competitionDetalisService.updateDelayedCompetition(formData).subscribe(data => {
       console.log('fucking request');
     })
+  }
+
+  private initPatchValue(): void {
+    if(this.currentContest) {
+      const {name, description, start_time, finish_time, winners_amount, conditions} = this.currentContest;
+      this.competitionCreatorService.conditionRequest = JSON.parse(conditions)
+
+      this.form.patchValue({
+        contestName: name, contestDescription: description, start_time, finish_time, winner_amount: winners_amount,
+        competitionParticipant: this.currentContest?.amount_participiant || 0
+      });
+    }
   }
 }

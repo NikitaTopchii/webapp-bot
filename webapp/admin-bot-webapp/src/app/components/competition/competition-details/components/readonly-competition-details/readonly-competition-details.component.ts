@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {ActivatedRoute} from "@angular/router";
 import {map, Observable} from "rxjs";
 import {CompetitionDetailsService} from "../../services/competition-details.service";
+import {CompetitionCreatorService} from "../../../competition-creator/services/competition-creator.service";
 
 @Component({
   selector: 'app-readonly-competition-details',
@@ -10,17 +11,18 @@ import {CompetitionDetailsService} from "../../services/competition-details.serv
 })
 export class ReadonlyCompetitionDetailsComponent implements OnChanges {
   @Input() public currentContest: any = {};
-  @Input() isDraft$: Observable<boolean> = this.route.queryParams.pipe(
+  public isDraft$: Observable<boolean> = this.route.queryParams.pipe(
     map(params => Boolean(params['type'] === 'DRAFT') || false));
 
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private competitionCreatorService: CompetitionCreatorService) {
   }
 
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
+    if (changes?.['currentContest'] && this?.currentContest?.conditions) {
+      this.competitionCreatorService.conditionRequest = JSON.parse(this.currentContest.conditions)
+    }
   }
-
-
 }
