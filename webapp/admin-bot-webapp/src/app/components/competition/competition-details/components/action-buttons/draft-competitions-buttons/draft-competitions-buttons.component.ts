@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
-type pidor = 'EDIT' | 'DELETE'
+type actionType = 'EDIT' | 'DELETE'
 
 @Component({
   selector: 'app-draft-competitions-buttons',
@@ -8,5 +8,5 @@ type pidor = 'EDIT' | 'DELETE'
   styleUrl: './draft-competitions-buttons.component.scss'
 })
 export class DraftCompetitionsButtonsComponent {
-  @Output() customEvent: EventEmitter<pidor> = new EventEmitter<pidor>();
+  @Output() customEvent: EventEmitter<actionType> = new EventEmitter<actionType>();
 }

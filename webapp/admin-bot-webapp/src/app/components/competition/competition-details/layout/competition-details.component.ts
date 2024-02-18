@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {CompetitionDetailsService} from "../services/competition-details.service";
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, map, Observable, of} from "rxjs";
@@ -17,7 +17,7 @@ enum CompetitionStateEnum {
   templateUrl: './competition-details.component.html',
   styleUrl: './competition-details.component.scss'
 })
-export class CompetitionDetailsComponent implements OnInit {
+export class CompetitionDetailsComponent {
   public currentContest$: Observable<any> = this.getCurrentContest$()
   public CompetitionStateEnum = CompetitionStateEnum;
   public isEditMode$: Observable<boolean> = this.route.queryParams.pipe(
@@ -34,19 +34,6 @@ export class CompetitionDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
   }
-
-  ngOnInit() {
-      this.currentContest$.subscribe(d => {
-        console.log('current contest', d)
-      });
-
-      this.getCurrentContest$().subscribe(d => {
-        console.log('get current contest', d);
-      })
-
-    console.log(this.route.snapshot.queryParams)
-  }
-
 
   edit() {
     this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}, queryParamsHandling: 'merge'});
@@ -75,7 +62,6 @@ export class CompetitionDetailsComponent implements OnInit {
 
   private getCurrentContest$(): Observable<any> {
       const competitionId: string = this.route.snapshot.params['competitionId'];
-    console.log(this.route.snapshot.queryParams['type'])
       switch (this.route.snapshot.queryParams['type']) {
         case 'ACTIVE':
           console.log('active')

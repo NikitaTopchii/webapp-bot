@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
-type pidor = 'SHOW_INFO' | 'WRITE_NEWSLETTER' | 'DOWNLOAD' | 'DELETE'
+type actionType = 'SHOW_INFO' | 'WRITE_NEWSLETTER' | 'DOWNLOAD' | 'DELETE'
 
 @Component({
   selector: 'app-finished-competitions-buttons',
@@ -8,5 +8,5 @@ type pidor = 'SHOW_INFO' | 'WRITE_NEWSLETTER' | 'DOWNLOAD' | 'DELETE'
   styleUrl: './finished-competitions-buttons.component.scss'
 })
 export class FinishedCompetitionsButtonsComponent {
-  @Output() customEvent: EventEmitter<pidor> = new EventEmitter<pidor>();
+  @Output() customEvent: EventEmitter<actionType> = new EventEmitter<actionType>();
 }

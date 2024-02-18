@@ -36,7 +36,6 @@ type CombinedRequest =
   providedIn: 'root'
 })
 export class CompetitionCreatorService {
-  // private conditionRequestState: CombinedRequest = this.initConditionRequest()
   private conditionRequestState: BehaviorSubject<CombinedRequest> = new BehaviorSubject<CombinedRequest>(this.initConditionRequest());
   constructor() {
   }

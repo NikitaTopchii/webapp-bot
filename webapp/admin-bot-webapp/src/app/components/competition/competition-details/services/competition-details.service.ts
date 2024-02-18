@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {map, Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {main_url} from "../../../shared/application-context";
-import {ActivatedRoute} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'

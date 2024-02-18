@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {CompetitionDetailsService} from "../../services/competition-details.service";
 import {map, Observable, of, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -9,7 +9,7 @@ import {AdminsListService} from "../../../../core/services/admins/admins-list.se
   templateUrl: './competition-list.component.html',
   styleUrl: './competition-list.component.scss'
 })
-export class CompetitionListComponent implements OnInit {
+export class CompetitionListComponent {
   public user_id = localStorage.getItem('user_id');
   public type = this.route.snapshot.queryParams['type'];
   public competitionList$: Observable<any[]> = this.getCompetitionList$();
@@ -19,12 +19,6 @@ export class CompetitionListComponent implements OnInit {
               private adminsListService: AdminsListService,
               private router: Router) {
   }
-
-  ngOnInit() {
-  }
-
-
-
 
   public redirectToCompetitionDetails(competitionId: string) {
     this.router.navigate(['competitions', competitionId], {
@@ -66,10 +60,6 @@ export class CompetitionListComponent implements OnInit {
         return this.competitionDetailsService.getDraftCompetitions$(this.user_id).pipe(
           map(data => data.results)
         )
-        // return getChatIds$.pipe(
-        //   switchMap(data => this.competitionDetailsService.getDraftCompetitions$(data)),
-        //   map(data => data.results)
-        // );
       default:
         return of([]);
     }

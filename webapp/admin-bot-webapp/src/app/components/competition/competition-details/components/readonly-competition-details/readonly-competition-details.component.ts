@@ -1,7 +1,6 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {map, Observable} from "rxjs";
-import {CompetitionDetailsService} from "../../services/competition-details.service";
 import {CompetitionCreatorService} from "../../../competition-creator/services/competition-creator.service";
 
 @Component({

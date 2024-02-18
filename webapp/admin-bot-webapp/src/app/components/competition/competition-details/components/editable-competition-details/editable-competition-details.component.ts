@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
-import {CompetitionDetailsService} from "../../services/competition-details.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {map, Observable} from "rxjs";
 
 @Component({
@@ -20,12 +19,8 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder,
               private competitionCreatorService: CompetitionCreatorService,
-              private competitionDetalisService: CompetitionDetailsService,
               private route: ActivatedRoute){
     this.form = this.getEditableCompetitionForm();
-    this.route.queryParams.subscribe(param => {
-      console.log('ssssuka', param)
-    })
   }
 
   ngOnInit() {
@@ -34,7 +29,6 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.initPatchValue();
-    console.log(this.currentContest)
   }
 
   private getEditableCompetitionForm(): FormGroup {
@@ -57,10 +51,6 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
     for (let key in updatedContest) {
       formData.append(key, updatedContest[key]);
     }
-
-    this.competitionDetalisService.updateDelayedCompetition(formData).subscribe(data => {
-      console.log('fucking request');
-    })
   }
 
   private initPatchValue(): void {
