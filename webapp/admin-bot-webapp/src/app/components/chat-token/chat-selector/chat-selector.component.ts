@@ -10,11 +10,6 @@ import {forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-chat-selector',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
   templateUrl: './chat-selector.component.html',
   styleUrl: './chat-selector.component.scss'
 })
