@@ -40,6 +40,8 @@ export class CompetitionListComponent {
       map(result => result['results'].map((chat: any) => chat['chatid']).join(','))
     );
 
+    console.log(this.route.snapshot.queryParams)
+
     switch (this.route.snapshot.queryParams['type']) {
       case 'ACTIVE':
         return getChatIds$.pipe(
@@ -52,6 +54,7 @@ export class CompetitionListComponent {
           map(data => data.results)
         );
       case 'ENDED':
+        console.log('HUY')
         return getChatIds$.pipe(
           switchMap(data => this.competitionDetailsService.getFinishedCompetitions$(data)),
           map(data => data.results)

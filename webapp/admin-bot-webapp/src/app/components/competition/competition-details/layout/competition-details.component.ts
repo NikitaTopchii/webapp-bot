@@ -7,7 +7,7 @@ import {Contest} from "../shared/contest.model";
 enum CompetitionStateEnum {
   DELAYED = -1,
   ACTIVE,
-  FINISHED,
+  ENDED,
   DRAFT,
   NONE
 }
@@ -22,41 +22,11 @@ export class CompetitionDetailsComponent {
   public CompetitionStateEnum = CompetitionStateEnum;
   public isEditMode$: Observable<boolean> = this.route.queryParams.pipe(
     map(params => Boolean(params['edit']) || false));
-
-
-  public competitionStatus$: Observable<CompetitionStateEnum> = this.currentContest$.pipe(
-    filter(contest => !!contest),
-    map(contest => this.getContestStatus(contest) )
-  );
-
-
+  public isType$: Observable<any> = this.route.queryParams.pipe(
+    map(params => params['type']))
     constructor(private competitionService: CompetitionDetailsService,
               private route: ActivatedRoute,
               private router: Router) {
-  }
-
-  edit() {
-    this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}, queryParamsHandling: 'merge'});
-  }
-
-  cancel() {
-    this.router.navigate([], {relativeTo: this.route, queryParams: {}});
-  }
-
-  private getContestStatus(contest: Contest): CompetitionStateEnum {
-    switch (contest?.is_closed) {
-      case "-1":
-        return CompetitionStateEnum.DELAYED;
-      case "0":
-        return CompetitionStateEnum.ACTIVE;
-      case "1":
-        return CompetitionStateEnum.FINISHED;
-      case "2":
-        return CompetitionStateEnum.DRAFT;
-      default:
-        return CompetitionStateEnum.NONE
-    }
-
   }
 
 
@@ -76,6 +46,10 @@ export class CompetitionDetailsComponent {
           return this.competitionService.getDraftCompetitionById(competitionId).pipe(
             map(data => data.results[0])
           );
+        case 'ENDED':
+          return this.competitionService.getFinishedCompetitionById(competitionId).pipe(
+            map(data => data.results[0])
+          );
         default:
           console.log('default')
           return of(undefined);
@@ -93,7 +67,8 @@ export class CompetitionDetailsComponent {
       case 'PUBLISH':
         return;
       case 'EDIT':
-        return;
+        this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}, queryParamsHandling: 'merge'});
+        break;
       case 'DELETE':
         return;
       case 'DOWNLOAD':
