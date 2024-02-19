@@ -13,11 +13,6 @@
       <button type="submit" class="token-list__button">Add Token</button>
     </form>
   </div>
-  <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getChannelsList()" (click)="selectTelegramEntity(telegramEntity)">
-    <div>
-      <span class="admin-list__name">{{telegramEntity.name}}</span>
-    </div>
-  </div>
   <div class="token-list__tokens">
     <div class="token-list__token-element-wrapper" *ngFor="let token of getTokenList()">
       <div class="token-list__token-element">

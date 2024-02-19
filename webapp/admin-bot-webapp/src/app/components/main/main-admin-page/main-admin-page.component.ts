@@ -72,10 +72,6 @@ export class MainAdminPageComponent implements OnInit{
     this.router.navigate(['/my-tokens/tokens'])
   }
 
-  navigateToJointCompetitionCreator() {
-    this.router.navigate(['/competitions/joint-competition-creator'])
-  }
-
   navigateToCompetitionList() {
     this.router.navigate(['/competitions/select-competition-list']);
   }
