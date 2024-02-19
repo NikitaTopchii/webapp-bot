@@ -133,20 +133,6 @@ export class TokenSelectorComponent {
     })
   }
 
-  addTokenFromList(tokenId:string){
-
-    this.selectedChannelIds.forEach((chatid) => {
-      const formData = new FormData();
-
-      formData.append('token', tokenId);
-      formData.append('chatid', chatid);
-
-      this.chatTokenService.addChatTokenToChannel(formData).subscribe(() => {
-        console.log('added')
-      })
-    })
-  }
-
   invalidTokenState() {
     return this.validToken.tokenExist;
   }
@@ -160,14 +146,18 @@ export class TokenSelectorComponent {
     localStorage.setItem('tokenName', tokenName);
 
     const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
     dialogConfig.id = "modal-component";
     dialogConfig.height = "200px";
     dialogConfig.width = "400px";
+    dialogConfig.backdropClass = 'back-drop'
     const modalDialog = this.matDialog.open(ConfirmDialogComponent, dialogConfig);
 
     modalDialog.afterClosed().subscribe(() => {
       this.getTokensByAdminId();
     })
+  }
+
+  openChatSelector(id: string) {
+    this.router.navigate(['/chat-token-selector', id]);
   }
 }

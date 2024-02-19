@@ -37,6 +37,17 @@ export class ChatTokenService {
       .get<any>(main_url + '/channels/set-token', { params: params });
   }
 
+  isChatTokenExist(formData: FormData){
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/channels/is-token-exist', { params: params });
+  }
+
   getTokens(formData: FormData){
     let params = new HttpParams();
 

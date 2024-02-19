@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
 import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entity.interface";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ChannelsService} from "../../core/services/channels/channels.service";
 import {SelectedChannelsService} from "../../core/services/selected-channels/selected-channels.service";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
+import {ChatTokenService} from "../../core/services/chat-token/chat-token.service";
+import {forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-chat-selector',
+  standalone: true,
+  imports: [
+    NgForOf,
+    NgIf
+  ],
   templateUrl: './chat-selector.component.html',
   styleUrl: './chat-selector.component.scss'
 })
@@ -20,12 +27,21 @@ export class ChatSelectorComponent {
 
   private chatIdsList: number[] = [];
 
+  private tokenId = '';
+
   constructor(private telegram: TelegramService,
               private router: Router,
+              private route: ActivatedRoute,
+              private chatTokenService: ChatTokenService,
               private channelsService: ChannelsService,
               private selectedChannelsService: SelectedChannelsService,
               private adminsListService: AdminsListService) {
     this.goBack = this.goBack.bind(this);
+
+    this.route.params.subscribe(params => {
+      this.tokenId = params['id'];
+      console.log(this.tokenId)
+    });
   }
 
   getChannelsList(){
@@ -33,9 +49,9 @@ export class ChatSelectorComponent {
   }
 
   navigateToSetupToken() {
-    this.selectedChannelsService.setSelectedChannels(this.selectedTelegramEntity);
-
-    this.router.navigate(['/my-tokens/setup-token'])
+    this.addTokenFromList().subscribe(() => {
+      this.router.navigate(['/my-tokens/tokens'])
+    })
   }
 
   selectTelegramEntity(entity: TelegramEntityInterface) {
@@ -59,6 +75,22 @@ export class ChatSelectorComponent {
         this.selectElementsExist = false;
       }
     }
+  }
+
+  addTokenFromList(){
+
+    const observables: Observable<any>[] = [];
+
+    this.selectedTelegramEntity.forEach((chat) => {
+      const formData = new FormData();
+      formData.append('token', this.tokenId);
+      formData.append('chatid', chat.id);
+
+      const observable = this.chatTokenService.addChatTokenToChannel(formData);
+      observables.push(observable);
+    });
+
+    return forkJoin(observables);
   }
 
   getChatIds(){

@@ -1,9 +1,20 @@
 <div class="modal-window">
-  <form class="example-form" [formGroup]="form" (ngSubmit)="deleteToken(form)">
-    <mat-form-field class="example-full-width">
+  <form class="example-form" [formGroup]="form" (ngSubmit)="deleteToken(form)" *ngIf="!isChatTokenExist() && !isLoadingChatToken()">
+    <span class="modal-window__title">
+      <span class="modal-window__subtitle">Delete</span> Token
+    </span>
+    <mat-form-field class="example-full-width token-name-confirm-input">
       <mat-label>confirm token name</mat-label>
-      <input matInput #message maxlength="32" placeholder="cucumber" formControlName="tokenName">
+      <input matInput #message maxlength="32" placeholder="cucumber" class="token-name-input" formControlName="tokenName">
     </mat-form-field>
     <button type="submit" class="modal-window__button" [disabled]="form.invalid">delete</button>
   </form>
+  <div *ngIf="isChatTokenExist() && !isLoadingChatToken()" class="modal-window__token-exist-warning-wrapper">
+    <span class="modal-window__title">
+      <span class="modal-window__subtitle">Token</span> using in chats
+    </span>
+  </div>
+  <div *ngIf="isLoadingChatToken()" class="modal-window__token-exist-warning-wrapper">
+    <img src="assets/loading-token.gif">
+  </div>
 </div>

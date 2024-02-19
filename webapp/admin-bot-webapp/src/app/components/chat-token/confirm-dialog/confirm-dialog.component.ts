@@ -10,6 +10,9 @@ import {ChatTokenService} from "../../core/services/chat-token/chat-token.servic
 })
 export class ConfirmDialogComponent {
 
+  private chatTokenExist = false;
+  private loadingChatToken = true;
+
   form: FormGroup;
   constructor(private readonly fb: FormBuilder,
               public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -18,6 +21,25 @@ export class ConfirmDialogComponent {
   }
 
   ngOnInit() {
+    this.checkChatTokenExist();
+  }
+
+  private checkChatTokenExist() {
+    const formData = new FormData();
+    formData.append('tokenId', localStorage.getItem('tokenId') || '');
+
+    this.chatTokenService.isChatTokenExist(formData).subscribe(response => {
+      this.loadingChatToken = false;
+      this.chatTokenExist = response.chatTokenExist;
+    });
+  }
+
+  isLoadingChatToken(){
+    return this.loadingChatToken;
+  }
+
+  isChatTokenExist(){
+    return this.chatTokenExist;
   }
 
   getTokenForm(){
@@ -36,7 +58,7 @@ export class ConfirmDialogComponent {
 
       formData.append('tokenId', localStorage.getItem('tokenId') || '');
 
-      this.chatTokenService.deleteToken(formData).subscribe((response) => {
+      this.chatTokenService.deleteToken(formData).subscribe(() => {
         localStorage.removeItem('tokenId');
         this.closeModal();
       });
