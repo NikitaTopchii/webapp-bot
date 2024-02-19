@@ -280,7 +280,7 @@ class CompetitionDB {
   }
 
   getActiveCompetitionById(contest_id, callback) {
-    const sql = `SELECT contests_draft.name, contest_draft.media, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 0 GROUP BY contests.contest_id LIMIT 1;`;
+    const sql = `SELECT contests_draft.name, contests_draft.media, contests_draft.description, contests_draft.channels, contests_draft.conditions, contests.start_time, contests.finish_time, contests.winners_amount, contests.language, contests.answer FROM contests_draft JOIN contests ON contests.contest_id = contests_draft.contest_id WHERE contests.contest_id = ? AND contests.is_closed = 0 GROUP BY contests.contest_id LIMIT 1;`;
 
     logger.info('contest_id: ' + contest_id);
     logger.trace(sql);

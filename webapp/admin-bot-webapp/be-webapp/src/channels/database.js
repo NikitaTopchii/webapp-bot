@@ -51,6 +51,18 @@ class ChannelsDB {
         }
       });
     }
+
+    isChatTokenExistById(tokenId, callback){
+      const sql = 'SELECT * FROM channels WHERE game_token = ?';
+      this.connection.query(sql, tokenId, (err, results) => {
+        if (err) {
+          logger.error(err);
+          callback(err, null);
+        } else {
+          callback(null, {results})
+        }
+      })
+    }
 }
 
 module.exports = ChannelsDB;

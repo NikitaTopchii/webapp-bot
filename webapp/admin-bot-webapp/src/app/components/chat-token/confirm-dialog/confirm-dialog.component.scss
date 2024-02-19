@@ -31,6 +31,11 @@
     &__subtitle{
       color: $text_color_dark_theme;
     }
+    &__token-exist-warning-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   .example-form{
     width: 100%;
