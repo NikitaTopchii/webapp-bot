@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {NgForOf} from "@angular/common";
 import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
 import {TelegramService} from "../../../core/services/telegram/telegram.service";
 import {Router} from "@angular/router";

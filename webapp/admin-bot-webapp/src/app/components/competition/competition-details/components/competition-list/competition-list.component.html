@@ -1,0 +1,5 @@
+<div *ngIf="competitionList$ | async as competitionList">
+  <div *ngFor="let competition of competitionList">
+    <p (click)="redirectToCompetitionDetails(competition.contest_id)">{{competition.name}}</p>
+  </div>
+</div>

@@ -12,12 +12,10 @@
       </mat-form-field>
       <button type="submit" class="token-list__button">Add Token</button>
     </form>
-    <div class="token-list__invalid-token-message" *ngIf="invalidTokenState()">
-      <img src="assets/alert.png" class="token-list__alert-icon" alt="">
-      <span>this token was added</span>
-    </div>
-    <div class="token-list__valid-token-message" *ngIf="validTokenState()">
-      <span>success adding token</span>
+  </div>
+  <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getChannelsList()" (click)="selectTelegramEntity(telegramEntity)">
+    <div>
+      <span class="admin-list__name">{{telegramEntity.name}}</span>
     </div>
   </div>
   <div class="token-list__tokens">

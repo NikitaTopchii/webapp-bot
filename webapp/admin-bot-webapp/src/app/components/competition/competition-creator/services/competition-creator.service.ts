@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from "rxjs";
 
 interface BaseConditionRequest {
   subscription: boolean;
@@ -22,7 +23,7 @@ interface SelfConditionRequest extends BaseConditionRequest {
 }
 
 interface SubscriptionConditionRequest extends BaseConditionRequest {
-
+  type: 'nothing'
 }
 
 type CombinedRequest =
@@ -35,19 +36,24 @@ type CombinedRequest =
   providedIn: 'root'
 })
 export class CompetitionCreatorService {
-  private conditionRequestState: CombinedRequest = this.initConditionRequest()
-  constructor() { }
+  private conditionRequestState: BehaviorSubject<CombinedRequest> = new BehaviorSubject<CombinedRequest>(this.initConditionRequest());
+  constructor() {
+  }
 
   public set conditionRequest(request: CombinedRequest) {
-    this.conditionRequestState = request
+    this.conditionRequestState.next(request)
   }
 
   public get conditionRequest(): CombinedRequest {
-    return this.conditionRequestState;
+    return this.conditionRequestState.getValue();
+  }
+
+  public get conditionRequest$(): Observable<CombinedRequest> {
+    return this.conditionRequestState.asObservable();
   }
 
   public setDefaultGuessNumber() {
-    this.conditionRequestState = {
+    this.conditionRequest = {
       subscription: true,
       type: 'guess',
       exact: false,
@@ -56,7 +62,7 @@ export class CompetitionCreatorService {
   }
 
   public setDefaultSelfCondition() {
-    this.conditionRequestState = {
+    this.conditionRequest = {
       subscription: true,
       type: 'condition',
       email: false,
@@ -67,14 +73,16 @@ export class CompetitionCreatorService {
   }
 
   public setSubscribeCondition() {
-    this.conditionRequestState = {
-      subscription: true
+    this.conditionRequest = {
+      subscription: true,
+      type: 'nothing'
     }
   }
 
   private initConditionRequest(): CombinedRequest {
     return {
       subscription: true,
+      type: 'nothing'
     }
   }
 }

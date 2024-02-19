@@ -1,0 +1,21 @@
+<app-editable-competition-details *ngIf="(isEditMode$ | async) === true" [currentContest]="currentContest$ | async"></app-editable-competition-details>
+<app-readonly-competition-details *ngIf="(isEditMode$ | async) === false" [currentContest]="currentContest$ | async"></app-readonly-competition-details>
+
+<button mat-button (click)="edit()">Edit</button>
+<button mat-button (click)="cancel()">Cancel</button>
+
+<div [ngSwitch]="competitionStatus$ | async">
+  <div *ngSwitchCase="CompetitionStateEnum.DELAYED">
+    <app-delayed-competition-buttons (customEvent)="handleCustomEvent($event)"></app-delayed-competition-buttons>
+  </div>
+  <div *ngSwitchCase="CompetitionStateEnum.ACTIVE">
+    <app-active-competition-buttons (customEvent)="handleCustomEvent($event)"></app-active-competition-buttons>
+  </div>
+  <div *ngSwitchCase="CompetitionStateEnum.FINISHED">
+    <app-finished-competitions-buttons (customEvent)="handleCustomEvent($event)"></app-finished-competitions-buttons>
+  </div>
+  <div *ngSwitchCase="CompetitionStateEnum.DRAFT">
+    <app-draft-competitions-buttons (customEvent)="handleCustomEvent($event)"></app-draft-competitions-buttons>
+  </div>
+</div>
+

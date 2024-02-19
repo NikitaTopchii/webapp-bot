@@ -148,15 +148,14 @@ class CompetitionDB {
   }
 
   editDelayedCompetition(data, callback){
-    const sql = 'UPDATE contest_draft SET name = ?, media = ?, description = ?, conditions = ? WHERE contest_id = ?';
-    logger.info('contest id: ' + data);
+    const sql = 'UPDATE contests_draft SET name = ?, media = ?, description = ?, conditions = ? WHERE contest_id = ?';
     logger.trace(sql);
     this.connection.query(sql, [data.contestName, data.media, data.contestDescription, data.conditions, data.contestId], (err, results) => {
       if (err) {
         logger.error(err);
         callback(err, null);
       } else {
-        const sql = 'UPDATE contests SET start_time = ?, finish_time = ?, winner_amount = ?, language = ?, answer = ? WHERE contest_id = ?';
+        const sql = 'UPDATE contests SET start_time = ?, finish_time = ?, winners_amount = ?, language = ?, answer = ? WHERE contest_id = ?';
         logger.info({results});
         this.connection.query(sql, [data.start_time, data.finish_time, data.winner_amount, data.language, data.answer, data.contestId], (err, results) => {
           if (err) {
@@ -259,13 +258,9 @@ class CompetitionDB {
   }
 
   getCompetitionDrafts(owner_id, callback){
-    const chatIds = chatIdsStr.split(',');
 
-    const placeholders = chatIds.map(() => '?').join(',');
-    const sql = `SELECT * FROM contests_draft WHERE owner_id = ? GROUP BY owner_id`;
+    const sql = `SELECT * FROM contests_draft WHERE owner_id = ?`;
 
-    logger.info('placeholders: ' + placeholders)
-    logger.info('chat ids: ' + chatIds.join(', '));
     logger.trace(sql);
 
     this.connection.query(sql, owner_id, (err, results) => {

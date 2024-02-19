@@ -9,7 +9,6 @@ import {TokenGenerateService} from "../../core/services/token/token-generate.ser
 import {DateTimeValidatorService} from "../../core/services/validators/date-time/date-time-validator.service";
 import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
 import {main_url} from "../../shared/application-context";
-import {ConditionInterface} from "../../core/condition.interface";
 import { CompetitionCreatorService } from "./services/competition-creator.service";
 type ConditionType = 'contestMedia' | 'contestDate' | 'contestTime' | 'contestWinnersCount' | 'contestLanguage' | 'contestCondition';
 
@@ -135,7 +134,6 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   createCompetition(form: FormGroup) {
-
     if (this.form.invalid) {
       return;
     }

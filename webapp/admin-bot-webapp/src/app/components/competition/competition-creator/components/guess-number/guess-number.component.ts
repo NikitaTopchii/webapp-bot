@@ -18,6 +18,7 @@ export class GuessNumberComponent {
   constructor(private fb: FormBuilder,
               private competitionCreatorService: CompetitionCreatorService) {
     this.initValueChangeSubscription();
+    this.initPatchValue();
   }
 
   public conditionForm = this.fb.group({
@@ -39,5 +40,16 @@ export class GuessNumberComponent {
         subscription: true
       }
     });
+  }
+
+  private initPatchValue(): void {
+    this.competitionCreatorService.conditionRequest$.subscribe(data => {
+      if (data.type === 'guess') {
+        this.conditionForm.patchValue({
+          conditionType: data.exact ? 'exact' : 'closest',
+          number: data.value
+        }, { emitEvent: false });
+      }
+    })
   }
 }

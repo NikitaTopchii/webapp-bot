@@ -1,0 +1,12 @@
+<div>
+  <p>Name: {{ currentContest?.name }}</p>
+  <p>Description: {{ currentContest?.description }}</p>
+  <app-contest-conditions></app-contest-conditions>
+  @if (!(isDraft$ | async)) {
+    <p>Start date: {{ currentContest?.start_time }}</p>
+    <p>End date: {{ currentContest?.finish_time }}</p>
+    <p>Amount of winners: {{ currentContest?.winners_amount }}</p>
+    <p>Amount of participant: {{ currentContest?.amount_participiant }}</p>
+  }
+</div>
+

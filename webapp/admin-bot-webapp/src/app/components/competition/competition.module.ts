@@ -21,6 +21,29 @@ import { GuessNumberComponent } from "./competition-creator/components/guess-num
 import { DataConditionComponent } from "./competition-creator/components/data-condition/data-condition.component";
 import { MatSelect } from "@angular/material/select";
 import { MatButton } from "@angular/material/button";
+import {CompetitionDetailsComponent} from "./competition-details/layout/competition-details.component";
+import {
+  EditableCompetitionDetailsComponent
+} from "./competition-details/components/editable-competition-details/editable-competition-details.component";
+import {
+  ReadonlyCompetitionDetailsComponent
+} from "./competition-details/components/readonly-competition-details/readonly-competition-details.component";
+import {
+  FinishedCompetitionsButtonsComponent
+} from "./competition-details/components/action-buttons/finished-competitions-buttons/finished-competitions-buttons.component";
+import {
+  DraftCompetitionsButtonsComponent
+} from "./competition-details/components/action-buttons/draft-competitions-buttons/draft-competitions-buttons.component";
+import {
+  ActiveCompetitionButtonsComponent
+} from "./competition-details/components/action-buttons/active-competition-buttons/active-competition-buttons.component";
+import {
+  DelayedCompetitionButtonsComponent
+} from "./competition-details/components/action-buttons/delayed-competition-buttons/delayed-competition-buttons.component";
+import {
+  SelectCompetitionListComponent
+} from "./competition-details/components/select-competition-list/select-competition-list.component";
+import {CompetitionListComponent} from "./competition-details/components/competition-list/competition-list.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +51,17 @@ import { MatButton } from "@angular/material/button";
     CompetitionEndpointSelectorComponent,
     ContestConditionsComponent,
     GuessNumberComponent,
-    DataConditionComponent
+    DataConditionComponent,
+    CompetitionDetailsComponent,
+      EditableCompetitionDetailsComponent,
+      ReadonlyCompetitionDetailsComponent,
+    FinishedCompetitionsButtonsComponent,
+    DraftCompetitionsButtonsComponent,
+    ActiveCompetitionButtonsComponent,
+    DelayedCompetitionButtonsComponent,
+    SelectCompetitionListComponent,
+    CompetitionListComponent
+
   ],
   imports: [
     CommonModule,
