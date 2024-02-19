@@ -10,5 +10,8 @@ router
   .route('/set-token')
   .get(ChannelsController.setGameToken)
 
+router
+  .route('/is-token-exist')
+  .get(ChannelsController.isChatTokenExistById)
 
 module.exports = router;

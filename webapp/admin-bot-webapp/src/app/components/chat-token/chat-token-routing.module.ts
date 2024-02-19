@@ -5,12 +5,12 @@ import {TokenSelectorComponent} from "./token-selector/token-selector.component"
 
 const routes: Routes = [
   {
-    path: "",
-    component: ChatSelectorComponent,
+    path: "tokens",
+    component: TokenSelectorComponent,
   },
   {
-    path: "setup-token",
-    component: TokenSelectorComponent
+    path: "chat-token-selector/:id",
+    component: ChatSelectorComponent
   }
 ];
 

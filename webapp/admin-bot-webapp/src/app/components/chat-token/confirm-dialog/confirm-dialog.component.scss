@@ -5,6 +5,7 @@
     height: 100%;
     width: 100%;
     display: flex;
+    background: $element_bg_color_dark_theme;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -22,10 +23,25 @@
         cursor: not-allowed;
       }
     }
+    &__title{
+      color: $text_color_dark_theme_v2;
+      margin: 10px;
+      font-weight: 700;
+    }
+    &__subtitle{
+      color: $text_color_dark_theme;
+    }
+    &__token-exist-warning-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   .example-form{
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
