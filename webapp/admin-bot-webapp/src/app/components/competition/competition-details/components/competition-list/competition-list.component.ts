@@ -1,15 +1,16 @@
-import {Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {CompetitionDetailsService} from "../../services/competition-details.service";
 import {map, Observable, of, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AdminsListService} from "../../../../core/services/admins/admins-list.service";
+import { TelegramService } from "../../../../core/services/telegram/telegram.service";
 
 @Component({
   selector: 'app-competition-list',
   templateUrl: './competition-list.component.html',
   styleUrl: './competition-list.component.scss'
 })
-export class CompetitionListComponent {
+export class CompetitionListComponent implements OnInit {
   public user_id = localStorage.getItem('user_id');
   public type = this.route.snapshot.queryParams['type'];
   public competitionList$: Observable<any[]> = this.getCompetitionList$();
@@ -17,7 +18,12 @@ export class CompetitionListComponent {
   constructor(private competitionDetailsService: CompetitionDetailsService,
               private route: ActivatedRoute,
               private adminsListService: AdminsListService,
-              private router: Router) {
+              private router: Router,
+              private telegramService: TelegramService) {
+  }
+
+  ngOnInit() {
+    this.initBackButton()
   }
 
   public redirectToCompetitionDetails(competitionId: string) {
@@ -66,5 +72,14 @@ export class CompetitionListComponent {
       default:
         return of([]);
     }
+  }
+
+  private initBackButton(): void {
+    this.telegramService.BackButton.show();
+    this.telegramService.BackButton.onClick(() => this.goBack())
+  }
+
+  private goBack(): void {
+    this.router.navigate(['competitions', 'select-competition-list']);
   }
 }

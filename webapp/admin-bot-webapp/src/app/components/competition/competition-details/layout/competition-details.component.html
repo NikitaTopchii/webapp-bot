@@ -1,19 +1,13 @@
-<app-editable-competition-details *ngIf="(isEditMode$ | async) === true" [currentContest]="currentContest$ | async"></app-editable-competition-details>
-<app-readonly-competition-details *ngIf="(isEditMode$ | async) === false" [currentContest]="currentContest$ | async"></app-readonly-competition-details>
+@if ((isEditMode$ | async) === true) {
+  <app-editable-competition-details *ngIf="(isEditMode$ | async) === true" [currentContest]="currentContest$ | async"></app-editable-competition-details>
 
+} @else {
+  <app-readonly-competition-details *ngIf="(isEditMode$ | async) === false" [currentContest]="currentContest$ | async"></app-readonly-competition-details>
+}
 
-<ng-container *ngIf="isType$ | async as isType">
-  <ng-container *ngIf="isType === 'ACTIVE'">
-    <app-active-competition-buttons (customEvent)="handleCustomEvent($event)"></app-active-competition-buttons>
-  </ng-container>
-  <ng-container *ngIf="isType === 'DELAYED'">
-    <app-delayed-competition-buttons (customEvent)="handleCustomEvent($event)"></app-delayed-competition-buttons>
-  </ng-container>
-  <ng-container *ngIf="isType === 'DRAFT'">
-    <app-draft-competitions-buttons (customEvent)="handleCustomEvent($event)"></app-draft-competitions-buttons>
-  </ng-container>
-  <ng-container *ngIf="isType === 'ENDED'">
-    <app-finished-competitions-buttons (customEvent)="handleCustomEvent($event)"></app-finished-competitions-buttons>
-  </ng-container>
+<ng-container [ngSwitch]="competitionState$ | async">
+  <app-active-competition-buttons *ngSwitchCase="'ACTIVE'" (customEvent)="handleCustomEvent($event)"></app-active-competition-buttons>
+  <app-delayed-competition-buttons *ngSwitchCase="'DELAYED'" (customEvent)="handleCustomEvent($event)"></app-delayed-competition-buttons>
+  <app-draft-competitions-buttons *ngSwitchCase="'DRAFT'" (customEvent)="handleCustomEvent($event)"></app-draft-competitions-buttons>
+  <app-finished-competitions-buttons *ngSwitchCase="'ENDED'" (customEvent)="handleCustomEvent($event)"></app-finished-competitions-buttons>
 </ng-container>
-
