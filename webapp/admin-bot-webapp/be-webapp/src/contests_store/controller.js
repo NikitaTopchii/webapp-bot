@@ -47,7 +47,7 @@ exports.getProducts = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
   try {
-    const product = await StoresService.getProducts(req.query.product_id);
+    const product = await StoresService.getProduct(req.query.product_id);
     res.json(product);
   } catch (error) {
     res.status(500).send({message: 'Error oops'});

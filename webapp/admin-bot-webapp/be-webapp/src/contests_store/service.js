@@ -1,14 +1,26 @@
+
 const StoreDB = require('./database');
+import {StoreIdGenerator} from "../../shared/generator/store/store-id-generator";
+import {ProductIdGenerator} from "../../shared/generator/product/product-id-generator";
+
+
 class StoreService {
 
   constructor() {
     this.storeDB = new StoreDB();
+    this.storeIdGenerator = new StoreIdGenerator();
+    this.productIdGenerator = new ProductIdGenerator();
   }
 
   async createStore(data){
+
+    const store_id = this.storeIdGenerator.generateStoreId(
+      data.store_name, data.store_description
+    );
+
     return new Promise((resolve, reject) => {
       this.storeDB.createStore(
-        data.store_id,
+        store_id,
         data.store_name,
         data.store_description,
         data.game_token_id,
@@ -55,9 +67,16 @@ class StoreService {
   }
 
   async createProduct(data){
+
+    const product_id = this.productIdGenerator.generateProductId(
+      data.product_name,
+      data.product_description,
+      data.product_amount
+    )
+
     return new Promise((resolve, reject) => {
       this.storeDB.createProduct(
-        data.product_id,
+        product_id,
         data.product_name,
         data.product_description,
         data.product_amount,
