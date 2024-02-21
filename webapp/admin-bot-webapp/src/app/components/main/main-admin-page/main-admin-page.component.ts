@@ -79,4 +79,8 @@ export class MainAdminPageComponent implements OnInit{
   navigateToJointCompetitionCreator() {
     this.router.navigate(['/competitions/joint-competition-creator'])
   }
+
+  navigateToStore() {
+    this.router.navigate(['/store']);
+  }
 }
