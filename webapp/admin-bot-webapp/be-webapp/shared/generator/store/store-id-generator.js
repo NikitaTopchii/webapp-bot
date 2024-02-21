@@ -1,6 +1,6 @@
-import {EntityIdGenerator} from "../entity-id-generator";
+const EntityIdGenerator = require('../entity-id-generator');
 
-export class StoreIdGenerator extends EntityIdGenerator{
+class StoreIdGenerator extends EntityIdGenerator{
 
   generateStoreId(store_name, store_description){
     const store_name_length = store_name.length;
@@ -9,3 +9,6 @@ export class StoreIdGenerator extends EntityIdGenerator{
     return this.generateId(store_description_length + store_name_length);
   }
 }
+
+
+module.exports = StoreIdGenerator;

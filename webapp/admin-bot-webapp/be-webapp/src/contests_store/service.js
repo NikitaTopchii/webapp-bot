@@ -1,7 +1,7 @@
 
 const StoreDB = require('./database');
-import {StoreIdGenerator} from "../../shared/generator/store/store-id-generator";
-import {ProductIdGenerator} from "../../shared/generator/product/product-id-generator";
+const StoreIdGenerator = require('../../shared/generator/store/store-id-generator');
+const ProductIdGenerator = require('../../shared/generator/product/product-id-generator');
 
 
 class StoreService {
@@ -163,4 +163,4 @@ class StoreService {
   }
 }
 
-module.exports = new StoreService();
+module.exports = StoreService
