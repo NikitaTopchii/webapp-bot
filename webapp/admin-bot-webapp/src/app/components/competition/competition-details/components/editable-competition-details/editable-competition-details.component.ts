@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { CompetitionCreatorService } from "../../../competition-creator/services/competition-creator.service";
 import {ActivatedRoute} from "@angular/router";
 import {map, Observable} from "rxjs";
+import {CompetitionDetailsService} from "../../services/competition-details.service";
+
 
 @Component({
   selector: 'app-editable-competition-details',
@@ -18,6 +20,7 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
 
 
   constructor(private fb: FormBuilder,
+              private competitionDetailsService: CompetitionDetailsService,
               private competitionCreatorService: CompetitionCreatorService,
               private route: ActivatedRoute){
     this.form = this.getEditableCompetitionForm();
@@ -30,6 +33,7 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.initPatchValue();
   }
+
 
   private getEditableCompetitionForm(): FormGroup {
     return this.fb.group({
@@ -45,13 +49,28 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
 
   updateCompetition() {
     let formData = new FormData();
-    const {answer, channels, language} = this.currentContest
+    const { answer, channels, language } = this.currentContest;
     const contestId = this.route.snapshot.params['competitionId'];
     let updatedContest = { ...this.form.value, answer, channels, language, contestId: contestId, conditions: JSON.stringify(this.competitionCreatorService.conditionRequest) };
     for (let key in updatedContest) {
       formData.append(key, updatedContest[key]);
     }
+
+    const updateObservable =
+      this.route.snapshot.queryParams['type'] === 'DRAFT'
+        ? this.competitionDetailsService.updateDraftCompetition(updatedContest)
+        : this.competitionDetailsService.updateDelayedCompetition(updatedContest);
+
+    const subscription = updateObservable.subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
+
 
   private initPatchValue(): void {
     if(this.currentContest) {
