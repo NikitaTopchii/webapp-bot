@@ -1,88 +1,35 @@
-import {Component} from '@angular/core';
-import {CompetitionDetailsService} from "../services/competition-details.service";
-import {ActivatedRoute, Router} from '@angular/router';
-import {filter, map, Observable, of} from "rxjs";
-import {Contest} from "../shared/contest.model";
+import { Component, OnInit } from '@angular/core';
+import { CompetitionDetailsService } from "../services/competition-details.service";
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, map, Observable, of, take } from "rxjs";
+import { Contest } from "../shared/contest.model";
+import { TelegramService } from "../../../core/services/telegram/telegram.service";
 
-enum CompetitionStateEnum {
-  DELAYED = -1,
-  ACTIVE,
-  FINISHED,
-  DRAFT,
-  NONE
-}
+type CompetitionState = 'ACTIVE' | 'DELAYED' | 'DRAFT' | 'ENDED';
 
 @Component({
   selector: 'app-competition-details',
   templateUrl: './competition-details.component.html',
   styleUrl: './competition-details.component.scss'
 })
-export class CompetitionDetailsComponent {
+export class CompetitionDetailsComponent implements OnInit {
   public currentContest$: Observable<any> = this.getCurrentContest$()
-  public CompetitionStateEnum = CompetitionStateEnum;
   public isEditMode$: Observable<boolean> = this.route.queryParams.pipe(
     map(params => Boolean(params['edit']) || false));
+  public competitionState$: Observable<CompetitionState> = this.route.queryParams.pipe(
+    map(params => params['type']));
 
-
-  public competitionStatus$: Observable<CompetitionStateEnum> = this.currentContest$.pipe(
-    filter(contest => !!contest),
-    map(contest => this.getContestStatus(contest) )
-  );
-
-
-    constructor(private competitionService: CompetitionDetailsService,
+  constructor(private competitionService: CompetitionDetailsService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private telegramService: TelegramService) {
   }
 
-  edit() {
-    this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}, queryParamsHandling: 'merge'});
+  ngOnInit() {
+    this.initBackButton()
   }
 
-  cancel() {
-    this.router.navigate([], {relativeTo: this.route, queryParams: {}});
-  }
-
-  private getContestStatus(contest: Contest): CompetitionStateEnum {
-    switch (contest?.is_closed) {
-      case "-1":
-        return CompetitionStateEnum.DELAYED;
-      case "0":
-        return CompetitionStateEnum.ACTIVE;
-      case "1":
-        return CompetitionStateEnum.FINISHED;
-      case "2":
-        return CompetitionStateEnum.DRAFT;
-      default:
-        return CompetitionStateEnum.NONE
-    }
-
-  }
-
-
-  private getCurrentContest$(): Observable<any> {
-      const competitionId: string = this.route.snapshot.params['competitionId'];
-      switch (this.route.snapshot.queryParams['type']) {
-        case 'ACTIVE':
-          console.log('active')
-          return this.competitionService.getActiveCompetitionById(competitionId).pipe(
-            map(data => data.results[0])
-          );
-        case 'DELAYED':
-          return this.competitionService.getDelayedCompetitionById(competitionId).pipe(
-            map(data => data.results[0])
-          );
-        case 'DRAFT':
-          return this.competitionService.getDraftCompetitionById(competitionId).pipe(
-            map(data => data.results[0])
-          );
-        default:
-          console.log('default')
-          return of(undefined);
-      }
-  }
-
-  handleCustomEvent(actionType: string) {
+  public handleCustomEvent(actionType: string): void {
     switch (actionType) {
       case 'SHOW_INFO':
         return;
@@ -93,12 +40,62 @@ export class CompetitionDetailsComponent {
       case 'PUBLISH':
         return;
       case 'EDIT':
-        return;
+        this.router.navigate([], {relativeTo: this.route, queryParams: {edit: true}, queryParamsHandling: 'merge'});
+        break;
       case 'DELETE':
         return;
       case 'DOWNLOAD':
         return;
     }
+  }
+
+  private getCurrentContest$(): Observable<any> {
+    const competitionId: string = this.route.snapshot.params['competitionId'];
+    switch (this.route.snapshot.queryParams['type']) {
+      case 'ACTIVE':
+        console.log('active')
+        return this.competitionService.getActiveCompetitionById(competitionId).pipe(
+          map(data => data.results[0])
+        );
+      case 'DELAYED':
+        return this.competitionService.getDelayedCompetitionById(competitionId).pipe(
+          map(data => data.results[0])
+        );
+      case 'DRAFT':
+        return this.competitionService.getDraftCompetitionById(competitionId).pipe(
+          map(data => data.results[0])
+        );
+      case 'ENDED':
+        return this.competitionService.getFinishedCompetitionById(competitionId).pipe(
+          map(data => data.results[0])
+        );
+      default:
+        console.log('default')
+        return of(undefined);
+    }
+  }
+
+  private initBackButton(): void {
+    this.telegramService.BackButton.show();
+    this.telegramService.BackButton.onClick(() => this.goBack());
+  }
+
+  private goBack(): void {
+    this.isEditMode$.pipe(take(1)).subscribe((isEditMode) => {
+      if (isEditMode) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {edit: undefined},
+          queryParamsHandling: 'merge'
+        });
+      } else {
+        this.router.navigate(['/competitions', 'competition-list'], {
+          relativeTo: this.route,
+          queryParamsHandling: 'merge'
+        });
+      }
+
+    })
   }
 }
 
