@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
-type actionType = 'SHOW_INFO' | 'PUBLISH' | 'EDIT' | 'DELETE'
+type actionType = 'PUBLISH' | 'EDIT' | 'DELETE'
 
 @Component({
   selector: 'app-delayed-competition-buttons',
