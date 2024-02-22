@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
-type actionType = 'SHOW_INFO' | 'WRITE_NEWSLETTER' | 'DOWNLOAD' | 'DELETE'
+type actionType = 'WRITE_NEWSLETTER' | 'DOWNLOAD' | 'DELETE'
 
 @Component({
   selector: 'app-finished-competitions-buttons',

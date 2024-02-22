@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TelegramService} from "../../../core/services/telegram/telegram.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CompetitionService} from "../../../core/services/competition/competition.service";
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
@@ -104,6 +104,8 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
   ngOnDestroy(): void {
     this.telegram.BackButton.offClick(this.goBack);
   }
+
+  public privateNews!: boolean;
 
   ngOnInit(): void {
     this.telegram.BackButton.show();
