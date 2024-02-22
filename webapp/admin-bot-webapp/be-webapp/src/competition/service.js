@@ -217,6 +217,30 @@ class CompetitionService {
     })
   }
 
+  async deleteContest(contest_id) {
+    return new Promise((resolve, reject) => {
+      this.competitionDB.deleteContest(contest_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  }
+
+  async deleteContestDraft(contest_id) {
+    return new Promise((resolve, reject) => {
+      this.competitionDB.deleteContestDraft(contest_id, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  }
+
   async getDelayedCompetitionForEdit(contest_id){
     return new Promise((resolve, reject) => {
       this.competitionDB.getDelayedCompetitionForEdit(contest_id, (err, data) => {

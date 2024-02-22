@@ -291,6 +291,40 @@ class CompetitionDB {
     });
   }
 
+  deleteContest(contest_id, callback) {
+    const sql = `DELETE FROM contests WHERE contest_id = ?`;
+
+    logger.info('contest_id: ' + contest_id);
+    logger.trace(sql);
+
+    this.connection.query(sql, contest_id, (err, results) => {
+      if (err) {
+        logger.error(err);
+        callback(err, null);
+      } else {
+        logger.info({results});
+        callback(null, {results});
+      }
+    });
+  }
+
+  deleteContestDraft(contest_id, callback) {
+    const sql = `DELETE FROM contests_draft WHERE contest_id = ?`;
+
+    logger.info('contest_id: ' + contest_id);
+    logger.trace(sql);
+
+    this.connection.query(sql, contest_id, (err, results) => {
+      if (err) {
+        logger.error(err);
+        callback(err, null);
+      } else {
+        logger.info({results});
+        callback(null, {results});
+      }
+    });
+  }
+
   getActiveCompetitions(chatIdsStr, callback) {
     const chatIds = chatIdsStr.split(',');
 
