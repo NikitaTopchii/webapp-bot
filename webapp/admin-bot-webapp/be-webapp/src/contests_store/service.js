@@ -3,6 +3,19 @@ const StoreDB = require('./database');
 const StoreIdGenerator = require('../../shared/generator/store/store-id-generator');
 const ProductIdGenerator = require('../../shared/generator/product/product-id-generator');
 
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.bgGreen,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 
 class StoreService {
 
@@ -163,4 +176,4 @@ class StoreService {
   }
 }
 
-module.exports = StoreService
+module.exports = new StoreService()
