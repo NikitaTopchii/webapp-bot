@@ -31,10 +31,9 @@ export class CompetitionDetailsComponent implements OnInit {
 
   public handleCustomEvent(actionType: string): void {
     switch (actionType) {
-      case 'SHOW_INFO':
-        return;
       case 'WRITE_NEWSLETTER':
-        return;
+        this.router.navigate(['/news-letter/private-news-letter']);
+        break;
       case 'FINISH_COMPETITION':
         return;
       case 'PUBLISH':
