@@ -1,5 +1,19 @@
 const mysql = require('mysql');
 const Logger = require('../../shared/logger/logger')
+
+let colors = require('colors')
+let logger = require('tracer').colorConsole({
+  filters: [
+    colors.underline,
+    colors.white,
+    {
+      trace: colors.bgCyan,
+      info: colors.bgGreen,
+      warn: colors.yellow,
+      error: [colors.red, colors.bold]
+    }
+  ]
+})
 class StoreDB {
   constructor() {
     this.connection = mysql.createConnection({
@@ -58,11 +72,11 @@ class StoreDB {
               owner_id,
               callback){
 
-    Logger.info('create store with this store_id: ' + JSON.stringify(store_id));
-    Logger.info('create store with this store_name: ' + JSON.stringify(store_name));
-    Logger.info('create store with this store_description: ' + JSON.stringify(store_description));
-    Logger.info('create store with this game_token_id: ' + JSON.stringify(game_token_id));
-    Logger.info('create store with this owner_id: ' + JSON.stringify(owner_id));
+    Logger.logger.info('create store with this store_id: ' + JSON.stringify(store_id));
+    Logger.logger.info('create store with this store_name: ' + JSON.stringify(store_name));
+    Logger.logger.info('create store with this store_description: ' + JSON.stringify(store_description));
+    Logger.logger.info('create store with this game_token_id: ' + JSON.stringify(game_token_id));
+    Logger.logger.info('create store with this owner_id: ' + JSON.stringify(owner_id));
 
     const sql = 'INSERT INTO stores SET ?';
 
