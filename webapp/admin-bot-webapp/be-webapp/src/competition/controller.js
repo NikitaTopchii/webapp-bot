@@ -175,9 +175,9 @@ exports.getActiveCompetitions = async (req, res) => {
   };
 
   exports.deleteContest = async (req, res) => {
-    logger.info('contest_id for deleting competition: ' + req.query.contestid)
+    logger.info('contest_id for deleting competition: ' + req.body.contestid)
     try {
-      const competition = await CompetitionService.deleteContest(req.query.contestid);
+      const competition = await CompetitionService.deleteContest(req.body.contestid);
       logger.info(competition)
       res.json(competition);
     } catch (error) {
@@ -187,9 +187,9 @@ exports.getActiveCompetitions = async (req, res) => {
   };
 
   exports.deleteContestDraft = async (req, res) => {
-    logger.info('contest_id for deleting competition draft: ' + req.query.contestid)
+    logger.info('contest_id for deleting competition draft: ' + req.body.contestid)
     try {
-      const competition = await CompetitionService.deleteContestDraft(req.query.contestid);
+      const competition = await CompetitionService.deleteContestDraft(req.body.contestid);
       logger.info(competition)
       res.json(competition);
     } catch (error) {
