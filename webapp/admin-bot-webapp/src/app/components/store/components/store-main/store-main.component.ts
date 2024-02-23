@@ -3,12 +3,15 @@ import { MatDialog } from "@angular/material/dialog";
 import { AddStoreDialogComponent } from "../add-store-dialog/add-store-dialog.component";
 import { switchMap } from "rxjs";
 import { StoreService } from "../../service/store.service";
+import { StoreListComponent } from "../store-list/store-list.component";
 
 @Component({
   selector: 'app-store-main',
   templateUrl: './store-main.component.html',
   standalone: true,
-  imports: [],
+  imports: [
+    StoreListComponent
+  ],
   styleUrl: './store-main.component.scss'
 })
 export class StoreMainComponent {
