@@ -81,11 +81,11 @@ router
 
 router
   .route('/delete-contest')
-  .get(CompetitionController.deleteContest)
+  .post(upload.any(), CompetitionController.deleteContest)
 
 router
   .route('/delete-contest-draft')
-  .get(CompetitionController.deleteContestDraft)
+  .post(upload.any(), CompetitionController.deleteContestDraft)
 
 router
   .route('/create-contest')
