@@ -23,11 +23,7 @@
       "ES2022",
       "dom"
     ],
-    "paths": {
-      "user-webapp": [
-        "./dist/user-webapp"
-      ]
-    }
+    "paths": {}
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

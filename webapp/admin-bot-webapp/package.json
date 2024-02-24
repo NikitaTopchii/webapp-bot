@@ -8,7 +8,8 @@
     "server": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:localize": "ng build --localize; ng build --localize --project='user-webapp'"
   },
   "private": true,
   "dependencies": {
