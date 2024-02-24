@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { CompetitionCreatorService } from "../../services/competition-creator.service";
-import { take } from "rxjs";
+import {combineLatest, take} from "rxjs";
 
 type ConditionType = 'guess' | 'condition' | 'nothing';
 interface RadioOption {
@@ -16,6 +16,8 @@ interface RadioOption {
 })
 export class ContestConditionsComponent {
   public selectedOption: FormControl<ConditionType | null> = new FormControl('nothing');
+  public participant: FormControl<number | null> = new FormControl<number | null>(1);
+
 
   public radioOptions: RadioOption[] = [
     { label: 'Nothing', value: 'nothing'},
@@ -24,26 +26,43 @@ export class ContestConditionsComponent {
   ];
 
   constructor(private competitionCreatorService: CompetitionCreatorService) {
-    this.competitionCreatorService.setSubscribeCondition();
+    this.competitionCreatorService.setSubscribeCondition({});
     this.initValueChangeSubscription();
     this.patchValue();
   }
 
   private initValueChangeSubscription() {
-    this.selectedOption.valueChanges.subscribe((value) => {
-      if (value === 'guess') {
-        this.competitionCreatorService.setDefaultGuessNumber();
-      } else if (value === 'nothing') {
-        this.competitionCreatorService.setSubscribeCondition();
-      } else {
-        this.competitionCreatorService.setDefaultSelfCondition();
-      }
-    })
+    combineLatest([this.selectedOption.valueChanges, this.participant.valueChanges])
+      .subscribe(([value, participantAmount]) => {
+        if (value === 'guess') {
+          if (participantAmount) {
+            this.competitionCreatorService.setDefaultGuessNumber({participantAmount});
+          } else {
+            this.competitionCreatorService.setDefaultGuessNumber({});
+          }
+        } else if (value === 'nothing') {
+          if (participantAmount) {
+            this.competitionCreatorService.setSubscribeCondition({participantAmount});
+          } else {
+            this.competitionCreatorService.setSubscribeCondition({});
+          }
+        } else {
+          if (participantAmount) {
+            this.competitionCreatorService.setDefaultSelfCondition({participantAmount});
+          } else {
+            this.competitionCreatorService.setDefaultSelfCondition({});
+          }
+        }
+      })
+    // this.selectedOption.valueChanges.subscribe((value) => {
+    //
+    // })
   }
 
   private patchValue(): void {
     this.competitionCreatorService.conditionRequest$.pipe(take(2)).subscribe(value => {
       this.selectedOption.setValue(value.type, {emitEvent: false});
+      this.participant.setValue(value.participantAmount)
     })
   }
 }

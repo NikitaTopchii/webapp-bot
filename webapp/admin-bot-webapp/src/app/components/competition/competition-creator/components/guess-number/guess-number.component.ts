@@ -35,6 +35,7 @@ export class GuessNumberComponent {
     this.conditionForm.valueChanges.subscribe((value) => {
       this.competitionCreatorService.conditionRequest = {
         type: 'guess',
+        participantAmount: 1,
         exact: value.conditionType === 'exact',
         value: value.number || 0,
         subscription: true
