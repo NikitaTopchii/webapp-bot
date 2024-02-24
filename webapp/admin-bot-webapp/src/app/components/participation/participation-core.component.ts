@@ -53,6 +53,8 @@ export class ParticipationCoreComponent {
 
     this.participationService.getCompetitionCondition(formData).subscribe((response) => {
 
+      console.log(response);
+
       if (!this.checkContestExist(response.is_closed)) {
         this.processCompetitionResponse(response)
       } else {
@@ -64,13 +66,16 @@ export class ParticipationCoreComponent {
 
   processCompetitionResponse(response: any) {
     const conditions = response.conditions;
-    const answer = response.answer;
+
+    console.log('conditions in participant core: ')
+    console.log(conditions);
+
     const channelIds = response.channels.split(',');
 
     forkJoin(channelIds.map((id:string) => this.checkSubscribeOnChannels(this.getParticipantId(), id))).pipe(
       switchMap((statuses: any) => {
         if (statuses.every((status:boolean) => status)) {
-          return this.processParticipation(conditions, answer);
+          return this.processParticipation(conditions);
         } else {
           this.checkingUsersInfo = false;
           this.failParticipationBySubscribe = true;
@@ -83,7 +88,7 @@ export class ParticipationCoreComponent {
     ).subscribe();
   }
 
-  private processParticipation(conditions: string, answer: string) {
+  private processParticipation(conditions: any) {
     const formData = new FormData();
     formData.append('userid', this.getParticipantId());
     formData.append('contests_id', this.getContestId());
@@ -94,17 +99,30 @@ export class ParticipationCoreComponent {
           this.checkingUsersInfo = false;
           this.failAlreadyParticipation = true;
         } else {
-          this.handleSuccessfulParticipationBySubscribe(conditions, answer);
+          this.handleSuccessfulParticipationBySubscribe(conditions);
         }
       })
     );
   }
 
-  private handleSuccessfulParticipationBySubscribe(conditions: string, answer: string) {
-    const formData = this.getDataWithConditions(conditions, answer);
+  private handleSuccessfulParticipationBySubscribe(conditions: any) {
+    const formData = this.getDataWithConditions(conditions);
 
-    if(conditions !== 'subscribe'){
-      this.participationService.setCompetitionConditionSubject({ contestData: formData });
+    //{"email": true,
+    // "phoneNumber": true,
+    // "ownCondition": true,
+    // "otherConditions": [
+    // {"label": "\u041f\u0418\u041f\u0418\u0421\u042f \u0411\u041e\u0411\u0420\u0410", "type": "text"}
+    // ],
+    // "subscription": true}
+
+    if(conditions.type !== 'nothing'){
+      this.participationService.setCompetitionConditionSubject({ contestData: {
+          userid: this.getParticipantId(),
+          contests_id: this.getContestId(),
+          username: this.getUsername(),
+          conditions: conditions
+        } });
       this.router.navigate(['participation/condition']);
     } else {
       this.participationService.addParticipation(formData);
@@ -113,14 +131,13 @@ export class ParticipationCoreComponent {
     }
   }
 
-  getDataWithConditions(conditions: string, answer: string){
+  getDataWithConditions(conditions: any){
     const formData = new FormData();
 
     formData.append('userid', this.getParticipantId());
     formData.append('contests_id', this.getContestId());
     formData.append('username', this.getUsername());
     formData.append('conditions', conditions);
-    formData.append('answer', answer);
 
     return formData;
   }
@@ -205,6 +222,8 @@ export class ParticipationCoreComponent {
     const userid = this.getParticipantId();
     const username = this.getUsername();
     const language = this.getLanguage();
+
+    console.log(userid)
 
     this.updateLocalStorage(userid, username, language);
 

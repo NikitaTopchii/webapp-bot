@@ -1,15 +1,18 @@
 <div class="competition-participation">
-  <div class="competition-participation__wrapper">
-    <img *ngIf="checkingUsersInfo" ngSrc="assets/winter.gif" alt="" height="64" width="64">
-    <img *ngIf="successParticipation" ngSrc="assets/beating-heart.gif" alt="" height="64"
+  <div class="competition-participation__wrapper"
+       [class.competition-participation__success-state]="successParticipation"
+       [class.competition-participation__error-state]="failParticipationBySubscribe || failParticipationByTime"
+  >
+    <img *ngIf="checkingUsersInfo" class="competition-participation__loading-button" ngSrc="assets/loading-participant.png" alt="" height="100" width="100">
+    <img *ngIf="successParticipation" ngSrc="assets/success-state.svg" alt="" height="64"
          width="64">
-    <img *ngIf="failAlreadyParticipation" ngSrc="assets/ghost.gif" alt="" height="64"
+    <img *ngIf="failAlreadyParticipation" ngSrc="assets/observer.svg" alt="" height="64"
          width="64">
-    <img *ngIf="failParticipationBySubscribe" ngSrc="assets/ghost.gif" alt="" height="64"
+    <img *ngIf="failParticipationBySubscribe" ngSrc="assets/error-state.png" alt="" height="64"
          width="64">
-    <img *ngIf="failParticipationByTime" ngSrc="assets/ghost.gif" alt="" height="64"
+    <img *ngIf="failParticipationByTime" ngSrc="assets/error-state.png" alt="" height="64"
          width="64">
-    <span *ngIf="successParticipation">Good luck</span>
+    <span *ngIf="successParticipation">Participation <span class="competition-participation__success-state-title">Successfully</span></span>
     <span *ngIf="failParticipationByTime">Contest was end</span>
     <span *ngIf="failParticipationBySubscribe">You have not all subscribe</span>
     <span *ngIf="failAlreadyParticipation">You have already participant</span>
