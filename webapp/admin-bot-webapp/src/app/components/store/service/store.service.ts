@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { map, Observable, startWith, Subject, switchMap, tap } from "rxjs";
 import { main_url } from "../../shared/application-context";
 import { HelpersService } from "../../core/services/helpers/helpers.service";
+import { CompetitionService } from "../../core/services/competition/competition.service";
 
 interface CreateStoreRequest {
   name: string;
@@ -23,15 +24,18 @@ export interface StoreDetails {
   store_token_id: string;
 }
 
-interface UpdateProductRequest {
-  product_id: string;
+interface CreateProductRequest {
   product_name: string;
   product_description: string;
   product_amount: number;
   product_price: number;
-  product_media: File[];
+  product_media: File | string;
   game_token_id: string;
   store_id: string;
+}
+
+interface UpdateProductRequest extends CreateProductRequest {
+  product_id: string
 }
 
 @Injectable({
@@ -43,7 +47,8 @@ export class StoreService {
   private productCreated$ = new Subject<void>();
 
   constructor(private http: HttpClient,
-              private helpersService: HelpersService) {
+              private helpersService: HelpersService,
+              private competitionService: CompetitionService) {
   }
 
   public createStore(data: CreateStoreRequest): Observable<any> {
@@ -69,7 +74,13 @@ export class StoreService {
     )
   }
 
-  public createProduct(data: CreateStoreRequest): Observable<any> {
+  public createProduct(data: CreateProductRequest): Observable<any> {
+    const formData = new FormData();
+    formData.append('media', data.product_media);
+    this.competitionService.uploadMedia(formData);
+    if (typeof data.product_media !== 'string') {
+      data['product_media'] = main_url + '/media/' + data.product_media.name;
+    }
     return this.http
       .post(main_url + '/admin-store/create-product', this.helpersService.generateFormData(data))
       .pipe(tap(() => this.productCreated$.next()));
