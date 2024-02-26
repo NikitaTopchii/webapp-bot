@@ -1,0 +1,23 @@
+<form [formGroup]="productForm">
+  <div class="form-group">
+    <p>Name</p>
+    <input type="text" class="form-control" formControlName="product_name">
+  </div>
+  <div class="form-group">
+    <p>Description</p>
+    <input type="text" class="form-control" formControlName="product_description">
+  </div>
+  <div class="form-group">
+    <p>Amount</p>
+    <input type="text" class="form-control" formControlName="product_amount">
+  </div>
+  <div class="form-group">
+    <p>Price</p>
+    <input type="text" class="form-control" formControlName="product_price">
+  </div>
+  <div class="form-group">
+    <p>Media</p>
+    <input type="file" class="form-control" formControlName="product_media">
+  </div>
+  <button mat-button (click)="onSubmit()" [disabled]="productForm.invalid">Submit</button>
+</form>
