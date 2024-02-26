@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <button mat-raised-button color="primary" type="button" (click)="addOtherCondition()">Add Condition</button>
+    <button mat-raised-button color="primary" type="button" (click)="addOtherCondition()" [disabled]="this.otherConditions.length === 3">Add Condition</button>
   </div>
 
   <button mat-raised-button>submit</button>

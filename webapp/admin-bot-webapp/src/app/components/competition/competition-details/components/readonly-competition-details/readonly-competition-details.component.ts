@@ -24,4 +24,6 @@ export class ReadonlyCompetitionDetailsComponent implements OnChanges {
       this.competitionCreatorService.conditionRequest = JSON.parse(this.currentContest.conditions)
     }
   }
+
+
 }

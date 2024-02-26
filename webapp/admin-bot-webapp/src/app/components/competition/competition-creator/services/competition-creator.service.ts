@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 
 interface BaseConditionRequest {
   subscription: boolean;
+  participantAmount: number;
 }
 
 interface GuessNumberConditionRequest extends BaseConditionRequest {
@@ -52,36 +53,43 @@ export class CompetitionCreatorService {
     return this.conditionRequestState.asObservable();
   }
 
-  public setDefaultGuessNumber() {
+  public setDefaultGuessNumber(opts: Partial<GuessNumberConditionRequest>) {
     this.conditionRequest = {
       subscription: true,
+      participantAmount: 1,
       type: 'guess',
       exact: false,
-      value: 0
+      value: 0,
+      ...opts
     }
   }
 
-  public setDefaultSelfCondition() {
+  public setDefaultSelfCondition(opts: Partial<SelfConditionRequest>) {
     this.conditionRequest = {
       subscription: true,
+      participantAmount: 1,
       type: 'condition',
       email: false,
       phoneNumber: false,
       ownCondition: false,
-      otherConditions: []
+      otherConditions: [],
+      ...opts
     }
   }
 
-  public setSubscribeCondition() {
+  setSubscribeCondition(opts: Partial<SubscriptionConditionRequest>) {
     this.conditionRequest = {
       subscription: true,
-      type: 'nothing'
+      participantAmount: 1,
+      type: 'nothing',
+      ...opts
     }
   }
 
   private initConditionRequest(): CombinedRequest {
     return {
       subscription: true,
+      participantAmount: 1,
       type: 'nothing'
     }
   }

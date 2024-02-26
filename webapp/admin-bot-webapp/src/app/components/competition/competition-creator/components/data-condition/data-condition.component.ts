@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, FormGroupName, Validators} from "@angular/forms";
 import { CompetitionCreatorService } from "../../services/competition-creator.service";
 
 @Component({
@@ -8,6 +8,7 @@ import { CompetitionCreatorService } from "../../services/competition-creator.se
   styleUrl: './data-condition.component.scss'
 })
 export class DataConditionComponent {
+  public pidor: number = 0;
   public dataConditionForm: FormGroup = this.getDataConditionForm();
 
   constructor(private fb: FormBuilder,
@@ -22,7 +23,10 @@ export class DataConditionComponent {
 
 
   public addOtherCondition() {
-    this.otherConditions.push(this.getOtherConditionFormControl());
+    if(this.otherConditions.length < 3) {
+      this.otherConditions.push(this.getOtherConditionFormControl());
+    }
+
   }
 
   public removeOtherCondition(i: number) {
@@ -72,4 +76,6 @@ export class DataConditionComponent {
       }
     })
   }
+
+  protected readonly FormGroupName = FormGroupName;
 }
