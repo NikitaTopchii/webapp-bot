@@ -1,16 +1,18 @@
 <div class="competition-participation">
   <div class="competition-participation__wrapper">
-    <form [formGroup]="usersForm" (ngSubmit)="participate()">
-      <div formArrayName="users">
-        <div class="competition-participation__question" *ngFor="let user of users.controls; let i = index">
-          <mat-form-field class="example-full-width">
-            <mat-label>{{user.value.label}}</mat-label>
-            <input matInput #message maxlength="256" class="token-name-input" formControlName="answer">
-            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-          </mat-form-field>
+    <form [formGroup]="participationForm" (ngSubmit)="participate()">
+      <div formArrayName="conditions">
+        <div class="competition-participation__question" *ngFor="let user of conditions.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field class="example-full-width">
+              <mat-label>{{user.value.label}}</mat-label>
+              <input matInput #message maxlength="256" class="token-name-input" formControlName="answer" autocomplete="off">
+              <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <button type="submit" mat-raised-button color="primary">participate</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="participationForm.invalid">participate</button>
     </form>
   </div>
 </div>

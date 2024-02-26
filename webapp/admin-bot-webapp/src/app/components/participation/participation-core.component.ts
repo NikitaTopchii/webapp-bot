@@ -118,8 +118,8 @@ export class ParticipationCoreComponent {
 
     if(conditions.type !== 'nothing'){
       this.participationService.setCompetitionConditionSubject({ contestData: {
-          userid: this.getParticipantId(),
-          contests_id: this.getContestId(),
+          user_id: this.getParticipantId(),
+          contest_id: this.getContestId(),
           username: this.getUsername(),
           conditions: conditions
         } });

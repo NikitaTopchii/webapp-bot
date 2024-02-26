@@ -46,6 +46,10 @@ export class TelegramService {
     return this.tg.initDataUnsafe.user;
   }
 
+  close(){
+    this.tg.close();
+  }
+
   sendData(data: object){
     this.tg.sendData(JSON.stringify(data));
   }
