@@ -16,7 +16,7 @@ interface Store {
   store_name: string;
 }
 
-interface StoreDetails {
+export interface StoreDetails {
   store_id: string;
   store_name: string;
   store_description: string;
@@ -65,7 +65,7 @@ export class StoreService {
 
   public getStoreById(store_id: string): Observable<StoreDetails> {
     return this.http.get(main_url + '/admin-store/get-store', {params: {store_id}}).pipe(
-      map((data: any) => data.results)
+      map((data: any) => data.results[0])
     )
   }
 
