@@ -1,3 +1,7 @@
 <p>store-details works!</p>
-
+@if(currentStore$ | async; as currentStore) {
+  <p>Name: {{currentStore.store_name}}</p>
+  <p>Descr: {{currentStore.store_description}}</p>
+}
+<h1>NIKITA PIDOR</h1>
 <app-product-list></app-product-list>
