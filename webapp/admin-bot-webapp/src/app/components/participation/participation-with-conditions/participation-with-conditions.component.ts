@@ -92,29 +92,11 @@ export class ParticipationWithConditionsComponent{
   participate() {
     const values = this.participationForm.value.conditions;
 
-    console.log(values)
-
-    values.forEach((answer: any) => {
-      if(answer.type === 'email'){
-        this.answers.push({
-          type: answer.type,
-          answer: answer.answer
-        })
-      } else if(answer.type === 'exact' || answer.type === 'closest') {
-        this.answers.push({
-          type: answer.type,
-          answer: answer.answer
-        })
-      } else {
-        this.answers.push({
-          label: answer.label,
-          type: answer.type,
-          answer: answer.answer
-        })
-      }
-    })
-
-    console.log(this.answers)
+    this.answers = values.map((answer: any) => ({
+      type: ['email', 'exact', 'closest'].includes(answer.type) ? answer.type : answer.type,
+      ...(answer.type !== 'email' && { label: answer.label }),
+      answer: answer.answer
+    }));
 
     const formData = new FormData();
 
