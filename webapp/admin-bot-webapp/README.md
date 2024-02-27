@@ -9,6 +9,10 @@
 ### 1. ng build --localize
 ### 2. npm run server
 
+
+npm run start:watch
+
+
 ## Backend
 
 ### npm start

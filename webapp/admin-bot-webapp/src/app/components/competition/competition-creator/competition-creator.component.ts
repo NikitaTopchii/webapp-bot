@@ -140,6 +140,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     const competitionId = this.generateTokenService.generateSHA256Token();
 
+    console.log(form.value)
+
     form.value.startDate = form.value.startDate?.toDate();
     form.value.endDate = form.value.endDate?.toDate();
 

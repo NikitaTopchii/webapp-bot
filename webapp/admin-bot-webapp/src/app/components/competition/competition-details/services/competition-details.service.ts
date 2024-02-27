@@ -56,6 +56,14 @@ export class CompetitionDetailsService {
     return this.http.post('/competitions/update-contest-draft', data)
   }
 
+  deleteCompetition(data: FormData): Observable<any> {
+    return this.http.post('/competitions/delete-contest', data)
+  }
+
+  finishCompetition(data: FormData): Observable<any> {
+    return this.http.post('/competitions/close- contest', data)
+  }
+
   private createHttpParams(formData: FormData): HttpParams {
     let params = new HttpParams();
     formData.forEach((value, key) => {

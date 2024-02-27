@@ -80,6 +80,14 @@ router
     .get(CompetitionController.getCompetitionCondition)
 
 router
+  .route('/delete-contest')
+  .post(upload.any(), CompetitionController.deleteContest)
+
+router
+  .route('/delete-contest-draft')
+  .post(upload.any(), CompetitionController.deleteContestDraft)
+
+router
   .route('/create-contest')
   .post(upload.any(), CompetitionController.createContest)
 
@@ -93,7 +101,11 @@ router
 
 router
   .route('/edit-contest')
-  .post(upload.any, CompetitionController.editDelayedCompetition)
+  .post(upload.any(), CompetitionController.editDelayedCompetition)
+
+router
+  .route('/close-contest')
+  .post(upload.any(), CompetitionController.closeContest)
 router
   .route('/upload-media')
   .post(uploadMedia.any(), (req, res) => {

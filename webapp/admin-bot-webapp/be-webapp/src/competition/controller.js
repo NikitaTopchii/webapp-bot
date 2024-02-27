@@ -174,6 +174,30 @@ exports.getActiveCompetitions = async (req, res) => {
     }
   };
 
+  exports.deleteContest = async (req, res) => {
+    logger.info('contest_id for deleting competition: ' + req.body.contestid)
+    try {
+      const competition = await CompetitionService.deleteContest(req.body.contestid);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).send({ message: 'Error while getting active competition' });
+    }
+  };
+
+  exports.deleteContestDraft = async (req, res) => {
+    logger.info('contest_id for deleting competition draft: ' + req.body.contestid)
+    try {
+      const competition = await CompetitionService.deleteContestDraft(req.body.contestid);
+      logger.info(competition)
+      res.json(competition);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).send({ message: 'Error while getting active competition' });
+    }
+  };
+
 exports.createContestDraft = async (req, res) => {
     logger.info(req.body)
     try {
@@ -247,3 +271,20 @@ exports.publicPost = async (req, res) => {
       logger.error(error)
     }
 }
+
+  exports.closeContest = async (req, res) => {
+    try{
+      await fetch(bot_webhook_url + '/close-contest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req.body),
+      }).then((response) => {
+        logger.error(response)
+        res.json(response);
+      })
+    } catch (error) {
+      logger.error(error)
+    }
+  }
