@@ -1,6 +1,11 @@
 <div class="competition-creator">
   <div class="competition-creator__wrapper">
-    <span class="competition-creator__title">Create competition</span>
+    <div class="competition-creator__header-wrapper">
+      <div class="competition-creator__title-wrapper">
+        <span class="competition-creator__title"><span class="competition-creator__subtitle">Create</span> competition</span>
+      </div>
+      <button class="competition-creator__add-chat-button" (click)="selectChats()">select chats</button>
+    </div>
     <div class="competition-creator__main-form">
       <form [formGroup]="form" (ngSubmit)="createCompetition(form)" class="form">
         <div class="competition-creator__name-block">
@@ -142,9 +147,6 @@
             </button>
             <app-contest-conditions></app-contest-conditions>
           </ng-container>
-        </div>
-        <div>
-          <button class="competition-creator__button" (click)="selectChats()">select chats</button>
         </div>
         <div class="competition-creator__list-of-channels">
           <div *ngFor="let channels of getSelectedChannels()" class="competition-creator__element-of-channels-list">

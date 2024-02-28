@@ -21,13 +21,34 @@
       }
     }
     &__textarea-description{
-      width: 100%;
+      width: 90%;
       height: 400px;
       padding: 20px;
       margin-top: 5px;
       box-sizing: border-box;
       border-radius: 15px;
       resize: none;
+    }
+    &__header-wrapper{
+      border-radius: 15px;
+      background: $element_bg_color_dark_theme;
+      padding-bottom: 15px;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
+    }
+    &__title-wrapper{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      border-radius: 15px 15px 0 0;
+      background: $button_disabled_bg_color_dark_theme;
     }
     &__button{
       background: $button_color;
@@ -40,6 +61,16 @@
         background-color: #ccc;
         cursor: not-allowed;
       }
+    }
+
+    &__add-chat-button{
+      border: 2px solid #15A780;
+      width: 90%;
+      border-radius: 15px;
+      margin-top: 15px;
+      height: 40px;
+      background: $body-bg_color_dark_theme;
+      color: #ffffff;
     }
 
     &__selector-button{
@@ -101,6 +132,13 @@
       margin-bottom: 10px;
       margin-top: 10px;
       text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: "Inter", sans-serif;
+      color: $text_color_dark_theme_v2;
+    }
+    &__subtitle{
+      color: $text-color_dark_theme;
     }
     &__name-block{
       display: flex;

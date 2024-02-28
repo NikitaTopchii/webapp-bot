@@ -116,9 +116,9 @@ export class ParticipationCoreComponent {
     // ],
     // "subscription": true}
 
-    console.log(conditions.type);
+    console.log(JSON.parse(conditions).type);
 
-    if(conditions.type !== 'nothing'){
+    if(JSON.parse(conditions).type !== 'nothing'){
       this.participationService.setCompetitionConditionSubject({ contestData: {
           user_id: this.getParticipantId(),
           contest_id: this.getContestId(),
