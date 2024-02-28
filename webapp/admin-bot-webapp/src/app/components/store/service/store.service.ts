@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, startWith, Subject, switchMap, tap } from "rxjs";
 import { main_url } from "../../shared/application-context";
@@ -21,7 +21,7 @@ export interface StoreDetails {
   store_id: string;
   store_name: string;
   store_description: string;
-  store_token_id: string;
+  game_token_id: string;
 }
 
 interface CreateProductRequest {
@@ -45,6 +45,7 @@ export class StoreService {
 
   private storeCreated$ = new Subject<void>();
   private productCreated$ = new Subject<void>();
+
 
   constructor(private http: HttpClient,
               private helpersService: HelpersService,
@@ -89,7 +90,7 @@ export class StoreService {
   public getProducts$(store_id: string): Observable<any> {
     return this.productCreated$.pipe(
       startWith(null),
-      switchMap(() => this.http.get(main_url + '/admin-store/get-products', {
+      switchMap(() =>  this.http.get(main_url + '/admin-store/get-products', {
         params: {
           store_id
         }
@@ -104,9 +105,8 @@ export class StoreService {
   }
 
   public deleteProductById(product_id: string): Observable<any> {
-    return this.http.get(main_url + '/admin-store/delete-product', {params: {product_id}}).pipe(
-      map((data: any) => data.results)
-    )
+    return this.http.post(main_url + '/admin-store/delete-product', {product_id})
+      .pipe(tap(() => this.productCreated$.next()));
   }
 
   public updateProduct(data: UpdateProductRequest): Observable<any> {
