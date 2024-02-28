@@ -56,7 +56,7 @@ exports.getProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
-    await StoresService.deleteProduct(req.query.product_id);
+    await StoresService.deleteProduct(req.body.product_id);
     res.json('ok');
   } catch (error) {
     res.status(500).send({message: 'Error oops'});
