@@ -32,7 +32,7 @@ router
 
 router
   .route('/delete-product')
-  .get(StoresController.deleteProduct);
+  .post(StoresController.deleteProduct);
 
 router
   .route('/edit-product')
