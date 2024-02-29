@@ -25,7 +25,7 @@
       flex-direction: column;
     }
     &__button{
-      background: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
+      background: $button_bg_color_dark_theme;
       color: $button_text_color;
       border-radius: 15px;
       border: none;
