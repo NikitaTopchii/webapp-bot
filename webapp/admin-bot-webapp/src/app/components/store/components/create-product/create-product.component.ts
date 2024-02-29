@@ -4,6 +4,7 @@ import { StoreService } from "../../service/store.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import { MatButton } from "@angular/material/button";
 import { switchMap } from "rxjs";
+import {CompetitionService} from "../../../core/services/competition/competition.service";
 
 @Component({
   selector: 'app-create-product',
@@ -21,9 +22,12 @@ export class CreateProductComponent implements OnInit {
   private route = inject(ActivatedRoute);
   public productForm = this.getProductForm();
   private router = inject(Router);
+  private createCompetitionService = inject(CompetitionService)
+
 
   ngOnInit() {
   }
+
 
   private getProductForm(): FormGroup {
     return this.fb.group({
@@ -46,5 +50,11 @@ export class CreateProductComponent implements OnInit {
       console.log(data);
       this.router.navigate(['../', this.route.snapshot.queryParams['store_id']], { relativeTo: this.route });
     });
+  }
+
+  onFileSelected(event: Event) {
+    // @ts-ignore
+    const product_media = event.target.files[0];
+    this.productForm.patchValue({product_media});
   }
 }
