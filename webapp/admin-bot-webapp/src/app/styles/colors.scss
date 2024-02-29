@@ -22,5 +22,7 @@ $delete_button_color_v2: #2D1E1C;
 
 $active_element_bg_color_dark_theme: #242E2A;
 
-$button_bg_color_dark_theme: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
-$button_disabled_bg_color_dark_theme: linear-gradient(91.15deg, rgba(22, 171, 131, 0.5) 4.75%, rgba(17, 130, 100, 0.5) 65.64%);
+$button_bg_color_dark_theme: #16AB83;
+//$button_bg_color_dark_theme: linear-gradient(91.15deg, #16AB83 4.75%, #118264 65.64%);
+//$button_disabled_bg_color_dark_theme: linear-gradient(91.15deg, rgba(22, 171, 131, 0.5) 4.75%, rgba(17, 130, 100, 0.5) 65.64%);
+$button_disabled_bg_color_dark_theme: rgba(22, 171, 131, 0.5);

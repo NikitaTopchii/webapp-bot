@@ -4,7 +4,9 @@
       <div class="competition-creator__title-wrapper">
         <span class="competition-creator__title"><span class="competition-creator__subtitle">Create</span> competition</span>
       </div>
-      <button class="competition-creator__add-chat-button" (click)="selectChats()">select chats</button>
+      <div class="competition-creator__button-wrapper">
+      <button class="btn btn--outline btn--fluid" (click)="selectChats()">select chats</button>
+      </div>
     </div>
     <div class="competition-creator__main-form">
       <form [formGroup]="form" (ngSubmit)="createCompetition(form)" class="form">
