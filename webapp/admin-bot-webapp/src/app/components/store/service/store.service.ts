@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, map, Observable, shareReplay, startWith, Subject, switchMap, tap } from "rxjs";
 import { main_url } from "../../shared/application-context";
@@ -10,25 +10,40 @@ import { StoreDetails } from "../shared/models/store-details.model";
 import { Store } from "../shared/models/store.model";
 import { CreateProductRequest } from "../shared/models/create-product.request.model";
 import { UpdateProductRequest } from "../shared/models/update-product.request.model";
+import { SourceRequestInterface } from "../shared/models/source.request.model";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
+  private http = inject(HttpClient);
+  private helpersService = inject(HelpersService);
+  private competitionService = inject(CompetitionService);
 
   private storeCreated$ = new Subject<void>();
   private productCreated$ = new Subject<void>();
 
-  private currentProductSource: BehaviorSubject<Product | null> = new BehaviorSubject<Product | null>(null);
-  public currentProduct$ = this.currentProductSource.asObservable();
+  private currentProductSource: BehaviorSubject<SourceRequestInterface<Product | null>> = new BehaviorSubject<SourceRequestInterface<Product | null>>({
+    data: null,
+    isLoading: false
+  });
+  public currentProduct$ = this.currentProductSource.asObservable().pipe(map(product => product?.data));
 
-  private currentStoreSource: BehaviorSubject<StoreDetails | null> = new BehaviorSubject<StoreDetails | null>(null);
-  public currentStore$ = this.currentStoreSource.asObservable();
+  private currentStoreSource: BehaviorSubject<SourceRequestInterface<StoreDetails | null>> = new BehaviorSubject<SourceRequestInterface<StoreDetails | null>>({
+    data: null,
+    isLoading: false
+  });
+  public currentStore$ = this.currentStoreSource.asObservable().pipe(map(store => store.data));
 
-  constructor(private http: HttpClient,
-              private helpersService: HelpersService,
-              private competitionService: CompetitionService) {
-  }
+  private storeListSource: BehaviorSubject<SourceRequestInterface<Store[]>> = new BehaviorSubject<SourceRequestInterface<Store[]>>({
+    data: [],
+    isLoading: false
+  });
+  public storeList$ = this.storeListSource.asObservable().pipe(map(storeList => storeList.data));
+
+  private productListSource: BehaviorSubject<SourceRequestInterface<Product[]>> = new BehaviorSubject<SourceRequestInterface<Product[]>>({data: [], isLoading: false});
+  public productList$ = this.productListSource.asObservable().pipe(map(productList => productList.data));
 
   public createStore(store: CreateStoreRequest): Observable<any> {
     return this.http
@@ -37,18 +52,27 @@ export class StoreService {
   }
 
   public getStores$(owner_id: string): Observable<Store[]> {
+    const {isLoading} = this.storeListSource.value;
+    if (isLoading) {
+      return this.storeList$;
+    }
+
+    this.storeListSource.next({data: [], isLoading: true});
+
     return this.storeCreated$.pipe(
       startWith(null),
       switchMap(() => this.http.get(main_url + '/admin-store/get-stores', {
         params: {
           owner_id
         }
-      }).pipe(map((data: any) => data.results)))
+      }).pipe(map((data: any) => data.results))),
+      tap(data => this.storeListSource.next({data, isLoading: false})),
     );
   }
 
   public getStoreById(store_id: number): Observable<StoreDetails> {
-    if (this.currentStoreSource.value?.store_id === store_id) {
+    const {data, isLoading} = this.currentStoreSource.value;
+    if (data?.store_id === store_id) {
       return this.currentStore$ as Observable<StoreDetails>;
     }
 
@@ -71,6 +95,13 @@ export class StoreService {
   }
 
   public getProducts$(store_id: string): Observable<Product[]> {
+    const {isLoading} = this.productListSource.value;
+    if (isLoading) {
+      return this.productList$;
+    }
+
+    this.productListSource.next({data: [], isLoading: true});
+
     return this.productCreated$.pipe(
       startWith(null),
       switchMap(() => this.http.get(main_url + '/admin-store/get-products', {
@@ -78,18 +109,21 @@ export class StoreService {
           store_id
         }
       }).pipe(map((data: any) => data.results))),
-      shareReplay(1)
+      tap(data => this.productListSource.next({data, isLoading: false})),
     );
   }
 
   public getProductById(product_id: number): Observable<Product> {
-    if (this.currentProductSource.value?.product_id === product_id) {
+    const {data, isLoading} = this.currentProductSource.value;
+    if (data?.product_id === product_id || isLoading) {
       return this.currentProduct$ as Observable<Product>;
     }
 
+    this.currentProductSource.next({data, isLoading: true});
+
     return this.http.get(main_url + '/admin-store/get-product', {params: {product_id}}).pipe(
       map((data: any) => data.results[0]),
-      tap(data => this.currentProductSource.next(data))
+      tap(data => this.currentProductSource.next({data, isLoading: false})),
     )
   }
 
