@@ -24,7 +24,7 @@ export interface StoreDetails {
   game_token_id: string;
 }
 
-interface CreateProductRequest {
+export interface CreateProductRequest {
   product_name: string;
   product_description: string;
   product_amount: number;
@@ -34,7 +34,7 @@ interface CreateProductRequest {
   store_id: string;
 }
 
-interface UpdateProductRequest extends CreateProductRequest {
+export interface UpdateProductRequest extends CreateProductRequest {
   product_id: string
 }
 
@@ -100,7 +100,7 @@ export class StoreService {
 
   public getProductById(product_id: string): Observable<any> {
     return this.http.get(main_url + '/admin-store/get-product', {params: {product_id}}).pipe(
-      map((data: any) => data.results)
+      map((data: any) => data.results[0])
     )
   }
 
@@ -110,6 +110,12 @@ export class StoreService {
   }
 
   public updateProduct(data: UpdateProductRequest): Observable<any> {
+    const formData = new FormData();
+    formData.append('media', data.product_media);
+    this.competitionService.uploadMedia(formData);
+    if (typeof data.product_media !== 'string') {
+      data['product_media'] = main_url + '/media/' + data.product_media.name;
+    }
     return this.http
       .post(main_url + '/admin-store/edit-product', this.helpersService.generateFormData(data))
       .pipe(tap(() => this.productCreated$.next()));
