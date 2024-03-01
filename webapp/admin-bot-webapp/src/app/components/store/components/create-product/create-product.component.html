@@ -1,23 +1,26 @@
 <form [formGroup]="productForm">
-  <div class="form-group">
+  <div class="form-control">
     <p>Name</p>
     <input type="text" class="form-control" formControlName="product_name">
   </div>
-  <div class="form-group">
+  <div class="form-control">
     <p>Description</p>
     <input type="text" class="form-control" formControlName="product_description">
   </div>
-  <div class="form-group">
+  <div class="form-control">
     <p>Amount</p>
     <input type="text" class="form-control" formControlName="product_amount">
   </div>
-  <div class="form-group">
+  <div class="form-control">
     <p>Price</p>
     <input type="text" class="form-control" formControlName="product_price">
   </div>
-  <div class="form-group">
+  <div class="form-control">
     <p>Media</p>
     <input type="file" class="form-control" (change)="onFileSelected($event)">
+    @if (isImgVisible()) {
+      <img [src]="productForm.get('product_media')?.value" alt="product image"/>
+    }
   </div>
   <button mat-button (click)="onSubmit()" [disabled]="productForm.invalid">Submit</button>
 </form>

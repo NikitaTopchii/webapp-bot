@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { switchMap } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { StoreService } from "../../service/store.service";
+import { StoreService } from "../../shared/service/store.service";
 
 @Component({
   selector: 'app-product-list',

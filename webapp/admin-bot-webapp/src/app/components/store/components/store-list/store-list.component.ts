@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StoreService } from "../../service/store.service";
+import { StoreService } from "../../shared/service/store.service";
 import { AsyncPipe } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 

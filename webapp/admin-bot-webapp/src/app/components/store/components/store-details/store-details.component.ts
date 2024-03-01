@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { StoreService } from "../../service/store.service";
+import { StoreService } from "../../shared/service/store.service";
 import { Observable, switchMap } from "rxjs";
 import { TelegramService } from "../../../core/services/telegram/telegram.service";
 import { StoreDetails } from "../../shared/models/store-details.model";

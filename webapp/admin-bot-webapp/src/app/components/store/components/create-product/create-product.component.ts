@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { StoreService } from "../../service/store.service";
+import { StoreService } from "../../shared/service/store.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatButton } from "@angular/material/button";
 import { Observable, switchMap } from "rxjs";
@@ -48,6 +48,10 @@ export class CreateProductComponent implements OnInit {
     if(product_media) {
       this.productForm.patchValue({ product_media });
     }
+  }
+
+  public isImgVisible(): boolean {
+    return !!this.productForm.get('product_media')?.value && typeof this.productForm.get('product_media')?.value === 'string';
   }
 
   private initPatchValue(): void {
