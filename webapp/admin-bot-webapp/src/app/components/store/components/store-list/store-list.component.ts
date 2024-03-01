@@ -5,10 +5,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-store-list',
-  standalone: true,
-  imports: [
-    AsyncPipe
-  ],
   templateUrl: './store-list.component.html',
   styleUrl: './store-list.component.scss'
 })

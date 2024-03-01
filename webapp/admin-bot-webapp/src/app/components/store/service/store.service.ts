@@ -1,42 +1,15 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { map, Observable, startWith, Subject, switchMap, tap } from "rxjs";
+import { BehaviorSubject, map, Observable, shareReplay, startWith, Subject, switchMap, tap } from "rxjs";
 import { main_url } from "../../shared/application-context";
 import { HelpersService } from "../../core/services/helpers/helpers.service";
 import { CompetitionService } from "../../core/services/competition/competition.service";
-
-interface CreateStoreRequest {
-  name: string;
-  description: string;
-  tokenId: string;
-  owner_id: string;
-}
-
-interface Store {
-  store_id: string;
-  store_name: string;
-}
-
-export interface StoreDetails {
-  store_id: string;
-  store_name: string;
-  store_description: string;
-  game_token_id: string;
-}
-
-export interface CreateProductRequest {
-  product_name: string;
-  product_description: string;
-  product_amount: number;
-  product_price: number;
-  product_media: File | string;
-  game_token_id: string;
-  store_id: string;
-}
-
-export interface UpdateProductRequest extends CreateProductRequest {
-  product_id: string
-}
+import { CreateStoreRequest } from "../shared/models/create-store.request.model";
+import { Product } from "../shared/models/product.model";
+import { StoreDetails } from "../shared/models/store-details.model";
+import { Store } from "../shared/models/store.model";
+import { CreateProductRequest } from "../shared/models/create-product.request.model";
+import { UpdateProductRequest } from "../shared/models/update-product.request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,15 +19,20 @@ export class StoreService {
   private storeCreated$ = new Subject<void>();
   private productCreated$ = new Subject<void>();
 
+  private currentProductSource: BehaviorSubject<Product | null> = new BehaviorSubject<Product | null>(null);
+  public currentProduct$ = this.currentProductSource.asObservable();
+
+  private currentStoreSource: BehaviorSubject<StoreDetails | null> = new BehaviorSubject<StoreDetails | null>(null);
+  public currentStore$ = this.currentStoreSource.asObservable();
 
   constructor(private http: HttpClient,
               private helpersService: HelpersService,
               private competitionService: CompetitionService) {
   }
 
-  public createStore(data: CreateStoreRequest): Observable<any> {
+  public createStore(store: CreateStoreRequest): Observable<any> {
     return this.http
-      .post(main_url + '/admin-store/create-store', this.helpersService.generateFormData(data))
+      .post(main_url + '/admin-store/create-store', this.helpersService.generateFormData(store))
       .pipe(tap(() => this.storeCreated$.next()));
   }
 
@@ -69,10 +47,15 @@ export class StoreService {
     );
   }
 
-  public getStoreById(store_id: string): Observable<StoreDetails> {
+  public getStoreById(store_id: number): Observable<StoreDetails> {
+    if (this.currentStoreSource.value?.store_id === store_id) {
+      return this.currentStore$ as Observable<StoreDetails>;
+    }
+
     return this.http.get(main_url + '/admin-store/get-store', {params: {store_id}}).pipe(
-      map((data: any) => data.results[0])
-    )
+      map((data: any) => data.results[0]),
+      tap(data => this.currentStoreSource.next(data)),
+      shareReplay(1))
   }
 
   public createProduct(data: CreateProductRequest): Observable<any> {
@@ -87,24 +70,30 @@ export class StoreService {
       .pipe(tap(() => this.productCreated$.next()));
   }
 
-  public getProducts$(store_id: string): Observable<any> {
+  public getProducts$(store_id: string): Observable<Product[]> {
     return this.productCreated$.pipe(
       startWith(null),
-      switchMap(() =>  this.http.get(main_url + '/admin-store/get-products', {
+      switchMap(() => this.http.get(main_url + '/admin-store/get-products', {
         params: {
           store_id
         }
-      }).pipe(map((data: any) => data.results)))
+      }).pipe(map((data: any) => data.results))),
+      shareReplay(1)
     );
   }
 
-  public getProductById(product_id: string): Observable<any> {
+  public getProductById(product_id: number): Observable<Product> {
+    if (this.currentProductSource.value?.product_id === product_id) {
+      return this.currentProduct$ as Observable<Product>;
+    }
+
     return this.http.get(main_url + '/admin-store/get-product', {params: {product_id}}).pipe(
-      map((data: any) => data.results[0])
+      map((data: any) => data.results[0]),
+      tap(data => this.currentProductSource.next(data))
     )
   }
 
-  public deleteProductById(product_id: string): Observable<any> {
+  public deleteProductById(product_id: number): Observable<any> {
     return this.http.post(main_url + '/admin-store/delete-product', {product_id})
       .pipe(tap(() => this.productCreated$.next()));
   }

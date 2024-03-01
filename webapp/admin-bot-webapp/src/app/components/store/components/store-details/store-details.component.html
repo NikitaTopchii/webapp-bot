@@ -1,6 +1,6 @@
-@if(currentStore$ | async; as currentStore) {
-  <p>Name: {{currentStore.store_name}}</p>
-  <p>Description: {{currentStore.store_description}}</p>
+@if (currentStore$ | async; as currentStore) {
+  <p>Name: {{ currentStore.store_name }}</p>
+  <p>Description: {{ currentStore.store_description }}</p>
 }
 
 <button mat-button (click)="addProduct()">Add product</button>
