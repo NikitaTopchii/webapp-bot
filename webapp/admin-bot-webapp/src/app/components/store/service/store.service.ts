@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, startWith, Subject, switchMap, tap } from "rxjs";
 import { main_url } from "../../shared/application-context";
@@ -21,10 +21,10 @@ export interface StoreDetails {
   store_id: string;
   store_name: string;
   store_description: string;
-  store_token_id: string;
+  game_token_id: string;
 }
 
-interface CreateProductRequest {
+export interface CreateProductRequest {
   product_name: string;
   product_description: string;
   product_amount: number;
@@ -34,7 +34,7 @@ interface CreateProductRequest {
   store_id: string;
 }
 
-interface UpdateProductRequest extends CreateProductRequest {
+export interface UpdateProductRequest extends CreateProductRequest {
   product_id: string
 }
 
@@ -45,6 +45,7 @@ export class StoreService {
 
   private storeCreated$ = new Subject<void>();
   private productCreated$ = new Subject<void>();
+
 
   constructor(private http: HttpClient,
               private helpersService: HelpersService,
@@ -89,7 +90,7 @@ export class StoreService {
   public getProducts$(store_id: string): Observable<any> {
     return this.productCreated$.pipe(
       startWith(null),
-      switchMap(() => this.http.get(main_url + '/admin-store/get-products', {
+      switchMap(() =>  this.http.get(main_url + '/admin-store/get-products', {
         params: {
           store_id
         }
@@ -99,17 +100,22 @@ export class StoreService {
 
   public getProductById(product_id: string): Observable<any> {
     return this.http.get(main_url + '/admin-store/get-product', {params: {product_id}}).pipe(
-      map((data: any) => data.results)
+      map((data: any) => data.results[0])
     )
   }
 
   public deleteProductById(product_id: string): Observable<any> {
-    return this.http.get(main_url + '/admin-store/delete-product', {params: {product_id}}).pipe(
-      map((data: any) => data.results)
-    )
+    return this.http.post(main_url + '/admin-store/delete-product', {product_id})
+      .pipe(tap(() => this.productCreated$.next()));
   }
 
   public updateProduct(data: UpdateProductRequest): Observable<any> {
+    const formData = new FormData();
+    formData.append('media', data.product_media);
+    this.competitionService.uploadMedia(formData);
+    if (typeof data.product_media !== 'string') {
+      data['product_media'] = main_url + '/media/' + data.product_media.name;
+    }
     return this.http
       .post(main_url + '/admin-store/edit-product', this.helpersService.generateFormData(data))
       .pipe(tap(() => this.productCreated$.next()));
