@@ -83,4 +83,8 @@ export class MainAdminPageComponent implements OnInit{
   navigateToStore() {
     this.router.navigate(['/store']);
   }
+
+  navigateToMyDatabase() {
+    this.router.navigate(['/my-database/main']);
+  }
 }

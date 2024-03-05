@@ -1,0 +1,51 @@
+@import "../../styles/colors";
+
+:host{
+
+  .my-database{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    &__title{
+      width: 90%;
+      border-radius: 0 0 12px 12px;
+      background: $element_bg_color_dark_theme;
+      color: #ffffff;
+      padding: 10px;
+      text-align: center;
+      box-sizing: border-box;
+      position: relative;
+    }
+    &__wrapper{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    &__element{
+      box-sizing: border-box;
+      background: $element_bg_color_dark_theme;
+      border-radius: 20px;
+      width: 80%;
+      display: flex;
+      padding: 20px 10px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 5px;
+    }
+    &__element-title{
+      margin-top: 5px;
+      color: #ffffff;
+      font-family: "Inter", sans-serif;
+    }
+    &__element-subtitle{
+      color: $text-color_dark_theme;
+    }
+  }
+}

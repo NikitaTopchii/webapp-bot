@@ -30,6 +30,10 @@ const routes: Routes = [
     path: 'my-tokens',
     loadChildren: () => import("./components/chat-token/chat-token.module").then((m) => m.ChatTokenModule)
   },
+  {
+    path: 'my-database',
+    loadChildren: () => import("./components/my-database/my-database.module").then((m) => m.MyDatabaseModule)
+  }
   // {
   //   path: 'store',
   //   loadChildren: () => import("./components/store/store.module").then((m) => m.StoreModule)

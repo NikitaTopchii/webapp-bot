@@ -1,0 +1,14 @@
+<div class="my-tokens">
+  <div class="my-tokens__wrapper">
+    <div class="my-tokens__header">
+      <span>My Tokens</span>
+      <button class="btn btn--outline" (click)="getDownloadStats()">download all</button>
+    </div>
+    <div class="my-tokens__list-elements">
+      <div class="my-tokens__element" *ngFor="let token of getTokenList()">
+        <span>{{token.tokenName}}</span>
+        <button class="btn btn--fluid" (click)="getDownloadStats()">download</button>
+      </div>
+    </div>
+  </div>
+</div>

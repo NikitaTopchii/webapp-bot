@@ -11,6 +11,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ChatTokenModule} from "./components/chat-token/chat-token.module";
 import {AdminsModule} from "./components/admins/admins.module";
 import {ParticipationModule} from "./components/participation/participation.module";
+import {MyDatabaseModule} from "./components/my-database/my-database.module";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {ParticipationModule} from "./components/participation/participation.modu
     ParticipationModule,
     NewsLetterModule,
     CompetitionModule,
-    ChatTokenModule
+    ChatTokenModule,
+    MyDatabaseModule
   ],
   providers: [TelegramService],
   bootstrap: [AppComponent]
