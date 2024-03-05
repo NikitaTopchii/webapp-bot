@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
 import {ParticipationService} from "../../core/services/participation/participation.service";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
+import {response} from "express";
 
 interface BaseAnswer{
   label?: string,
@@ -14,6 +15,11 @@ interface EmailAnswer extends BaseAnswer{
   answer: string
 }
 
+interface ButtonState{
+  title: string;
+  confirmPhone: boolean;
+}
+
 @Component({
   selector: 'app-participation-with-conditions',
   templateUrl: './participation-with-conditions.component.html',
@@ -23,6 +29,7 @@ export class ParticipationWithConditionsComponent{
 
   baseContestData: any;
   participationForm: FormGroup;
+  buttonState: ButtonState = { title: 'participate', confirmPhone: false }
 
   answers: BaseAnswer[] = [];
   constructor(private fb: FormBuilder, private participationService: ParticipationService, private telegramService: TelegramService) {
@@ -71,6 +78,11 @@ export class ParticipationWithConditionsComponent{
 
       const contestConditionsData = JSON.parse(this.baseContestData.conditions);
 
+      if(contestConditionsData.phoneNumber){
+        this.buttonState.title = 'confirm number'
+        this.buttonState.confirmPhone = true;
+      }
+
       if(contestConditionsData.email){
         this.addEmailCondition()
       }
@@ -103,10 +115,18 @@ export class ParticipationWithConditionsComponent{
     formData.append('user_id', this.baseContestData.user_id);
     formData.append('contest_id', this.baseContestData.contest_id);
     formData.append('username', this.baseContestData.username);
+    formData.append('language', this.baseContestData.language);
+    formData.append('bot_id', this.baseContestData.bot_id);
     formData.append('answer', JSON.stringify(this.answers));
 
-    this.participationService.addParticipationWithAnswer(formData).subscribe((response) => {
-      this.telegramService.close();
-    })
+    if(this.buttonState.confirmPhone){
+      this.participationService.addParticipationWithPhone(formData).subscribe((response) => {
+        this.telegramService.close();
+      })
+    }else{
+      this.participationService.addParticipationWithAnswer(formData).subscribe((response) => {
+        this.telegramService.close();
+      })
+    }
   }
 }

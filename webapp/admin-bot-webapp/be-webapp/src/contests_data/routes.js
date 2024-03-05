@@ -18,4 +18,8 @@ router
     .route('/answer')
     .post(upload.any(), ParticipationController.addParticipationWithAnswer);
 
+router
+  .route('/phone')
+  .post(upload.any(), ParticipationController.addParticipationWithPhoneNumber);
+
 module.exports = router;

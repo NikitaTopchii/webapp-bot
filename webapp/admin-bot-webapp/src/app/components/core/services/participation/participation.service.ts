@@ -41,9 +41,15 @@ export class ParticipationService {
     return this.http.get<any>(main_url+'/competitions/subscribe-verification', { params: params });
   }
 
+
   addParticipationWithAnswer(formData: FormData){
     return this.http
       .post<string>(main_url + '/participant/answer', formData);
+  }
+
+  addParticipationWithPhone(formData: FormData){
+    return this.http
+      .post<string>(main_url + '/participant/phone', formData);
   }
 
   addParticipation(formData: FormData){

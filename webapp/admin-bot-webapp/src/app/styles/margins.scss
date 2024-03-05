@@ -1,0 +1,14 @@
+
+$indents: 0.5rem, 1rem, 2rem;
+
+.mt-1{
+  margin-top: nth($indents, 1);
+}
+
+.mt-2{
+  margin-top: nth($indents, 2);
+}
+
+.mt-3{
+  margin-top: nth($indents, 3);
+}

@@ -123,6 +123,8 @@ export class ParticipationCoreComponent {
           user_id: this.getParticipantId(),
           contest_id: this.getContestId(),
           username: this.getUsername(),
+          language: this.getLanguage(),
+          bot_id: this.getBotId(),
           conditions: conditions
         } });
       this.router.navigate(['participation/condition']);
@@ -200,6 +202,10 @@ export class ParticipationCoreComponent {
 
   private getUsername(): string{
     return this.telegramService.InitData.username || this.storageService.getItem('participantUsername');
+  }
+
+  private getBotId(): string{
+    return localStorage.getItem('botid') || '';
   }
 
   private getContestId(): string{
