@@ -37,7 +37,7 @@ export class GuessNumberComponent {
         type: 'guess',
         participantAmount: 1,
         exact: value.conditionType === 'exact',
-        value: value.number || 0,
+        value: value.number ?? 0,
         subscription: true
       }
     });

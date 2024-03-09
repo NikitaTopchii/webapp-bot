@@ -1,0 +1,11 @@
+<form [formGroup]="createStoreForm">
+  <input type="text" formControlName="store_name" placeholder="name">
+  <input type="text" formControlName="store_description" placeholder="description">
+  <ng-select
+    [items]="tokenList$ | async"
+    bindLabel="name"
+    bindValue="id"
+    formControlName="game_token_id"
+  ></ng-select>
+  <button [disabled]="createStoreForm.invalid" (click)="createStore()">Create store</button>
+</form>

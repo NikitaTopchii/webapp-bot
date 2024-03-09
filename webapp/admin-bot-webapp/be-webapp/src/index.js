@@ -7,6 +7,7 @@ const express = require('express'),
     participationRouter = require('./contests_data/routes'),
     competitionBotRouter = require('./contest_bots/routes');
     tokenRouter = require('./token/routes');
+    adminStores = require('./contests_store/routes');
 const {main_url} = require("../shared/application-context");
 
 const path = require('path');
@@ -43,6 +44,7 @@ class IndexJs {
         app.use('/participant', participationRouter);
         app.use('/bots', competitionBotRouter);
         app.use('/token', tokenRouter);
+        app.use('/admin-store', adminStores)
         app.use('/media', express.static(path.join(__dirname, '..', 'media')));
         app.use((req, res, next) => {
           logger.trace(`Request URL: ${req.url}`);

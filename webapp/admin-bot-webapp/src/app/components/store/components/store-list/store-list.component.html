@@ -1,0 +1,7 @@
+@if (stores$ | async; as stores) {
+  @for (store of stores; track store.store_id) {
+    <div class="store">
+     <h2 style="color: #fff" (click)="redirectToStoreDetails(store.store_id)">{{store.store_name}}</h2>
+    </div>
+  }
+}
