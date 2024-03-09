@@ -51,6 +51,7 @@ export class MyChannelsComponent extends MainStatsComponent implements OnInit, O
   private getMyChannels(chatIds: string[]){
     this.channelsService.getChannelsByChatIds(chatIds)
       .subscribe((response: any) => {
+        console.log(response)
         this.channelsList = response;
     });
   }

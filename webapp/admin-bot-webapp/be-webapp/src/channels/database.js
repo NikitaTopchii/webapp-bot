@@ -52,6 +52,76 @@ class ChannelsDB {
       });
     }
 
+    setChatSecurityStatus(chatSecurityStatus, chatId, callback){
+      logger.info(chatSecurityStatus)
+      logger.info(chatId)
+      const sql = 'UPDATE channels SET chatguard = ? WHERE chatid = ? LIMIT 1';
+
+      this.connection.query(sql, [chatSecurityStatus, chatId], (err, results) => {
+        if(err){
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      });
+    }
+
+    setChatGamificationStatus(chatGamificationStatus, chatId, callback){
+      logger.info(chatGamificationStatus)
+      logger.info(chatId)
+      const sql = 'UPDATE channels SET gemification = ? WHERE chatid = ? LIMIT 1';
+
+      this.connection.query(sql, [chatGamificationStatus, chatId], (err, results) => {
+        if(err){
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      });
+    }
+
+    setChatStopWordsStatus(chatStopWordsState, chatId, callback) {
+      logger.info(chatStopWordsState)
+      logger.info(chatId)
+      const sql = 'UPDATE channels SET stop_words = ? WHERE chatid = ? LIMIT 1';
+
+      this.connection.query(sql, [chatStopWordsState, chatId], (err, results) => {
+        if(err){
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      })
+    }
+
+    setChatCommandsStatus(chatCommandsState, chatId, callback){
+      logger.info(chatCommandsState)
+      logger.info(chatId)
+      const sql = 'UPDATE channels SET commands = ? WHERE chatid = ? LIMIT 1';
+
+      this.connection.query(sql, [chatCommandsState, chatId], (err, results) => {
+        if(err){
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      })
+    }
+
+    setChatCaptchaStatus(chatCaptchaState, chatId, callback){
+      logger.info(chatCaptchaState)
+      logger.info(chatId)
+      const sql = 'UPDATE channels SET captcha = ? WHERE chatid = ? LIMIT 1';
+
+      this.connection.query(sql, [chatCaptchaState, chatId], (err, results) => {
+        if(err){
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      })
+    }
+
     isChatTokenExistById(tokenId, callback){
       const sql = 'SELECT * FROM channels WHERE game_token = ?';
       this.connection.query(sql, tokenId, (err, results) => {
@@ -60,6 +130,19 @@ class ChannelsDB {
           callback(err, null);
         } else {
           callback(null, {results})
+        }
+      })
+    }
+
+    getStopWordsByChatId(chatId, callback){
+      const sql = 'SELECT words FROM stopwords WHERE chatid = ?';
+
+      this.connection.query(sql, chatId, (err, results) => {
+        if(err){
+          logger.error(err);
+          callback(err, null);
+        } else {
+          callback(null, {results});
         }
       })
     }

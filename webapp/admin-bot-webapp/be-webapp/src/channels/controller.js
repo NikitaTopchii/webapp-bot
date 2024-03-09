@@ -32,6 +32,67 @@ exports.setGameToken = async (req, res) => {
   }
 };
 
+exports.setChatSecurityStatus = async (req, res) => {
+  try {
+    await ChannelsService.setChatSecurityStatus(req.body.chatSecurityStatus, req.body.chatId);
+    res.json('ok');
+  } catch (error) {
+    res.status(500).send({ message: 'Error while set game token' });
+  }
+};
+
+
+exports.setChatGamificationStatus = async (req, res) => {
+  try {
+    await ChannelsService.setChatGamificationStatus(req.body.chatGamificationStatus, req.body.chatId);
+    res.json('ok');
+  } catch (error) {
+    res.status(500).send({ message: 'Error while set game token' });
+  }
+};
+
+
+exports.setChatStopWordsStatus = async (req, res) => {
+  try {
+    await ChannelsService.setChatStopWordsStatus(req.body.chatStopWordsStatus, req.body.chatId);
+    res.json('ok');
+  } catch (error) {
+    res.status(500).send({ message: 'Error while set game token' });
+  }
+};
+
+
+exports.setChatCommandStatus = async (req, res) => {
+  try {
+    console.log(req.body.chatCommandStatus);
+    console.log(req.body.chatId);
+    await ChannelsService.setChatCommandStatus(req.body.chatCommandStatus, req.body.chatId);
+    res.json('ok');
+  } catch (error) {
+    res.status(500).send({ message: 'Error while set game token' });
+  }
+};
+
+
+exports.setChatCaptchaStatus = async (req, res) => {
+  try {
+    await ChannelsService.setChatCaptchaStatus(req.body.chatCaptchaStatus, req.body.chatId);
+    res.json('ok');
+  } catch (error) {
+    res.status(500).send({ message: 'Error while set game token' });
+  }
+};
+
+exports.getStopWordsByChatId = async (req, res) => {
+  try {
+    const words = await ChannelsService.getStopWordsByChatId(req.query.chatId);
+    res.json(words);
+  } catch (error) {
+    res.status(500).send({ message: 'Error while get stop words by chat id'})
+  }
+}
+
+
 exports.isChatTokenExistById = async (req, res) => {
   try{
     logger.info(req.query.tokenId)

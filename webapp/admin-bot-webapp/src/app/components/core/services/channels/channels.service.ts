@@ -38,7 +38,27 @@ export class ChannelsService extends BaseHttpClientServiceService{
       .pipe(map((response:any) => {
         return response.results.map((channel: any) => {
           return {
-            id: channel.id,
+            id: channel.chatid,
+            name: channel.name,
+            selected: false
+          }
+        })
+      }));
+  }
+
+  getChannelsByChatId(chatId: string){
+
+    const formData = new FormData();
+
+    formData.append('chat_ids', chatId);
+    formData.append('botid', localStorage.getItem('botid') || '');
+
+    return this.http
+      .get<any>(main_url + '/channels/my', { params: this.createHttpParams(formData) })
+      .pipe(map((response:any) => {
+        return response.results.map((channel: any) => {
+          return {
+            chatSecurity: channel.chatid,
             name: channel.name,
             selected: false
           }

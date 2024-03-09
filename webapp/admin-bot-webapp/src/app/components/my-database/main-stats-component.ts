@@ -25,7 +25,7 @@ export class MainStatsComponent{
       typeStatistics: statisticsType,
       botId: this.getBotId(),
       userId: this.getAdminId(),
-      tokensId: elementId
+      elementsId: elementId.toString()
     }
   }
 }

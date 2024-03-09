@@ -87,4 +87,8 @@ export class MainAdminPageComponent implements OnInit{
   navigateToMyDatabase() {
     this.router.navigate(['/my-database/main']);
   }
+
+  navigateToChatGuard() {
+    this.router.navigate(['/chatguard/chat-selector']);
+  }
 }

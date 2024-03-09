@@ -1,0 +1,10 @@
+<div class="word-list">
+  <div class="word-list__title">
+    <span>Word List</span>
+  </div>
+  <div class="word-list__element-wrapper">
+    <div *ngFor="let word of getStopWordsList()" class="word-list__word-element">
+      <span>{{word}}</span>
+    </div>
+  </div>
+</div>
