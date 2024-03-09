@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { afterNextRender, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -14,12 +14,6 @@ interface Token {
 
 @Component({
   selector: 'app-add-store-dialog',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgSelectModule,
-    AsyncPipe
-  ],
   templateUrl: './add-store-dialog.component.html',
   styleUrl: './add-store-dialog.component.scss'
 })
@@ -34,7 +28,6 @@ export class AddStoreDialogComponent {
               @Inject(MAT_DIALOG_DATA) public data: { name: string, description: string, tokenId: string },
               private fb: FormBuilder,
               private chatTokenService: ChatTokenService) {
-
   }
 
   public createStore(): void {

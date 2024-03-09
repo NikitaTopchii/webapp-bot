@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { StoreService } from "../../service/store.service";
+import { StoreService } from "../../shared/service/store.service";
 import { AsyncPipe } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-store-list',
-  standalone: true,
-  imports: [
-    AsyncPipe
-  ],
   templateUrl: './store-list.component.html',
   styleUrl: './store-list.component.scss'
 })

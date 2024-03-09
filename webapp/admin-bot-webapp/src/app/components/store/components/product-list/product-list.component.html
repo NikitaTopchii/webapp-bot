@@ -1,1 +1,10 @@
 <p>product-list works!</p>
+@if (productList$ | async; as products) {
+  @for (product of products; track product.product_id) {
+    <div class="product">
+      <h2 style="color: #fff">{{product.product_name}}</h2>
+      <button (click)="redirectToProductEdit(product.product_id, product.store_id)">edit</button>
+      <button (click)="deleteProduct(product.product_id)">delete</button>
+    </div>
+  }
+}
