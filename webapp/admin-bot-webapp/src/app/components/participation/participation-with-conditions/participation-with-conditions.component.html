@@ -1,25 +1,18 @@
 <div class="competition-participation">
   <div class="competition-participation__wrapper">
-    <form [formGroup]="form" (ngSubmit)="addParticipation(form)" class="form" *ngIf="enterAnswer">
-      <div *ngIf="conditionsValueEmail" class="competition-participation__input-block">
-        <label>{{conditionsValueEmail}}</label>
-        <input class="competition-participation__input-name" formControlName="email"/>
+    <form [formGroup]="participationForm" (ngSubmit)="participate()">
+      <div formArrayName="conditions">
+        <div class="competition-participation__question" *ngFor="let user of conditions.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field class="example-full-width">
+              <mat-label>{{user.value.label}}</mat-label>
+              <input matInput #message maxlength="256" class="token-name-input" formControlName="answer" autocomplete="off">
+              <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
-      <div *ngIf="conditionsValuePhone" class="competition-participation__input-block">
-        <label>{{conditionsValuePhone}}</label>
-        <input class="competition-participation__input-name" formControlName="phone"/>
-      </div>
-      <div *ngIf="conditionsValueSelfCondition" class="competition-participation__input-block">
-        <label>{{conditionsValueSelfCondition}}</label>
-        <input class="competition-participation__input-name" formControlName="selfAnswer"/>
-      </div>
-      <div *ngIf="conditionsGuessNumber" class="competition-participation__input-block">
-        <label>{{conditionsGuessNumber}}</label>
-        <input class="competition-participation__input-name" formControlName="guessedNumber"/>
-      </div>
-      <button type="submit" class="competition-participation__button">participate</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="participationForm.invalid">{{buttonState.title}}</button>
     </form>
-    <img *ngIf="successParticipation" ngSrc="assets/beating-heart.gif" alt="" height="64" width="64">
   </div>
 </div>
-

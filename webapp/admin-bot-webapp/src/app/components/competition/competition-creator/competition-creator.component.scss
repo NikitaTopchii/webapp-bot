@@ -2,10 +2,19 @@
 
 :host{
   .competition-creator{
+
+    box-sizing: border-box;
+    padding: 8px;
+
     &__wrapper{
       display: flex;
       flex-direction: column;
       width: 100%;
+    }
+    &__button-wrapper {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px 20px;
     }
     &__input-name{
       border-radius: 15px;
@@ -21,13 +30,33 @@
       }
     }
     &__textarea-description{
-      width: 100%;
+      width: 90%;
       height: 400px;
       padding: 20px;
       margin-top: 5px;
       box-sizing: border-box;
       border-radius: 15px;
       resize: none;
+    }
+    &__header-wrapper{
+      border-radius: 15px;
+      background: $element_bg_color_dark_theme;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    &__title-wrapper{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      border-radius: 15px 15px 0 0;
+      background: $button_disabled_bg_color_dark_theme;
     }
     &__button{
       background: $button_color;
@@ -101,6 +130,13 @@
       margin-bottom: 10px;
       margin-top: 10px;
       text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: "Inter", sans-serif;
+      color: $text_color_dark_theme_v2;
+    }
+    &__subtitle{
+      color: $text-color_dark_theme;
     }
     &__name-block{
       display: flex;
@@ -161,7 +197,6 @@
   .form{
     display: flex;
     box-sizing: border-box;
-    padding: 10px;
     flex-direction: column;
   }
 }
@@ -172,4 +207,31 @@
 
 .mdc-form-field .mdc-label{
   color: $button_text_color;
+}
+
+::ng-deep {
+
+  .mat-mdc-text-field-wrapper{
+    background: $element_bg_color_dark_theme !important;
+    border-radius: 15px !important;
+    //border: 1px solid $text_color_dark_theme_v2;
+  }
+
+  .mdc-floating-label{
+    color: $hint_color_dark_theme_v2 !important;
+  }
+
+  .form-input-field{
+    color: $text_color_dark_theme_v2 !important;
+  }
+
+  .mat-mdc-form-field-hint{
+    border: 0.5px solid #ffffff !important;
+    background: $element_bg_color_dark_theme !important;
+    color: #ffffff !important;
+    border-radius: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: -10px;
+  }
 }

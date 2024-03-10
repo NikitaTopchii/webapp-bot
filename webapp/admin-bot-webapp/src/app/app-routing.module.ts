@@ -31,6 +31,14 @@ const routes: Routes = [
     loadChildren: () => import("./components/chat-token/chat-token.module").then((m) => m.ChatTokenModule)
   },
   {
+    path: 'my-database',
+    loadChildren: () => import("./components/my-database/my-database.module").then((m) => m.MyDatabaseModule)
+  },
+  {
+    path: 'chatguard',
+    loadChildren: () => import("./components/chatguard/chat-guard.module").then((m) => m.ChatGuardModule)
+  },
+  {
     path: 'store',
     loadChildren: () => import("./components/store/store.module").then((m) => m.StoreModule)
   }

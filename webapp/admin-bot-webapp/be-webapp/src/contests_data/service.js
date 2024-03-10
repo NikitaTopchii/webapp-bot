@@ -31,10 +31,9 @@ class ParticipationService {
 
     return new Promise((resolve, reject) => {
       this.participationDB.addParticipantWithAnswer(
-        data.userid,
-        data.contests_id,
+        data.user_id,
+        data.contest_id,
         data.username,
-        data.conditions,
         data.answer,
         (err, data) => {
           if(err) {

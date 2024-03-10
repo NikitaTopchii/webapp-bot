@@ -1,0 +1,11 @@
+<div class="my-chats">
+  <div class="my-chats__title">
+    <span>ChatGuard <span>Settings</span></span>
+  </div>
+  <div class="my-chats__wrapper">
+    <div class="my-chats__element" *ngFor="let chat of getChatList()">
+      <span class="my-chats__element-title">{{chat.name}}</span>
+      <button class="btn btn--fluid" (click)="navigateToCurrentChatSettings(chat.id)">edit</button>
+    </div>
+  </div>
+</div>

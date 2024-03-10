@@ -1,0 +1,19 @@
+<div class="word-list">
+  <div class="word-list__title">
+    <span>Word List</span>
+  </div>
+  <div class="word-list__element-wrapper">
+    <button *ngFor="let word of getStopWordsList()" class="word-list__word-element" (click)="selectStopWord(word)" [class.selected]="word.selected">
+      <span>{{word.word}}</span>
+    </button>
+  </div>
+  <button class="word-list__title add-state" (click)="addNewStopWord()">
+    <span>Add Word</span>
+  </button>
+  <button class="word-list__title delete-state" (click)="deleteAllStopWords()">
+    <span>Delete All</span>
+  </button>
+  <button class="word-list__title delete-state" [disabled]="checkSelectedElements()" (click)="deleteSelectedStopWords()">
+    <span>Delete Selected</span>
+  </button>
+</div>

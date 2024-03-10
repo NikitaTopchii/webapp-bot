@@ -43,7 +43,13 @@ export class TelegramService {
   }
 
   get InitData(): any{
+    console.log('init data')
+    console.log(this.tg.initDataUnsafe.user)
     return this.tg.initDataUnsafe.user;
+  }
+
+  close(){
+    this.tg.close();
   }
 
   sendData(data: object){

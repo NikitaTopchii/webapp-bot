@@ -1,4 +1,4 @@
 
 export interface CompetitionConditionsInterface{
-  contestData: FormData;
+  contestData: any;
 }

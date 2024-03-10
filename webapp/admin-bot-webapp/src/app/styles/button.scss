@@ -1,0 +1,42 @@
+@import "colors";
+
+@mixin btn-variant($bg-color, $border-color, $hover-color, $disabled-bg-color) {
+  background-color: $bg-color;
+  border: 1px solid $border-color;
+  &:hover {
+    background-color: $hover-color;
+    transition: .3s;
+  }
+  &:disabled {
+    background-color: $disabled-bg-color;
+    cursor: not-allowed;
+    transition: .3s;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  color: $text_color_dark_theme_v2;
+  outline: none;
+  border-radius: 12px;
+  transition: .3s;
+  cursor: pointer;
+
+  @include btn-variant($button_bg_color_dark_theme, $button_bg_color_dark_theme, darken($button_bg_color_dark_theme, .2), $button_disabled_bg_color_dark_theme);
+
+  &--muted {
+    @include btn-variant($button_disabled_bg_color_dark_theme, $button_disabled_bg_color_dark_theme, darken($button_disabled_bg_color_dark_theme, .2), lighten($button_disabled_bg_color_dark_theme, .2));
+  }
+
+  &--outline {
+    @include btn-variant($element_bg_color_dark_theme, $text_color_dark_theme, $text_color_dark_theme, lighten($element_bg_color_dark_theme, .2));
+  }
+
+  &--danger {
+    @include btn-variant($delete_button_color, $delete_button_color, darken($delete_button_color, .2), lighten($delete_button_color, .2));
+  }
+
+  &--fluid {
+    width: 100%;
+  }
+}

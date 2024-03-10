@@ -1,0 +1,65 @@
+@import "../../../styles/colors";
+
+:host{
+  .word-list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &__title{
+      margin: 5px;
+      height: 50px;
+      color: $text-color_dark_theme_v2;
+      font-weight: 700;
+      border-radius: 12px;
+      background: $button_disabled_bg_color_dark_theme;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__element-wrapper{
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    &__word-element{
+      width: 45%;
+      height: 30px;
+      border: none;
+      box-sizing: border-box;
+      padding: 5px;
+      color: $text-color_dark_theme_v2;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 2px 4px;
+      background: $button_disabled_bg_color_dark_theme;
+    }
+  }
+
+  .selected{
+    background: #16AB83;
+    border: none;
+  }
+
+  .add-state{
+    border: none;
+  }
+
+  .delete-state{
+    background: $delete-button_color;
+    border: none;
+    transition: 0.4s;
+    &:hover{
+      background: $delete-button_color_v3;
+    }
+    &:disabled{
+      background: $delete-button_color_v2;
+    }
+  }
+}

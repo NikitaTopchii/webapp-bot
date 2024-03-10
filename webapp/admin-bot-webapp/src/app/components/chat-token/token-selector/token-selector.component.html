@@ -17,9 +17,12 @@
     <div class="token-list__token-element-wrapper" *ngFor="let token of getTokenList()">
       <div class="token-list__token-element">
         <span class="token-list__token-title">{{token.tokenName}}</span>
-      </div>
-      <div class="token-list__chat-element">
-        <img src="assets/token-icon.svg" alt="" class="token-list__delete-button" (click)="openChatSelector(token.tokenId)">
+        <div>
+          <button class="token-list__chat-element" (click)="openChatSelector(token.tokenId)">
+            add chat
+            <span class="token-list__chats-amount">1</span>
+          </button>
+        </div>
       </div>
       <div class="token-list__trash-element">
         <img src="assets/trash-icon.svg" alt="" class="token-list__delete-button" (click)="openConfirmDialog(token.tokenId, token.tokenName)">

@@ -53,7 +53,6 @@ class ParticipationDB {
   addParticipantWithAnswer(userid,
                  contest_id,
                  username,
-                 conditions,
                  text,
                  callback){
     const request = 'INSERT INTO users_data SET ?';

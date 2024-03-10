@@ -6,6 +6,9 @@ import {
   ParticipationWithConditionsComponent
 } from "./participation-with-conditions/participation-with-conditions.component";
 import {ParticipationRoutingModule} from "./participation-routing.module";
+import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatButton} from "@angular/material/button";
 
 
 
@@ -17,7 +20,12 @@ import {ParticipationRoutingModule} from "./participation-routing.module";
     CommonModule,
     NgOptimizedImage,
     ParticipationRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatHint,
+    MatButton
   ]
 })
 export class ParticipationModule { }

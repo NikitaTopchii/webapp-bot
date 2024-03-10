@@ -1,115 +1,132 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
 import {ParticipationService} from "../../core/services/participation/participation.service";
+import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {response} from "express";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+
+interface BaseAnswer{
+  label?: string,
+  type: string,
+  answer: string
+}
+
+interface EmailAnswer extends BaseAnswer{
+  type: string,
+  answer: string
+}
+
+interface ButtonState{
+  title: string;
+  confirmPhone: boolean;
+}
+
 @Component({
   selector: 'app-participation-with-conditions',
   templateUrl: './participation-with-conditions.component.html',
   styleUrl: './participation-with-conditions.component.scss'
 })
-export class ParticipationWithConditionsComponent implements OnInit, OnDestroy{
+export class ParticipationWithConditionsComponent{
 
-  form: FormGroup;
-  conditions: string | undefined;
-  answer: string | undefined;
+  baseContestData: any;
+  participationForm: FormGroup;
+  buttonState: ButtonState = { title: 'participate', confirmPhone: false }
 
-  contestData: FormData = new FormData();
+  answers: BaseAnswer[] = [];
+  constructor(private fb: FormBuilder, private participationService: ParticipationService, private telegramService: TelegramService) {
+    this.participationForm = this.fb.group({
+      conditions: this.fb.array([])
+    })
+  }
+  get conditions() {
+    return this.participationForm.get('conditions') as FormArray;
+  }
 
-  conditionsType: File | string = '';
-  conditionsValue: File | string = '';
+  addOwnCondition(data: any) {
+    const condition = this.fb.group({
+      label: data.label,
+      type: 'ownCondition',
+      answer: ['', Validators.required]
+    });
+    this.conditions.push(condition);
+    console.log(this.conditions.value);
+  }
 
-  conditionsValueEmail: any;
-  conditionsValuePhone: any;
-  conditionsValueSelfCondition: any;
-  conditionsGuessNumber: any;
+  addGuessCondition(conditionType: string) {
+    const condition = this.fb.group({
+      label: 'Guess number',
+      type: conditionType,
+      answer: ['', Validators.required]
+    });
+    this.conditions.push(condition);
+    console.log(this.conditions.value);
+  }
 
-  successParticipation: boolean = false;
-  enterAnswer: boolean = true;
-
-  constructor(private fb: FormBuilder, private participationService: ParticipationService) {
-    this.form = this.getParticipationForm();
+  addEmailCondition() {
+    const condition = this.fb.group({
+      label: 'Enter email',
+      type: 'email',
+      answer: ['', Validators.required]
+    });
+    this.conditions.push(condition);
+    console.log(this.conditions.value);
   }
 
   ngOnInit() {
-    this.participationService.getCompetitionConditionSubject().subscribe((contestData) => {
-      this.contestData = contestData.contestData;
-      this.checkConditionsType(contestData.contestData);
+    this.participationService.getCompetitionConditionSubject().subscribe((data) => {
+      console.log(data.contestData)
+      this.baseContestData = data.contestData;
+
+      const contestConditionsData = JSON.parse(this.baseContestData.conditions);
+
+      if(contestConditionsData.phoneNumber){
+        this.buttonState.title = 'confirm number'
+        this.buttonState.confirmPhone = true;
+      }
+
+      if(contestConditionsData.email){
+        this.addEmailCondition()
+      }
+
+      if(contestConditionsData.ownCondition){
+        contestConditionsData.otherConditions.forEach((condition: any) => {
+          this.addOwnCondition(condition);
+        })
+      } else if(contestConditionsData.type){
+        if(contestConditionsData.exact){
+          this.addGuessCondition('exact');
+        }else{
+          this.addGuessCondition('closest');
+        }
+      }
     })
   }
 
-  ngOnDestroy() {
-  }
+  participate() {
+    const values = this.participationForm.value.conditions;
 
-  getParticipationForm(){
-    return this.fb.group({
-      email: [''],
-      phone: [''],
-      selfAnswer: [''],
-      guessedNumber: ['']
-    });
-  }
+    this.answers = values.map((answer: any) => ({
+      type: ['email', 'exact', 'closest'].includes(answer.type) ? answer.type : answer.type,
+      ...(answer.type !== 'email' && { label: answer.label }),
+      answer: answer.answer
+    }));
 
-  addParticipation(form: FormGroup) {
+    const formData = new FormData();
 
-    this.enterAnswer = false;
+    formData.append('user_id', this.baseContestData.user_id);
+    formData.append('contest_id', this.baseContestData.contest_id);
+    formData.append('username', this.baseContestData.username);
+    formData.append('language', this.baseContestData.language);
+    formData.append('bot_id', this.baseContestData.bot_id);
+    formData.append('answer', JSON.stringify(this.answers));
 
-    this.contestData.delete('answer')
-
-    const guessedNumber = form.get('guessedNumber')?.value;
-
-    if(guessedNumber){
-      this.contestData.append('answer', guessedNumber);
-    }else{
-      const answer = {
-        email: form.get('email')?.value,
-        phone: form.get('phone')?.value,
-        selfAnswer: form.get('selfAnswer')?.value
-      }
-
-      this.contestData.append('answer', JSON.stringify(answer));
-    }
-
-    this.successParticipation = false;
-
-    this.participationService.addParticipationWithAnswer(this.contestData).subscribe((response) => {
-      if(response){
-        this.successParticipation = true;
-      }
-    });
-  }
-
-  checkConditionsType(contestData: FormData){
-
-    const conditions = contestData.get('conditions');
-    const answer = contestData.get('answer');
-
-    if(conditions){
-      const conditionsType = conditions.toString().split(',');
-
-      conditionsType.forEach((type) => {
-        this.setValues(type, answer);
+    if(this.buttonState.confirmPhone){
+      this.participationService.addParticipationWithPhone(formData).subscribe((response) => {
+        this.telegramService.close();
       })
-    }
-  }
-
-  setValues(conditionsType: string, answer: FormDataEntryValue | null){
-    if((conditionsType === 'media' || conditionsType === 'text' || conditionsType === 'links' || conditionsType === 'number') && answer){
-      this.conditionsValueSelfCondition = answer.toString();
-      this.conditionsType = 'self';
     }else{
-      if(conditionsType === 'emailCondition'){
-        this.conditionsType = 'email';
-        this.conditionsValueEmail = 'Enter your email'
-      }else if(conditionsType === 'phoneCondition'){
-        this.conditionsType = 'number'
-        this.conditionsValuePhone = 'Enter your phone number'
-      }else if(conditionsType === 'exact' || conditionsType === 'closest'){
-        this.conditionsGuessNumber = 'Enter number for guess'
-        this.conditionsType = 'guessNumber'
-      }else{
-        this.conditionsType = 'unknown condition'
-      }
+      this.participationService.addParticipationWithAnswer(formData).subscribe((response) => {
+        this.telegramService.close();
+      })
     }
   }
 }

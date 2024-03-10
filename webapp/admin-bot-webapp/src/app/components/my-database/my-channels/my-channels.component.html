@@ -1,0 +1,14 @@
+<div class="my-tokens">
+  <div class="my-tokens__wrapper">
+    <div class="my-tokens__header">
+      <span>My Channels</span>
+      <button class="btn btn--outline" (click)="downloadAllElementsStats('get_info_channel')">download all</button>
+    </div>
+    <div class="my-tokens__list-elements">
+      <div class="my-tokens__element" *ngFor="let chat of getChannelsList()">
+        <span>{{chat.name}}</span>
+        <button class="btn btn--fluid" (click)="downloadCurrentElementStats('get_info_channel', chat.id)">download</button>
+      </div>
+    </div>
+  </div>
+</div>

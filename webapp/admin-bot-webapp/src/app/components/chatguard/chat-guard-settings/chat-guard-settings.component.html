@@ -1,0 +1,26 @@
+<div class="chat-guard-setting">
+  <div class="chat-guard-setting__title">
+    <span>Select <span class="chat-guard-setting__subtitle">Functions</span></span>
+  </div>
+  <div class="chat-guard-setting__wrapper">
+    <div class="chat-guard-setting__main-setting-elements">
+      <form [formGroup]="chatSecurityForm">
+        <mat-slide-toggle formControlName="chatSecurityStatus">Chat Security</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatStopWordStatus">Stop Words</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatCaptchaStatus">Human Check</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatCommandStatus">Commands</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatGamificationStatus">Gamification</mat-slide-toggle>
+      </form>
+    </div>
+    <div class="chat-guard-setting__element">
+      <img class="" src="assets/chats.svg">
+      <span>Word List</span>
+      <button class="btn" (click)="navigateToStopWordsList()">Open</button>
+    </div>
+    <div class="chat-guard-setting__element">
+      <img class="" src="assets/chats.svg">
+      <span>Chat Cleaning</span>
+      <button class="btn btn--danger" (click)="clearCurrentChat()">Clear</button>
+    </div>
+  </div>
+</div>

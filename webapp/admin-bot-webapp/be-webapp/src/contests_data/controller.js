@@ -1,4 +1,5 @@
 const ParticipationService = require('./service');
+const {bot_webhook_url} = require("../../shared/application-context");
 
 exports.addParticipation = async (req, res) => {
     try {
@@ -15,6 +16,21 @@ exports.addParticipationWithAnswer = async (req, res) => {
     res.json('ok');
   } catch (error) {
     res.status(500).send({message: 'Error oops'})
+  }
+}
+
+exports.addParticipationWithPhoneNumber = async (req, res) => {
+  try{
+    await fetch(bot_webhook_url + '/confirm-phone', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    }).then((response) => {
+      res.json(response);
+    })
+  } catch (error) {
   }
 }
 

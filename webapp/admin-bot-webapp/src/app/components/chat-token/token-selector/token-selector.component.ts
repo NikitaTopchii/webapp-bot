@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ChatTokenService} from "../../core/services/chat-token/chat-token.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {ChatSelectorDialogComponent} from "../chat-selector-dialog/chat-selector-dialog.component";
 
 interface ValidTokenState{
   tokenExist: boolean;
@@ -118,16 +119,7 @@ export class TokenSelectorComponent {
 
           this.validToken.addingTokenSuccess = true;
 
-          this.selectedChannelIds.forEach((chatid) => {
-            const formData = new FormData();
-
-            formData.append('token', response.results.insertId);
-            formData.append('chatid', chatid);
-
-            this.chatTokenService.addChatTokenToChannel(formData).subscribe(() => {
-              this.getTokensByAdminId();
-            })
-          })
+          this.getTokensByAdminId();
         })
       }
     })
@@ -158,6 +150,17 @@ export class TokenSelectorComponent {
   }
 
   openChatSelector(id: string) {
-    this.router.navigate(['/chat-token-selector', id]);
+    localStorage.setItem('tokenId', id);
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.id = "modal-component";
+    dialogConfig.height = "400px";
+    dialogConfig.width = "400px";
+    dialogConfig.backdropClass = 'back-drop'
+    const modalDialog = this.matDialog.open(ChatSelectorDialogComponent, dialogConfig);
+
+    modalDialog.afterClosed().subscribe(() => {
+      this.getTokensByAdminId();
+    })
   }
 }
