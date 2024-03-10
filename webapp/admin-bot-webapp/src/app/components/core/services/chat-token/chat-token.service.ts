@@ -26,15 +26,18 @@ export class ChatTokenService {
       .get<any>(main_url + '/token/token-exist', { params: params });
   }
 
-  addChatTokenToChannel(formData: FormData){
-    let params = new HttpParams();
-
-    formData.forEach((value, key) => {
-      params = params.append(key, value as string);
-    });
-
+  addChatTokenToChannel(tokenId: string, chatIds: number[]){
     return this.http
-      .get<any>(main_url + '/channels/set-token', { params: params });
+      .post<any>(main_url + '/channels/settings', this.createChatTokenData('CHATTOKEN', tokenId, chatIds));
+  }
+
+  createChatTokenData(action: string, tokenId: string, chatIds: number[]){
+    return {
+      action: action,
+      token_id: parseInt(tokenId),
+      chats: chatIds,
+      bot_id: localStorage.getItem('botid') || ''
+    }
   }
 
   isChatTokenExist(formData: FormData){

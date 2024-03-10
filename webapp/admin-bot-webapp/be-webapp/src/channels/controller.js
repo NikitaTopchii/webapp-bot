@@ -1,6 +1,7 @@
 const ChannelsService = require('./service');
 
 let colors = require('colors')
+const {bot_webhook_url} = require("../../shared/application-context");
 let logger = require('tracer').colorConsole({
   filters: [
     colors.underline,
@@ -108,5 +109,83 @@ exports.isChatTokenExistById = async (req, res) => {
   } catch (error){
     logger.error(error);
     res.status(500).send({ message: 'Error while getting chats with tokens'})
+  }
+}
+
+exports.deleteSelectedStopWords = async (req, res) => {
+  logger.info('post: ' + JSON.stringify(req.body));
+  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  try{
+    await fetch(bot_webhook_url + '/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    }).then((response) => {
+      logger.error(response)
+      res.json(response);
+    })
+  } catch (error) {
+    logger.error(error)
+  }
+}
+
+
+exports.deleteAllStopWords = async (req, res) => {
+  logger.info('post: ' + JSON.stringify(req.body));
+  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  try{
+    await fetch(bot_webhook_url + '/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    }).then((response) => {
+      logger.error(response)
+      res.json(response);
+    })
+  } catch (error) {
+    logger.error(error)
+  }
+}
+
+exports.addStopWords = async (req, res) => {
+  logger.info('post: ' + JSON.stringify(req.body));
+  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  try{
+    await fetch(bot_webhook_url + '/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    }).then((response) => {
+      logger.error(response)
+      res.json(response);
+    })
+  } catch (error) {
+    logger.error(error)
+  }
+}
+
+
+exports.setSettings = async (req, res) => {
+  logger.info('post: ' + JSON.stringify(req.body));
+  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  try{
+    await fetch(bot_webhook_url + '/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    }).then((response) => {
+      logger.error(response)
+      res.json(response);
+    })
+  } catch (error) {
+    logger.error(error)
   }
 }

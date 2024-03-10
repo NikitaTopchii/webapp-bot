@@ -1,0 +1,11 @@
+<div class="modal-window">
+  <form class="example-form" [formGroup]="form" (ngSubmit)="deleteToken(form)">
+    <span class="modal-window__title">
+      <span class="modal-window__subtitle">Add</span> Word
+    </span>
+    <mat-form-field class="example-full-width token-name-confirm-input">
+      <input matInput maxlength="32" class="token-name-input" formControlName="stopWord">
+    </mat-form-field>
+    <button type="submit" class="modal-window__button" [disabled]="form.invalid">add</button>
+  </form>
+</div>

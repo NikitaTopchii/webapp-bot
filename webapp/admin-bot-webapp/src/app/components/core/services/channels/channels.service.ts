@@ -46,6 +46,26 @@ export class ChannelsService extends BaseHttpClientServiceService{
       }));
   }
 
+  getChatGuardChannelsByChatIds(chatIds: string[]){
+
+    const formData = new FormData();
+//'6585799932'
+    formData.append('chat_ids', chatIds.join(','));
+    formData.append('botid', localStorage.getItem('botid') || '');
+
+    return this.http
+      .get<any>(main_url + '/channels/my', { params: this.createHttpParams(formData) })
+      .pipe(map((response:any) => {
+        return response.results.map((channel: any) => {
+          return {
+            id: channel.chatid,
+            name: channel.name,
+            selected: false
+          }
+        })
+      }));
+  }
+
   getChannelsByChatId(chatId: string){
 
     const formData = new FormData();
@@ -58,11 +78,13 @@ export class ChannelsService extends BaseHttpClientServiceService{
       .pipe(map((response:any) => {
         return response.results.map((channel: any) => {
           return {
-            chatSecurity: channel.chatid,
-            name: channel.name,
-            selected: false
+            chatSecurityStatus: channel.chatguard === 1,
+            chatStopWordStatus: channel.stop_words === 1,
+            chatCaptchaStatus: channel.captcha === 1,
+            chatCommandStatus: channel.commands === 1,
+            chatGamificationStatus: channel.gemification === 1
           }
-        })
+        })[0]
       }));
   }
 }

@@ -46,13 +46,14 @@ export class ChatsSelectorComponent {
   }
 
   private getMyChannels(chatIds: string[]){
-    this.channelsService.getChannelsByChatIds(chatIds)
+    this.channelsService.getChatGuardChannelsByChatIds(chatIds)
       .subscribe((response: any) => {
         this.chatList = response;
       });
   }
 
   navigateToCurrentChatSettings(id: string) {
+    console.log(id)
     this.router.navigate(['/chatguard/chat-guard-setting', id])
   }
 }

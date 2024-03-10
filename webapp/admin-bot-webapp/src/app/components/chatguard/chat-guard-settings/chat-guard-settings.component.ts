@@ -11,7 +11,13 @@ import {ChannelsService} from "../../core/services/channels/channels.service";
   styleUrl: './chat-guard-settings.component.scss'
 })
 export class ChatGuardSettingsComponent implements OnInit{
-  chatSecurityForm: FormGroup;
+  chatSecurityForm: FormGroup = this.fb.group({
+    chatSecurityStatus: [false],
+    chatStopWordStatus: [false],
+    chatCaptchaStatus: [false],
+    chatCommandStatus: [false],
+    chatGamificationStatus: [false]
+  })
   private chatId: string = '';
   constructor(private readonly fb: FormBuilder,
               private chatGuardService: ChatGuardService,
@@ -19,30 +25,19 @@ export class ChatGuardSettingsComponent implements OnInit{
               private router: ActivatedRoute,
               private route: Router,
               private telegramService: TelegramService) {
+    this.goBack = this.goBack.bind(this);
 
     this.router.paramMap.subscribe(params => {
       this.chatId = params.get('id') || '';
       console.log(this.chatId)
     });
 
-    this.chatSecurityForm = this.getChatSecurityForm();
+    this.getCurrentChatInfo().subscribe((chatStatus) => {
+      this.chatSecurityForm = this.getChatSecurityForm(chatStatus);
 
-    this.chatSecurityForm.valueChanges.subscribe(() => {
-      const chatSecurityStatus = this.chatSecurityForm.get('chatSecurityStatus')?.value ? '1' : '0';
-      const chatStopWordStatus = this.chatSecurityForm.get('chatStopWordStatus')?.value ? '1' : '0';
-      const chatCaptchaStatus = this.chatSecurityForm.get('chatCaptchaStatus')?.value ? '1' : '0';
-      const chatCommandStatus = this.chatSecurityForm.get('chatCommandStatus')?.value ? '1' : '0';
-      const chatGamificationStatus = this.chatSecurityForm.get('chatGamificationStatus')?.value ? '1' : '0';
-
-      this.updateChatSecurityStatus(chatSecurityStatus);
-      this.updateChatCaptchaStatus(chatCaptchaStatus);
-      this.updateChatCommandStatus(chatCommandStatus);
-      this.updateChatStopWordStatus(chatStopWordStatus);
-      this.updateChatGamificationStatus(chatGamificationStatus);
-      this.goBack = this.goBack.bind(this);
-    })
+      this.setChangesEventsOnForm(this.chatSecurityForm);
+    });
   }
-
   ngOnInit() {
     this.telegramService.BackButton.show();
     this.telegramService.BackButton.onClick(this.goBack);
@@ -76,21 +71,47 @@ export class ChatGuardSettingsComponent implements OnInit{
     this.chatGuardService.setChatGamificationStatus(chatGamificationStatus, this.chatId).subscribe();
   }
 
-  getChatSecurityForm(){
+  getChatSecurityForm(chatStatus: any){
     return this.fb.group({
-      chatSecurityStatus: [false],
-      chatStopWordStatus: [false],
-      chatCaptchaStatus: [false],
-      chatCommandStatus: [false],
-      chatGamificationStatus: [false]
+      chatSecurityStatus: [chatStatus.chatSecurityStatus],
+      chatStopWordStatus: [chatStatus.chatStopWordStatus],
+      chatCaptchaStatus: [chatStatus.chatCaptchaStatus],
+      chatCommandStatus: [chatStatus.chatCommandStatus],
+      chatGamificationStatus: [chatStatus.chatGamificationStatus]
     })
   }
 
+  setChangesEventsOnForm(form: FormGroup){
+    form.get('chatSecurityStatus')?.valueChanges.subscribe(() => {
+      this.updateChatSecurityStatus(this.getFormElementStatus(this.chatSecurityForm.get('chatSecurityStatus')?.value));
+    })
+    form.get('chatStopWordStatus')?.valueChanges.subscribe(() => {
+      this.updateChatStopWordStatus(this.getFormElementStatus(this.chatSecurityForm.get('chatStopWordStatus')?.value));
+    })
+    form.get('chatCaptchaStatus')?.valueChanges.subscribe(() => {
+      this.updateChatCaptchaStatus(this.getFormElementStatus(this.chatSecurityForm.get('chatCaptchaStatus')?.value));
+    })
+    form.get('chatCommandStatus')?.valueChanges.subscribe(() => {
+      this.updateChatCommandStatus(this.getFormElementStatus(this.chatSecurityForm.get('chatCommandStatus')?.value));
+    })
+    form.get('chatGamificationStatus')?.valueChanges.subscribe(() => {
+      this.updateChatGamificationStatus(this.getFormElementStatus(this.chatSecurityForm.get('chatGamificationStatus')?.value));
+    })
+  }
+
+  getFormElementStatus(element: boolean){
+    return element ? '1' : '0';
+  }
+
   getCurrentChatInfo(){
-    //this.chatService.getChannelsByChatIds()
+    return this.chatService.getChannelsByChatId(this.chatId);
   }
 
   navigateToStopWordsList() {
     this.route.navigate(['/chatguard/stop-words-list', this.chatId])
+  }
+
+  clearCurrentChat() {
+    this.telegramService.sendData({action: 'CHATCLEANER', chat: parseInt(this.chatId) })
   }
 }

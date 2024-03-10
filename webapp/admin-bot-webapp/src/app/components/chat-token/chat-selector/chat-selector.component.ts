@@ -81,8 +81,8 @@ export class ChatSelectorComponent {
       formData.append('token', this.tokenId);
       formData.append('chatid', chat.id);
 
-      const observable = this.chatTokenService.addChatTokenToChannel(formData);
-      observables.push(observable);
+      //const observable = this.chatTokenService.addChatTokenToChannel(formData);
+      //observables.push(observable);
     });
 
     return forkJoin(observables);

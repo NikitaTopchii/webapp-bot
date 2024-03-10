@@ -42,4 +42,20 @@ router
   .route('/stop-words')
   .get(ChannelsController.getStopWordsByChatId)
 
+router
+  .route('/delete-selected-stop-words')
+  .post(upload.any(), ChannelsController.deleteSelectedStopWords)
+
+router
+  .route('/delete-all-stop-words')
+  .post(upload.any(), ChannelsController.deleteAllStopWords)
+
+router
+  .route('/add-stop-words')
+  .post(upload.any(), ChannelsController.addStopWords)
+
+router
+  .route('/settings')
+  .post(upload.any(), ChannelsController.setSettings)
+
 module.exports = router;
