@@ -33,8 +33,11 @@
         <div class="competition-creator__describe-block">
           <ng-container *ngIf="visibilityState.contestMedia">
             <button (click)="changeVisibilityState('contestMedia', false)" class="btn btn--fluid">close</button>
-            <label>Enter media links</label>
-            <input type="file" (change)="onFileSelected($event)">
+            <label class="competition-creator__custom-file-input">
+              <input type="file" (change)="onFileSelected($event)">
+              Choose file
+              <img src="assets/download-icon.svg" alt="" class="competition-creator__custom-file-input-icon">
+            </label>
 <!--            <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>-->
           </ng-container>
           <ng-container *ngIf="!visibilityState.contestMedia">

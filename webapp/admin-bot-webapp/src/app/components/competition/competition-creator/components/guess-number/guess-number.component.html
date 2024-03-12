@@ -1,8 +1,11 @@
-<form [formGroup]="conditionForm">
+<form [formGroup]="conditionForm" class="guess-number-form">
   <mat-radio-group formControlName="conditionType">
     <mat-radio-button *ngFor="let option of radioOptions" [value]="option.value">
       {{ option.label }}
     </mat-radio-button>
   </mat-radio-group>
-  <input matInput formControlName="number" min="0">
+  <mat-form-field>
+    <mat-label>number</mat-label>
+    <input matInput formControlName="number" class="guess-number-input">
+  </mat-form-field>
 </form>

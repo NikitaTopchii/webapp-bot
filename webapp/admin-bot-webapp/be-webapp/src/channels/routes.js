@@ -19,6 +19,10 @@ router
   .get(ChannelsController.isChatTokenExistById)
 
 router
+  .route('/get-chat-ids')
+  .get(ChannelsController.chatIdsByTokenId)
+
+router
   .route('/chat-security-status')
   .post(upload.any(), ChannelsController.setChatSecurityStatus)
 

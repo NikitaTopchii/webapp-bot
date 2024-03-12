@@ -185,6 +185,26 @@
       box-sizing: border-box;
       padding: 20px;
     }
+    &__custom-file-input{
+      display: flex;
+      width: 40%;
+      font-size: 14px;
+      margin-top: 5px;
+      margin-left: 9px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      background: $element_bg_color_dark_theme;
+      color: $text_color_dark_theme_v2;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    &__custom-file-input-icon{
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
     &__guess-number{
       display: flex;
       flex-direction: column;
@@ -198,6 +218,10 @@
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
+  }
+
+  input[type="file"] {
+    display: none;
   }
 }
 

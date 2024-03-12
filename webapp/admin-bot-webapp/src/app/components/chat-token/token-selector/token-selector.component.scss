@@ -45,8 +45,13 @@
     }
     &__token-element-wrapper{
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       width: 90%;
+    }
+    &__token-element-data{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
     }
     &__token-element{
       display: flex;
@@ -127,6 +132,26 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
+    }
+    &__token-chat-element{
+      background: $button-bg_color_dark_theme;
+      color: $text-color_dark_theme_v2;
+      box-sizing: border-box;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      margin: 2px;
+      justify-content: center;
+      border-radius: 11px;
+    }
+    &__token-chat-element-wrapper{
+      display: flex;
+      flex-wrap: wrap;
+      background: $element_bg_color_dark_theme;
+      padding: 13px;
+      box-sizing: border-box;
+      border-radius: 12px;
+      margin-bottom: 5px;
     }
     &__delete-button{
       width: 20px;

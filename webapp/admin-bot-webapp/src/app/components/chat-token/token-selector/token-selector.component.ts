@@ -16,7 +16,9 @@ interface ValidTokenState{
 
 interface Token{
   tokenName: string,
-  tokenId: string
+  tokenId: string,
+  chats?: any[],
+  selected: boolean
 }
 
 @Component({
@@ -60,14 +62,6 @@ export class TokenSelectorComponent {
 
     this.getTokensByAdminId();
 
-    this.selectedChannelsService.getSelectedChannels().subscribe((channels) => {
-      this.selectedChannels = channels;
-
-      this.selectedChannels.forEach((channel) => {
-        this.selectedChannelIds.push(channel.id);
-      })
-    })
-
     this.form.valueChanges.subscribe(() => {
       this.validToken.tokenExist = false;
       this.validToken.addingTokenSuccess = false;
@@ -87,10 +81,14 @@ export class TokenSelectorComponent {
 
     this.chatTokenService.getTokens(formData).subscribe((response) => {
       response.results.forEach((token:any) => {
-        this.tokensList.add({
-          tokenName: token.name,
-          tokenId: token.id
-        });
+        this.chatTokenService.getChatIds(token.id).subscribe((chatsId) => {
+          this.tokensList.add({
+            tokenName: token.name,
+            tokenId: token.id,
+            chats: chatsId.chatIds,
+            selected: false
+          });
+        })
       })
     })
   }
@@ -149,8 +147,9 @@ export class TokenSelectorComponent {
     })
   }
 
-  openChatSelector(id: string) {
+  openChatSelector(id: string, tokenName: string) {
     localStorage.setItem('tokenId', id);
+    localStorage.setItem('tokenName', tokenName);
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.id = "modal-component";
@@ -162,5 +161,11 @@ export class TokenSelectorComponent {
     modalDialog.afterClosed().subscribe(() => {
       this.getTokensByAdminId();
     })
+  }
+
+  showTokensChat(token: Token) {
+    if(token.chats){
+      token.selected = !token.selected;
+    }
   }
 }

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ChatGuardService} from "../../core/services/chatguard/chat-guard.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../chat-token/confirm-dialog/confirm-dialog.component";
 import {AddStopWordDialogComponent} from "../add-stop-word-dialog/add-stop-word-dialog.component";
+import {TelegramService} from "../../core/services/telegram/telegram.service";
 
 interface StopWord{
   word: string,
@@ -21,16 +22,26 @@ export class StopWordsListComponent implements OnInit{
 
   private selectedStopWords = new Set<string>();
 
-  constructor(private router: ActivatedRoute, private chatGuardService: ChatGuardService, public matDialog: MatDialog) {
+  constructor(private router: ActivatedRoute,
+              private chatGuardService: ChatGuardService,
+              private route: Router,
+              public matDialog: MatDialog,
+              private telegramService: TelegramService) {
+    this.goBack = this.goBack.bind(this);
   }
 
   ngOnInit() {
+    this.telegramService.BackButton.show();
+    this.telegramService.BackButton.onClick(this.goBack);
+
     this.router.paramMap.subscribe(params => {
       this.chatId = params.get('id') || '';
       console.log('chat id: ' + this.chatId)
     });
+  }
 
-    this.setStopWordsList();
+  goBack(){
+    this.route.navigate(['/chatguard/chat-guard-setting', this.chatId]);
   }
 
   getStopWordsList(){

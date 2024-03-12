@@ -1,0 +1,58 @@
+@import "../../../../../styles/colors";
+
+:host{
+  .other-conditions{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    &__conditions-wrapper{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+    &__remove-button-icon{
+      width: 20px;
+      height: 20px;
+    }
+    &__remove-button {
+      background: $delete-button_color_v2;
+      width: 15%;
+      margin-left: 15px;
+      border: none;
+      height: 54px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__conditions-type{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+::ng-deep{
+  .conditions-form-field .mat-mdc-text-field-wrapper{
+    background: $body_bg_color_dark_theme !important;
+    border-radius: 15px !important;
+    //border: 1px solid $text_color_dark_theme_v2;
+  }
+
+  .conditions-form-field .mat-mdc-form-field-subscript-wrapper{
+    height: 0 !important;
+  }
+
+  .data-input{
+    color: #FFFFFF !important;
+  }
+}

@@ -26,14 +26,15 @@ export class ChatTokenService {
       .get<any>(main_url + '/token/token-exist', { params: params });
   }
 
-  addChatTokenToChannel(tokenId: string, chatIds: number[]){
+  addChatTokenToChannel(tokenId: string, chatIds: number[], tokenName: string){
     return this.http
-      .post<any>(main_url + '/channels/settings', this.createChatTokenData('CHATTOKEN', tokenId, chatIds));
+      .post<any>(main_url + '/channels/settings', this.createChatTokenData('CHATTOKEN', tokenId, chatIds, tokenName));
   }
 
-  createChatTokenData(action: string, tokenId: string, chatIds: number[]){
+  createChatTokenData(action: string, tokenId: string, chatIds: number[], tokenName: string){
     return {
       action: action,
+      token_name: tokenName,
       token_id: parseInt(tokenId),
       chats: chatIds,
       bot_id: localStorage.getItem('botid') || ''
@@ -49,6 +50,22 @@ export class ChatTokenService {
 
     return this.http
       .get<any>(main_url + '/channels/is-token-exist', { params: params });
+  }
+
+  getChatIds(tokenId: string){
+    const formData = new FormData();
+
+    formData.append('tokenId', tokenId)
+    formData.append('botId', localStorage.getItem('botid') || '');
+
+    let params = new HttpParams();
+
+    formData.forEach((value, key) => {
+      params = params.append(key, value as string);
+    });
+
+    return this.http
+      .get<any>(main_url + '/channels/get-chat-ids', { params: params });
   }
 
   getTokens(formData: FormData){
