@@ -1,0 +1,32 @@
+@import "../../../../styles/colors";
+
+:host{
+  .store-list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    &__element-wrapper{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    &__element{
+      padding: 9px;
+      width: 88%;
+      border-radius: 12px;
+      margin-right: 4px;
+      background: $element_bg_color_dark_theme;
+      box-sizing: border-box;
+    }
+    &__info-details{
+      border-radius: 12px;
+      padding: 9px;
+      background: $element_bg_color_dark_theme;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

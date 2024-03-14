@@ -1,0 +1,27 @@
+@import "../../../../styles/colors";
+
+:host{
+
+  .product-list{
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    margin-top: 5px;
+    &__element{
+      background: $element_bg_color_dark_theme;
+      display: flex;
+      flex-direction: row;
+      border-radius: 15px;
+      padding: 10px;
+      justify-content: space-between;
+      align-items: center !important;
+      box-sizing: border-box;
+      color: $text_color_dark_theme_v2;
+      width: 100%;
+      margin-bottom: 3px;
+    }
+    &__button-block{
+      display: flex;
+    }
+  }
+}

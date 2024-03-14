@@ -96,6 +96,7 @@ export class TokenSelectorComponent {
   getTokenForm(){
     return this.fb.group({
       tokenName: ['tokenName', Validators.maxLength(32)],
+      shortTokenName: ['TKN', Validators.maxLength(4)]
     });
   }
 
@@ -107,12 +108,15 @@ export class TokenSelectorComponent {
     const formData = new FormData();
 
     formData.append('name', form.get('tokenName')?.value);
+    formData.append('shortName', form.get('shortTokenName')?.value);
     formData.append('owner', localStorage.getItem('user_id') || '');
 
     this.chatTokenService.tokenExist(formData).subscribe((response) => {
       if(response.tokenExist){
+        console.log(response.tokenExist)
         this.validToken.tokenExist = true;
       }else{
+        console.log(response.tokenExist)
         this.chatTokenService.addChatToken(formData).subscribe((response) => {
 
           this.validToken.addingTokenSuccess = true;

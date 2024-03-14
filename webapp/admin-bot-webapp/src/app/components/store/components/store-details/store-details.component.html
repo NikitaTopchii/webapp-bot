@@ -1,8 +1,26 @@
-@if (currentStore$ | async; as currentStore) {
-  <p>Name: {{ currentStore.store_name }}</p>
-  <p>Description: {{ currentStore.store_description }}</p>
-}
+<div class="store-info-details">
+  <div class="store-info-details__title-wrapper">
+    <span class="store-info-details__title">Store <span class="store-info-details__subtitle">Info</span></span>
+  </div>
+  @if (currentStore$ | async; as currentStore) {
+    <div class="store-info-details__details-wrapper">
+      <div class="store-info-details__name-details">
+        <span class="store-info-details__name-details-title">Store name:</span>
+        <span class="store-info-details__name-details-subtitle">{{currentStore.store_name}}</span>
+      </div>
+      <div class="store-info-details__description-details">
+        <span class="store-info-details__name-details-title">Store description:</span>
+        <span class="store-info-details__description-details-subtitle">{{currentStore.store_description}}</span>
+      </div>
+      <div class="store-info-details__token-details">
+        <span class="store-info-details__name-details-title">Token name:</span>
+        <span class="store-info-details__name-details-subtitle">token</span>
+      </div>
+    </div>
+  }
 
-<button mat-button (click)="addProduct()">Add product</button>
-
-<app-product-list></app-product-list>
+  <button class="btn btn--fluid" (click)="addProduct()">Add product</button>
+<!--  <p>Name: {{ currentStore.store_name }}</p>-->
+<!--  <p>Description: {{ currentStore.store_description }}</p>-->
+  <app-product-list></app-product-list>
+</div>

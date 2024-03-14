@@ -1,0 +1,79 @@
+@import "../../../../styles/colors";
+
+:host{
+
+  .store-info-details{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-bottom: 18px;
+    justify-content: center;
+    &__title-wrapper{
+      background: $element_bg_color_dark_theme;
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+      align-items: center;
+      padding: 7px;
+      width: 100%;
+    }
+    &__title{
+      color: $text_color_dark_theme_v2;
+      font-weight: 700;
+    }
+    &__subtitle{
+      color: $text_color_dark_theme;
+    }
+    &__details-wrapper{
+      display: flex;
+      margin-top: 7px;
+      width: 100%;
+      flex-direction: column;
+      background: $element_bg_color_dark_theme;
+      border-radius: 15px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      box-sizing: border-box;
+      margin-bottom: 7px;
+    }
+    &__name-details{
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 5px;
+      box-sizing: border-box;
+      border-bottom: 2px solid $hint_color_dark_theme_v2;
+    }
+    &__name-details-title{
+      margin-left: 10px;
+      font-size: 12px;
+      color: $hint_color_dark_theme_v2;
+      margin-bottom: 3px;
+    }
+    &__name-details-subtitle{
+      margin-left: 10px;
+      color: $text_color_dark_theme_v2;
+    }
+    &__description-details-subtitle{
+      margin-left: 10px;
+      margin-right: 10px;
+      color: $text_color_dark_theme_v2;
+    }
+    &__description-details{
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      margin-top: 10px;
+      border-bottom: 2px solid $hint_color_dark_theme_v2;
+    }
+    &__token-details{
+      display: flex;
+      flex-direction: column;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+}

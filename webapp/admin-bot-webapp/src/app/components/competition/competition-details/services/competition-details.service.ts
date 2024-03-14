@@ -61,7 +61,7 @@ export class CompetitionDetailsService {
   }
 
   finishCompetition(data: FormData): Observable<any> {
-    return this.http.post('/competitions/close- contest', data)
+    return this.http.post('/competitions/close-contest', data)
   }
 
   private createHttpParams(formData: FormData): HttpParams {

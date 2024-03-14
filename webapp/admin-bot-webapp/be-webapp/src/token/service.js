@@ -52,10 +52,13 @@ class TokensService {
 
   async addToken(data){
 
+    const shortName = data.shortName.toUpperCase();
+
     return new Promise((resolve, reject) => {
 
       this.tokenDB.addToken(
         data.name,
+        shortName,
         data.owner,
         (err, data) => {
         if (err) {

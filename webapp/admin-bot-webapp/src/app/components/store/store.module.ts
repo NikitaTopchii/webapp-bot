@@ -11,6 +11,9 @@ import { StoreMainComponent } from "./components/store-main/store-main.component
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatButton} from "@angular/material/button";
 
 
 @NgModule({
@@ -27,7 +30,12 @@ import { MatDialog, MatDialogModule } from "@angular/material/dialog";
     StoreRoutingModule,
     ReactiveFormsModule,
     NgSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormField,
+    MatHint,
+    MatInput,
+    MatLabel,
+    MatButton
   ]
 })
 export class StoreModule {

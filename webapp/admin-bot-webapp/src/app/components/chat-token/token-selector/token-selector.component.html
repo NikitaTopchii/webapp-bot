@@ -7,8 +7,13 @@
       </span>
       <mat-form-field class="example-full-width token-name-input">
         <mat-label>Enter name for your token</mat-label>
-        <input matInput #message maxlength="32" class="token-name-input" formControlName="tokenName">
-        <mat-hint align="end">{{message.value.length}} / 32</mat-hint>
+        <input matInput #tokenName maxlength="32" class="token-name-input" formControlName="tokenName">
+        <mat-hint align="end">{{tokenName.value.length}} / 32</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width token-name-input">
+        <mat-label>Enter short name for your token</mat-label>
+        <input matInput #shortTokenName maxlength="4" class="token-name-input" formControlName="shortTokenName">
+        <mat-hint align="end">{{shortTokenName.value.length}} / 4</mat-hint>
       </mat-form-field>
       <button type="submit" class="token-list__button">Add Token</button>
     </form>

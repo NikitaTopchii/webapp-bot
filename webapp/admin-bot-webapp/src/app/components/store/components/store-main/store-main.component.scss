@@ -1,0 +1,41 @@
+@import "../../../../styles/colors";
+
+
+:host{
+  .store{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 10px;
+    &__title-wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: $element_bg_color_dark_theme;
+      border-radius: 12px;
+      box-sizing: border-box;
+      padding: 20px;
+    }
+    &__title{
+      margin-top: 5px;
+      font-size: 16px;
+      font-weight: 700;
+      color: $text_color_dark_theme_v2;
+    }
+    &__subtitle{
+      color: $text_color_dark_theme;
+    }
+  }
+}
+
+::ng-deep{
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-shape: 20px;
+    --mdc-dialog-container-color: $element_bg_color_dark_theme;
+  }
+
+  .back-drop{
+    backdrop-filter: blur(4px);
+  }
+}

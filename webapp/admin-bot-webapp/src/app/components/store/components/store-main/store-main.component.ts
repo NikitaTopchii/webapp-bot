@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { AddStoreDialogComponent } from "../add-store-dialog/add-store-dialog.component";
-import { switchMap } from "rxjs";
+import {filter, switchMap} from "rxjs";
 import { StoreService } from "../../shared/service/store.service";
 import { StoreListComponent } from "../store-list/store-list.component";
 import { TelegramService } from "../../../core/services/telegram/telegram.service";
@@ -26,8 +26,16 @@ export class StoreMainComponent implements OnInit {
   }
 
   public openAddStoreDialog(): void {
-    this.dialog.open(AddStoreDialogComponent)
-      .afterClosed().pipe(
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.id = "store-modal-component";
+    dialogConfig.height = "400px";
+    dialogConfig.width = "400px";
+    dialogConfig.backdropClass = 'back-drop'
+
+    const matDialogRef = this.dialog.open(AddStoreDialogComponent, dialogConfig);
+
+    matDialogRef.afterClosed().pipe(filter((data) => !!data),
       switchMap((result: any) => this.storeService.createStore({...result, owner_id: this.owner_id}))
     ).subscribe()
   }

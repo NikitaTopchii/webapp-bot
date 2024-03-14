@@ -36,6 +36,11 @@
     @include btn-variant($delete_button_color, $delete_button_color, darken($delete_button_color, .2), lighten($delete_button_color, .2));
   }
 
+  &--fixed{
+    bottom: 0;
+    position: fixed;
+  }
+
   &--fluid {
     width: 100%;
   }
