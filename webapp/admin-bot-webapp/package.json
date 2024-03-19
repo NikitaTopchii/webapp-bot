@@ -9,7 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:localize": "ng build --localize; ng build --localize --project='user-webapp'"
+    "build:localize": "ng build --localize; ng build --localize --project='user-webapp'",
+    "start:user-webapp": "ng serve --project='user-webapp'"
   },
   "private": true,
   "dependencies": {
