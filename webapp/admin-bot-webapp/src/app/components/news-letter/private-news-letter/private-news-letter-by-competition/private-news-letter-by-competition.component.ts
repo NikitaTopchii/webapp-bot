@@ -17,38 +17,32 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
   form: FormGroup;
   minDate: Date = new Date(Date.now());
 
-  private activeCompetition: ActiveCompetitionInterface | undefined;
-
   failedDateValidation = false;
+
+  contestId: string = '';
 
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
               private router: Router,
+              private activatedRoute: ActivatedRoute,
               private competitionService: CompetitionService,
               private dateTimeValidationService: DateTimeValidatorService,
               private fileValidatorService: FileValidatorService) {
 
     this.goBack = this.goBack.bind(this);
-    this.sendData = this.sendData.bind(this);
-
-    this.competitionService.getActiveCompetition().subscribe((competition) => {
-      this.activeCompetition = competition;
-    })
 
     this.form = this.getCreateCompetitionForm();
   }
 
   private getCreateCompetitionForm(): FormGroup {
     return this.fb.group({
-      newsLetterMessage: ['Your message', [Validators.maxLength(1024)]],
+      newsLetterMessage: ['Your message', [Validators.maxLength(700)]],
       startDate: ['', Validators.required],
       competitionStartTime: [this.currentTime, [Validators.required, Validators.pattern(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)]],
-      percentEndpointUsers: ['', Validators.required],
       languageSelector: ['ru'],
-      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]],
-      imagesLinks: ['', Validators.required],
+      media: ['', [this.fileValidatorService.fileValidator(['png', 'jpeg', 'jpg', 'mp4'])]]
     });
   }
 
@@ -81,10 +75,8 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
         form.get('startDate')?.value,
         form.get('competitionStartTime')?.value
       ),
-      percentUsers: form.get('percentEndpointUsers')?.value,
       language: form.get('languageSelector')?.value,
-      contestId: this.activeCompetition?.contestId,
-      chatId: this.activeCompetition?.chatId,
+      contestId: this.contestId,
       urls: form.get('media')?.value.name ? main_url + '/media/' + form.get('media')?.value.name : '',
     }
   }
@@ -110,5 +102,9 @@ export class PrivateNewsLetterByCompetitionComponent implements OnInit, OnDestro
   ngOnInit(): void {
     this.telegram.BackButton.show();
     this.telegram.BackButton.onClick(this.goBack);
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.contestId = params.get('id') || '';
+    });
   }
 }

@@ -4,6 +4,7 @@ import { CompetitionCreatorService } from "../../../competition-creator/services
 import {ActivatedRoute} from "@angular/router";
 import {map, Observable} from "rxjs";
 import {CompetitionDetailsService} from "../../services/competition-details.service";
+import {CompetitionService} from "../../../../core/services/competition/competition.service";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder,
               private competitionDetailsService: CompetitionDetailsService,
               private competitionCreatorService: CompetitionCreatorService,
+              private competitionService: CompetitionService,
               private route: ActivatedRoute){
     this.form = this.getEditableCompetitionForm();
   }
@@ -34,6 +36,22 @@ export class EditableCompetitionDetailsComponent implements OnInit, OnChanges {
     this.initPatchValue();
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const formData = new FormData();
+
+    formData.append('media', file);
+
+    this.form.patchValue({ media: file });
+
+    this.competitionService.uploadMedia(formData);
+  }
 
   private getEditableCompetitionForm(): FormGroup {
     return this.fb.group({

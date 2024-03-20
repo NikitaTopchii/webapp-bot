@@ -101,6 +101,7 @@ export class TokenSelectorComponent {
   }
 
   goBack(){
+    this.matDialog.closeAll();
     this.router.navigate(['']);
   }
 

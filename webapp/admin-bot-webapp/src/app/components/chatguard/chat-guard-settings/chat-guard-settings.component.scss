@@ -38,19 +38,24 @@
       background: $element_bg_color_dark_theme;
       border-radius: 12px;
       box-sizing: border-box;
-      padding: 17px;
     }
     &__element{
       width: 90%;
       display: flex;
       flex-direction: row;
-      margin-bottom: 4px;
+      margin-top: 4px;
       background: $element_bg_color_dark_theme;
       padding: 13px;
       box-sizing: border-box;
       border-radius: 12px;
-      justify-content: center;
+      color: $text_color_dark_theme_v2;
+      justify-content: space-between;
       align-items: center;
+    }
+    &__subelement{
+      display: flex;
+      align-items: center;
+      flex-direction: row;
     }
     &__element-subtitle{
       color: $text-color_dark_theme;
@@ -61,4 +66,41 @@
     display: flex;
     flex-direction: column;
   }
+
+  .chatguard-form-setting{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide-toggle{
+    padding: 12px;
+    border-bottom: 1px solid #8E8E8E;
+  }
+
+  .end{
+    border: none;
+  }
+}
+
+::ng-deep{
+  .mat-mdc-slide-toggle .mdc-form-field {
+    color: var(--mdc-theme-text-primary-on-background, rgb(255, 255, 255)) !important;
+  }
+}
+
+
+.mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-track-color: #191919;
+  --mdc-switch-selected-handle-color: rgb(21, 161, 123);
+  --mdc-switch-selected-hover-track-color: #191919;
+  --mdc-switch-selected-hover-handle-color: #15A17BFF;
+  --mdc-switch-selected-pressed-track-color: #191919;
+  --mdc-switch-selected-focus-track-color: #191919;
+  --mdc-switch-selected-focus-handle-color: #15A17BFF;
+  --mdc-switch-selected-focus-state-layer-color: #15A17BFF;
+  --mdc-switch-selected-hover-state-layer-color: #15A17BFF;
+  --mdc-switch-selected-pressed-state-layer-color: #15A17BFF;
+  --mdc-switch-selected-pressed-handle-color: #15A17BFF;
+  --mdc-switch-unselected-track-color: #191919;
+  --mdc-switch-unselected-handle-color: rgb(121, 31, 19);
 }

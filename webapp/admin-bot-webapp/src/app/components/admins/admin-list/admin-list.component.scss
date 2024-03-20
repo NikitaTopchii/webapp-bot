@@ -3,23 +3,51 @@
 .admin-list{
   display: flex;
   flex-direction: column;
+  align-items: center;
+  &__title-wrapper{
+    background: $element_bg_color_dark_theme;
+    width: 90%;
+    box-sizing: border-box;
+    padding: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+  }
+
   &__element-of-list{
-    background: $secondary_bg_color;
+    background: $element_bg_color_dark_theme;
     display: flex;
     align-items: center;
-    height: 30%;
     box-sizing: border-box;
     padding-left: 3%;
     padding-right: 3%;
+    width: 90%;
     margin: 10px;
     border-radius: 15px;
     flex-direction: column;
+  }
+  &__name{
+    color: $text_color_dark_theme_v2;
+  }
+  &__title{
+    color: $text_color_dark_theme_v2;
+    font-weight: 700;
+  }
+  &__subtitle{
+    color: $text_color_dark_theme;
+  }
+  &__action-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
   &__main-info{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 7px;
     width: 100%;
   }
   &__button{

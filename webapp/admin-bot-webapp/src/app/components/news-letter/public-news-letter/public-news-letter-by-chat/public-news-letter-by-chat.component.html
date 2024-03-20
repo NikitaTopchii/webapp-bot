@@ -1,41 +1,102 @@
 <div class="competition-creator">
   <div class="competition-creator__wrapper">
-    <span class="competition-creator__title">Create newsletter</span>
+    <div class="competition-creator__title-wrapper">
+      <span class="competition-creator__title">Create <span class="competition-creator__subtitle">Post</span></span>
+    </div>
     <div class="competition-creator__main-form">
       <form [formGroup]="form" (ngSubmit)="pushNewsLetter(form)" class="form">
         <div class="competition-creator__describe-block">
-          <label>Enter news letter message</label>
-          <textarea class="competition-creator__textarea-description formControl" formControlName="newsLetterMessage"></textarea>
+          <mat-form-field class="example-full-width">
+            <mat-label>Enter news letter message</mat-label>
+            <textarea matInput formControlName="newsLetterMessage" class="form-input-field"></textarea>
+          </mat-form-field>
         </div>
         <div *ngIf="form.get('newsLetterMessage')?.hasError('maxlength') && form.get('newsLetterMessage')?.touched">
           Maximum length exceeded (maximum 1024 characters)
         </div>
         <div class="competition-creator__describe-block">
-          <label>Enter media links</label>
-          <input type="file" (change)="onFileSelected($event)">
-          <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
+          <ng-container *ngIf="visibilityState.contestMedia">
+            <button (click)="changeVisibilityState('contestMedia', false)"
+                    class="btn btn--fluid">close
+            </button>
+            <label class="competition-creator__custom-file-input">
+              <input type="file" (change)="onFileSelected($event)">
+              Choose file
+              <img src="assets/download-icon.svg" alt="" class="competition-creator__custom-file-input-icon">
+            </label>
+            <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
+          </ng-container>
+          <ng-container *ngIf="!visibilityState.contestMedia">
+            <button (click)="changeVisibilityState('contestMedia', true)"
+                    class="btn btn--fluid">
+              enter newsletter
+              media
+            </button>
+          </ng-container>
         </div>
-        <mat-form-field>
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="startDate" [min]="minDate">
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <div class="competition-creator__describe-block">
+          <ng-container *ngIf="visibilityState.contestDate">
+            <button (click)="changeVisibilityState('contestDate', false)"
+                    class="btn btn--fluid">close
+            </button>
+            <mat-form-field>
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="startDate" [min]="minDate" class="form-input-field">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="!visibilityState.contestDate">
+            <button (click)="changeVisibilityState('contestDate', true)"
+                    class="btn btn--fluid">
+              enter newsletter date
+            </button>
+          </ng-container>
+        </div>
         <div class="competition-creator__date-format" [class.__failed]="failedDateValidation">
-          <label>Enter contest start time in format: hh:mm</label>
-          <input class="competition-creator__input-name formControl" formControlName="competitionStartTime">
-          <label *ngIf="failedDateValidation" class="competition-creator__error-message">enter valid time format</label>
-        </div>
-        <div *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
-          Time is required
-        </div>
-        <div *ngIf="form.get('competitionStartTime')?.hasError('pattern') && form.get('competitionStartTime')?.touched">
-          String is not valid. Please use format HH:MM
+          <ng-container *ngIf="visibilityState.contestTime">
+            <button (click)="changeVisibilityState('contestTime', false)"
+                    class="btn btn--fluid">close
+            </button>
+            <mat-form-field class="example-full-width mt-3">
+              <mat-label>Enter newsletter start time in format: hh:mm</mat-label>
+              <input matInput formControlName="competitionStartTime" class="form-input-field">
+              <!--              @if (form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched) {-->
+              <!--              <mat-error>Time is <strong>required</strong></mat-error>-->
+              <!--              }-->
+            </mat-form-field>
+            <div *ngIf="form.get('competitionStartTime')?.hasError('required') && form.get('competitionStartTime')?.touched">
+              Time is required
+            </div>
+            <div *ngIf="form.get('competitionStartTime')?.hasError('pattern') && form.get('competitionStartTime')?.touched">
+              String is not valid. Please use format HH:MM
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!visibilityState.contestTime">
+            <button (click)="changeVisibilityState('contestTime', true)"
+                    class="btn btn--fluid">
+              enter newsletter start time
+            </button>
+          </ng-container>
         </div>
         <div class="competition-creator__date-format">
-          <label>Enter link for inline button: </label>
-          <input class="competition-creator__input-name formControl" formControlName="inlineLink">
+          <ng-container *ngIf="visibilityState.contestLanguage">
+            <button (click)="changeVisibilityState('contestLanguage', false)"
+                    class="btn btn--fluid">
+              close
+            </button>
+            <mat-form-field class="example-full-width mt-3">
+              <mat-label>Enter link for inline button:</mat-label>
+              <input matInput formControlName="inlineLink" class="form-input-field">
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="!visibilityState.contestLanguage">
+            <button (click)="changeVisibilityState('contestLanguage', true)"
+                    class="btn btn--fluid">
+              enter inline link
+            </button>
+          </ng-container>
         </div>
         <div *ngIf="form.get('inlineLink')?.hasError('required') && form.get('inlineLink')?.touched">
           Link is required
@@ -48,7 +109,7 @@
             <span>{{channels.name}}</span>
           </div>
         </div>
-        <button type="submit" class="competition-creator__button" [disabled]="!form.valid">create competition</button>
+        <button type="submit" class="btn btn--fluid btn--outline" [disabled]="!form.valid">publish</button>
       </form>
     </div>
   </div>

@@ -60,6 +60,10 @@ export class CompetitionDetailsService {
     return this.http.post('/competitions/delete-contest', data)
   }
 
+  downloadCompetitionData(data: FormData){
+    return this.http.post('/competition/download-data', data);
+  }
+
   finishCompetition(data: FormData): Observable<any> {
     return this.http.post('/competitions/close-contest', data)
   }

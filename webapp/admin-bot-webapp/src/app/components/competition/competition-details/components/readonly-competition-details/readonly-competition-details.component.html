@@ -1,12 +1,49 @@
-<div>
-  <p>Name: {{ currentContest?.name }}</p>
-  <p>Description: {{ currentContest?.description }}</p>
-  <app-contest-conditions></app-contest-conditions>
-  @if (!(isDraft$ | async)) {
-    <p>Start date: {{ currentContest?.start_time }}</p>
-    <p>End date: {{ currentContest?.finish_time }}</p>
-    <p>Amount of winners: {{ currentContest?.winners_amount }}</p>
-    <p>Amount of participant: {{ currentContest?.amount_participiant }}</p>
-  }
+<div class="competition-details">
+  <div class="competition-details__header">
+    <span class="competition-details__header-title">Competition <span class="competition-details__header-subtitle">Info</span></span>
+  </div>
+  <div class="competition-details__wrapper">
+    <div class="competition-details__name-block">
+      <span class="competition-details__name-block-subtitle">Contest Name:</span>
+      <span class="competition-details__name-block-title">{{ currentContest?.name }}</span>
+    </div>
+    <div class="competition-details__description-block">
+      <span class="competition-details__description-block-subtitle">Contest Description:</span>
+      <span class="competition-details__description-block-title">{{ currentContest?.description }}</span>
+    </div>
+    <div class="competition-details__media">
+      <span>Media:</span>
+    </div>
+    @if (!(isDraft$ | async)) {
+    <div class="competition-details__time">
+        <div class="competition-details__start-time">
+          <span class="competition-details__time-subtitle">Start date:</span>
+          <span class="competition-details__time-title">{{ currentContest?.start_time }}</span>
+        </div>
+        <div class="competition-details__start-time">
+          <span class="competition-details__time-subtitle">End date:</span>
+          <span class="competition-details__time-title">{{ currentContest?.finish_time }}</span>
+        </div>
+      </div>
+      <div class="competition-details__conditions">
+        <div>
+          <span>Conditions Type:</span>
+        </div>
+      </div>
+      <div class="competition-details__winners">
+        <div class="competition-details__start-time">
+          <span class="competition-details__time-subtitle">Amount of winners:</span>
+          <span class="competition-details__time-title">{{ currentContest?.winners_amount }}</span>
+        </div>
+        <div class="competition-details__start-time">
+          <span class="competition-details__time-subtitle">Amount of participant:</span>
+          <span class="competition-details__time-title">{{ currentContest?.amount_participiant }}</span>
+        </div>
+      </div>
+    }
+  </div>
+<!--  <p>Name: {{ currentContest?.name }}</p>-->
+<!--  <p>Description: {{ currentContest?.description }}</p>-->
+<!--  <app-contest-conditions></app-contest-conditions>-->
 </div>
 

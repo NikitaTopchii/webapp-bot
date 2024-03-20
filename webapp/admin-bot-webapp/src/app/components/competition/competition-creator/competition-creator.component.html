@@ -30,6 +30,27 @@
             Maximum length exceeded (maximum 500 characters)
           </div>
         </div>
+        <div class="competition-creator__date-format">
+          <ng-container *ngIf="!visibilityState.jointContest">
+            <button (click)="changeVisibilityState('jointContest', true)"
+                    class="btn btn--fluid">joint contest
+            </button>
+          </ng-container>
+          <ng-container *ngIf="visibilityState.jointContest">
+            <button (click)="changeVisibilityState('jointContest', false)"
+                    class="btn btn--fluid">close
+            </button>
+            <div class="competition-creator__joint-button">
+              <button class="btn btn--danger" (click)="changeCompetitionType()">change contest on joint</button>
+            </div>
+            <ng-container *ngIf="visibilityState.currentCompetitionType">
+              <mat-form-field class="example-full-width mt-3">
+                <mat-label>Enter max amount admins for joint contest: </mat-label>
+                <input matInput formControlName="amountJointAdminsContest" class="form-input-field">
+              </mat-form-field>
+            </ng-container>
+          </ng-container>
+        </div>
         <div class="competition-creator__describe-block">
           <ng-container *ngIf="visibilityState.contestMedia">
             <button (click)="changeVisibilityState('contestMedia', false)" class="btn btn--fluid">close</button>
@@ -77,6 +98,15 @@
             <button (click)="changeVisibilityState('contestTime', false)" class="btn btn--fluid">
               close
             </button>
+            <ng-container *ngIf="visibilityState.currentCompetitionType">
+              <div class="competition-creator__alert-message">
+                <span>
+                  You switched to joint competitions. Choose the start time of
+                  the contest based on the fact that other administrators need time
+                  to join your contest
+                </span>
+              </div>
+            </ng-container>
             <mat-form-field class="example-full-width mt-3">
               <mat-label>Enter contest start time in format: hh:mm</mat-label>
               <input matInput formControlName="competitionStartTime" class="form-input-field">
@@ -170,7 +200,7 @@
           </div>
         </div>
         <button type="submit" class="btn btn--outline" [disabled]="!form.valid && selectedChannelIds">create competition</button>
-        <button type="submit" class="btn btn--outline mt-1" [disabled]="!form.valid && selectedChannelIds">create draft</button>
+        <button class="btn btn--outline mt-1" (click)="createCompetitionDraft(form)">create draft</button>
       </form>
     </div>
   </div>

@@ -81,7 +81,7 @@ export class StoreService {
 
     return this.http.get(main_url + '/admin-store/get-store', {params: {store_id}}).pipe(
       map((data: any) => data.results[0]),
-      tap(data => this.currentStoreSource.next({data, isLoading: true})))
+      tap(data => this.currentStoreSource.next({data, isLoading: false})))
   }
 
   public createProduct(data: CreateProductRequest): Observable<any> {

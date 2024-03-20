@@ -5,10 +5,6 @@ import {NewsLetterComponent} from "./news-letter.component";
 const routes: Routes = [
   {
     path: 'main',
-    component: NewsLetterComponent
-  },
-  {
-    path: 'public',
     loadChildren: () => import("./public-news-letter/public-news-letter.module").then((m) => m.PublicNewsLetterModule)
   },
   {

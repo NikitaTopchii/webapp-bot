@@ -11,6 +11,7 @@
       <textarea matInput formControlName="store_description" class="form-input-field"></textarea>
     </mat-form-field>
     <ng-select
+      class="modal-window__token-selector"
       [items]="tokenList$ | async"
       bindLabel="name"
       bindValue="id"

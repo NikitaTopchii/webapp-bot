@@ -11,6 +11,16 @@ import {FileValidatorService} from "../../../core/services/validators/file/file-
 import {main_url} from "../../../shared/application-context";
 import {TextValidatorService} from "../../../core/services/validators/text-validator/text-validator.service";
 
+type ConditionType = 'contestMedia' | 'contestDate' | 'contestTime' | 'contestWinnersCount' | 'contestLanguage' | 'jointContest' | 'contestCondition' | 'currentCompetitionType';
+
+type VisibilityState = {
+  [key in ConditionType]: boolean;
+};
+
+type CompetitionType = {
+  jointContest: boolean;
+  amountOfAdmins: number;
+}
 @Component({
   selector: 'app-public-news-letter-by-chat',
   templateUrl: './public-news-letter-by-chat.component.html',
@@ -28,6 +38,17 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   wrong = false;
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
   setContestMedia: boolean = true;
+
+  public visibilityState: VisibilityState = {
+    contestMedia: false,
+    contestDate: false,
+    contestTime: false,
+    contestWinnersCount: false,
+    contestLanguage: false,
+    jointContest: false,
+    contestCondition: false,
+    currentCompetitionType: false
+  }
 
   constructor(private readonly fb: FormBuilder,
               private telegram: TelegramService,
@@ -60,6 +81,14 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
     });
   }
 
+  public changeVisibilityState(conditionType: ConditionType, newValue?: boolean): void {
+    if (newValue) {
+      this.visibilityState[conditionType] = newValue;
+      return;
+    }
+    this.visibilityState[conditionType] = !this.visibilityState[conditionType];
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -88,7 +117,7 @@ export class PublicNewsLetterByChatComponent implements OnInit, OnDestroy{
   }
 
   goBack(){
-    this.router.navigate(['/channels-list']);
+    this.router.navigate(['/main']);
   }
 
   ngOnDestroy(): void {

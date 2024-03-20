@@ -45,6 +45,7 @@ export class StoreMainComponent implements OnInit {
   }
 
   private goBack(): void {
+    this.dialog.closeAll();
     this.router.navigate(['/']);
   }
 }

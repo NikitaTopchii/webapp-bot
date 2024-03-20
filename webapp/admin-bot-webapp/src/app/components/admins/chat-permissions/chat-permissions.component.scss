@@ -2,9 +2,10 @@
 
 :host{
   .save-permissions{
-
+    background: $element_bg_color_dark_theme;
+    border-radius: 20px;
     &__action-button{
-      background: $button_color;
+      background: $element_bg_color_dark_theme;
       color: $button_text_color;
       border-radius: 15px;
       border: none;
@@ -16,14 +17,38 @@
   .form{
     display: flex;
     box-sizing: border-box;
-    padding: 10px;
     flex-direction: column;
+  }
+
+  .slide-toggle{
+    border-bottom: 1px solid #8E8E8E;
+    padding: 20px;
+  }
+
+  .down{
+    border: none;
   }
 }
 
-:host::ng-deep {
-  .mat-mdc-slide-toggle .mdc-label {
-    color: $text_color;
-    margin-left: 5px;
+::ng-deep{
+  .mat-mdc-slide-toggle .mdc-form-field {
+    color: var(--mdc-theme-text-primary-on-background, rgb(255, 255, 255)) !important;
   }
+}
+
+
+.mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-track-color: #191919;
+  --mdc-switch-selected-handle-color: rgb(21, 161, 123);
+  --mdc-switch-selected-hover-track-color: #0ffff7bb;
+  --mdc-switch-selected-hover-handle-color: #00b919a1;
+  --mdc-switch-selected-pressed-track-color: #3184ff;
+  --mdc-switch-selected-focus-track-color: #0ffff7;
+  --mdc-switch-selected-focus-handle-color: #002314;
+  --mdc-switch-selected-focus-state-layer-color: #ff4589;
+  --mdc-switch-selected-hover-state-layer-color: #c20047;
+  --mdc-switch-selected-pressed-state-layer-color: #bd597d;
+  --mdc-switch-selected-pressed-handle-color: #660368;
+  --mdc-switch-unselected-track-color: #191919;
+  --mdc-switch-unselected-handle-color: rgb(121, 31, 19);
 }

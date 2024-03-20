@@ -4,21 +4,25 @@
     <div class="competition-creator__main-form">
       <form [formGroup]="form" (ngSubmit)="pushNewsLetter(form)" class="form">
         <div class="competition-creator__describe-block">
-          <label>Enter news letter message</label>
-          <textarea class="competition-creator__textarea-description formControl" formControlName="newsLetterMessage"></textarea>
+          <mat-form-field class="example-full-width">
+            <mat-label>Enter newsletter message</mat-label>
+            <textarea matInput formControlName="newsLetterMessage" class="form-input-field"></textarea>
+          </mat-form-field>
         </div>
         <div *ngIf="form.get('newsLetterMessage')?.hasError('maxlength') && form.get('newsLetterMessage')?.touched">
           Maximum length exceeded (maximum 1024 characters)
         </div>
         <div class="competition-creator__describe-block">
-          <label>Enter media links</label>
-          <input type="file" (change)="onFileSelected($event)">
+          <label class="competition-creator__custom-file-input">
+            <input type="file" (change)="onFileSelected($event)">
+            Choose file
+            <img src="assets/download-icon.svg" alt="" class="competition-creator__custom-file-input-icon">
+          </label>
           <p *ngIf="form.controls['media'].hasError('invalidFileType')">Only photo and video is allowed here</p>
         </div>
         <mat-form-field>
           <mat-label>Choose a date</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="startDate" [min]="minDate">
-          <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>

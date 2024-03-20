@@ -22,6 +22,9 @@
       font-size: 16px;
       margin-bottom: 10px;
     }
+    &__token-selector{
+      background: $element_bg_color_dark_theme;
+    }
     &__subtitle{
       color: $text_color_dark_theme;
     }
@@ -53,5 +56,42 @@
     padding-left: 5px;
     padding-right: 5px;
     margin-top: -10px;
+  }
+
+  .ng-select-container {
+    background: $body-bg_color_dark_theme;
+    padding: 10px;
+    color: $text_color_dark_theme_v2;
+    border-radius: 12px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .ng-dropdown-panel-items {
+    background-color: $element_bg_color_dark_theme;
+    padding: 7px;
+    border-radius: 12px;
+    margin-top: -30px;
+    width: auto;
+    overflow: auto !important;
+    max-height: 100px !important;
+    color: $hint_color_dark_theme_v2;
+  }
+
+  .ng-input input{
+    color: $text_color_dark_theme_v2 !important;
+    padding-left: 10px;
+  }
+
+  .ng-option {
+    padding: 5px;
+    transition: 0.4s;
+    display: flex !important;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+      background: $body_bg_color_dark_theme;
+    }
   }
 }

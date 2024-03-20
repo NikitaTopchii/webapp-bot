@@ -106,6 +106,10 @@ router
 router
   .route('/close-contest')
   .post(upload.any(), CompetitionController.closeContest)
+
+router
+  .route('/download-data')
+  .post(upload.any(), CompetitionController.downloadContestData)
 router
   .route('/upload-media')
   .post(uploadMedia.any(), (req, res) => {
