@@ -35,6 +35,7 @@ export class ChatSelectorDialogComponent {
   selectElementsExist: boolean = false;
 
   private tokenId = '';
+  private tokenName = '';
 
   constructor(private telegram: TelegramService,
               private router: Router,
@@ -46,6 +47,7 @@ export class ChatSelectorDialogComponent {
     this.goBack = this.goBack.bind(this);
 
     this.tokenId = localStorage.getItem('tokenId') || '';
+    this.tokenName = localStorage.getItem('tokenName') || '';
   }
 
   getChannelsList(){
@@ -79,7 +81,7 @@ export class ChatSelectorDialogComponent {
   addTokenFromList(){
     const chatIds = Array.from(this.selectedTelegramEntity).map((chat: TelegramEntityInterface) => parseInt(chat.id));
 
-    return this.chatTokenService.addChatTokenToChannel(this.tokenId, chatIds);
+    return this.chatTokenService.addChatTokenToChannel(this.tokenId, chatIds, this.tokenName);
   }
 
   closeModal() {

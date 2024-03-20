@@ -14,15 +14,6 @@
     ]
   })
 
-exports.createContestDraft = async (req, res) => {
-    try {
-        await CompetitionService.createContestDraft(req.body);
-        res.json('ok');
-    } catch (error) {
-        res.status(500).send({message: 'Error oops'})
-    }
-}
-
 exports.updateContestDraft = async (req, res) => {
     try {
       await CompetitionService.updateContestDraft(req.body);
@@ -275,6 +266,23 @@ exports.publicPost = async (req, res) => {
   exports.closeContest = async (req, res) => {
     try{
       await fetch(bot_webhook_url + '/close-contest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req.body),
+      }).then((response) => {
+        logger.error(response)
+        res.json(response);
+      })
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  exports.downloadContestData = async (req, res) => {
+    try{
+      await fetch(bot_webhook_url + '/download-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
-<div>
-  <button mat-button (click)="customEvent.emit('PUBLISH')">publish</button>
-  <button mat-button (click)="customEvent.emit('EDIT')">edit</button>
-  <button mat-button (click)="customEvent.emit( 'DELETE')">delete</button>
+<div class="action-button-container">
+  <button (click)="customEvent.emit('PUBLISH')" class="btn btn--fluid mb-1">publish</button>
+  <button (click)="customEvent.emit('EDIT')" class="btn btn--fluid btn--outline mb-1">edit</button>
+  <button (click)="customEvent.emit( 'DELETE')" class="btn btn--fluid btn--danger">delete</button>
 </div>

@@ -10,11 +10,18 @@ import {DateTimeValidatorService} from "../../core/services/validators/date-time
 import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
 import {main_url} from "../../shared/application-context";
 import { CompetitionCreatorService } from "./services/competition-creator.service";
-type ConditionType = 'contestMedia' | 'contestDate' | 'contestTime' | 'contestWinnersCount' | 'contestLanguage' | 'contestCondition';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {ContestChatSelectorDialogComponent} from "./chat-selector-dialog/chat-selector-dialog.component";
+type ConditionType = 'contestMedia' | 'contestDate' | 'contestTime' | 'contestWinnersCount' | 'contestLanguage' | 'jointContest' | 'contestCondition' | 'currentCompetitionType';
 
 type VisibilityState = {
   [key in ConditionType]: boolean;
 };
+
+type CompetitionType = {
+  jointContest: boolean;
+  amountOfAdmins: number;
+}
 
 interface BaseConditionRequest {
   subscription: boolean;
@@ -52,6 +59,10 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   private selectedChannelNames: string[] = [];
 
   currentTime: string = this.dateTimeValidationService.getCurrentTime();
+  currentCompetitionType: CompetitionType = {
+    jointContest: false,
+    amountOfAdmins: 0
+  }
 
   public visibilityState: VisibilityState = {
     contestMedia: false,
@@ -59,7 +70,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     contestTime: false,
     contestWinnersCount: false,
     contestLanguage: false,
-    contestCondition: false
+    jointContest: false,
+    contestCondition: false,
+    currentCompetitionType: false
   }
 
   minDate: Date = new Date(Date.now());
@@ -72,7 +85,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
               private generateTokenService: TokenGenerateService,
               private dateTimeValidationService: DateTimeValidatorService,
               private fileValidatorService: FileValidatorService,
-              private competitionCreatorService: CompetitionCreatorService) {
+              private competitionCreatorService: CompetitionCreatorService,
+              public matDialog: MatDialog) {
     this.goBack = this.goBack.bind(this);
     this.sendData = this.sendData.bind(this);
     this.form = this.getCreateCompetitionForm();
@@ -130,7 +144,8 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
   }
 
   private goBack(){
-    this.router.navigate(['/competition-endpoint-selector']);
+    this.matDialog.closeAll();
+    this.router.navigate(['']);
   }
 
   createCompetition(form: FormGroup) {
@@ -152,6 +167,21 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
     });
   }
 
+  createCompetitionDraft(form: FormGroup) {
+    const competitionId = this.generateTokenService.generateSHA256Token();
+
+    console.log(form.value)
+
+    // form.value.startDate = form.value.startDate?.toDate();
+    // form.value.endDate = form.value.endDate?.toDate();
+
+    const formData = this.getCompetitionData(form, competitionId)
+
+    this.createCompetitionService.createCompetitionDraft(formData).subscribe(() => {
+      console.log('create draft')
+    });
+  }
+
   private sendCompetitionDataToBot(data: any){
     this.sendData(data);
   }
@@ -162,6 +192,9 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
     const botId = localStorage.getItem('botid');
     const userId = localStorage.getItem('user_id');
+    const competitionType = this.currentCompetitionType;
+
+    competitionType.amountOfAdmins = form.get('amountJointAdminsContest')?.value || 0;
 
     if(botId && userId){
       formData.append('types', 'create-contest-webhook')
@@ -184,6 +217,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       formData.append('conditions', JSON.stringify(this.competitionCreatorService.conditionRequest))
       formData.append('channelNames', this.selectedChannelNames.join(','))
       formData.append('userId', userId)
+      formData.append('joinedCompetition', JSON.stringify(competitionType))
     }
 
     return formData;
@@ -208,11 +242,22 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
       selfConditionTypes: ['text'],
       selfConditionName: [''],
       guessNumberCondition: ['exact'],
-      guessNumber: ['']
+      guessNumber: [''],
+      amountJointAdminsContest: ['', Validators.max(10)]
     });
   }
 
   selectChats() {
-    this.router.navigate(['/competitions/competition-endpoint-selector'])
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.id = "modal-component";
+    dialogConfig.height = "400px";
+    dialogConfig.width = "400px";
+    dialogConfig.backdropClass = 'back-drop'
+    const modalDialog = this.matDialog.open(ContestChatSelectorDialogComponent, dialogConfig);
+  }
+
+  changeCompetitionType() {
+    this.currentCompetitionType.jointContest = !this.currentCompetitionType.jointContest;
+    this.changeVisibilityState('currentCompetitionType', this.currentCompetitionType.jointContest);
   }
 }

@@ -1,0 +1,97 @@
+@import "../../../../styles/colors";
+
+:host{
+
+  .modal-window{
+    background: $element_bg_color_dark_theme;
+    height: 100vh;
+    padding: 20px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    &__store-form{
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    &__title{
+      color: $text_color_dark_theme_v2;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    &__token-selector{
+      background: $element_bg_color_dark_theme;
+    }
+    &__subtitle{
+      color: $text_color_dark_theme;
+    }
+  }
+}
+
+
+::ng-deep{
+  .mat-mdc-text-field-wrapper{
+    background: $body_bg_color_dark_theme !important;
+    border-radius: 15px !important;
+    width: 100%;
+    //border: 1px solid $text_color_dark_theme_v2;
+  }
+
+  .mdc-floating-label{
+    color: $hint_color_dark_theme_v2 !important;
+  }
+
+  .form-input-field{
+    color: $text_color_dark_theme_v2 !important;
+  }
+
+  .mat-mdc-form-field-hint{
+    border: 0.5px solid #ffffff !important;
+    background: $body_bg_color_dark_theme !important;
+    color: #ffffff !important;
+    border-radius: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: -10px;
+  }
+
+  .ng-select-container {
+    background: $body-bg_color_dark_theme;
+    padding: 10px;
+    color: $text_color_dark_theme_v2;
+    border-radius: 12px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .ng-dropdown-panel-items {
+    background-color: $element_bg_color_dark_theme;
+    padding: 7px;
+    border-radius: 12px;
+    margin-top: -30px;
+    width: auto;
+    overflow: auto !important;
+    max-height: 100px !important;
+    color: $hint_color_dark_theme_v2;
+  }
+
+  .ng-input input{
+    color: $text_color_dark_theme_v2 !important;
+    padding-left: 10px;
+  }
+
+  .ng-option {
+    padding: 5px;
+    transition: 0.4s;
+    display: flex !important;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+      background: $body_bg_color_dark_theme;
+    }
+  }
+}

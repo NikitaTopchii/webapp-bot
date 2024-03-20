@@ -4,22 +4,26 @@
   </div>
   <div class="chat-guard-setting__wrapper">
     <div class="chat-guard-setting__main-setting-elements">
-      <form [formGroup]="chatSecurityForm">
-        <mat-slide-toggle formControlName="chatSecurityStatus">Chat Security</mat-slide-toggle>
-        <mat-slide-toggle formControlName="chatStopWordStatus">Stop Words</mat-slide-toggle>
-        <mat-slide-toggle formControlName="chatCaptchaStatus">Human Check</mat-slide-toggle>
-        <mat-slide-toggle formControlName="chatCommandStatus">Commands</mat-slide-toggle>
-        <mat-slide-toggle formControlName="chatGamificationStatus">Gamification</mat-slide-toggle>
+      <form [formGroup]="chatSecurityForm" class="chatguard-form-setting">
+        <mat-slide-toggle formControlName="chatSecurityStatus" class="slide-toggle">Chat Security</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatStopWordStatus" class="slide-toggle">Stop Words</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatCaptchaStatus" class="slide-toggle">Human Check</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatCommandStatus" class="slide-toggle">Commands</mat-slide-toggle>
+        <mat-slide-toggle formControlName="chatGamificationStatus" class="slide-toggle end">Gamification</mat-slide-toggle>
       </form>
     </div>
     <div class="chat-guard-setting__element">
-      <img class="" src="assets/chats.svg">
-      <span>Word List</span>
+      <div class="chat-guard-setting__subelement">
+        <img class="" src="assets/chats.svg">
+        <span>Word List</span>
+      </div>
       <button class="btn" (click)="navigateToStopWordsList()">Open</button>
     </div>
     <div class="chat-guard-setting__element">
-      <img class="" src="assets/chats.svg">
-      <span>Chat Cleaning</span>
+      <div class="chat-guard-setting__subelement">
+        <img class="" src="assets/chats.svg">
+        <span>Chat Cleaning</span>
+      </div>
       <button class="btn btn--danger" (click)="clearCurrentChat()">Clear</button>
     </div>
   </div>

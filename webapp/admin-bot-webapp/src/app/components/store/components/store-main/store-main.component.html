@@ -1,3 +1,8 @@
-<h1 style="color: #fff">Store main</h1>
-<button (click)="openAddStoreDialog()">Add store</button>
-<app-store-list></app-store-list>
+<div class="store">
+  <div class="store__title-wrapper">
+    <img src="assets/shop-icon.svg" alt="">
+    <span class="store__title">My <span class="store__subtitle">Store</span></span>
+  </div>
+  <button class="btn btn--fluid mt-2 mb-2" (click)="openAddStoreDialog()">Add store</button>
+  <app-store-list></app-store-list>
+</div>

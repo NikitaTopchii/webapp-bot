@@ -1,5 +1,6 @@
-<div *ngIf="competitionList$ | async as competitionList">
-  <div *ngFor="let competition of competitionList">
-    <p (click)="redirectToCompetitionDetails(competition.contest_id)">{{competition.name}}</p>
+<div *ngIf="competitionList$ | async as competitionList" class="competition-list">
+  <div *ngFor="let competition of competitionList" class="competition-list__element" (click)="redirectToCompetitionDetails(competition.contest_id)">
+    <span>{{competition.name}}</span>
+    <img src="assets/my-competition-icons/more-info-icon.svg" alt="">
   </div>
 </div>

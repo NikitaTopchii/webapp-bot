@@ -49,8 +49,10 @@ exports.tokenExist = async (req, res) => {
     logger.info(channels)
 
     if(channels.results.length >= 1){
+      logger.info(channels.results.length)
       res.json({tokenExist: true})
     }else{
+      logger.info(channels.results.length);
       res.json({tokenExist: false})
     }
   } catch (error) {
@@ -60,9 +62,13 @@ exports.tokenExist = async (req, res) => {
 
 exports.addToken = async (req, res) => {
   try {
+    logger.info('adding token process')
+    logger.info(req.body.name)
+    logger.info(req.body.shortName)
+    logger.info(req.body.owner)
     const response = await TokensService.addToken(req.body);
     res.json(response);
   } catch (error) {
-    res.status(500).send({ message: 'Error while getting tokens' });
+    res.status(500).send({ message: 'Error while adding tokens' });
   }
 };

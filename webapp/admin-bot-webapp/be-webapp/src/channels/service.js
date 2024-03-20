@@ -126,9 +126,9 @@ class ChannelsService {
     });
   }
 
-  async isChatTokenExistById(tokenId){
+  async isChatTokenExistById(tokenId, botId){
       return new Promise((resolve, reject) => {
-        this.channels.isChatTokenExistById(tokenId, (err, data) => {
+        this.channels.isChatTokenExistById(tokenId, botId, (err, data) => {
           if (err) {
             logger.error(err);
             reject(err);

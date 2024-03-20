@@ -1,10 +1,17 @@
 <div class="edit-permissions">
   <div class="edit-permissions__wrapper">
-    <span class="edit-permissions__title">{{getAdmin().name}}</span>
-    <button (click)="addChat()" class="edit-permissions__action-button" i18n>add chat</button>
+    <div class="edit-permissions__header-wrapper">
+      <div class="edit-permissions__title-wrapper">
+        <span class="edit-permissions__title"><span class="edit-permissions__subtitle">Admin</span> info</span>
+        <span class="edit-permissions__title">{{getAdmin().name}}</span>
+      </div>
+      <div class="edit-permissions__button-wrapper">
+        <button (click)="addChat()" class="btn btn--outline btn--fluid" i18n>add chat</button>
+      </div>
+    </div>
     <div class="edit-permissions__admin-chats">
       <div class="edit-permissions__element-of-list" *ngFor="let chat of getChatList()">
-        <div>
+        <div class="edit-permissions__header-element-of-list-wrapper">
           <div class="edit-permissions__header-element-of-list">
             <span class="edit-permissions__name">{{chat.name}}</span>
           </div>
@@ -15,5 +22,7 @@
       </div>
     </div>
   </div>
-  <button (click)="savePermissions()" class="edit-permissions__action-button" i18n>save current chats permissions</button>
+  <div class="edit-permissions__main-button-wrapper">
+    <button (click)="savePermissions()" class="btn btn--outline" i18n>save current chats permissions</button>
+  </div>
 </div>

@@ -1,5 +1,65 @@
-.editableForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@import "../../../../../styles/colors";
+
+:host{
+  .editable-competition{
+    padding: 10px;
+  }
+
+  .editableForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .custom-file-input{
+    display: flex;
+    width: 40%;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 9px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: $element_bg_color_dark_theme;
+    color: $text_color_dark_theme_v2;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .custom-file-input-icon{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+}
+
+::ng-deep {
+
+  .mat-mdc-text-field-wrapper{
+    background: $element_bg_color_dark_theme !important;
+    border-radius: 15px !important;
+    //border: 1px solid $text_color_dark_theme_v2;
+  }
+
+  .mdc-floating-label{
+    color: $hint_color_dark_theme_v2 !important;
+  }
+
+  .form-input-field{
+    color: $text_color_dark_theme_v2 !important;
+  }
+
+  .mat-mdc-form-field-hint{
+    border: 0.5px solid #ffffff !important;
+    background: $element_bg_color_dark_theme !important;
+    color: #ffffff !important;
+    border-radius: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: -10px;
+  }
 }

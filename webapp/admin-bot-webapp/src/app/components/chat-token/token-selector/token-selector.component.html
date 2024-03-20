@@ -7,25 +7,37 @@
       </span>
       <mat-form-field class="example-full-width token-name-input">
         <mat-label>Enter name for your token</mat-label>
-        <input matInput #message maxlength="32" class="token-name-input" formControlName="tokenName">
-        <mat-hint align="end">{{message.value.length}} / 32</mat-hint>
+        <input matInput #tokenName maxlength="32" class="token-name-input" formControlName="tokenName">
+        <mat-hint align="end">{{tokenName.value.length}} / 32</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width token-name-input">
+        <mat-label>Enter short name for your token</mat-label>
+        <input matInput #shortTokenName maxlength="4" class="token-name-input" formControlName="shortTokenName">
+        <mat-hint align="end">{{shortTokenName.value.length}} / 4</mat-hint>
       </mat-form-field>
       <button type="submit" class="token-list__button">Add Token</button>
     </form>
   </div>
   <div class="token-list__tokens">
     <div class="token-list__token-element-wrapper" *ngFor="let token of getTokenList()">
-      <div class="token-list__token-element">
-        <span class="token-list__token-title">{{token.tokenName}}</span>
-        <div>
-          <button class="token-list__chat-element" (click)="openChatSelector(token.tokenId)">
-            add chat
-            <span class="token-list__chats-amount">1</span>
-          </button>
+      <div class="token-list__token-element-data">
+        <div class="token-list__token-element" (click)="showTokensChat(token)">
+          <span class="token-list__token-title">{{token.tokenName}}</span>
+          <div>
+            <button class="token-list__chat-element" (click)="openChatSelector(token.tokenId, token.tokenName)">
+              add chat
+              <span class="token-list__chats-amount">{{token.chats?.length}}</span>
+            </button>
+          </div>
+        </div>
+        <div class="token-list__trash-element">
+          <img src="assets/trash-icon.svg" alt="" class="token-list__delete-button" (click)="openConfirmDialog(token.tokenId, token.tokenName)">
         </div>
       </div>
-      <div class="token-list__trash-element">
-        <img src="assets/trash-icon.svg" alt="" class="token-list__delete-button" (click)="openConfirmDialog(token.tokenId, token.tokenName)">
+      <div *ngIf="token.selected" class="token-list__token-chat-element-wrapper">
+        <div *ngFor="let chat of token.chats" class="token-list__token-chat-element">
+          {{chat.chatName}}
+        </div>
       </div>
     </div>
   </div>

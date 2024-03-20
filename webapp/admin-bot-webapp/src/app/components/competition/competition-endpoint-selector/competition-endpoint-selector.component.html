@@ -9,5 +9,5 @@
       <img src="assets/selector-inactive.svg" class="admin-list__select-button" *ngIf="!telegramEntity.selected">
     </div>
   </div>
-  <button [disabled]="!selectElementsExist" class="admin-list__button" (click)="navigateToAddNewChannels()" [class.disabled]="!selectElementsExist">continue</button>
+  <button [disabled]="checkSelectedElements()" class="admin-list__button" (click)="navigateToAddNewChannels()" [class.disabled]="!selectElementsExist">continue</button>
 </div>

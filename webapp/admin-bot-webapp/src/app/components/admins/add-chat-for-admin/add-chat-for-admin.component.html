@@ -1,16 +1,20 @@
 <div class="admin-list">
-  <span *ngIf="!selectElementsExist" class="admin-list__title">select more then one channel/chat</span>
+  <div class="admin-list__title-wrapper">
+    <span class="admin-list__title">Add <span class="admin-list__subtitle">chat</span></span>
+  </div>
   <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getChannelsList()">
-    <div>
-      <div class="admin-list__header-element-of-list">
+    <div class="admin-list__header-element-of-list-wrapper">
+      <div class="admin-list__header-element-of-list" [class.selected]="telegramEntity.selected">
         <span class="admin-list__name">{{telegramEntity.name}}</span>
-        <button *ngIf="!telegramEntity.selected" class="admin-list__select-button" (click)="selectTelegramEntity(telegramEntity)">selected</button>
-        <button *ngIf="telegramEntity.selected" class="admin-list__select-button-selected" (click)="selectTelegramEntity(telegramEntity)">selected</button>
       </div>
+      <button class="admin-list__select-button" [class.selected]="telegramEntity.selected" (click)="selectTelegramEntity(telegramEntity)" >
+        <img src="assets/selector-active.svg" *ngIf="telegramEntity.selected" alt="">
+        <img src="assets/selector-inactive.svg" *ngIf="!telegramEntity.selected" alt="">
+      </button>
     </div>
     <div class="admin-list__chat-permissions">
       <app-chat-permissions [chatId]="telegramEntity.id"></app-chat-permissions>
     </div>
   </div>
-  <button [disabled]="!selectElementsExist" class="admin-list__button" (click)="navigateToAddNewChannels()" [class.disabled]="!selectElementsExist">add this chats</button>
+  <button [disabled]="!selectElementsExist" class="btn btn--fluid" (click)="navigateToAddNewChannels()" [class.disabled]="!selectElementsExist">add this chats</button>
 </div>

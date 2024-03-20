@@ -1,10 +1,13 @@
 <div class="admin-list">
+  <div class="admin-list__title-wrapper">
+    <span class="admin-list__title">Admins <span class="admin-list__subtitle">List</span></span>
+  </div>
   <div class="admin-list__element-of-list" *ngFor="let admin of getAdminsList()">
     <div class="admin-list__main-info">
       <span class="admin-list__name" (click)="showPermissions(admin.name)">{{admin.name}}</span>
-      <div>
-        <button class="admin-list__admin-edit-button" (click)="navigateToEditPermissions(admin)" i18n>edit</button>
-        <button class="admin-list__admin-delete-button" (click)="deleteAdmin(admin)" i18n>delete</button>
+      <div class="admin-list__action-block">
+        <button class="btn btn--fluid mr-1 pl-3" (click)="navigateToEditPermissions(admin)" i18n>edit</button>
+        <button class="btn btn--danger mr-1 pl-3" (click)="deleteAdmin(admin)" i18n>delete</button>
       </div>
     </div>
   </div>

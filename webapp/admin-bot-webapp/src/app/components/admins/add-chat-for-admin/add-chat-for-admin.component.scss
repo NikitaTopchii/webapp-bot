@@ -4,16 +4,34 @@
   .admin-list{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    padding: 0 30px 10px 30px;
+    &__title-wrapper{
+      background: $element_bg_color_dark_theme;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0 0 10px 10px;
+      margin-bottom: 10px;
+    }
+    &__title{
+      color: $text_color_dark_theme_v2;
+      font-weight: 700;
+    }
+    &__subtitle{
+      color: $text_color_dark_theme;
+    }
     &__element-of-list{
-      background: $secondary_bg_color;
       display: flex;
       justify-content: space-between;
       box-sizing: border-box;
-      padding: 10px 3%;
-      margin: 10px;
+      width: 100%;
       border-radius: 15px;
       flex-direction: column;
+      margin-bottom: 10px;
     }
     &__main-info{
       display: flex;
@@ -34,11 +52,7 @@
       background: $bg_color;
     }
     &__chat-permissions{
-      box-sizing: border-box;
-      padding: 10px;
-      border-radius: 5px;
-      background: $bg_color;
-      margin: 5px;
+      margin-top: 5px;
     }
     &__admin-permission-element{
       display: flex;
@@ -60,16 +74,27 @@
       flex-direction: row;
       justify-content: space-between;
       width: 100%;
+      background: $element_bg_color_dark_theme;
+      border-radius: 12px;
+      padding: 12px;
+      box-sizing: border-box;
+      color: $text_color_dark_theme_v2;
+      margin-right: 5px;
+    }
+    &__header-element-of-list-wrapper{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
     }
     &__select-button{
-      background-color: #d91b1b;
-      padding-left: 5px;
-      padding-right: 5px;
-      color: white;
-      width: auto !important;
-      height: auto !important;
+      background-color: $element_bg_color_dark_theme;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border: none;
-      border-radius: 3px;
+      border-radius: 12px;
     }
     &__select-button-selected{
       background-color: #029b1d;
@@ -120,14 +145,14 @@
       height: 20px;
       width: 50px;
     }
-    &__select-button{
-      width: 25px;
-      height: 25px;
-    }
     &__title{
       margin-bottom: 10px;
       margin-top: 10px;
       text-align: center;
     }
+  }
+
+  .selected{
+    background: $active_element_bg_color_dark_theme;
   }
 }

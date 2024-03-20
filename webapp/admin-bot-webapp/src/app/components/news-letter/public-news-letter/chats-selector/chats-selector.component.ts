@@ -41,6 +41,12 @@ export class ChatsSelectorComponent implements OnInit, OnDestroy{
     this.router.navigate(['/create-public-newsletter'])
   }
 
+  checkSelectedElements(){
+    console.log('check selected elements: ' + this.selectedTelegramEntity.size)
+    console.log('check selected elements: ' + (this.selectedTelegramEntity.size === 0))
+    return this.selectedTelegramEntity.size === 0;
+  }
+
   selectTelegramEntity(entity: TelegramEntityInterface) {
     if(entity.selected){
       entity.selected = !entity.selected;
@@ -50,17 +56,6 @@ export class ChatsSelectorComponent implements OnInit, OnDestroy{
       entity.selected = !entity.selected;
       this.selectedTelegramEntity.add(entity);
       this.checkSelectedElements();
-    }
-  }
-
-  checkSelectedElements(){
-    for (const element of this.selectedTelegramEntity) {
-      if (element.selected) {
-        this.selectElementsExist = true;
-        break;
-      } else {
-        this.selectElementsExist = false;
-      }
     }
   }
 

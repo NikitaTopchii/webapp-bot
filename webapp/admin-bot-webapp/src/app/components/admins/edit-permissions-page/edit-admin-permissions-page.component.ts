@@ -1,16 +1,13 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {AdminPermissionsComponent} from "../admin-permissions/admin-permissions.component";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Admin} from "../../core/admin";
 import {PermissionsService} from "../../core/services/permissions/permissions.service";
 import {EditAdminService} from "../../core/services/edit-admin/edit-admin.service";
-import {Router, RouterLink} from "@angular/router";
+import {Router} from "@angular/router";
 import {TelegramService} from "../../core/services/telegram/telegram.service";
 import {AdminsListService} from "../../core/services/admins/admins-list.service";
 import {Chat} from "../../core/chat";
 import {ChannelsService} from "../../core/services/channels/channels.service";
-import {ChatPermissionsComponent} from "../chat-permissions/chat-permissions.component";
-import {NgForOf, NgIf} from "@angular/common";
-import {ObservableInput, forkJoin, map, mergeMap} from "rxjs";
+import { forkJoin, map, mergeMap} from "rxjs";
 
 @Component({
   selector: 'app-edit-admin-permissions-page',
@@ -116,6 +113,7 @@ export class EditAdminPermissionsPageComponent implements OnInit, OnDestroy {
                     const chatRequests = response.results.map((chat: any) =>
                         this.setChatName(chat.chatid).pipe(
                             map(additionalInfo => {
+                              console.log(additionalInfo)
                                 const permissions = JSON.parse(chat.rights);
 
                                 this.permissionsService.setCurrentChatPermissions(chat.chatid, {
@@ -131,7 +129,8 @@ export class EditAdminPermissionsPageComponent implements OnInit, OnDestroy {
                     return forkJoin(chatRequests);
                 })
             ).subscribe((completeChats:any) => {
-                this.adminChats = completeChats;
+              console.log(completeChats)
+              this.adminChats = completeChats;
             });
         }
     }

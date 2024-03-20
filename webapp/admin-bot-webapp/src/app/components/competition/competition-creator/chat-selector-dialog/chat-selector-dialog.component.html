@@ -1,0 +1,14 @@
+<div class="modal-window">
+  <div class="admin-list">
+    <div class="admin-list__element-of-list" *ngFor="let telegramEntity of getChannelsList()" (click)="selectTelegramEntity(telegramEntity)">
+      <div>
+        <span class="admin-list__name">{{telegramEntity.name}}</span>
+      </div>
+      <div>
+        <img src="assets/selector-active.svg" class="admin-list__select-button" *ngIf="telegramEntity.selected">
+        <img src="assets/selector-inactive.svg" class="admin-list__select-button" *ngIf="!telegramEntity.selected">
+      </div>
+    </div>
+  </div>
+  <button [disabled]="checkSelectedElements()" class="btn btn--fluid" (click)="navToCreateCompetition()" [class.disabled]="this.checkSelectedElements()">continue</button>
+</div>

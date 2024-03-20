@@ -67,18 +67,21 @@ class TokenDB {
     });
   }
 
-  addToken(name, owner, callback) {
+  addToken(name, short_name, owner, callback) {
     const sql = 'INSERT INTO contest_tokens SET ?';
 
     const token = {
       name,
-      owner
+      owner,
+      short_name
     }
 
     this.connection.query(sql, [token], (err, results) => {
       if (err) {
+        logger.error(err);
         callback(err, null);
       } else {
+        logger.info({results});
         callback(null, {results});
       }
     });

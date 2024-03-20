@@ -1,8 +1,24 @@
-<div>
-  <button mat-flat-button [routerLink]="['/competition-list']" [queryParams]="{ type: 'DELAYED' }">DELAYED</button>
-  <button mat-flat-button [routerLink]="['/competition-list']" [queryParams]="{ type: 'ACTIVE' }">ACTIVE</button>
-  <button mat-flat-button [routerLink]="['/competition-list']" [queryParams]="{ type: 'ENDED' }">ENDED</button>
-  <button mat-flat-button [routerLink]="['/competition-list']" [queryParams]="{ type: 'DRAFT' }">DRAFT</button>
+<div class="my-competitions">
+  <div class="my-competitions__layer">
+    <button [routerLink]="['/competition-list']" [queryParams]="{ type: 'ACTIVE' }" class="my-competitions__type active">
+      <img src="assets/my-competition-icons/active-competition-icon.svg" alt="">
+      Active
+    </button>
+    <button [routerLink]="['/competition-list']" [queryParams]="{ type: 'DELAYED' }" class="my-competitions__type">
+      <img src="assets/my-competition-icons/delayed-competition-icon.svg" alt="">
+      Delayed
+    </button>
+  </div>
+  <div class="my-competitions__layer">
+    <button [routerLink]="['/competition-list']" [queryParams]="{ type: 'ENDED' }" class="my-competitions__type">
+      <img src="assets/my-competition-icons/finished-competition-icon.svg" alt="">
+      Finished
+    </button>
+    <button [routerLink]="['/competition-list']" [queryParams]="{ type: 'DRAFT' }" class="my-competitions__type">
+      <img src="assets/my-competition-icons/draft-competition-icon.svg" alt="">
+      Draft
+    </button>
+  </div>
 </div>
 
 

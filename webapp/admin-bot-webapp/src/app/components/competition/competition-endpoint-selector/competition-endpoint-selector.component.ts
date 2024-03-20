@@ -43,23 +43,16 @@ export class CompetitionEndpointSelectorComponent implements OnInit, OnDestroy{
     if(entity.selected){
       entity.selected = !entity.selected;
       this.selectedTelegramEntity.delete(entity);
-      this.checkSelectedElements();
     }else{
       entity.selected = !entity.selected;
       this.selectedTelegramEntity.add(entity);
-      this.checkSelectedElements();
     }
   }
 
   checkSelectedElements(){
-    for (const element of this.selectedTelegramEntity) {
-      if (element.selected) {
-        this.selectElementsExist = true;
-        break;
-      } else {
-        this.selectElementsExist = false;
-      }
-    }
+    console.log('check selected elements: ' + this.selectedTelegramEntity.size)
+    console.log('check selected elements: ' + (this.selectedTelegramEntity.size === 0))
+    return this.selectedTelegramEntity.size === 0;
   }
 
   getChatIds(){

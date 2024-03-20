@@ -1,4 +1,4 @@
-<div>
-  <button mat-button (click)="customEvent.emit('WRITE_NEWSLETTER')">write newslleter</button>
-  <button mat-button (click)="customEvent.emit('FINISH_COMPETITION')">finish</button>
+<div class="action-button-container">
+  <button (click)="customEvent.emit('WRITE_NEWSLETTER')" class="btn btn--fluid btn--outline mb-1">write newslleter</button>
+  <button (click)="customEvent.emit('FINISH_COMPETITION')" class="btn btn--fluid btn--danger">finish</button>
 </div>

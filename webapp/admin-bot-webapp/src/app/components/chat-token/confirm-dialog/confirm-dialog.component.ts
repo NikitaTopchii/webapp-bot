@@ -27,6 +27,7 @@ export class ConfirmDialogComponent {
   private checkChatTokenExist() {
     const formData = new FormData();
     formData.append('tokenId', localStorage.getItem('tokenId') || '');
+    formData.append('botId', localStorage.getItem('botid') || '');
 
     this.chatTokenService.isChatTokenExist(formData).subscribe(response => {
       this.loadingChatToken = false;

@@ -1,7 +1,7 @@
 const ChannelsService = require('./service');
 
 let colors = require('colors')
-const {bot_webhook_url} = require("../../shared/application-context");
+const {bot_chat_guard_webhook_url} = require("../../shared/application-context");
 let logger = require('tracer').colorConsole({
   filters: [
     colors.underline,
@@ -97,7 +97,7 @@ exports.getStopWordsByChatId = async (req, res) => {
 exports.isChatTokenExistById = async (req, res) => {
   try{
     logger.info(req.query.tokenId)
-    const chatsWithToken = await ChannelsService.isChatTokenExistById(req.query.tokenId);
+    const chatsWithToken = await ChannelsService.isChatTokenExistById(req.query.tokenId, req.query.botId);
 
     logger.info(chatsWithToken);
 
@@ -112,11 +112,36 @@ exports.isChatTokenExistById = async (req, res) => {
   }
 }
 
+exports.chatIdsByTokenId = async (req, res) => {
+  try{
+    logger.info(req.query.tokenId)
+    logger.info(req.query.botId)
+    const chatsWithToken = await ChannelsService.isChatTokenExistById(req.query.tokenId, req.query.botId);
+
+    logger.info(chatsWithToken.results);
+
+    if(chatsWithToken.results.length > 0){
+      res.json({ chatIds: chatsWithToken.results.map((chat) => {
+        return {
+          chatId: chat.chatid,
+          chatName: chat.name
+        }
+      })
+    });
+    }else{
+      res.json({ chatIds: [] });
+    }
+  } catch (error){
+    logger.error(error);
+    res.status(500).send({ message: 'Error while getting chats with tokens'})
+  }
+}
+
 exports.deleteSelectedStopWords = async (req, res) => {
   logger.info('post: ' + JSON.stringify(req.body));
-  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  logger.trace('post request on url: ' + bot_chat_guard_webhook_url + '/settings')
   try{
-    await fetch(bot_webhook_url + '/settings', {
+    await fetch(bot_chat_guard_webhook_url + '/settings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -134,9 +159,9 @@ exports.deleteSelectedStopWords = async (req, res) => {
 
 exports.deleteAllStopWords = async (req, res) => {
   logger.info('post: ' + JSON.stringify(req.body));
-  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  logger.trace('post request on url: ' + bot_chat_guard_webhook_url + '/settings')
   try{
-    await fetch(bot_webhook_url + '/settings', {
+    await fetch(bot_chat_guard_webhook_url + '/settings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -153,9 +178,9 @@ exports.deleteAllStopWords = async (req, res) => {
 
 exports.addStopWords = async (req, res) => {
   logger.info('post: ' + JSON.stringify(req.body));
-  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  logger.trace('post request on url: ' + bot_chat_guard_webhook_url + '/settings')
   try{
-    await fetch(bot_webhook_url + '/settings', {
+    await fetch(bot_chat_guard_webhook_url + '/settings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -173,9 +198,9 @@ exports.addStopWords = async (req, res) => {
 
 exports.setSettings = async (req, res) => {
   logger.info('post: ' + JSON.stringify(req.body));
-  logger.trace('post request on url: ' + bot_webhook_url + '/settings')
+  logger.trace('post request on url: ' + bot_chat_guard_webhook_url + '/settings')
   try{
-    await fetch(bot_webhook_url + '/settings', {
+    await fetch(bot_chat_guard_webhook_url + '/settings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

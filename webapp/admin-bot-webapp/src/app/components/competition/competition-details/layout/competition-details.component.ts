@@ -31,12 +31,12 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   public handleCustomEvent(actionType: string): void {
+    const competition_Id: string = this.route.snapshot.params['competitionId'];
     switch (actionType) {
       case 'WRITE_NEWSLETTER':
-        this.router.navigate(['/news-letter/private-news-letter']);
+        this.router.navigate(['/news-letter/private/private-news-letter', competition_Id]);
         break;
       case 'FINISH_COMPETITION':
-        const competition_Id: string = this.route.snapshot.params['competitionId'];
         const bot_id = localStorage.getItem('botid') || '';
         const user_id = localStorage.getItem('user_id') || '';
 

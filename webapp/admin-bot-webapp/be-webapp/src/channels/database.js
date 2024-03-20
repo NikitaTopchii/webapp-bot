@@ -122,9 +122,9 @@ class ChannelsDB {
       })
     }
 
-    isChatTokenExistById(tokenId, callback){
-      const sql = 'SELECT * FROM channels WHERE game_token = ?';
-      this.connection.query(sql, tokenId, (err, results) => {
+    isChatTokenExistById(tokenId, botId, callback){
+      const sql = 'SELECT * FROM channels WHERE game_token = ? AND bot_token LIKE ?';
+      this.connection.query(sql, [tokenId, botId + ':%'], (err, results) => {
         if (err) {
           logger.error(err);
           callback(err, null);
