@@ -51,7 +51,7 @@ export class AdminListComponent implements OnInit, OnDestroy{
   }
 
   goBack(){
-    this.router.navigate(['']);
+    this.router.navigate(['/admin-webapp']);
   }
 
   setCreatorsIdList(){

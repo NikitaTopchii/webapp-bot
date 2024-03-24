@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {main_url} from "../../../shared/application-context";
-import {BaseHttpClientServiceService} from "../base-http-client-service/base-http-client-service.service";
+import {main_url} from "../../../../shared/application-context";
+import {BaseHttpClientService} from "../base-http-client-service/base-http-client.service";
 import {map} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelsService extends BaseHttpClientServiceService{
+export class ChannelsService extends BaseHttpClientService{
   private channels: any;
 
   constructor(private http: HttpClient) {

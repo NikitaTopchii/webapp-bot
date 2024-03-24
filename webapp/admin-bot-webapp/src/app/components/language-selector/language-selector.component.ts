@@ -4,10 +4,6 @@ import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-language-selector',
-  standalone: true,
-  imports: [
-    FormsModule
-  ],
   templateUrl: './language-selector.component.html',
   styleUrl: './language-selector.component.scss'
 })

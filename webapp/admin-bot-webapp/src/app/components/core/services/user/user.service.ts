@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {main_url} from "../../../shared/application-context"
+import {main_url} from "../../../../shared/application-context"
+import {BaseHttpClientService} from "../base-http-client-service/base-http-client.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService extends BaseHttpClientService{
 
   constructor(private http: HttpClient, private router: Router) {
+    super();
   }
 
-  getUser(formData: FormData) {
-    let params = new HttpParams();
+  getUser(userId: string) {
+    const formData = new FormData();
 
-    formData.forEach((value, key) => {
-      params = params.append(key, value as string);
-    });
+    formData.append('userid', userId)
 
     return this.http
-      .get<any>(main_url + '/users/user', { params: params });
+      .get<any>(main_url + '/users/user', { params: this.createHttpParams(formData) });
   }
 }

@@ -1,0 +1,28 @@
+<div class="bot-store">
+  <div class="bot-store__token-title">
+    <div class="bot-store__token">BTC</div>
+    <span>balance: {{getBalance()}}</span>
+  </div>
+  <ng-container *ngIf="!getBoughtItemId()">
+    <div class="bot-store__items-wrapper">
+      <div class="bot-store__item" *ngFor="let item of getBotItems()">
+        <div class="bot-store__items-photo">
+        </div>
+        <div class="bot-store__items-title">
+          <span>{{item.itemName}}</span>
+        </div>
+        <div class="bot-store__items-price">
+          <span>{{item.itemPrice}} BTC</span>
+        </div>
+        <button class="btn btn--fluid pl-3" [disabled]="getBoughtItemId()" (click)="buyBotItem(item.itemId, item.itemPrice, item.itemType)">buy</button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container>
+    <div class="bot-store__alert-message-wrapper">
+      <div class="bot-store__alert-message">
+        <span>you can't buy anything until you use item</span>
+      </div>
+    </div>
+  </ng-container>
+</div>

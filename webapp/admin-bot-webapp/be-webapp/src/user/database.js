@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 let colors = require('colors')
+const {tokenExist} = require("../token/controller");
 let logger = require('tracer').colorConsole({
   filters: [
     colors.underline,
@@ -70,6 +71,51 @@ class UserDB {
             }
         });
     }
+
+    getUserTokens(userId, callback){
+      const sql = 'SELECT * FROM users_tokens WHERE id = ?';
+      this.connection.query(sql, [parseInt(userId)], (err, results) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      });
+    }
+
+  getUserTokenData(userId, callback){
+    const sql = 'SELECT * FROM users_tokens WHERE id = ?';
+    this.connection.query(sql, [parseInt(userId)], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
+
+  checkBoughtUserItem(userTokenId){
+      const sql = 'SELECT * FROM user_tokens WHERE id = ?';
+
+      this.connection.query(sql, userTokenId, (err, results) => {
+        if (err){
+          callback(err, null);
+        } else {
+          callback(null, {results});
+        }
+      })
+  }
+
+  updateUserItems(userTokenId, itemId, type, tokensLeft, callback){
+    const sql = 'UPDATE users_tokens SET item_id = ?, type = ?, value = ? WHERE id = ?';
+    this.connection.query(sql, [itemId, type, tokensLeft, userTokenId], (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, {results});
+      }
+    });
+  }
 }
 
 module.exports = UserDB;

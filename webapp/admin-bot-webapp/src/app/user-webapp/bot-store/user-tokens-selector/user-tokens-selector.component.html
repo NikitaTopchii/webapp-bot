@@ -1,0 +1,6 @@
+<div class="competition-list">
+  <div *ngFor="let token of getTokenList()" class="competition-list__element">
+    <span>{{token.tokenName}}</span>
+    <button class="btn btn--outline" (click)="redirectToBotStore(token.tokenId)">go to store</button>
+  </div>
+</div>

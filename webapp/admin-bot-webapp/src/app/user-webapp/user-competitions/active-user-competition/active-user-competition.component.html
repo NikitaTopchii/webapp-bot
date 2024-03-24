@@ -1,0 +1,6 @@
+<div class="competition-list">
+  <div *ngFor="let competition of getCompetitionList()" class="competition-list__element" (click)="redirectToCompetitionDetails(competition.contestId)">
+    <span>{{competition.contestName}}</span>
+    <img src="assets/my-competition-icons/more-info-icon.svg" alt="">
+  </div>
+</div>

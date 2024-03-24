@@ -1,17 +1,12 @@
 import {NgModule} from "@angular/core";
 import {AppComponent} from "./app.component";
 import {BrowserModule} from "@angular/platform-browser";
-import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "./app-routing.module";
-import {NewsLetterModule} from "./components/news-letter/news-letter.module";
-import {CompetitionModule} from "./components/competition/competition.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TelegramService} from "./components/core/services/telegram/telegram.service";
 import {HttpClientModule} from "@angular/common/http";
-import {ChatTokenModule} from "./components/chat-token/chat-token.module";
-import {AdminsModule} from "./components/admins/admins.module";
-import {ParticipationModule} from "./components/participation/participation.module";
-import {MyDatabaseModule} from "./components/my-database/my-database.module";
+import {AdminWebappModule} from "./components/admin-webapp.module";
+import {UserWebappModule} from "./user-webapp/user-webapp.module";
 
 @NgModule({
   declarations: [
@@ -22,12 +17,8 @@ import {MyDatabaseModule} from "./components/my-database/my-database.module";
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AdminsModule,
-    ParticipationModule,
-    NewsLetterModule,
-    CompetitionModule,
-    ChatTokenModule,
-    MyDatabaseModule
+    AdminWebappModule,
+    UserWebappModule
   ],
   providers: [TelegramService],
   bootstrap: [AppComponent]

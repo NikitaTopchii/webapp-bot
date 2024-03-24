@@ -46,6 +46,6 @@ export class StoreMainComponent implements OnInit {
 
   private goBack(): void {
     this.dialog.closeAll();
-    this.router.navigate(['/']);
+    this.router.navigate(['/admin-webapp']);
   }
 }

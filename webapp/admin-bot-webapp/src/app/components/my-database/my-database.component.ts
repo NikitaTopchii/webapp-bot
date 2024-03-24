@@ -19,7 +19,7 @@ export class MyDatabaseComponent implements OnInit{
   }
 
   goBack(){
-    this.router.navigate(['']);
+    this.router.navigate(['/admin-webapp']);
   }
 
   navigateToMyTokens() {

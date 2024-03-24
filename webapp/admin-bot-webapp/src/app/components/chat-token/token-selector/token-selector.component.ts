@@ -102,7 +102,7 @@ export class TokenSelectorComponent {
 
   goBack(){
     this.matDialog.closeAll();
-    this.router.navigate(['']);
+    this.router.navigate(['/admin-webapp']);
   }
 
   addNewToken(form: FormGroup) {

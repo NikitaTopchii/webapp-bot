@@ -1,46 +1,19 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {MainAdminPageComponent} from "./components/main/main-admin-page/main-admin-page.component";
-import {
-  CompetitionEndpointSelectorComponent
-} from "./components/competition/competition-endpoint-selector/competition-endpoint-selector.component";
+import {BaseWebappComponent} from "./base-webapp/base-webapp.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: MainAdminPageComponent
+    component: BaseWebappComponent
   },
   {
-    path: 'competitions',
-    loadChildren: () => import("./components/competition/competition.module").then((m) => m.CompetitionModule)
+    path: 'admin-webapp',
+    loadChildren: () => import("./components/admin-webapp.module").then((m) => m.AdminWebappModule)
   },
   {
-    path: 'news-letter',
-    loadChildren: () => import("./components/news-letter/news-letter.module").then((m) => m.NewsLetterModule)
-  },
-  {
-    path: 'participation',
-    loadChildren: () => import("./components/participation/participation.module").then((m) => m.ParticipationModule)
-  },
-  {
-    path: 'admins',
-    loadChildren: () => import("./components/admins/admins.module").then((m) => m.AdminsModule)
-  },
-  {
-    path: 'my-tokens',
-    loadChildren: () => import("./components/chat-token/chat-token.module").then((m) => m.ChatTokenModule)
-  },
-  {
-    path: 'my-database',
-    loadChildren: () => import("./components/my-database/my-database.module").then((m) => m.MyDatabaseModule)
-  },
-  {
-    path: 'chatguard',
-    loadChildren: () => import("./components/chatguard/chat-guard.module").then((m) => m.ChatGuardModule)
-  },
-  {
-    path: 'store',
-    loadChildren: () => import("./components/store/store.module").then((m) => m.StoreModule)
+    path: 'user-webapp',
+    loadChildren: () => import("./user-webapp/user-webapp.module").then((m) => m.UserWebappModule)
   }
 ];
 

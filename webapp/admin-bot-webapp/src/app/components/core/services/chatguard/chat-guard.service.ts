@@ -1,13 +1,13 @@
 import {Injectable} from "@angular/core";
-import {BaseHttpClientServiceService} from "../base-http-client-service/base-http-client-service.service";
+import {BaseHttpClientService} from "../base-http-client-service/base-http-client.service";
 import {HttpClient} from "@angular/common/http";
-import {main_url} from "../../../shared/application-context";
+import {main_url} from "../../../../shared/application-context";
 import {map} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatGuardService extends BaseHttpClientServiceService{
+export class ChatGuardService extends BaseHttpClientService{
 
   constructor(private http: HttpClient) {
     super();

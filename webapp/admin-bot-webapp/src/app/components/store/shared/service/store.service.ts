@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, map, Observable, startWith, Subject, switchMap, tap } from "rxjs";
-import { main_url } from "../../../shared/application-context";
+import { main_url } from "../../../../shared/application-context";
 import { HelpersService } from "../../../core/services/helpers/helpers.service";
 import { CompetitionService } from "../../../core/services/competition/competition.service";
 import { CreateStoreRequest } from "../models/create-store.request.model";

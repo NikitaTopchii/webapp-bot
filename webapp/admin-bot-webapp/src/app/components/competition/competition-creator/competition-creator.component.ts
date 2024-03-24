@@ -8,7 +8,7 @@ import {TelegramEntityInterface} from "../../core/telegram-entity/telegram-entit
 import {TokenGenerateService} from "../../core/services/token/token-generate.service";
 import {DateTimeValidatorService} from "../../core/services/validators/date-time/date-time-validator.service";
 import { FileValidatorService } from "../../core/services/validators/file/file-validator.service";
-import {main_url} from "../../shared/application-context";
+import {main_url} from "../../../shared/application-context";
 import { CompetitionCreatorService } from "./services/competition-creator.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ContestChatSelectorDialogComponent} from "./chat-selector-dialog/chat-selector-dialog.component";
@@ -145,7 +145,7 @@ export class CompetitionCreatorComponent implements OnInit, OnDestroy{
 
   private goBack(){
     this.matDialog.closeAll();
-    this.router.navigate(['']);
+    this.router.navigate(['/admin-webapp']);
   }
 
   createCompetition(form: FormGroup) {

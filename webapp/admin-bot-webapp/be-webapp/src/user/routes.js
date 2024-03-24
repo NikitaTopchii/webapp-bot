@@ -16,6 +16,22 @@ router
   .get(UserController.getUser)
 
 router
+  .route('/user-tokens')
+  .get(UserController.getUserTokens)
+
+router
+  .route('/user-token-data')
+  .get(UserController.getUserTokenData)
+
+router
+  .route('/update-items')
+  .post(upload.any(), UserController.updateUserItems)
+
+router
+  .route('/check-bought-item')
+  .get(UserController.checkBoughtUserItem)
+
+router
     .route('/simple-admins')
     .get(UserController.getUsers)
 

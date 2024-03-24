@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {main_url} from "../../../shared/application-context";
+import {main_url} from "../../../../shared/application-context";
 import {map} from "rxjs";
 
 @Injectable({

@@ -1,0 +1,24 @@
+@import "../../../styles/colors";
+
+
+:host{
+
+  .competition-list{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 10px;
+    align-items: center;
+    &__element{
+      color: $text_color_dark_theme_v2;
+      background: $element_bg_color_dark_theme;
+      padding: 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      width: 90%;
+    }
+  }
+}

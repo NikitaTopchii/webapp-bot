@@ -104,7 +104,7 @@ export class ChatsSelectorComponent implements OnInit, OnDestroy{
   }
 
   goBack(){
-    this.router.navigate(['']);
+    this.router.navigate(['/admin-webapp']);
   }
 
   ngOnDestroy(): void {

@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CompetitionService} from "../../../core/services/competition/competition.service";
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {ActiveCompetitionInterface} from "../../../core/active-competition.interface";
-import {main_url} from "../../../shared/application-context";
+import {main_url} from "../../../../shared/application-context";
 import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
 
 @Component({

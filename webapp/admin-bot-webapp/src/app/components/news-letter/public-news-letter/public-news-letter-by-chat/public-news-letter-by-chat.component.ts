@@ -8,7 +8,7 @@ import {SelectedChannelsService} from "../../../core/services/selected-channels/
 import {TokenGenerateService} from "../../../core/services/token/token-generate.service";
 import {DateTimeValidatorService} from "../../../core/services/validators/date-time/date-time-validator.service";
 import {FileValidatorService} from "../../../core/services/validators/file/file-validator.service";
-import {main_url} from "../../../shared/application-context";
+import {main_url} from "../../../../shared/application-context";
 import {TextValidatorService} from "../../../core/services/validators/text-validator/text-validator.service";
 
 type ConditionType = 'contestMedia' | 'contestDate' | 'contestTime' | 'contestWinnersCount' | 'contestLanguage' | 'jointContest' | 'contestCondition' | 'currentCompetitionType';

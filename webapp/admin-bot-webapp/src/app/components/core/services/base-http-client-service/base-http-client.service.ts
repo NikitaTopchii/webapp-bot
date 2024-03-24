@@ -1,6 +1,6 @@
 import {HttpParams} from "@angular/common/http";
 
-export class BaseHttpClientServiceService{
+export class BaseHttpClientService {
 
   protected createHttpParams(formData: FormData): HttpParams {
     let params = new HttpParams();

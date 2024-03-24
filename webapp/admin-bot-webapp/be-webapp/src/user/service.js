@@ -53,6 +53,67 @@ class UsersService {
 
         });
     }
+
+  async getUserTokens(userId) {
+
+    return new Promise((resolve, reject) => {
+      this.userDB.getUserTokens(userId, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
+  async getUserTokenData(userId) {
+
+    return new Promise((resolve, reject) => {
+      this.userDB.getUserTokenData(userId, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
+  async checkBoughtUserItem(userId) {
+
+    return new Promise((resolve, reject) => {
+      this.userDB.checkBoughtUserItem(userId, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
+
+  async updateUserItems(data) {
+
+    return new Promise((resolve, reject) => {
+      this.userDB.updateUserItems(
+        data.userTokenId,
+        data.itemId,
+        data.itemType,
+        parseFloat(data.tokensLeft),
+        (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+
+    });
+  }
 }
 
 module.exports = new UsersService();

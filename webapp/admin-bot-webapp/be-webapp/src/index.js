@@ -5,9 +5,10 @@ const express = require('express'),
     channelsRouter = require('./channels/routes'),
     adminsRouter = require('./admins/routes'),
     participationRouter = require('./contests_data/routes'),
-    competitionBotRouter = require('./contest_bots/routes');
-    tokenRouter = require('./token/routes');
-    adminStores = require('./contests_store/routes');
+    competitionBotRouter = require('./contest_bots/routes'),
+    tokenRouter = require('./token/routes'),
+    adminStores = require('./contests_store/routes'),
+    botItemsRoute = require('./bot-items/routes');
 const {main_url} = require("../shared/application-context");
 
 const path = require('path');
@@ -28,6 +29,7 @@ let logger = require('tracer').colorConsole({
 
 class IndexJs {
     constructor(app) {
+      console.log(app)
         app.use(
             cors({
               //origin: "https://prizebot.online"
@@ -38,6 +40,7 @@ class IndexJs {
         app.use(express.urlencoded({ extended: true }));
 
         app.use('/users', userRouter);
+        app.use('/bot-items', botItemsRoute)
         app.use('/competitions', competitionRouter);
         app.use('/channels', channelsRouter);
         app.use('/admins', adminsRouter);
